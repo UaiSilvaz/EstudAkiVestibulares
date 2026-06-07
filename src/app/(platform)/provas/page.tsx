@@ -1,0 +1,37 @@
+import { Plus } from "lucide-react";
+import Link from "next/link";
+import { ExamLibrary } from "@/components/exam-library";
+import { PageHeader } from "@/components/page-header";
+import { canManageContent, requireUser } from "@/lib/auth";
+import { db } from "@/lib/db";
+
+export default async function ExamsPage() {
+  const user = await requireUser();
+  const exams = await db.exam.findMany({
+    where: { status: "PUBLISHED" },
+    include: { vestibular: true },
+    orderBy: [{ year: "desc" }, { title: "asc" }],
+  });
+
+  const canManage = canManageContent(user.role);
+
+  return (
+    <div>
+      <PageHeader
+        eyebrow="Provas antigas"
+        title="Acervo de vestibulares"
+        description="ENEM, ETEC, FATEC, FUVEST, UNICAMP e UNESP com PDFs, gabaritos, respostas esperadas e editor de anotacoes."
+        action={
+          canManage ? (
+            <Link href="/admin/exams" className="estudaki-button estudaki-button-primary">
+              <Plus className="h-4 w-4" />
+              Cadastrar prova
+            </Link>
+          ) : null
+        }
+      />
+
+      <ExamLibrary exams={exams} />
+    </div>
+  );
+}

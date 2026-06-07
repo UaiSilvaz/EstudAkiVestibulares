@@ -1,0 +1,41 @@
+.list {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.item-wrapper {
+  position: absolute;
+  will-change: transform, width, height, opacity;
+  padding: 6px;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+}
+
+.item-wrapper > .item-img {
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  font-size: 10px;
+  line-height: 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(6, 36, 92, 0.18);
+  transition: box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.item-wrapper > .item-img:hover {
+  box-shadow: 0 28px 80px rgba(30, 115, 255, 0.32);
+}
+
+.item-wrapper > .item-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(6, 18, 38, 0.7) 100%);
+  pointer-events: none;
+}
