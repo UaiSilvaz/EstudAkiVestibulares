@@ -8,7 +8,17 @@ export default async function CommunityPage() {
   const [activities, challenges] = await Promise.all([
     db.activity.findMany({
       orderBy: { createdAt: "desc" },
-      include: { user: true },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            avatarUrl: true,
+          },
+        },
+      },
       take: 12,
     }),
     db.challenge.findMany({

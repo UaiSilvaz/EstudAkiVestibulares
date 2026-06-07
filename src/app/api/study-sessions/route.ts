@@ -15,7 +15,7 @@ export async function GET() {
     take: 50,
   });
 
-  return NextResponse.json({ sessions });
+  return NextResponse.json({ sessions, studySessions: sessions });
 }
 
 export async function POST(request: Request) {
@@ -61,5 +61,5 @@ export async function POST(request: Request) {
     },
   });
 
-  return NextResponse.json({ session }, { status: 201 });
+  return NextResponse.json({ session, studySession: session }, { status: 201 });
 }

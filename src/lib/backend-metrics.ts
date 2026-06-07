@@ -8,6 +8,14 @@ type DashboardUser = Pick<
   "id" | "name" | "email" | "role" | "avatarUrl" | "xp" | "streak" | "league" | "weeklyHours" | "targetExam"
 >;
 
+const activityUserSelect = {
+  id: true,
+  name: true,
+  email: true,
+  role: true,
+  avatarUrl: true,
+} as const;
+
 export async function getDashboardSource(user: DashboardUser) {
   const [attempts, questions, activities, videos, studySessions, challenges] = await Promise.all([
     db.questionAttempt.findMany({
@@ -36,7 +44,11 @@ export async function getDashboardSource(user: DashboardUser) {
       },
       orderBy: { createdAt: "desc" },
       take: 12,
-      include: { user: true },
+      include: {
+        user: {
+          select: activityUserSelect,
+        },
+      },
     }),
     db.video.findMany({
       where: { status: ContentStatus.PUBLISHED },
