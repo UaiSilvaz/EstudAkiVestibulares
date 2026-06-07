@@ -20,6 +20,13 @@
 # production
 /build
 
+# local databases and generated uploads
+prisma/*.db
+public/uploads/**
+!public/uploads/
+!public/uploads/**/
+!public/uploads/**/.gitkeep
+
 # misc
 .DS_Store
 *.pem
