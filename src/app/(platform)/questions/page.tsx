@@ -4,7 +4,24 @@ import { QuestionPractice } from "@/components/question-practice";
 import { VestibularPicker } from "@/components/vestibular-picker";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { localVestibulares } from "@/lib/local-exams";
 import { parseJson } from "@/lib/utils";
+
+type VestibularWithQuestionSubjects = Prisma.VestibularGetPayload<{
+  include: {
+    questions: {
+      select: { subjectId: true };
+    };
+  };
+}>;
+
+type QuestionWithRelations = Prisma.QuestionGetPayload<{
+  include: {
+    subject: true;
+    topic: true;
+    vestibular: true;
+  };
+}>;
 
 export default async function QuestionsPage({
   searchParams,
@@ -20,15 +37,29 @@ export default async function QuestionsPage({
   const selectedQuestionId = typeof params.question === "string" ? params.question : undefined;
   const allMode = params.all === "true";
 
-  const vestibularRecords = await db.vestibular.findMany({
-    include: {
-      questions: {
-        where: { status: "PUBLISHED" },
-        select: { subjectId: true },
+  let vestibularRecords: VestibularWithQuestionSubjects[] = [];
+
+  try {
+    vestibularRecords = await db.vestibular.findMany({
+      include: {
+        questions: {
+          where: { status: "PUBLISHED" },
+          select: { subjectId: true },
+        },
       },
-    },
-    orderBy: { name: "asc" },
-  });
+      orderBy: { name: "asc" },
+    });
+  } catch {
+    const now = new Date();
+    vestibularRecords = localVestibulares.map((item) => ({
+      ...item,
+      logo: null,
+      weightMap: "{}",
+      createdAt: now,
+      updatedAt: now,
+      questions: [],
+    }));
+  }
 
   const selectedVestibular = vestibular
     ? vestibularRecords.find((item) => item.id === vestibular || item.slug === vestibular)
@@ -68,26 +99,38 @@ export default async function QuestionsPage({
   };
 
   if (mode === "errors") {
-    const wrongAttempts = await db.questionAttempt.findMany({
-      where: { userId: user.id, correct: false, reviewed: false },
-      select: { questionId: true },
-    });
+    const wrongAttempts = await db.questionAttempt
+      .findMany({
+        where: { userId: user.id, correct: false, reviewed: false },
+        select: { questionId: true },
+      })
+      .catch(() => []);
     where.id = { in: Array.from(new Set(wrongAttempts.map((attempt) => attempt.questionId))) };
   }
 
-  const [questions, vestibulares, subjects] = await Promise.all([
-    db.question.findMany({
-      where,
-      include: {
-        subject: true,
-        topic: true,
-        vestibular: true,
-      },
-      orderBy: [{ year: "desc" }, { createdAt: "desc" }],
-    }),
-    Promise.resolve(vestibularRecords),
-    db.subject.findMany({ orderBy: { name: "asc" } }),
-  ]);
+  let questions: QuestionWithRelations[] = [];
+  let subjects: Array<{ id: string; name: string }> = [];
+
+  try {
+    [questions, subjects] = await Promise.all([
+      db.question.findMany({
+        where,
+        include: {
+          subject: true,
+          topic: true,
+          vestibular: true,
+        },
+        orderBy: [{ year: "desc" }, { createdAt: "desc" }],
+      }),
+      db.subject.findMany({
+        orderBy: { name: "asc" },
+        select: { id: true, name: true },
+      }),
+    ]);
+  } catch {
+    questions = [];
+    subjects = [];
+  }
 
   return (
     <div>
@@ -107,7 +150,7 @@ export default async function QuestionsPage({
             [],
           ),
         }))}
-        vestibulares={vestibulares.map((item) => ({ id: item.id, name: item.name }))}
+        vestibulares={vestibularRecords.map((item) => ({ id: item.id, name: item.name }))}
         subjects={subjects.map((item) => ({ id: item.id, name: item.name }))}
       />
     </div>

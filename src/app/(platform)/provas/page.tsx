@@ -4,14 +4,21 @@ import { ExamLibrary } from "@/components/exam-library";
 import { PageHeader } from "@/components/page-header";
 import { canManageContent, requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { localExams } from "@/lib/local-exams";
 
 export default async function ExamsPage() {
   const user = await requireUser();
-  const exams = await db.exam.findMany({
-    where: { status: "PUBLISHED" },
-    include: { vestibular: true },
-    orderBy: [{ year: "desc" }, { title: "asc" }],
-  });
+  let exams;
+
+  try {
+    exams = await db.exam.findMany({
+      where: { status: "PUBLISHED" },
+      include: { vestibular: true },
+      orderBy: [{ year: "asc" }, { title: "asc" }],
+    });
+  } catch {
+    exams = localExams;
+  }
 
   const canManage = canManageContent(user.role);
 

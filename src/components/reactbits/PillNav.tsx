@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { gsap } from "gsap";
-import { LogIn } from "lucide-react";
+import { ChevronRight, LogIn } from "lucide-react";
 import "./PillNav.css";
 
 export type PillNavItem = {
@@ -53,7 +53,6 @@ export default function PillNav({
   const circleRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const tlRefs = useRef<Array<gsap.core.Timeline | null>>([]);
   const activeTweenRefs = useRef<Array<gsap.core.Tween | null>>([]);
-  const logoRef = useRef<HTMLAnchorElement | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
   const navItemsRef = useRef<HTMLDivElement | null>(null);
@@ -105,13 +104,8 @@ export default function PillNav({
     if (menu) gsap.set(menu, { visibility: "hidden", opacity: 0, scaleY: 1 });
 
     if (initialLoadAnimation) {
-      const logo = logoRef.current;
       const navItems = navItemsRef.current;
       const cta = ctaRef.current;
-      if (logo) {
-        gsap.set(logo, { scale: 0 });
-        gsap.to(logo, { scale: 1, duration: 0.6, ease });
-      }
       if (navItems) {
         gsap.set(navItems, { opacity: 0, y: -6 });
         gsap.to(navItems, { opacity: 1, y: 0, duration: 0.55, ease, delay: 0.1 });
@@ -147,43 +141,70 @@ export default function PillNav({
     });
   };
 
-  const toggleMobileMenu = () => {
-    const newState = !isMobileMenuOpen;
-    setIsMobileMenuOpen(newState);
+  const animateMobileMenu = useCallback((open: boolean) => {
     const hamburger = hamburgerRef.current;
     const menu = mobileMenuRef.current;
+
     if (hamburger) {
       const lines = hamburger.querySelectorAll(".hamburger-line");
-      if (newState) {
-        gsap.to(lines[0], { rotation: 45, y: 3, duration: 0.3, ease });
-        gsap.to(lines[1], { rotation: -45, y: -3, duration: 0.3, ease });
-      } else {
-        gsap.to(lines[0], { rotation: 0, y: 0, duration: 0.3, ease });
-        gsap.to(lines[1], { rotation: 0, y: 0, duration: 0.3, ease });
-      }
+      gsap.to(lines[0], { rotation: open ? 45 : 0, y: open ? 3 : 0, duration: 0.3, ease });
+      gsap.to(lines[1], { rotation: open ? -45 : 0, y: open ? -3 : 0, duration: 0.3, ease });
     }
-    if (menu) {
-      if (newState) {
-        gsap.set(menu, { visibility: "visible" });
-        gsap.fromTo(
-          menu,
-          { opacity: 0, y: 10, scaleY: 1 },
-          { opacity: 1, y: 0, scaleY: 1, duration: 0.3, ease, transformOrigin: "top center" }
-        );
-      } else {
-        gsap.to(menu, {
-          opacity: 0,
-          y: 10,
-          scaleY: 1,
-          duration: 0.2,
-          ease,
-          transformOrigin: "top center",
-          onComplete: () => gsap.set(menu, { visibility: "hidden" }),
-        });
-      }
+
+    if (!menu) return;
+
+    if (open) {
+      gsap.set(menu, { visibility: "visible" });
+      gsap.fromTo(
+        menu,
+        { opacity: 0, y: 12, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.3, ease, transformOrigin: "top center" }
+      );
+      return;
     }
+
+    gsap.to(menu, {
+      opacity: 0,
+      y: 10,
+      scale: 0.98,
+      duration: 0.2,
+      ease,
+      transformOrigin: "top center",
+      onComplete: () => gsap.set(menu, { visibility: "hidden" }),
+    });
+  }, [ease]);
+
+  const closeMobileMenu = useCallback(() => {
+    if (!isMobileMenuOpen) return;
+    setIsMobileMenuOpen(false);
+    animateMobileMenu(false);
+  }, [animateMobileMenu, isMobileMenuOpen]);
+
+  const toggleMobileMenu = useCallback(() => {
+    const newState = !isMobileMenuOpen;
+    setIsMobileMenuOpen(newState);
+    animateMobileMenu(newState);
     onMobileMenuClick?.();
-  };
+  }, [animateMobileMenu, isMobileMenuOpen, onMobileMenuClick]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMobileMenu();
+    };
+    const onResize = () => {
+      if (window.matchMedia("(min-width: 1181px)").matches) closeMobileMenu();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [closeMobileMenu, isMobileMenuOpen]);
 
   const isExternalLink = (href: string) =>
     href.startsWith("http://") ||
@@ -207,33 +228,6 @@ export default function PillNav({
           className="pill-logo"
           href="/"
           aria-label="Inicio"
-          onMouseEnter={() => {
-            if (logoRef.current) {
-              gsap.fromTo(
-                logoRef.current,
-                { scale: 1, filter: "drop-shadow(0 8px 18px rgba(37, 99, 235, 0.18))" },
-                {
-                  scale: 1.045,
-                  filter: "drop-shadow(0 14px 28px rgba(37, 99, 235, 0.34))",
-                  duration: 0.35,
-                  ease,
-                },
-              );
-            }
-          }}
-          onMouseLeave={() => {
-            if (logoRef.current) {
-              gsap.to(logoRef.current, {
-                scale: 1,
-                filter: "drop-shadow(0 8px 18px rgba(37, 99, 235, 0.18))",
-                duration: 0.3,
-                ease,
-              });
-            }
-          }}
-          ref={(el) => {
-            logoRef.current = el;
-          }}
         >
           {logo ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -329,35 +323,65 @@ export default function PillNav({
         <button
           className="mobile-menu-button mobile-only"
           onClick={toggleMobileMenu}
-          aria-label="Toggle menu"
+          aria-label={isMobileMenuOpen ? "Fechar menu" : "Abrir menu"}
+          aria-controls="landing-mobile-menu"
+          aria-expanded={isMobileMenuOpen}
           ref={hamburgerRef}
         >
           <span className="hamburger-line" />
           <span className="hamburger-line" />
         </button>
+
+        <Link
+          href={ctaHref}
+          className="mobile-login-button mobile-only"
+          aria-label={ctaLabel}
+        >
+          {ctaIcon ? (
+            <span className="mobile-login-icon" aria-hidden="true">
+              {ctaIcon}
+            </span>
+          ) : null}
+        </Link>
       </nav>
 
-      <div className="mobile-menu-popover mobile-only" ref={mobileMenuRef}>
+      <div
+        id="landing-mobile-menu"
+        className="mobile-menu-popover mobile-only"
+        ref={mobileMenuRef}
+      >
         <ul className="mobile-menu-list">
           {items.map((item, i) => {
             const isExternal = isExternalLink(item.href);
+            const content = (
+              <>
+                {item.icon ? (
+                  <span className="mobile-link-icon" aria-hidden="true">
+                    {item.icon}
+                  </span>
+                ) : null}
+                <span>{item.label}</span>
+                <ChevronRight className="mobile-link-arrow" aria-hidden="true" />
+              </>
+            );
+
             return (
               <li key={item.href || `mobile-item-${i}`}>
                 {isExternal ? (
                   <a
                     href={item.href}
                     className="mobile-menu-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                   >
-                    {item.label}
+                    {content}
                   </a>
                 ) : (
                   <Link
                     href={item.href}
                     className="mobile-menu-link"
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={closeMobileMenu}
                   >
-                    {item.label}
+                    {content}
                   </Link>
                 )}
               </li>
@@ -367,8 +391,13 @@ export default function PillNav({
         <Link
           href={ctaHref}
           className="mobile-cta"
-          onClick={() => setIsMobileMenuOpen(false)}
+          onClick={closeMobileMenu}
         >
+          {ctaIcon ? (
+            <span className="mobile-cta-icon" aria-hidden="true">
+              {ctaIcon}
+            </span>
+          ) : null}
           {ctaLabel}
         </Link>
       </div>

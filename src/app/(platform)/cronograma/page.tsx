@@ -6,6 +6,8 @@ import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { buildDashboardInsights } from "@/lib/insights";
 
+type DashboardInsightInput = Parameters<typeof buildDashboardInsights>[0];
+
 const dayAccent = [
   "from-[#2563EB] to-[#22D3EE]",
   "from-[#22C55E] to-[#86EFAC]",
@@ -18,16 +20,24 @@ const dayAccent = [
 
 export default async function CronogramaPage() {
   const user = await requireUser();
-  const [attempts, questions] = await Promise.all([
-    db.questionAttempt.findMany({
-      where: { userId: user.id },
-      include: { question: { include: { subject: true, topic: true } } },
-    }),
-    db.question.findMany({
-      where: { status: "PUBLISHED" },
-      include: { subject: true, topic: true },
-    }),
-  ]);
+  let attempts: DashboardInsightInput["attempts"] = [];
+  let questions: DashboardInsightInput["questions"] = [];
+
+  try {
+    [attempts, questions] = await Promise.all([
+      db.questionAttempt.findMany({
+        where: { userId: user.id },
+        include: { question: { include: { subject: true, topic: true } } },
+      }),
+      db.question.findMany({
+        where: { status: "PUBLISHED" },
+        include: { subject: true, topic: true },
+      }),
+    ]);
+  } catch {
+    attempts = [];
+    questions = [];
+  }
   const insights = buildDashboardInsights({
     profile: { name: user.name, weeklyHours: user.weeklyHours ?? 0, targetExam: user.targetExam ?? "ENEM" },
     attempts,

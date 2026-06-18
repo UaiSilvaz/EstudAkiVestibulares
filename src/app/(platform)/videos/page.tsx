@@ -2,41 +2,71 @@ import { ExpressFeed } from "@/components/express-feed";
 import { PageHeader } from "@/components/page-header";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import type { Prisma } from "@prisma/client";
+
+type VideoWithRelations = Prisma.VideoGetPayload<{
+  include: {
+    subject: true;
+    topic: true;
+    likeRecords: { select: { id: true } };
+    saveRecords: { select: { id: true } };
+    comments: {
+      include: {
+        user: {
+          select: { name: true };
+        };
+      };
+    };
+    _count: {
+      select: {
+        likeRecords: true;
+        saveRecords: true;
+        comments: true;
+      };
+    };
+  };
+}>;
 
 export default async function VideosPage() {
   const user = await requireUser();
-  const videos = await db.video.findMany({
-    where: { status: "PUBLISHED" },
-    include: {
-      subject: true,
-      topic: true,
-      likeRecords: {
-        where: { userId: user.id },
-        select: { id: true },
-      },
-      saveRecords: {
-        where: { userId: user.id },
-        select: { id: true },
-      },
-      comments: {
-        include: {
-          user: {
-            select: { name: true },
+  let videos: VideoWithRelations[] = [];
+
+  try {
+    videos = await db.video.findMany({
+      where: { status: "PUBLISHED" },
+      include: {
+        subject: true,
+        topic: true,
+        likeRecords: {
+          where: { userId: user.id },
+          select: { id: true },
+        },
+        saveRecords: {
+          where: { userId: user.id },
+          select: { id: true },
+        },
+        comments: {
+          include: {
+            user: {
+              select: { name: true },
+            },
+          },
+          orderBy: { createdAt: "desc" },
+          take: 8,
+        },
+        _count: {
+          select: {
+            likeRecords: true,
+            saveRecords: true,
+            comments: true,
           },
         },
-        orderBy: { createdAt: "desc" },
-        take: 8,
       },
-      _count: {
-        select: {
-          likeRecords: true,
-          saveRecords: true,
-          comments: true,
-        },
-      },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {
+    videos = [];
+  }
 
   return (
     <div>

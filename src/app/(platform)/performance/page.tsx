@@ -7,6 +7,8 @@ import { db } from "@/lib/db";
 import { buildDashboardInsights } from "@/lib/insights";
 import { percent } from "@/lib/utils";
 
+type DashboardInsightInput = Parameters<typeof buildDashboardInsights>[0];
+
 const subjectAccent: Array<{ ring: string; bar: string; text: string; icon: string }> = [
   { ring: "from-[#2563EB] to-[#22D3EE]", bar: "from-[#2563EB] to-[#22D3EE]", text: "text-blue-700",   icon: "from-[#2563EB] to-[#22D3EE]" },
   { ring: "from-[#22C55E] to-[#86EFAC]", bar: "from-[#22C55E] to-[#86EFAC]", text: "text-emerald-700", icon: "from-[#22C55E] to-[#86EFAC]" },
@@ -18,16 +20,24 @@ const subjectAccent: Array<{ ring: string; bar: string; text: string; icon: stri
 
 export default async function PerformancePage() {
   const user = await requireUser();
-  const [attempts, questions] = await Promise.all([
-    db.questionAttempt.findMany({
-      where: { userId: user.id },
-      include: { question: { include: { subject: true, topic: true } } },
-    }),
-    db.question.findMany({
-      where: { status: "PUBLISHED" },
-      include: { subject: true, topic: true },
-    }),
-  ]);
+  let attempts: DashboardInsightInput["attempts"] = [];
+  let questions: DashboardInsightInput["questions"] = [];
+
+  try {
+    [attempts, questions] = await Promise.all([
+      db.questionAttempt.findMany({
+        where: { userId: user.id },
+        include: { question: { include: { subject: true, topic: true } } },
+      }),
+      db.question.findMany({
+        where: { status: "PUBLISHED" },
+        include: { subject: true, topic: true },
+      }),
+    ]);
+  } catch {
+    attempts = [];
+    questions = [];
+  }
   const insights = buildDashboardInsights({
     profile: { name: user.name, weeklyHours: user.weeklyHours ?? 0, targetExam: user.targetExam ?? "ENEM" },
     attempts,

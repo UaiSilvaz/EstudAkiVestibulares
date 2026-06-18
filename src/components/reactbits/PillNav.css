@@ -1,10 +1,10 @@
 .pill-nav-container {
-  position: absolute;
-  top: 1.25em;
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 0.9rem);
   left: 0;
   right: 0;
-  z-index: 99;
-  padding: 0 18px;
+  z-index: 1000;
+  padding: 0 clamp(12px, 3vw, 28px);
   pointer-events: none;
 }
 
@@ -12,9 +12,9 @@
   pointer-events: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1180px) {
   .pill-nav-container {
-    padding: 0 16px;
+    padding: 0 clamp(12px, 4vw, 24px);
   }
 }
 
@@ -24,18 +24,54 @@
   --pill-pad-x: 16px;
   --pill-gap: 4px;
   width: 100%;
-  max-width: 1540px;
+  max-width: min(1540px, calc(100vw - 36px));
   margin: 0 auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 18px;
   box-sizing: border-box;
   position: relative;
 }
 
-@media (max-width: 1024px) {
+@media (min-width: 1181px) and (max-width: 1340px) {
   .pill-nav {
+    --pill-gap: 3px;
+    gap: 10px;
+  }
+
+  .pill {
+    gap: 6px;
+    padding: 0 11px;
+    font-size: 12.5px;
+  }
+
+  .pill .pill-icon {
+    display: none;
+  }
+
+  .pill-cta {
+    padding: 0 18px;
+  }
+}
+
+@media (max-width: 1180px) {
+  .pill-nav {
+    --nav-h: 50px;
+    display: grid;
+    grid-template-columns: var(--nav-h) minmax(0, 1fr) var(--nav-h);
+    min-height: 62px;
+    max-width: 680px;
     gap: 12px;
+    padding: 6px 7px 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.88);
+    box-shadow:
+      0 20px 55px -28px rgba(15, 23, 42, 0.35),
+      0 1px 0 rgba(255, 255, 255, 0.8) inset;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
   }
 }
 
@@ -65,8 +101,19 @@
   isolation: isolate;
 }
 
+@media (max-width: 1180px) {
+  .pill-logo {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: center;
+    min-width: 0;
+    padding: 0;
+  }
+}
+
 .pill-logo::before {
-  content: "";
+  content: none;
+  display: none;
   position: absolute;
   inset: -12px -14px -12px -10px;
   z-index: -1;
@@ -80,7 +127,8 @@
 }
 
 .pill-logo::after {
-  content: "";
+  content: none;
+  display: none;
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -94,23 +142,31 @@
 
 .pill-logo:hover::before,
 .pill-logo:focus-visible::before {
-  opacity: 1;
-  transform: scale(1.05);
+  opacity: 0;
+  transform: none;
 }
 
 .pill-logo:hover::after,
 .pill-logo:focus-visible::after {
-  opacity: 0.55;
-  transform: translateX(62%);
+  opacity: 0;
+  transform: none;
 }
 
 .pill-logo-image {
   height: 54px;
+  max-width: min(40vw, 132px);
   width: auto;
   display: block;
   position: relative;
   z-index: 2;
   filter: drop-shadow(0 8px 18px rgba(37, 99, 235, 0.18));
+}
+
+@media (max-width: 1180px) {
+  .pill-logo-image {
+    height: 46px;
+    max-width: min(42vw, 128px);
+  }
 }
 
 .pill-logo-text {
@@ -360,18 +416,12 @@
   display: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1180px) {
   .desktop-only {
-    display: none;
+    display: none !important;
   }
   .mobile-only {
     display: block;
-  }
-  .pill-nav {
-    --nav-h: 48px;
-  }
-  .pill-logo-image {
-    height: 48px;
   }
 }
 
@@ -379,7 +429,7 @@
   width: var(--nav-h);
   height: var(--nav-h);
   border-radius: 50%;
-  background: linear-gradient(135deg, #145CFF 0%, #28D7FF 100%);
+  background: linear-gradient(135deg, #0B5CFF 0%, #1D8BFF 52%, #22D3EE 100%);
   border: none;
   display: none;
   flex-direction: column;
@@ -389,24 +439,77 @@
   cursor: pointer;
   padding: 0;
   position: relative;
-  box-shadow: 0 8px 20px -8px rgba(20, 92, 255, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow:
+    0 12px 28px -12px rgba(37, 99, 235, 0.68),
+    0 4px 12px -8px rgba(34, 211, 238, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
 }
 
-.mobile-menu-button:hover {
+.mobile-menu-button:hover,
+.mobile-menu-button:focus-visible {
   transform: scale(1.05);
-  box-shadow: 0 10px 24px -8px rgba(20, 92, 255, 0.6);
+  filter: saturate(1.05);
+  box-shadow:
+    0 16px 34px -12px rgba(37, 99, 235, 0.78),
+    0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1180px) {
   .mobile-menu-button {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
     display: flex;
   }
 }
 
+.mobile-login-button {
+  width: var(--nav-h);
+  height: var(--nav-h);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0B5CFF 0%, #1D8BFF 56%, #22D3EE 100%);
+  color: #fff;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 12px 28px -12px rgba(37, 99, 235, 0.68),
+    0 1px 0 rgba(255, 255, 255, 0.35) inset;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.mobile-login-button:hover,
+.mobile-login-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow:
+    0 16px 34px -12px rgba(37, 99, 235, 0.78),
+    0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
+.mobile-login-button.mobile-only {
+  display: none;
+}
+
+@media (max-width: 1180px) {
+  .mobile-login-button.mobile-only {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+    display: flex;
+  }
+}
+
+.mobile-login-icon,
+.mobile-login-icon svg {
+  width: 24px;
+  height: 24px;
+  color: #fff;
+  stroke-width: 2.65;
+}
+
 .hamburger-line {
-  width: 18px;
-  height: 2px;
+  width: 22px;
+  height: 2.5px;
   background: #fff;
   border-radius: 1px;
   transition: all 0.01s ease;
@@ -415,57 +518,105 @@
 
 .mobile-menu-popover {
   position: absolute;
-  top: 3.6em;
-  left: 1rem;
-  right: 1rem;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 24px;
-  box-shadow: 0 18px 50px -20px rgba(6, 36, 92, 0.25);
+  top: calc(100% + 10px);
+  left: clamp(12px, 4vw, 24px);
+  right: clamp(12px, 4vw, 24px);
+  max-width: 680px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(249, 115, 22, 0.14);
+  border-radius: 22px;
+  box-shadow:
+    0 26px 70px -30px rgba(15, 23, 42, 0.34),
+    0 1px 0 rgba(255, 255, 255, 0.85) inset;
   z-index: 998;
   opacity: 0;
   transform-origin: top center;
   visibility: hidden;
-  padding: 6px;
+  padding: 8px;
+  max-height: min(calc(100vh - 112px), 520px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .mobile-menu-list {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .mobile-menu-popover .mobile-menu-link {
-  display: block;
-  padding: 12px 16px;
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 12px;
   color: #06245C;
-  background: transparent;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), rgba(255, 255, 255, 0.86));
   text-decoration: none;
-  font-size: 15px;
-  font-weight: 700;
-  border-radius: 18px;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.1;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 16px;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .mobile-menu-popover .mobile-menu-link:hover,
+.mobile-menu-popover .mobile-menu-link:focus-visible,
 .mobile-menu-popover .mobile-menu-link:active {
   cursor: pointer;
-  background: linear-gradient(135deg, #145cff 0%, #28d7ff 100%);
+  background: linear-gradient(135deg, #145cff 0%, #28d7ff 78%, #86efac 100%);
+  border-color: rgba(20, 92, 255, 0.2);
   color: #fff;
+  transform: translateY(-1px);
+}
+
+.mobile-link-icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-link-icon svg,
+.mobile-link-arrow {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.35;
+}
+
+.mobile-link-arrow {
+  margin-left: auto;
+  flex: 0 0 18px;
+  opacity: 0.55;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.mobile-menu-link:hover .mobile-link-arrow,
+.mobile-menu-link:focus-visible .mobile-link-arrow {
+  opacity: 1;
+  transform: translateX(2px);
 }
 
 .mobile-cta {
-  display: block;
-  margin-top: 6px;
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 8px;
   padding: 14px 16px;
   text-align: center;
-  border-radius: 18px;
-  background: linear-gradient(135deg, #FF8A00 0%, #FFB800 50%, #FFA500 100%);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #FF6B00 0%, #FF8A1F 52%, #FFB800 100%);
   background-size: 200% 200%;
   background-position: 0% 50%;
   color: #fff;
@@ -479,4 +630,51 @@
   transform: scale(1.02);
   background-position: 100% 50%;
   box-shadow: 0 14px 36px -10px rgba(255, 138, 0, 0.65);
+}
+
+.mobile-cta-icon,
+.mobile-cta-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 430px) {
+  .pill-nav-container {
+    top: calc(env(safe-area-inset-top, 0px) + 0.65rem);
+    padding: 0 10px;
+  }
+
+  .pill-nav {
+    --nav-h: 46px;
+    min-height: 58px;
+    padding: 6px 6px 6px 10px;
+  }
+
+  .pill-logo-image {
+    height: 42px;
+    max-width: 116px;
+  }
+
+  .mobile-menu-popover {
+    left: 10px;
+    right: 10px;
+    padding: 7px;
+    border-radius: 20px;
+    max-height: min(calc(100vh - 96px), 520px);
+  }
+
+  .mobile-menu-list {
+    gap: 7px;
+  }
+
+  .mobile-menu-popover .mobile-menu-link {
+    min-height: 46px;
+    padding: 10px;
+    font-size: 13px;
+    border-radius: 14px;
+  }
+
+  .mobile-link-arrow {
+    display: none;
+  }
 }

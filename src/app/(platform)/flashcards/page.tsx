@@ -2,14 +2,25 @@ import { FlashcardDeck } from "@/components/flashcard-deck";
 import { PageHeader } from "@/components/page-header";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import type { Prisma } from "@prisma/client";
+
+type FlashcardWithRelations = Prisma.FlashcardGetPayload<{
+  include: { subject: true; topic: true };
+}>;
 
 export default async function FlashcardsPage() {
   await requireUser();
-  const cards = await db.flashcard.findMany({
-    where: { status: "PUBLISHED" },
-    include: { subject: true, topic: true },
-    orderBy: { createdAt: "desc" },
-  });
+  let cards: FlashcardWithRelations[] = [];
+
+  try {
+    cards = await db.flashcard.findMany({
+      where: { status: "PUBLISHED" },
+      include: { subject: true, topic: true },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {
+    cards = [];
+  }
 
   return (
     <div>

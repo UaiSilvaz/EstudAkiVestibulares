@@ -3,15 +3,45 @@ import Link from "next/link";
 import { PageHeader } from "@/components/page-header";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { localVestibulares } from "@/lib/local-exams";
 import { parseJson } from "@/lib/utils";
+import { ContentStatus, type Prisma } from "@prisma/client";
+
+type SimuladoWithVestibular = Prisma.SimuladoGetPayload<{
+  include: { vestibular: true };
+}>;
 
 export default async function SimuladosPage() {
   await requireUser();
-  const simulados = await db.simulado.findMany({
-    where: { status: "PUBLISHED" },
-    include: { vestibular: true },
-    orderBy: { createdAt: "desc" },
-  });
+  let simulados: SimuladoWithVestibular[] = [];
+
+  try {
+    simulados = await db.simulado.findMany({
+      where: { status: "PUBLISHED" },
+      include: { vestibular: true },
+      orderBy: { createdAt: "desc" },
+    });
+  } catch {
+    const now = new Date();
+    simulados = localVestibulares.slice(0, 6).map((vestibular) => ({
+      id: `local-simulado-${vestibular.slug}`,
+      vestibularId: vestibular.id,
+      title: `Treino ${vestibular.name}`,
+      description: `Simulado rapido baseado no acervo local de provas antigas ${vestibular.name}.`,
+      durationMin: vestibular.slug === "enem" ? 300 : 180,
+      questionIds: "[]",
+      status: ContentStatus.PUBLISHED,
+      createdAt: now,
+      updatedAt: now,
+      vestibular: {
+        ...vestibular,
+        logo: null,
+        weightMap: "{}",
+        createdAt: now,
+        updatedAt: now,
+      },
+    }));
+  }
 
   return (
     <div>

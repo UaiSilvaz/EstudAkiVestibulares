@@ -4,18 +4,12 @@ import { motion } from "framer-motion";
 import { ArrowRight, Lock, Mail, Smartphone, Sparkles, User } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useState } from "react";
 import { CelebrationBurst } from "./visual/celebration-burst";
 import { cn } from "@/lib/utils";
 
 type LoginMode = "email" | "phone";
 type FormMode = "login" | "signup";
-
-const demoUsers = [
-  { email: "aluno@estudaki.com", phone: "(17) 99717-2045", password: "123456" },
-  { email: "prof@estudaki.com", phone: "(17) 99717-2046", password: "prof123" },
-  { email: "admin@estudaki.com", phone: "(17) 99717-2047", password: "admin123" },
-];
 
 function onlyDigits(value: string) {
   return value.replace(/\D/g, "");
@@ -32,16 +26,6 @@ export function LoginForm({ mode = "login" }: { mode?: FormMode }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [confetti, setConfetti] = useState(0);
-
-  const matchedUser = useMemo(() => {
-    if (isSignup) return undefined;
-    const value = loginMode === "phone" ? onlyDigits(identifier) : identifier.trim().toLowerCase();
-    return demoUsers.find((user) =>
-      loginMode === "phone"
-        ? onlyDigits(user.phone) === value
-        : user.email.toLowerCase() === value,
-    );
-  }, [identifier, loginMode, isSignup]);
 
   async function submit(event?: FormEvent) {
     event?.preventDefault();
@@ -64,21 +48,33 @@ export function LoginForm({ mode = "login" }: { mode?: FormMode }) {
         setLoading(false);
         return;
       }
-      setConfetti((value) => value + 1);
-      setTimeout(() => router.push("/dashboard"), 700);
-      return;
     }
 
-    if (!matchedUser) {
-      setError("Use um e-mail ou celular cadastrado no EstudAki.");
+    if (!identifier.trim()) {
+      setError("Informe um e-mail ou celular.");
       setLoading(false);
       return;
     }
 
+    if (!password.trim()) {
+      setError("Informe uma senha.");
+      setLoading(false);
+      return;
+    }
+
+    const loginEmail =
+      loginMode === "phone"
+        ? `${onlyDigits(identifier) || "aluno"}@telefone.local`
+        : identifier.trim().toLowerCase();
+
     const response = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email: matchedUser.email, password: matchedUser.password }),
+      body: JSON.stringify({
+        email: loginEmail,
+        password,
+        name: isSignup ? name.trim() : undefined,
+      }),
     });
 
     if (!response.ok) {
@@ -93,14 +89,8 @@ export function LoginForm({ mode = "login" }: { mode?: FormMode }) {
   }
 
   function changeMode(nextMode: LoginMode) {
-    if (isSignup) {
-      setLoginMode(nextMode);
-      setError("");
-      return;
-    }
-    const current = matchedUser ?? demoUsers[0];
     setLoginMode(nextMode);
-    setIdentifier(nextMode === "phone" ? current.phone : current.email);
+    setIdentifier("");
     setError("");
   }
 
@@ -259,7 +249,7 @@ export function LoginForm({ mode = "login" }: { mode?: FormMode }) {
         <Lock className="h-3 w-3 text-slate-400" />
         {isSignup
           ? "Seus dados estão seguros e protegidos."
-          : "Acesso seguro com sua senha cadastrada."}
+          : "Acesso local liberado para testes."}
       </div>
 
       <div className="pt-1.5 text-center text-[12px] font-medium text-slate-500">

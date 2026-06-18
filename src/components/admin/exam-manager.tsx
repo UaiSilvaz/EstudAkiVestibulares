@@ -1,6 +1,6 @@
 "use client";
 
-import { FilePlus2, LinkIcon } from "lucide-react";
+import { FilePlus2, LinkIcon, UploadCloud } from "lucide-react";
 import { useState } from "react";
 import { loopImageForVestibular } from "@/lib/assets";
 
@@ -43,6 +43,30 @@ export function ExamManager({
   });
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState<"pdfUrl" | "answerKeyUrl" | null>(null);
+
+  async function uploadPdf(file: File, field: "pdfUrl" | "answerKeyUrl") {
+    setUploading(field);
+    setMessage("");
+
+    const payload = new FormData();
+    payload.append("file", file);
+
+    const response = await fetch("/api/admin/uploads/exam-pdf", {
+      method: "POST",
+      body: payload,
+    });
+    const data = (await response.json().catch(() => null)) as { url?: string; error?: string } | null;
+    setUploading(null);
+
+    if (!response.ok || !data?.url) {
+      setMessage(data?.error ?? "Nao foi possivel enviar o PDF.");
+      return;
+    }
+
+    setForm((current) => ({ ...current, [field]: data.url }));
+    setMessage(field === "pdfUrl" ? "PDF da prova enviado." : "Gabarito enviado.");
+  }
 
   async function submit() {
     setLoading(true);
@@ -145,22 +169,56 @@ export function ExamManager({
 
           <label>
             <span className="mb-2 block text-sm font-black text-slate-700">URL do PDF</span>
-            <input
-              className="estudaki-input"
-              value={form.pdfUrl}
-              onChange={(event) => setForm({ ...form, pdfUrl: event.target.value })}
-              placeholder="https://..."
-            />
+            <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+              <input
+                className="estudaki-input"
+                value={form.pdfUrl}
+                onChange={(event) => setForm({ ...form, pdfUrl: event.target.value })}
+                placeholder="https://... ou /uploads/exams/prova.pdf"
+              />
+              <label className="estudaki-button estudaki-button-ghost min-h-12 cursor-pointer">
+                <UploadCloud className="h-4 w-4" />
+                {uploading === "pdfUrl" ? "Enviando..." : "Upload"}
+                <input
+                  type="file"
+                  accept="application/pdf,.pdf"
+                  className="hidden"
+                  disabled={uploading !== null}
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (file) void uploadPdf(file, "pdfUrl");
+                    event.currentTarget.value = "";
+                  }}
+                />
+              </label>
+            </div>
           </label>
 
           <label>
             <span className="mb-2 block text-sm font-black text-slate-700">URL do gabarito / respostas</span>
-            <input
-              className="estudaki-input"
-              value={form.answerKeyUrl}
-              onChange={(event) => setForm({ ...form, answerKeyUrl: event.target.value })}
-              placeholder="https://..."
-            />
+            <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+              <input
+                className="estudaki-input"
+                value={form.answerKeyUrl}
+                onChange={(event) => setForm({ ...form, answerKeyUrl: event.target.value })}
+                placeholder="https://... ou /uploads/exams/gabarito.pdf"
+              />
+              <label className="estudaki-button estudaki-button-ghost min-h-12 cursor-pointer">
+                <UploadCloud className="h-4 w-4" />
+                {uploading === "answerKeyUrl" ? "Enviando..." : "Upload"}
+                <input
+                  type="file"
+                  accept="application/pdf,.pdf"
+                  className="hidden"
+                  disabled={uploading !== null}
+                  onChange={(event) => {
+                    const file = event.target.files?.[0];
+                    if (file) void uploadPdf(file, "answerKeyUrl");
+                    event.currentTarget.value = "";
+                  }}
+                />
+              </label>
+            </div>
           </label>
 
           <label>
