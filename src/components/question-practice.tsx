@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { CelebrationBurst } from "./visual/celebration-burst";
+import { LevelUpOverlay } from "./visual/level-up-overlay";
 import { cn } from "@/lib/utils";
 
 type Alternative = { key: string; text: string };
@@ -53,6 +54,8 @@ type AttemptResult = {
   explanation: string;
   pedagogyComment: string | null;
   gainedXp: number;
+  leveledUp?: boolean;
+  newLeague?: string;
 };
 
 const difficultyStyles: Record<string, { label: string; gradient: string; text: string }> = {
@@ -99,6 +102,7 @@ export function QuestionPractice({
     origins: [],
     xp: 0,
   });
+  const [levelUp, setLevelUp] = useState<{ league: string; xp?: number; nonce: number } | null>(null);
   const [feedbackFx, setFeedbackFx] = useState<"correct" | "wrong" | null>(null);
   const [search, setSearch] = useState("");
   const [filterVestibular, setFilterVestibular] = useState<string>("");
@@ -172,6 +176,14 @@ export function QuestionPractice({
           origins,
           xp: data.gainedXp,
         }));
+      }
+      if (data.leveledUp && data.newLeague) {
+        setLevelUp({
+          league: data.newLeague,
+          xp: data.gainedXp,
+          nonce: Date.now(),
+        });
+        window.setTimeout(() => setLevelUp(null), 4200);
       }
 
       window.setTimeout(() => {
@@ -255,6 +267,7 @@ export function QuestionPractice({
         origins={celebration.origins}
         xp={celebration.xp}
       />
+      <LevelUpOverlay event={levelUp} />
 
       {/* Sidebar de filtros e lista */}
       <aside className="space-y-4">

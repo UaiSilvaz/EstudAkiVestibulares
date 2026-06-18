@@ -15,13 +15,37 @@ type ContinueCardProps = {
   className?: string;
 };
 
-const accentMap: Record<ContinueCardProps["accent"], { ring: string; icon: string; text: string; cta: string; bg: string }> = {
-  blue:   { ring: "from-[#2563EB] to-[#22D3EE]", icon: "from-[#2563EB] to-[#22D3EE]", text: "text-blue-700",   cta: "from-[#2563EB] to-[#22D3EE]", bg: "from-[#EFF6FF] via-white to-[#DBEAFE]" },
-  orange: { ring: "from-[#FACC15] to-[#F97316]", icon: "from-[#FACC15] to-[#F97316]", text: "text-orange-700", cta: "from-[#FACC15] to-[#F97316]", bg: "from-[#FFF7ED] via-white to-[#FFEDD5]" },
-  green:  { ring: "from-[#22C55E] to-[#86EFAC]", icon: "from-[#22C55E] to-[#86EFAC]", text: "text-emerald-700", cta: "from-[#22C55E] to-[#86EFAC]", bg: "from-[#ECFDF5] via-white to-[#D1FAE5]" },
-  pink:   { ring: "from-[#FB7185] to-[#FDA4AF]", icon: "from-[#FB7185] to-[#FDA4AF]", text: "text-pink-700",   cta: "from-[#FB7185] to-[#FDA4AF]", bg: "from-[#FDF2F8] via-white to-[#FCE7F3]" },
-  yellow: { ring: "from-[#FACC15] to-[#FDE047]", icon: "from-[#FACC15] to-[#FDE047]", text: "text-amber-700",  cta: "from-[#FACC15] to-[#FDE047]", bg: "from-[#FEFCE8] via-white to-[#FEF3C7]" },
-  purple: { ring: "from-[#A78BFA] to-[#C4B5FD]", icon: "from-[#A78BFA] to-[#C4B5FD]", text: "text-violet-700", cta: "from-[#A78BFA] to-[#C4B5FD]", bg: "from-[#F5F3FF] via-white to-[#EDE9FE]" },
+const accentMap: Record<ContinueCardProps["accent"], { bg: string; glow: string; shine: string }> = {
+  blue: {
+    bg: "from-[#1D9BF0] via-[#18B7F7] to-[#1DD7D0]",
+    glow: "rgba(14, 165, 233, 0.40)",
+    shine: "bg-[#7DD3FC]",
+  },
+  orange: {
+    bg: "from-[#FF8A18] via-[#FFA51F] to-[#FFE01B]",
+    glow: "rgba(251, 146, 60, 0.45)",
+    shine: "bg-[#FDE68A]",
+  },
+  green: {
+    bg: "from-[#36D66E] via-[#42DF85] to-[#5CE6BD]",
+    glow: "rgba(34, 197, 94, 0.36)",
+    shine: "bg-[#A7F3D0]",
+  },
+  pink: {
+    bg: "from-[#F51BA2] via-[#FF35C7] to-[#FF67D8]",
+    glow: "rgba(236, 72, 153, 0.40)",
+    shine: "bg-[#FBCFE8]",
+  },
+  yellow: {
+    bg: "from-[#FF9518] via-[#FFB21E] to-[#FFE01B]",
+    glow: "rgba(250, 204, 21, 0.42)",
+    shine: "bg-[#FDE68A]",
+  },
+  purple: {
+    bg: "from-[#6B2CF5] via-[#8A42FF] to-[#A569FF]",
+    glow: "rgba(124, 58, 237, 0.42)",
+    shine: "bg-[#DDD6FE]",
+  },
 };
 
 export function ContinueCard({
@@ -34,43 +58,58 @@ export function ContinueCard({
   className,
 }: ContinueCardProps) {
   const a = accentMap[accent];
+
   return (
-    <Link href={href} className={cn("block", className)}>
+    <Link href={href} className={cn("block min-w-0", className)}>
       <motion.div
-        whileHover={{ y: -3 }}
+        whileHover={{ y: -3, scale: 1.005 }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "group relative overflow-hidden rounded-[28px] border border-white/80 bg-gradient-to-br p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.18)]",
+          "group relative min-h-[150px] min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] sm:p-6",
           a.bg,
         )}
       >
-        <div className="flex items-center gap-4">
-          <div
-            className={cn(
-              "flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-md ring-2 ring-white",
-              a.icon,
-            )}
-          >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -inset-px rounded-[24px] bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_44%)]"
+        />
+        <div
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute -bottom-14 -left-10 h-32 w-32 rounded-full opacity-20 blur-sm",
+            a.shine,
+          )}
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-14 -top-10 h-40 w-40 rounded-full opacity-64 blur-2xl"
+          style={{ background: a.glow }}
+        />
+        <div className="pointer-events-none absolute -right-8 bottom-0 flex h-32 w-32 rotate-[-10deg] items-center justify-center rounded-[30px] bg-white/18 text-white/36 opacity-76 transition group-hover:scale-105 group-hover:opacity-90 [&_svg]:h-20 [&_svg]:w-20 [&_svg]:stroke-[2.15]">
+          {icon}
+        </div>
+
+        <div className="relative z-10 flex h-full items-center gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/22 text-white shadow-[0_12px_24px_-14px_rgba(15,23,42,0.65)] ring-1 ring-white/35 backdrop-blur">
             {icon}
           </div>
           <div className="min-w-0 flex-1">
             {meta && (
-              <p className={cn("text-[10px] font-black uppercase tracking-[0.22em]", a.text)}>
+              <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/82">
                 {meta}
               </p>
             )}
-            <p className="truncate text-base font-extrabold text-[#0F172A]">{title}</p>
-            <p className="mt-0.5 line-clamp-1 text-xs font-semibold text-slate-600">{description}</p>
+            <div className="mt-1 h-0.5 w-5 rounded-full bg-white/35" />
+            <p className="mt-2 truncate text-lg font-extrabold leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">
+              {title}
+            </p>
+            <p className="mt-1 line-clamp-1 max-w-[78%] text-xs font-semibold text-white/88">
+              {description}
+            </p>
           </div>
-          <motion.span
-            whileHover={{ x: 4 }}
-            className={cn(
-              "flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-md ring-2 ring-white",
-              a.cta,
-            )}
-          >
+          <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/30 bg-white/20 text-white shadow-sm backdrop-blur">
             <ArrowRight className="h-4 w-4" />
-          </motion.span>
+          </span>
         </div>
       </motion.div>
     </Link>

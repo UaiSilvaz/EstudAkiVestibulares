@@ -45,16 +45,41 @@
 
 * {
   box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: #1E73FF #EEF5FF;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #EEF5FF;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1E73FF, #00C2FF);
+  border-radius: 999px;
+  border: 2px solid #EEF5FF;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #005BEA, #1E73FF);
 }
 
 html {
   min-height: 100%;
   background: var(--background);
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   color: var(--foreground);
   font-family: var(--font-sans, "Inter"), system-ui, -apple-system, "Segoe UI", sans-serif;
   background:
@@ -66,6 +91,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+
 
 button,
 input,
@@ -86,25 +112,6 @@ button:disabled {
 ::selection {
   background: rgba(37, 99, 235, 0.18);
   color: #0F172A;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #CBD5E1, #94A3B8);
-  border-radius: 999px;
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #60A5FA, #22D3EE);
-  background-clip: padding-box;
-  border: 2px solid transparent;
 }
 
 /* ============================================================
@@ -615,12 +622,52 @@ button:disabled {
 /* Compatibilidade com classes antigas */
 .estudaki-card {
   position: relative;
+  overflow: hidden;
   border-radius: 24px;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  background: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(255, 255, 255, 0.92), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(239, 246, 255, 0.92) 52%, rgba(236, 254, 255, 0.88) 100%);
   box-shadow:
-    0 12px 32px -18px rgba(15, 23, 42, 0.10),
+    0 24px 50px -32px rgba(15, 23, 42, 0.22),
     0 1px 0 rgba(255, 255, 255, 0.6) inset;
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+}
+
+.estudaki-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.32) 35%, transparent 58%),
+    radial-gradient(circle at 90% 12%, rgba(34, 211, 238, 0.18), transparent 30%);
+  opacity: 0.85;
+}
+
+.estudaki-card::after {
+  content: "";
+  position: absolute;
+  right: -42px;
+  bottom: -54px;
+  width: 148px;
+  height: 148px;
+  pointer-events: none;
+  border-radius: 32px;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.10), rgba(34, 211, 238, 0.18));
+  transform: rotate(-12deg);
+}
+
+.estudaki-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.estudaki-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(34, 211, 238, 0.24);
+  box-shadow: 0 30px 64px -34px rgba(14, 165, 233, 0.35);
 }
 
 .estudaki-input {
@@ -677,7 +724,22 @@ button:disabled {
 
 .thin-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #CBD5E1 transparent;
+  scrollbar-color: #1E73FF transparent;
+}
+
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #1E73FF, #00C2FF);
+  border-radius: 999px;
+  border: 1px solid rgba(238, 245, 255, 0.8);
 }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }

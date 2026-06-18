@@ -54,8 +54,8 @@ const VESTIBULARES: Vestibular[] = [
     description: "Para cursos técnicos do Centro Paula Souza.",
     highlight: "Provas anteriores",
     href: "/provas?exam=ETEC",
-    gradient: "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 60%, #BBF7D0 100%)",
-    accent: "#16A34A",
+    gradient: "linear-gradient(135deg, #16A34A 0%, #22C55E 55%, #86EFAC 100%)",
+    accent: "#DCFCE7",
     iconBg: "linear-gradient(135deg, #22C55E, #86EFAC)",
     iconColor: "#FFFFFF",
     bullets: ["Múltipla escolha", "Língua portuguesa", "Matemática básica"],
@@ -68,8 +68,8 @@ const VESTIBULARES: Vestibular[] = [
     description: "Para os cursos tecnológicos do Centro Paula Souza.",
     highlight: "Simulados cronometrados",
     href: "/provas?exam=FATEC",
-    gradient: "linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 60%, #A5F3FC 100%)",
-    accent: "#0E7490",
+    gradient: "linear-gradient(135deg, #0891B2 0%, #22D3EE 55%, #67E8F9 100%)",
+    accent: "#ECFEFF",
     iconBg: "linear-gradient(135deg, #22D3EE, #67E8F9)",
     iconColor: "#FFFFFF",
     bullets: ["54 questões", "3 horas de prova", "Múltiplas áreas"],
@@ -82,8 +82,8 @@ const VESTIBULARES: Vestibular[] = [
     description: "Primeira fase e segunda fase da USP.",
     highlight: "Banco por disciplina",
     href: "/provas?exam=FUVEST",
-    gradient: "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 60%, #FCD34D 100%)",
-    accent: "#A16207",
+    gradient: "linear-gradient(135deg, #FF8A18 0%, #FFA51F 55%, #FFE01B 100%)",
+    accent: "#FFF7ED",
     iconBg: "linear-gradient(135deg, #FACC15, #FDE047)",
     iconColor: "#FFFFFF",
     bullets: ["2 fases", "90 questões 1ª fase", "10 questões discursivas"],
@@ -96,8 +96,8 @@ const VESTIBULARES: Vestibular[] = [
     description: "Vestibular próprio aplicado pela VUNESP.",
     highlight: "Comentários em vídeo",
     href: "/provas?exam=UNESP",
-    gradient: "linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 60%, #FED7AA 100%)",
-    accent: "#C2410C",
+    gradient: "linear-gradient(135deg, #F43F5E 0%, #FF4D86 55%, #FB7185 100%)",
+    accent: "#FFF1F2",
     iconBg: "linear-gradient(135deg, #F97316, #FDBA74)",
     iconColor: "#FFFFFF",
     bullets: ["Conhecimentos gerais", "Língua estrangeira", "Redação"],
@@ -110,8 +110,8 @@ const VESTIBULARES: Vestibular[] = [
     description: "Uma das provas mais concorridas do país.",
     highlight: "Análise por competência",
     href: "/provas?exam=UNICAMP",
-    gradient: "linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 60%, #DDD6FE 100%)",
-    accent: "#6D28D9",
+    gradient: "linear-gradient(135deg, #6B2CF5 0%, #8A42FF 55%, #A569FF 100%)",
+    accent: "#F5F3FF",
     iconBg: "linear-gradient(135deg, #A78BFA, #C4B5FD)",
     iconColor: "#FFFFFF",
     bullets: ["1ª fase multidisciplinar", "2ª fase específica", "Redação dissertativa"],
@@ -291,15 +291,18 @@ export function VestibularesSection() {
                   height="100%"
                   background={vest.gradient}
                   borderRadius="28px"
-                  borderColor="rgba(255,255,255,0.9)"
-                  glareColor={vest.accent}
-                  glareOpacity={0.18}
+                  borderColor="rgba(255,255,255,0.24)"
+                  glareColor="#FFFFFF"
+                  glareOpacity={0.16}
                   glareAngle={-30}
                   glareSize={320}
                   transitionDuration={700}
                   className="!flex !items-stretch"
                 >
-                  <div className="flex h-full w-full flex-col gap-3 p-5 text-[#0F172A] sm:p-6">
+                  <div className="relative flex h-full min-h-[268px] w-full flex-col gap-3 overflow-hidden p-5 text-white sm:p-6">
+                    <div className="pointer-events-none absolute -right-10 bottom-2 flex h-28 w-28 rotate-[-12deg] items-center justify-center rounded-[28px] bg-white/14 text-white/30">
+                      <GraduationCap className="h-20 w-20" strokeWidth={2.1} />
+                    </div>
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3">
                         <div
@@ -314,8 +317,7 @@ export function VestibularesSection() {
                         </div>
                         <div>
                           <p
-                            className="text-[9px] font-extrabold uppercase tracking-[0.25em]"
-                            style={{ color: vest.accent }}
+                            className="text-[9px] font-extrabold uppercase tracking-[0.25em] text-white/72"
                           >
                             {vest.short}
                           </p>
@@ -326,11 +328,11 @@ export function VestibularesSection() {
                       </div>
                     </div>
 
-                    <p className="text-sm font-medium leading-relaxed text-slate-700">
+                    <p className="relative z-10 max-w-[88%] text-sm font-bold leading-relaxed text-white/86">
                       {vest.description}
                     </p>
 
-                    <ul className="mt-1 flex flex-col gap-1.5 text-[12px] font-semibold text-slate-700">
+                    <ul className="relative z-10 mt-1 flex flex-col gap-1.5 text-[12px] font-bold text-white/86">
                       {vest.bullets.map((b) => (
                         <li key={b} className="flex items-center gap-2">
                           <span
@@ -344,10 +346,9 @@ export function VestibularesSection() {
                       ))}
                     </ul>
 
-                    <div className="mt-auto flex items-center justify-between gap-2 pt-2">
+                    <div className="relative z-10 mt-auto flex items-center justify-between gap-2 pt-2">
                       <span
-                        className="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider"
-                        style={{ color: vest.accent }}
+                        className="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-white/82"
                       >
                         <GraduationCap className="h-3 w-3" /> {vest.highlight}
                       </span>

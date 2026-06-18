@@ -13,6 +13,7 @@ import {
   Library,
   type LucideIcon,
   MessagesSquare,
+  Medal,
   PenTool,
   PlaySquare,
   Sparkles,
@@ -42,6 +43,7 @@ const materialLinks: NavLink[] = [
 
 const communityLinks: NavLink[] = [
   { href: "/ranking", label: "Ranking", icon: Trophy, color: "#FACC15", gradient: "from-[#FACC15] via-[#FDE047] to-[#F97316]" },
+  { href: "/conquistas", label: "Conquistas", icon: Medal, color: "#A78BFA", gradient: "from-[#A78BFA] via-[#C4B5FD] to-[#22D3EE]" },
   { href: "/community", label: "Comunidade", icon: MessagesSquare, color: "#2563EB", gradient: "from-[#2563EB] via-[#22D3EE] to-[#86EFAC]" },
 ];
 

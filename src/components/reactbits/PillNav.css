@@ -6,10 +6,20 @@
   z-index: 1000;
   padding: 0 clamp(12px, 3vw, 28px);
   pointer-events: none;
+  transition: opacity 0.32s ease, transform 0.32s ease;
+  will-change: transform, opacity;
 }
 
 .pill-nav-container > * {
   pointer-events: auto;
+}
+
+@media (min-width: 1181px) {
+  .pill-nav-container.is-scroll-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-130%);
+  }
 }
 
 @media (max-width: 1180px) {

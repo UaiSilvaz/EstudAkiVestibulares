@@ -14,14 +14,18 @@ import {
   Pencil,
   Redo2,
   Save,
+  Settings2,
   Strikethrough,
   Trash2,
   Undo2,
+  X,
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
 import {
   PointerEvent,
+  type Dispatch,
+  type SetStateAction,
   useEffect,
   useMemo,
   useRef,
@@ -104,6 +108,7 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
   const [opacity, setOpacity] = useState(55);
   const [zoom, setZoom] = useState(100);
   const [noteText, setNoteText] = useState("Revisar esta parte");
+  const [toolsOpen, setToolsOpen] = useState(false);
 
   const activeUrl = documentKind === "exam" ? exam.pdfUrl : exam.answerKeyUrl;
   const visibleAnnotations = annotations.filter((annotation) => annotation.document === documentKind);
@@ -238,94 +243,83 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
     URL.revokeObjectURL(url);
   }
 
+  const toolbar = (
+    <ToolbarPanel
+      tool={tool}
+      setTool={setTool}
+      color={color}
+      setColor={setColor}
+      size={size}
+      setSize={setSize}
+      opacity={opacity}
+      setOpacity={setOpacity}
+      documentKind={documentKind}
+      setDocumentKind={setDocumentKind}
+      hasAnswerKey={!!exam.answerKeyUrl}
+      zoom={zoom}
+      setZoom={setZoom}
+      redoCount={redoStack.length}
+      undo={undo}
+      redo={redo}
+      exportAnnotations={exportAnnotations}
+      clearAnnotations={clearAnnotations}
+    />
+  );
+
   return (
-    <div className="grid gap-5 xl:grid-cols-[1fr_360px]">
-      <section className="estudaki-card overflow-hidden rounded-[32px]">
-        <div className="sticky top-0 z-20 border-b border-slate-200 bg-white/95 p-3 backdrop-blur-xl">
-          <div className="flex flex-wrap items-center gap-2">
-            {toolMeta.map((item) => (
-              <ToolButton key={item.id} active={tool === item.id} title={item.label} onClick={() => setTool(item.id)}>
-                {item.icon}
-              </ToolButton>
-            ))}
-
-            <div className="mx-1 hidden h-8 w-px bg-slate-200 sm:block" />
-
-            {colors.map((item) => (
-              <button
-                key={item}
-                type="button"
-                onClick={() => setColor(item)}
-                className={`h-8 w-8 rounded-full border-2 ${color === item ? "border-slate-950" : "border-white"}`}
-                style={{ background: item }}
-                title={`Cor ${item}`}
-              />
-            ))}
-
-            <ControlLabel label="Espessura">
-              <input
-                type="range"
-                min={2}
-                max={18}
-                value={size}
-                onChange={(event) => setSize(Number(event.target.value))}
-                className="w-24"
-              />
-            </ControlLabel>
-
-            <ControlLabel label="Opacidade">
-              <input
-                type="range"
-                min={15}
-                max={100}
-                value={opacity}
-                onChange={(event) => setOpacity(Number(event.target.value))}
-                className="w-24"
-              />
-            </ControlLabel>
-          </div>
-
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <SegmentButton active={documentKind === "exam"} onClick={() => setDocumentKind("exam")}>
-              Prova
-            </SegmentButton>
-            <SegmentButton active={documentKind === "answer"} onClick={() => setDocumentKind("answer")} disabled={!exam.answerKeyUrl}>
-              Gabarito
-            </SegmentButton>
-
-            <div className="mx-1 hidden h-8 w-px bg-slate-200 sm:block" />
-
-            <IconButton title="Diminuir zoom" onClick={() => setZoom((value) => Math.max(70, value - 10))}>
-              <ZoomOut className="h-4 w-4" />
-            </IconButton>
-            <span className="min-w-14 text-center text-sm font-black text-slate-700">{zoom}%</span>
-            <IconButton title="Aumentar zoom" onClick={() => setZoom((value) => Math.min(210, value + 10))}>
-              <ZoomIn className="h-4 w-4" />
-            </IconButton>
-
-            <IconButton title="Desfazer" onClick={undo}>
-              <Undo2 className="h-4 w-4" />
-            </IconButton>
-            <IconButton title={`Refazer${redoStack.length ? ` (${redoStack.length})` : ""}`} onClick={redo}>
-              <Redo2 className="h-4 w-4" />
-            </IconButton>
-            <IconButton title="Salvar no navegador">
-              <Save className="h-4 w-4" />
-            </IconButton>
-            <IconButton title="Exportar anotacoes" onClick={exportAnnotations}>
-              <FileDown className="h-4 w-4" />
-            </IconButton>
-            <IconButton title="Limpar documento atual" onClick={clearAnnotations}>
-              <Trash2 className="h-4 w-4" />
-            </IconButton>
-          </div>
+    <div className="relative mx-auto w-full min-w-0 overflow-x-hidden">
+      <div className="mb-4 flex items-start justify-between gap-3 rounded-[28px] border border-blue-100 bg-white/92 p-4 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.24)] backdrop-blur lg:hidden">
+        <div className="min-w-0">
+          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
+            Prova antiga
+          </p>
+          <h1 className="mt-1 line-clamp-2 font-display text-xl font-black text-[#0F172A]">
+            {exam.title}
+          </h1>
+          <p className="mt-1 text-xs font-bold text-slate-500">
+            {exam.phase} - {exam.day ?? "Caderno unico"}
+          </p>
         </div>
+        <button
+          type="button"
+          onClick={() => setToolsOpen(true)}
+          className="flex h-11 shrink-0 items-center gap-2 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-4 text-xs font-black uppercase tracking-wider text-white shadow-md"
+        >
+          <Settings2 className="h-4 w-4" />
+          Ferramentas
+        </button>
+      </div>
 
-        <div className="relative min-h-[760px] overflow-auto bg-slate-100 p-3 sm:p-5">
-          <div
-            className="relative mx-auto min-h-[720px] w-[980px] max-w-none origin-top rounded-[18px] bg-white shadow-2xl"
-            style={{ transform: `scale(${zoom / 100})`, marginBottom: `${Math.max(0, zoom - 100) * 6}px` }}
-          >
+      <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_390px]">
+        <section className="min-w-0">
+          <div className="sticky top-4 z-30 mb-4 hidden rounded-[28px] border border-blue-100/80 bg-white/95 p-3 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.30)] backdrop-blur-xl lg:block">
+            {toolbar}
+          </div>
+
+          <div className="overflow-hidden rounded-[32px] border border-blue-100/70 bg-white shadow-[0_24px_70px_-42px_rgba(15,23,42,0.34)]">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-700">
+                  {documentKind === "exam" ? "Visualizando prova" : "Visualizando gabarito"}
+                </p>
+                <h2 className="mt-1 truncate text-sm font-black text-slate-800 sm:text-base">
+                  {documentKind === "exam" ? exam.title : `${exam.title} - gabarito`}
+                </h2>
+              </div>
+              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-blue-700">
+                Zoom {zoom}%
+              </span>
+            </div>
+
+            <div className="thin-scrollbar relative h-[calc(100vh-210px)] min-h-[560px] overflow-auto bg-gradient-to-br from-slate-100 via-[#F8FBFF] to-[#EEF8FF] p-3 sm:p-5 lg:h-[calc(100vh-230px)] lg:min-h-[700px]">
+              <div
+                className="relative mx-auto min-h-[720px] rounded-[22px] bg-white shadow-[0_22px_54px_-32px_rgba(15,23,42,0.55)] ring-1 ring-slate-200/80"
+                style={{
+                  width: zoom <= 100 ? "min(100%, 980px)" : `${zoom}%`,
+                  maxWidth: zoom <= 100 ? "980px" : `${Math.round(980 * (zoom / 100))}px`,
+                  minWidth: zoom > 120 ? `${Math.round(760 * (zoom / 100))}px` : undefined,
+                }}
+              >
             {activeUrl ? (
               <PdfDocument
                 url={activeUrl}
@@ -377,11 +371,12 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
                 ))}
             </div>
           </div>
-        </div>
-      </section>
+            </div>
+          </div>
+        </section>
 
-      <aside className="space-y-5">
-        <div className="estudaki-card rounded-[30px] p-6">
+        <aside className="min-w-0 space-y-5 xl:sticky xl:top-4 xl:self-start">
+        <div className="rounded-[30px] border border-blue-100/70 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">Prova antiga</p>
           <h1 className="mt-2 text-2xl font-black text-slate-950">{exam.title}</h1>
           <p className="mt-2 text-sm font-semibold text-slate-500">
@@ -395,7 +390,7 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
           </div>
         </div>
 
-        <div className="estudaki-card rounded-[30px] p-6">
+        <div className="rounded-[30px] border border-blue-100/70 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
           <p className="mb-3 text-sm font-black text-slate-800">Arquivos oficiais</p>
           <div className="grid gap-2">
             <ExternalButton href={exam.pdfUrl} label="Abrir PDF original" icon={<Download className="h-4 w-4" />} />
@@ -404,7 +399,7 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
           </div>
         </div>
 
-        <div className="estudaki-card rounded-[30px] p-6">
+        <div className="rounded-[30px] border border-blue-100/70 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
           <label className="block">
             <span className="mb-2 block text-sm font-black text-slate-800">Texto da nota</span>
             <textarea className="estudaki-input min-h-28" value={noteText} onChange={(event) => setNoteText(event.target.value)} />
@@ -413,7 +408,170 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
             Use Navegar para mexer no PDF. Use as ferramentas para desenhar por cima; as anotacoes ficam salvas no navegador.
           </p>
         </div>
-      </aside>
+        </aside>
+      </div>
+
+      {toolsOpen && (
+        <div className="fixed inset-0 z-[70] lg:hidden">
+          <button
+            type="button"
+            aria-label="Fechar ferramentas"
+            onClick={() => setToolsOpen(false)}
+            className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm"
+          />
+          <div className="absolute inset-x-3 bottom-3 max-h-[82vh] overflow-hidden rounded-[30px] border border-white/70 bg-white shadow-2xl">
+            <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
+                  Editor
+                </p>
+                <h2 className="font-display text-lg font-black text-[#0F172A]">
+                  Ferramentas da prova
+                </h2>
+              </div>
+              <button
+                type="button"
+                aria-label="Fechar"
+                onClick={() => setToolsOpen(false)}
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-500"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="thin-scrollbar max-h-[calc(82vh-74px)] overflow-y-auto p-4">
+              {toolbar}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ToolbarPanel({
+  tool,
+  setTool,
+  color,
+  setColor,
+  size,
+  setSize,
+  opacity,
+  setOpacity,
+  documentKind,
+  setDocumentKind,
+  hasAnswerKey,
+  zoom,
+  setZoom,
+  redoCount,
+  undo,
+  redo,
+  exportAnnotations,
+  clearAnnotations,
+}: {
+  tool: Tool;
+  setTool: Dispatch<SetStateAction<Tool>>;
+  color: string;
+  setColor: Dispatch<SetStateAction<string>>;
+  size: number;
+  setSize: Dispatch<SetStateAction<number>>;
+  opacity: number;
+  setOpacity: Dispatch<SetStateAction<number>>;
+  documentKind: DocumentKind;
+  setDocumentKind: Dispatch<SetStateAction<DocumentKind>>;
+  hasAnswerKey: boolean;
+  zoom: number;
+  setZoom: Dispatch<SetStateAction<number>>;
+  redoCount: number;
+  undo: () => void;
+  redo: () => void;
+  exportAnnotations: () => void;
+  clearAnnotations: () => void;
+}) {
+  return (
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center gap-2">
+        {toolMeta.map((item) => (
+          <ToolButton key={item.id} active={tool === item.id} title={item.label} onClick={() => setTool(item.id)}>
+            {item.icon}
+          </ToolButton>
+        ))}
+
+        <div className="mx-1 hidden h-8 w-px bg-slate-200 sm:block" />
+
+        <div className="flex flex-wrap items-center gap-2">
+          {colors.map((item) => (
+            <button
+              key={item}
+              type="button"
+              onClick={() => setColor(item)}
+              className={`h-9 w-9 rounded-full border-2 shadow-sm transition ${
+                color === item ? "border-slate-950 ring-4 ring-blue-100" : "border-white"
+              }`}
+              style={{ background: item }}
+              title={`Cor ${item}`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="grid gap-2 md:grid-cols-[auto_auto_1fr] md:items-center">
+        <div className="flex flex-wrap items-center gap-2">
+          <SegmentButton active={documentKind === "exam"} onClick={() => setDocumentKind("exam")}>
+            Prova
+          </SegmentButton>
+          <SegmentButton active={documentKind === "answer"} onClick={() => setDocumentKind("answer")} disabled={!hasAnswerKey}>
+            Gabarito
+          </SegmentButton>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <IconButton title="Diminuir zoom" onClick={() => setZoom((value) => Math.max(70, value - 10))}>
+            <ZoomOut className="h-4 w-4" />
+          </IconButton>
+          <span className="min-w-14 text-center text-sm font-black text-slate-700">{zoom}%</span>
+          <IconButton title="Aumentar zoom" onClick={() => setZoom((value) => Math.min(210, value + 10))}>
+            <ZoomIn className="h-4 w-4" />
+          </IconButton>
+          <IconButton title="Desfazer" onClick={undo}>
+            <Undo2 className="h-4 w-4" />
+          </IconButton>
+          <IconButton title={`Refazer${redoCount ? ` (${redoCount})` : ""}`} onClick={redo}>
+            <Redo2 className="h-4 w-4" />
+          </IconButton>
+          <IconButton title="Salvar no navegador">
+            <Save className="h-4 w-4" />
+          </IconButton>
+          <IconButton title="Exportar anotacoes" onClick={exportAnnotations}>
+            <FileDown className="h-4 w-4" />
+          </IconButton>
+          <IconButton title="Limpar documento atual" onClick={clearAnnotations}>
+            <Trash2 className="h-4 w-4" />
+          </IconButton>
+        </div>
+
+        <div className="grid gap-2 sm:grid-cols-2">
+          <ControlLabel label="Espessura">
+            <input
+              type="range"
+              min={2}
+              max={18}
+              value={size}
+              onChange={(event) => setSize(Number(event.target.value))}
+              className="w-full min-w-24 accent-blue-600"
+            />
+          </ControlLabel>
+          <ControlLabel label="Opacidade">
+            <input
+              type="range"
+              min={15}
+              max={100}
+              value={opacity}
+              onChange={(event) => setOpacity(Number(event.target.value))}
+              className="w-full min-w-24 accent-blue-600"
+            />
+          </ControlLabel>
+        </div>
+      </div>
     </div>
   );
 }

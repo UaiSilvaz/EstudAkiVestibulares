@@ -36,7 +36,7 @@ const PLANOS: Plano[] = [
     cta: "Começar grátis",
     href: "/login",
     icon: BookOpen,
-    gradient: "from-white to-[#F8FAFC]",
+    gradient: "linear-gradient(135deg, #1D9BF0 0%, #18B7F7 52%, #1DD7D0 100%)",
     iconBg: "from-[#2563EB] to-[#22D3EE]",
     accent: "#2563EB",
   },
@@ -55,7 +55,7 @@ const PLANOS: Plano[] = [
     cta: "Assinar Cadernos",
     href: "/login",
     icon: GraduationCap,
-    gradient: "from-[#FACC15] via-[#FDE68A] to-[#FFEDD5]",
+    gradient: "linear-gradient(135deg, #FF8A18 0%, #FFA51F 52%, #FFE01B 100%)",
     iconBg: "from-[#FACC15] to-[#F97316]",
     accent: "#C2410C",
     highlight: true,
@@ -75,7 +75,7 @@ const PLANOS: Plano[] = [
     cta: "Quero a plataforma completa",
     href: "/login",
     icon: Sparkles,
-    gradient: "from-[#EFF6FF] to-[#DBEAFE]",
+    gradient: "linear-gradient(135deg, #6B2CF5 0%, #8A42FF 52%, #FF35C7 100%)",
     iconBg: "from-[#2563EB] to-[#A78BFA]",
     accent: "#2563EB",
   },
@@ -124,32 +124,22 @@ export function PricingSection() {
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className={cn(
-                  "relative flex h-full flex-col gap-4 overflow-hidden rounded-[28px] border p-6 transition-transform duration-300 hover:-translate-y-1",
-                  plano.highlight
-                    ? "border-amber-200/60 shadow-[0_24px_60px_-22px_rgba(250,204,21,0.30)]"
-                    : "border-slate-100 bg-white shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]",
+                  "group relative flex min-h-[440px] flex-col gap-4 overflow-hidden rounded-[28px] border border-white/28 p-6 text-white shadow-[0_28px_58px_-32px_rgba(15,23,42,0.45)] transition-transform duration-300 hover:-translate-y-1.5",
                 )}
-                style={
-                  plano.highlight
-                    ? {
-                        background:
-                          "linear-gradient(135deg, #FEF3C7 0%, #FDE68A 50%, #FED7AA 100%)",
-                      }
-                    : {
-                        background: "linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%)",
-                      }
-                }
+                style={{ background: plano.gradient }}
               >
-                {plano.highlight && (
-                  <div
-                    className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[#FACC15] opacity-40 blur-3xl"
-                  />
-                )}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.28),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_44%)]"
+                />
+                <div className="pointer-events-none absolute -right-12 bottom-5 flex h-36 w-36 rotate-[-12deg] items-center justify-center rounded-[34px] bg-white/16 text-white/30 transition duration-300 group-hover:scale-105">
+                  <Icon className="h-24 w-24" strokeWidth={2.1} />
+                </div>
 
-                <div className="flex items-center justify-between">
+                <div className="relative z-10 flex items-center justify-between">
                   <div
                     className={cn(
-                      "flex h-11 w-11 items-center justify-center rounded-2xl text-white shadow-md ring-1 ring-white/40 bg-gradient-to-br",
+                      "flex h-12 w-12 items-center justify-center rounded-2xl bg-white/22 text-white shadow-md ring-1 ring-white/40 backdrop-blur bg-gradient-to-br",
                       plano.iconBg,
                     )}
                   >
@@ -158,10 +148,7 @@ export function PricingSection() {
                   {plano.badge && (
                     <span
                       className={cn(
-                        "rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider",
-                        plano.highlight
-                          ? "border border-white/70 bg-white/80 text-amber-700"
-                          : "bg-amber-50 text-amber-700 border border-amber-200",
+                        "rounded-full border border-white/35 bg-white/22 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-white backdrop-blur",
                       )}
                     >
                       {plano.badge}
@@ -169,41 +156,41 @@ export function PricingSection() {
                   )}
                 </div>
 
-                <div>
+                <div className="relative z-10">
                   <h3
                     className={cn(
-                      "font-display text-2xl font-extrabold text-[#0F172A]",
+                      "font-display text-2xl font-black text-white",
                     )}
                   >
                     {plano.nome}
                   </h3>
                   <p
-                    className="mt-1 text-sm font-medium text-slate-600"
+                    className="mt-2 min-h-[62px] text-sm font-bold leading-6 text-white/84"
                   >
                     {plano.descricao}
                   </p>
                 </div>
 
-                <div className="flex items-end gap-2">
+                <div className="relative z-10 flex items-end gap-2">
                   <span
-                    className="font-display text-4xl font-black text-[#0F172A]"
+                    className="font-display text-4xl font-black text-white drop-shadow-[0_2px_10px_rgba(15,23,42,0.14)]"
                   >
                     {plano.preco}
                   </span>
                   <span
-                    className="mb-1 text-xs font-bold text-slate-500"
+                    className="mb-1 text-xs font-bold text-white/70"
                   >
                     {plano.periodo}
                   </span>
                 </div>
 
-                <ul className="flex flex-col gap-2 text-sm">
+                <ul className="relative z-10 flex flex-col gap-2 text-sm">
                   {plano.features.map((f) => (
                     <li
                       key={f}
-                      className="flex items-start gap-2 font-semibold text-slate-600"
+                      className="flex items-start gap-2 font-bold leading-5 text-white/88"
                     >
-                      <span className="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#22C55E] to-[#86EFAC]">
+                      <span className="mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-full bg-white/24 ring-1 ring-white/30">
                         <Check className="h-2.5 w-2.5 text-white" />
                       </span>
                       {f}
@@ -214,12 +201,8 @@ export function PricingSection() {
                 <Link
                   href={plano.href}
                   className={cn(
-                    "ek-button mt-auto",
-                    plano.highlight
-                      ? "ek-button-energy"
-                      : "ek-button-primary",
+                    "relative z-10 mt-auto inline-flex min-h-11 items-center justify-center rounded-full bg-white px-4 text-xs font-black uppercase tracking-wider text-[#0F172A] shadow-md transition hover:-translate-y-0.5 hover:shadow-xl",
                   )}
-                  style={{ borderRadius: 999 }}
                 >
                   {plano.cta}
                 </Link>

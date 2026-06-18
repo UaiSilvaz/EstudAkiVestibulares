@@ -101,7 +101,7 @@ export default async function LoginPage({
               </p>
             </aside>
 
-            <aside className="estudaki-login-hero relative isolate flex min-h-[300px] flex-col overflow-hidden lg:min-h-[560px]">
+            <aside className="estudaki-login-hero relative isolate hidden min-h-[300px] flex-col overflow-hidden lg:flex lg:min-h-[560px]">
               <div className="estudaki-login-hero-glow" aria-hidden />
               <div className="estudaki-login-hero-blob" aria-hidden />
               <div className="estudaki-login-hero-ring" aria-hidden />

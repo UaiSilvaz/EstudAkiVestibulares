@@ -12,6 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 import type { Prisma } from "@prisma/client";
+import Image from "next/image";
 import Link from "next/link";
 import { ChallengeChip } from "@/components/visual/challenge-chip";
 import { ContinueCard } from "@/components/visual/continue-card";
@@ -19,6 +20,7 @@ import { EmptyState } from "@/components/visual/empty-state";
 import { EvolutionChart } from "@/components/visual/evolution-chart";
 import { FloatingWhatsApp } from "@/components/visual/floating-whatsapp";
 import { ProgressRing } from "@/components/visual/progress-ring";
+import { LeagueBadge } from "@/components/visual/league-badge";
 import { Sparkline } from "@/components/visual/sparkline";
 import { StatTile } from "@/components/visual/stat-tile";
 import { StreakBadge } from "@/components/visual/streak-badge";
@@ -170,19 +172,37 @@ export default async function DashboardPage() {
   const errorBookTotal = Math.max(1, errorBookDone);
 
   return (
-    <div className="space-y-6">
+    <div className="mx-auto w-full min-w-0 space-y-6 overflow-x-clip">
       {/* Header compacto */}
-      <section className="relative overflow-hidden rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
+      <section className="relative overflow-hidden rounded-[32px] border border-white/70 bg-gradient-to-br from-white via-[#EFF6FF] to-[#ECFEFF] p-6 shadow-[0_26px_70px_-36px_rgba(14,165,233,0.35)] md:p-7">
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-[#60A5FA] opacity-20 blur-3xl"
+          className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full bg-[#22D3EE] opacity-24 blur-3xl"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -bottom-12 -left-12 h-44 w-44 rounded-full bg-[#FACC15] opacity-15 blur-3xl"
+          className="pointer-events-none absolute -bottom-12 -left-12 h-44 w-44 rounded-full bg-[#A78BFA] opacity-18 blur-3xl"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent"
         />
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-4">
-          <div>
+          <div className="flex min-w-0 items-center gap-4">
+            <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-[24px] bg-white shadow-[0_22px_36px_-24px_rgba(14,165,233,0.65)] ring-1 ring-blue-100">
+              <Image
+                src="/brand/estudaki-logo.png"
+                alt="EstudAki"
+                width={132}
+                height={132}
+                className="h-12 w-12 object-contain"
+                priority
+              />
+              <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#FACC15] to-[#F97316] text-white shadow-md ring-2 ring-white">
+                <Sparkles className="h-3.5 w-3.5" />
+              </span>
+            </div>
+            <div className="min-w-0">
             <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
               {greetingFor(now)} · {weekdayLabel(now)}
             </p>
@@ -196,13 +216,11 @@ export default async function DashboardPage() {
                 ? ` Faltam ${(leagueProgress.to - user.xp).toLocaleString("pt-BR")} XP para a liga ${nextLeague.name}.`
                 : " Você está no topo — continue mantendo o ritmo."}
             </p>
+            </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-3">
             <StreakBadge days={user.streak} size="lg" />
-            <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-gradient-to-r from-[#FEF3C7] to-white px-3 py-2 text-xs font-black uppercase tracking-wider text-amber-700">
-              <Trophy className="h-3.5 w-3.5" />
-              {user.league}
-            </span>
+            <LeagueBadge league={user.league} size="lg" />
           </div>
         </div>
       </section>
@@ -225,53 +243,63 @@ export default async function DashboardPage() {
         />
       )}
 
-      <section className="grid gap-5 xl:grid-cols-[1.4fr_1fr]">
+      <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.85fr)]">
         {/* Foco do dia */}
-        <div className="relative overflow-hidden rounded-[28px] border border-orange-200/60 bg-gradient-to-br from-[#FFF7ED] via-white to-[#FFEDD5] p-6 shadow-[0_18px_40px_-22px_rgba(249,115,22,0.25)] md:p-7">
+        <div className="group relative min-w-0 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#FF8A18] via-[#FFA51F] to-[#FFE01B] p-6 text-white shadow-[0_26px_52px_-28px_rgba(249,115,22,0.55)] md:min-h-[266px] md:p-7">
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-[#FB923C] opacity-25 blur-3xl"
+            className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_46%)]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-white/20 blur-sm"
+          />
+          <Target
+            aria-hidden
+            className="pointer-events-none absolute -right-7 bottom-3 h-44 w-44 rotate-[-9deg] text-white/22 transition duration-300 group-hover:scale-105"
+            strokeWidth={1.8}
           />
           <div className="relative z-10 grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-orange-600">
+              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/82">
                 Foco de hoje
               </p>
-              <h2 className="mt-1 font-display text-2xl font-extrabold text-[#0F172A] md:text-3xl">
+              <div className="mt-2 h-0.5 w-6 rounded-full bg-white/35" />
+              <h2 className="mt-4 max-w-[760px] font-display text-2xl font-extrabold text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)] md:text-3xl">
                 {mainRecommendation.title}
               </h2>
-              <p className="mt-2 max-w-xl text-sm font-medium leading-6 text-slate-700">
+              <p className="mt-2 max-w-xl text-sm font-semibold leading-6 text-white/84">
                 {insights.message}
               </p>
               <div className="mt-5 flex flex-wrap gap-3">
                 <Link
                   href={mainRecommendation.actionTarget}
-                  className="ek-button ek-button-energy"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-black text-orange-600 shadow-[0_18px_32px_-22px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:bg-white/92"
                 >
                   {mainRecommendation.actionLabel}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/cronograma" className="ek-button ek-button-ghost">
+                <Link href="/cronograma" className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/14 px-5 py-3 text-sm font-black text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20">
                   Ver plano da semana
                 </Link>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center rounded-3xl border border-white/80 bg-white/85 p-5 shadow-[0_12px_30px_-12px_rgba(249,115,22,0.30)] backdrop-blur">
+            <div className="flex flex-col items-center justify-center rounded-[24px] border border-white/24 bg-white/16 p-5 shadow-[0_12px_30px_-16px_rgba(15,23,42,0.35)] backdrop-blur">
               <ProgressRing
                 value={dailyProgress}
                 size={140}
                 strokeWidth={12}
-                gradientFrom="#F97316"
-                gradientTo="#FB7185"
+                gradientFrom="#FFFFFF"
+                gradientTo="#FDE68A"
                 label={
-                  <span className="font-display text-3xl font-extrabold text-[#0F172A]">
+                  <span className="font-display text-3xl font-extrabold text-white">
                     {insights.completedToday}
-                    <span className="text-base font-bold text-slate-400">/{insights.dailyGoal.questions}</span>
+                    <span className="text-base font-bold text-white/65">/{insights.dailyGoal.questions}</span>
                   </span>
                 }
                 caption="Meta hoje"
               />
-              <p className="mt-3 text-xs font-bold uppercase tracking-wider text-orange-700">
+              <p className="mt-3 text-xs font-bold uppercase tracking-wider text-white/82">
                 {dailyProgress}% concluído
               </p>
             </div>
@@ -279,46 +307,56 @@ export default async function DashboardPage() {
         </div>
 
         {/* Liga / XP */}
-        <div className="relative overflow-hidden rounded-[28px] border border-amber-200/60 bg-gradient-to-br from-[#FEFCE8] via-white to-[#FEF3C7] p-6 shadow-[0_18px_40px_-22px_rgba(234,179,8,0.30)] md:p-7">
+        <div className="group relative min-w-0 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#6B2CF5] via-[#8A42FF] to-[#A569FF] p-6 text-white shadow-[0_26px_52px_-28px_rgba(124,58,237,0.55)] md:min-h-[266px] md:p-7">
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-12 -top-12 h-44 w-44 rounded-full bg-[#FACC15] opacity-25 blur-3xl"
+            className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.30),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.14),transparent_46%)]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-white/18 blur-sm"
+          />
+          <Trophy
+            aria-hidden
+            className="pointer-events-none absolute -right-7 bottom-3 h-40 w-40 rotate-[-9deg] text-white/26 transition duration-300 group-hover:scale-105"
+            strokeWidth={1.8}
           />
           <div className="relative z-10">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-amber-700">
+            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/82">
               Sua liga
             </p>
+            <div className="mt-2 h-0.5 w-6 rounded-full bg-white/35" />
             <div className="mt-1 flex items-end justify-between gap-3">
-              <h2 className="font-display text-3xl font-extrabold text-[#0F172A]">
+              <h2 className="mt-3 font-display text-3xl font-extrabold text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">
                 {user.league}
               </h2>
               {nextLeague && (
-                <p className="text-xs font-black uppercase tracking-wider text-amber-700">
-                  → {nextLeague.name}
+                <p className="rounded-full border border-white/30 bg-white/18 px-3 py-1 text-xs font-black uppercase tracking-wider text-white backdrop-blur">
+                  Prox. {nextLeague.name}
                 </p>
               )}
             </div>
-            <p className="mt-1 text-sm font-semibold text-slate-600">
+            <p className="mt-2 max-w-[70%] text-sm font-semibold text-white/84">
               {user.xp.toLocaleString("pt-BR")} XP {nextLeague ? `de ${leagueProgress.to.toLocaleString("pt-BR")}` : "(máximo)"}
             </p>
-            <div className="mt-4 h-3 overflow-hidden rounded-full bg-white">
+            <div className="mt-5 h-2.5 max-w-[75%] overflow-hidden rounded-full bg-white/24">
               <div
-                className="h-full rounded-full bg-gradient-to-r from-[#FACC15] via-[#F97316] to-[#FB7185] transition-all"
+                className="h-full rounded-full bg-white/88 transition-all"
                 style={{ width: `${Math.min(100, leagueProgress.current)}%` }}
               />
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs">
-              <div className="rounded-2xl border border-amber-100 bg-white px-2 py-3">
-                <p className="text-[9px] font-black uppercase tracking-wider text-slate-500">Streak</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-[#0F172A]">{user.streak}d</p>
+            <div className="mt-5 grid max-w-full grid-cols-3 gap-2 text-center text-xs xl:max-w-[88%]">
+              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
+                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">Streak</p>
+                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.streak}d</p>
               </div>
-              <div className="rounded-2xl border border-amber-100 bg-white px-2 py-3">
-                <p className="text-[9px] font-black uppercase tracking-wider text-slate-500">XP</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-[#0F172A]">{user.xp}</p>
+              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
+                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">XP</p>
+                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.xp}</p>
               </div>
-              <div className="rounded-2xl border border-amber-100 bg-white px-2 py-3">
-                <p className="text-[9px] font-black uppercase tracking-wider text-slate-500">Horas</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-[#0F172A]">{user.weeklyHours ?? 0}/sem</p>
+              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
+                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">Horas</p>
+                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.weeklyHours ?? 0}/sem</p>
               </div>
             </div>
           </div>
@@ -326,18 +364,18 @@ export default async function DashboardPage() {
       </section>
 
       {/* Stats strip gamificado */}
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid min-w-0 gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatTile
           label="Meta de hoje"
           value={
             <span>
               {insights.completedToday}
-              <span className="text-base font-bold text-slate-400">/{insights.dailyGoal.questions}</span>
+              <span className="text-base font-bold text-white/68">/{insights.dailyGoal.questions}</span>
             </span>
           }
           hint={`${dailyProgress}% concluído · ${insights.dailyGoal.reviews} revisões`}
           icon={<Target className="h-5 w-5" strokeWidth={2.4} />}
-          accent="orange"
+          accent="cyan"
           progress={dailyProgress}
         />
         <StatTile
@@ -345,7 +383,7 @@ export default async function DashboardPage() {
           value={`${user.streak}d`}
           hint="Mantenha a constância"
           icon={<Flame className="h-5 w-5" strokeWidth={2.4} />}
-          accent="yellow"
+          accent="purple"
         />
         <StatTile
           label="Acerto ponderado"
@@ -364,7 +402,7 @@ export default async function DashboardPage() {
           value={String(insights.pendingErrors)}
           hint={`${insights.reviewedErrors} revisados de ${errorBookDone}`}
           icon={<BookOpen className="h-5 w-5" strokeWidth={2.4} />}
-          accent="red"
+          accent="pink"
           progress={errorBookDone ? (errorBookProgress / errorBookTotal) * 100 : 0}
         />
       </section>
@@ -381,7 +419,7 @@ export default async function DashboardPage() {
             </h2>
           </div>
         </div>
-        <div className="grid gap-3 md:grid-cols-3">
+        <div className="grid min-w-0 gap-3 md:grid-cols-3">
           <ChallengeChip
             title="Subir de liga"
             description={
@@ -426,7 +464,7 @@ export default async function DashboardPage() {
       </section>
 
       {/* Evolução + atividades */}
-      <section className="grid gap-5 xl:grid-cols-[1.4fr_1fr]">
+      <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.85fr)]">
         <div className="relative overflow-hidden rounded-[28px] border border-blue-100/60 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
           <div
             aria-hidden
@@ -518,7 +556,7 @@ export default async function DashboardPage() {
       </section>
 
       {/* Quick actions + questões recomendadas */}
-      <section className="grid gap-5 xl:grid-cols-[1fr_0.85fr]">
+      <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]">
         <div className="rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>

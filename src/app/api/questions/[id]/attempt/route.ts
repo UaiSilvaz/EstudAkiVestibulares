@@ -52,7 +52,8 @@ export async function POST(
   });
 
   const newLeague = leagueForXp(updatedUser.xp);
-  if (newLeague !== updatedUser.league) {
+  const leveledUp = newLeague !== updatedUser.league;
+  if (leveledUp) {
     await db.user.update({ where: { id: user.id }, data: { league: newLeague } });
   }
 
@@ -71,5 +72,7 @@ export async function POST(
     explanation: question.explanation,
     pedagogyComment: question.pedagogyComment,
     gainedXp,
+    leveledUp,
+    newLeague,
   });
 }

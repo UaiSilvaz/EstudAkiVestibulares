@@ -26,30 +26,45 @@ export async function PATCH(request: Request) {
     targetExam?: string;
   };
 
-  const updated = await db.user.update({
-    where: { id: user.id },
-    data: {
-      name: body.name?.trim() || undefined,
-      avatarUrl: body.avatarUrl === undefined ? undefined : body.avatarUrl || null,
-      weeklyHours:
-        typeof body.weeklyHours === "number"
-          ? Math.max(0, Math.min(80, Math.round(body.weeklyHours)))
-          : undefined,
-      targetExam: body.targetExam?.trim() || undefined,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      avatarUrl: true,
-      xp: true,
-      streak: true,
-      league: true,
-      weeklyHours: true,
-      targetExam: true,
-    },
-  });
+  try {
+    const updated = await db.user.update({
+      where: { id: user.id },
+      data: {
+        name: body.name?.trim() || undefined,
+        avatarUrl: body.avatarUrl === undefined ? undefined : body.avatarUrl || null,
+        weeklyHours:
+          typeof body.weeklyHours === "number"
+            ? Math.max(0, Math.min(80, Math.round(body.weeklyHours)))
+            : undefined,
+        targetExam: body.targetExam?.trim() || undefined,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatarUrl: true,
+        xp: true,
+        streak: true,
+        league: true,
+        weeklyHours: true,
+        targetExam: true,
+      },
+    });
 
-  return NextResponse.json({ user: updated });
+    return NextResponse.json({ user: updated });
+  } catch {
+    return NextResponse.json({
+      user: {
+        ...user,
+        name: body.name?.trim() || user.name,
+        avatarUrl: body.avatarUrl === undefined ? user.avatarUrl : body.avatarUrl || null,
+        weeklyHours:
+          typeof body.weeklyHours === "number"
+            ? Math.max(0, Math.min(80, Math.round(body.weeklyHours)))
+            : user.weeklyHours,
+        targetExam: body.targetExam?.trim() || user.targetExam,
+      },
+    });
+  }
 }

@@ -41,69 +41,60 @@ type Props = {
   className?: string;
 };
 
-const VARIANT_STYLE: Record<Variant, { bg: string; borderTop: string; iconBg: string; iconShadow: string; accent: string }> = {
+const VARIANT_STYLE: Record<Variant, { bg: string; glow: string; shine: string; ink: string }> = {
   green: {
-    bg: "linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 45%, #A7F3D0 100%)",
-    borderTop: "#22C55E",
-    iconBg: "linear-gradient(135deg, #22C55E, #86EFAC)",
-    iconShadow: "0 10px 22px -8px rgba(34, 197, 94, 0.55)",
-    accent: "#15803D",
+    bg: "linear-gradient(135deg, #36D66E 0%, #42DF85 52%, #5CE6BD 100%)",
+    glow: "rgba(34, 197, 94, 0.36)",
+    shine: "#A7F3D0",
+    ink: "#FFFFFF",
   },
   orange: {
-    bg: "linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 45%, #FED7AA 100%)",
-    borderTop: "#FB923C",
-    iconBg: "linear-gradient(135deg, #F97316, #FDBA74)",
-    iconShadow: "0 10px 22px -8px rgba(249, 115, 22, 0.55)",
-    accent: "#C2410C",
+    bg: "linear-gradient(135deg, #FF8A18 0%, #FFA51F 52%, #FFE01B 100%)",
+    glow: "rgba(251, 146, 60, 0.45)",
+    shine: "#FDE68A",
+    ink: "#FFFFFF",
   },
   blue: {
-    bg: "linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 45%, #BAE6FD 100%)",
-    borderTop: "#3B82F6",
-    iconBg: "linear-gradient(135deg, #3B82F6, #67E8F9)",
-    iconShadow: "0 10px 22px -8px rgba(59, 130, 246, 0.55)",
-    accent: "#1D4ED8",
+    bg: "linear-gradient(135deg, #1D9BF0 0%, #18B7F7 52%, #1DD7D0 100%)",
+    glow: "rgba(14, 165, 233, 0.40)",
+    shine: "#7DD3FC",
+    ink: "#FFFFFF",
   },
   red: {
-    bg: "linear-gradient(135deg, #FEF2F2 0%, #FFE4E6 45%, #FECDD3 100%)",
-    borderTop: "#F43F5E",
-    iconBg: "linear-gradient(135deg, #F43F5E, #FDA4AF)",
-    iconShadow: "0 10px 22px -8px rgba(244, 63, 94, 0.45)",
-    accent: "#BE123C",
+    bg: "linear-gradient(135deg, #F43F5E 0%, #FF4D86 52%, #FB7185 100%)",
+    glow: "rgba(244, 63, 94, 0.40)",
+    shine: "#FECDD3",
+    ink: "#FFFFFF",
   },
   purple: {
-    bg: "linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 45%, #DDD6FE 100%)",
-    borderTop: "#A78BFA",
-    iconBg: "linear-gradient(135deg, #A78BFA, #C4B5FD)",
-    iconShadow: "0 10px 22px -8px rgba(167, 139, 250, 0.55)",
-    accent: "#6D28D9",
+    bg: "linear-gradient(135deg, #6B2CF5 0%, #8A42FF 52%, #A569FF 100%)",
+    glow: "rgba(124, 58, 237, 0.42)",
+    shine: "#DDD6FE",
+    ink: "#FFFFFF",
   },
   yellow: {
-    bg: "linear-gradient(135deg, #FEFCE8 0%, #FEF3C7 45%, #FDE68A 100%)",
-    borderTop: "#FACC15",
-    iconBg: "linear-gradient(135deg, #FACC15, #FDE047)",
-    iconShadow: "0 10px 22px -8px rgba(250, 204, 21, 0.55)",
-    accent: "#A16207",
+    bg: "linear-gradient(135deg, #FF9518 0%, #FFB21E 52%, #FFE01B 100%)",
+    glow: "rgba(250, 204, 21, 0.42)",
+    shine: "#FDE68A",
+    ink: "#FFFFFF",
   },
   pink: {
-    bg: "linear-gradient(135deg, #FDF2F8 0%, #FCE7F3 45%, #FBCFE8 100%)",
-    borderTop: "#FB7185",
-    iconBg: "linear-gradient(135deg, #FB7185, #FDA4AF)",
-    iconShadow: "0 10px 22px -8px rgba(251, 113, 133, 0.55)",
-    accent: "#BE185D",
+    bg: "linear-gradient(135deg, #F51BA2 0%, #FF35C7 52%, #FF67D8 100%)",
+    glow: "rgba(236, 72, 153, 0.40)",
+    shine: "#FBCFE8",
+    ink: "#FFFFFF",
   },
   cyan: {
-    bg: "linear-gradient(135deg, #ECFEFF 0%, #CFFAFE 45%, #A5F3FC 100%)",
-    borderTop: "#22D3EE",
-    iconBg: "linear-gradient(135deg, #22D3EE, #67E8F9)",
-    iconShadow: "0 10px 22px -8px rgba(34, 211, 238, 0.55)",
-    accent: "#0E7490",
+    bg: "linear-gradient(135deg, #06B6D4 0%, #22D3EE 52%, #67E8F9 100%)",
+    glow: "rgba(34, 211, 238, 0.38)",
+    shine: "#A5F3FC",
+    ink: "#FFFFFF",
   },
   white: {
-    bg: "linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)",
-    borderTop: "#CBD5E1",
-    iconBg: "linear-gradient(135deg, #2563EB, #22D3EE)",
-    iconShadow: "0 10px 22px -8px rgba(37, 99, 235, 0.40)",
-    accent: "#0F172A",
+    bg: "linear-gradient(135deg, #1D9BF0 0%, #18B7F7 52%, #1DD7D0 100%)",
+    glow: "rgba(14, 165, 233, 0.40)",
+    shine: "#7DD3FC",
+    ink: "#FFFFFF",
   },
 };
 
@@ -129,7 +120,7 @@ export function MetricCard({
   value,
   hint,
   iconName,
-  color = "#2563EB",
+  color,
   variant = "white",
   suffix,
   delay = 0,
@@ -138,64 +129,59 @@ export function MetricCard({
   const isNumber = typeof value === "number";
   const v = VARIANT_STYLE[variant];
   const Icon = METRIC_ICONS[iconName];
+  const glow = color ?? v.glow;
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -5, scale: 1.01 }}
       className={cn(
-        "group relative overflow-hidden rounded-3xl p-5",
+        "group relative min-h-[176px] overflow-hidden rounded-[24px] p-5 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)]",
         className,
       )}
-      style={{
-        background: v.bg,
-        borderTop: `4px solid ${v.borderTop}`,
-        boxShadow:
-          "0 14px 32px -18px rgba(15, 23, 42, 0.10), 0 1px 0 rgba(255, 255, 255, 0.6) inset",
-        border: `1px solid ${v.borderTop}1A`,
-        borderTopColor: v.borderTop,
-      }}
+      style={{ background: v.bg, color: v.ink }}
     >
       <div
         aria-hidden
-        className="absolute -right-10 -top-12 h-32 w-32 rounded-full opacity-30 blur-2xl transition-opacity duration-300 group-hover:opacity-55"
-        style={{ background: color }}
+        className="pointer-events-none absolute -inset-px rounded-[24px] bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_44%)]"
       />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-14 -left-10 h-32 w-32 rounded-full opacity-20 blur-sm"
+        style={{ background: v.shine }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-14 -top-10 h-40 w-40 rounded-full opacity-64 blur-2xl transition-opacity duration-300 group-hover:opacity-80"
+        style={{ background: glow }}
+      />
+      <div className="pointer-events-none absolute -right-9 bottom-2 flex h-32 w-32 rotate-[-10deg] items-center justify-center rounded-[30px] bg-white/18 text-white/36 opacity-76 transition duration-300 group-hover:scale-105 group-hover:opacity-90">
+        <Icon className="h-20 w-20" strokeWidth={2.15} />
+      </div>
 
       <div className="relative z-10">
         <div className="mb-4 flex items-center justify-between">
-          <div
-            className="flex h-12 w-12 items-center justify-center rounded-2xl text-white ring-1 ring-white/40"
-            style={{
-              background: v.iconBg,
-              boxShadow: v.iconShadow,
-            }}
-          >
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/22 text-white shadow-[0_12px_24px_-14px_rgba(15,23,42,0.65)] ring-1 ring-white/35 backdrop-blur">
             <Icon className="h-5 w-5" strokeWidth={2.4} />
           </div>
-          <span
-            className="rounded-full border border-white/70 bg-white/70 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider backdrop-blur"
-            style={{ color: v.accent }}
-          >
+          <span className="rounded-full border border-white/30 bg-white/20 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-sm backdrop-blur">
             agora
           </span>
         </div>
-        <p
-          className="text-[11px] font-black uppercase tracking-[0.22em]"
-          style={{ color: v.accent }}
-        >
+        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/82">
           {label}
         </p>
-        <p className="mt-1 font-display text-3xl font-extrabold leading-tight text-[#0F172A]">
+        <div className="mt-2 h-0.5 w-5 rounded-full bg-white/35" />
+        <p className="mt-3 font-display text-3xl font-extrabold leading-none text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">
           {isNumber ? <AnimatedNumber value={value as number} /> : value}
           {suffix && (
-            <span className="ml-1 text-sm font-bold text-slate-500">{suffix}</span>
+            <span className="ml-1 text-sm font-bold text-white/68">{suffix}</span>
           )}
         </p>
         {hint && (
-          <p className="mt-1.5 text-xs font-semibold leading-5 text-slate-600">{hint}</p>
+          <p className="mt-2 max-w-[72%] text-xs font-semibold leading-5 text-white/88">{hint}</p>
         )}
       </div>
     </motion.div>

@@ -57,34 +57,34 @@ export function PlatformSection() {
             return (
               <FadeUp key={item.title} delay={index * 0.05}>
                 <motion.div
-                  whileHover={{ y: -6 }}
+                  whileHover={{ y: -7, scale: 1.015 }}
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                  className="group relative h-full overflow-hidden rounded-3xl border border-white/80 bg-white p-6 shadow-[0_18px_50px_-22px_rgba(15,23,42,0.18)] transition-shadow hover:shadow-[0_28px_70px_-22px_rgba(30,115,255,0.35)]"
+                  className="group relative min-h-[188px] overflow-hidden rounded-[26px] p-6 text-white shadow-[0_24px_46px_-28px_rgba(15,23,42,0.38)] transition-shadow hover:shadow-[0_34px_70px_-30px_rgba(30,115,255,0.44)]"
+                  style={{
+                    background: `linear-gradient(135deg, ${item.color} 0%, ${item.color2} 100%)`,
+                  }}
                 >
                   <div
                     aria-hidden
-                    className="absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-30 blur-2xl transition-opacity duration-300 group-hover:opacity-60"
-                    style={{ background: item.color }}
+                    className="pointer-events-none absolute -inset-px rounded-[26px] bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.28),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_44%)]"
                   />
                   <div
                     aria-hidden
-                    className="absolute inset-x-0 top-0 h-1 opacity-80"
-                    style={{
-                      background: `linear-gradient(90deg, ${item.color}, ${item.color2})`,
-                    }}
+                    className="absolute -right-16 -top-14 h-44 w-44 rounded-full bg-white/20 blur-3xl transition-opacity duration-300 group-hover:opacity-90"
                   />
+                  <div className="pointer-events-none absolute -right-9 bottom-2 flex h-32 w-32 rotate-[-10deg] items-center justify-center rounded-[30px] bg-white/16 text-white/34 opacity-80 transition duration-300 group-hover:scale-105">
+                    <Icon className="h-20 w-20" strokeWidth={2.15} />
+                  </div>
                   <div
-                    className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-lg"
-                    style={{
-                      background: `linear-gradient(135deg, ${item.color}, ${item.color2})`,
-                    }}
+                    className="relative z-10 mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/22 text-white shadow-lg ring-1 ring-white/35 backdrop-blur"
                   >
                     <Icon className="h-6 w-6" strokeWidth={2.2} />
                   </div>
-                  <h3 className="font-display text-lg font-extrabold text-[#061A40]">
+                  <h3 className="relative z-10 font-display text-xl font-black text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-1.5 text-sm font-medium leading-6 text-slate-500">
+                  <div className="relative z-10 mt-2 h-0.5 w-6 rounded-full bg-white/35" />
+                  <p className="relative z-10 mt-3 max-w-[78%] text-sm font-bold leading-6 text-white/88">
                     {item.text}
                   </p>
                 </motion.div>

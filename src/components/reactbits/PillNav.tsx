@@ -50,6 +50,7 @@ export default function PillNav({
 }: PillNavProps) {
   const resolvedPillTextColor = pillTextColor ?? "#FFFFFF";
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hiddenOnScroll, setHiddenOnScroll] = useState(false);
   const circleRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const tlRefs = useRef<Array<gsap.core.Timeline | null>>([]);
   const activeTweenRefs = useRef<Array<gsap.core.Tween | null>>([]);
@@ -206,6 +207,39 @@ export default function PillNav({
     };
   }, [closeMobileMenu, isMobileMenuOpen]);
 
+  useEffect(() => {
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const isDesktop = window.matchMedia("(min-width: 1181px)").matches;
+      if (!isDesktop) {
+        setHiddenOnScroll(false);
+        return;
+      }
+
+      const currentY = window.scrollY;
+      const scrollingDown = currentY > lastY + 6;
+      const scrollingUp = currentY < lastY - 6;
+
+      if (currentY < 90 || scrollingUp) {
+        setHiddenOnScroll(false);
+      } else if (scrollingDown && currentY > 150) {
+        setHiddenOnScroll(true);
+      }
+
+      lastY = currentY;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   const isExternalLink = (href: string) =>
     href.startsWith("http://") ||
     href.startsWith("https://") ||
@@ -222,7 +256,7 @@ export default function PillNav({
   };
 
   return (
-    <div className="pill-nav-container">
+    <div className={`pill-nav-container${hiddenOnScroll ? " is-scroll-hidden" : ""}`}>
       <nav className={`pill-nav ${className}`} aria-label="Primary" style={cssVars}>
         <Link
           className="pill-logo"
