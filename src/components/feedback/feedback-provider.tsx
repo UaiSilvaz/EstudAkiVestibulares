@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertTriangle,
   Award,
@@ -13,6 +12,7 @@ import {
   X,
   XCircle,
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import {
   createContext,
   useCallback,
@@ -23,7 +23,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { AchievementIcon } from "@/components/achievements/achievement-icon";
 import { LeagueBadge } from "@/components/visual/league-badge";
 
 export type FeedbackTone = "success" | "error" | "warning" | "info" | "achievement";
@@ -103,6 +102,18 @@ type FeedbackContextValue = {
 };
 
 const FeedbackContext = createContext<FeedbackContextValue | null>(null);
+
+const AchievementIcon = dynamic(
+  () => import("@/components/achievements/achievement-icon").then((mod) => mod.AchievementIcon),
+  {
+    loading: () => (
+      <span className="inline-flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-400 text-white shadow-lg">
+        <Award className="h-10 w-10" />
+      </span>
+    ),
+    ssr: false,
+  },
+);
 
 const toneStyles: Record<
   FeedbackTone,
@@ -217,11 +228,9 @@ export function FeedbackProvider({ children }: { children: ReactNode }) {
         aria-live="polite"
         aria-label="Notificações"
       >
-        <AnimatePresence initial={false}>
-          {toasts.slice(0, 3).map((toast) => (
-            <FeedbackToast key={toast.id} toast={toast} dismiss={dismiss} />
-          ))}
-        </AnimatePresence>
+        {toasts.slice(0, 3).map((toast) => (
+          <FeedbackToast key={toast.id} toast={toast} dismiss={dismiss} />
+        ))}
       </div>
 
       <AchievementModal
@@ -265,13 +274,8 @@ function FeedbackToast({
   }
 
   return (
-    <motion.section
-      layout
-      initial={{ opacity: 0, x: -24, y: 18, scale: 0.96 }}
-      animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-      exit={{ opacity: 0, x: -18, scale: 0.97 }}
-      transition={{ type: "spring", stiffness: 340, damping: 28 }}
-      className={`pointer-events-auto relative overflow-hidden rounded-[22px] border ${style.border} bg-white/96 p-3.5 shadow-[0_22px_55px_-26px_rgba(15,23,42,0.42)] backdrop-blur-xl`}
+    <section
+      className={`pointer-events-auto relative overflow-hidden rounded-[22px] border ${style.border} bg-white/96 p-3.5 shadow-[0_22px_55px_-26px_rgba(15,23,42,0.42)] backdrop-blur-xl animate-[estudaki-fast-sheet_140ms_ease-out]`}
       role={toast.tone === "error" ? "alert" : "status"}
     >
       <span className={`absolute inset-y-0 left-0 w-1 ${style.accent}`} />
@@ -310,7 +314,7 @@ function FeedbackToast({
           <X className="h-4 w-4" />
         </button>
       </div>
-    </motion.section>
+    </section>
   );
 }
 
@@ -334,25 +338,18 @@ function AchievementModal({
   const isLeague = achievement?.kind === "league" && Boolean(achievement.league);
 
   return (
-    <AnimatePresence>
+    <>
       {achievement && (
-        <motion.div
+        <div
           key={achievement.id}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[13000] flex items-center justify-center bg-slate-950/48 p-4 backdrop-blur-md"
+          className="fixed inset-0 z-[13000] flex items-center justify-center bg-slate-950/48 p-4 backdrop-blur-md animate-[estudaki-fast-fade_100ms_ease-out]"
           role="dialog"
           aria-modal="true"
           aria-labelledby="achievement-title"
         >
           <Confetti key={achievement.id} />
-          <motion.section
-            initial={{ opacity: 0, y: 34, scale: 0.88, rotateX: 8 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-            exit={{ opacity: 0, y: 20, scale: 0.94 }}
-            transition={{ type: "spring", stiffness: 230, damping: 22 }}
-            className="relative w-full max-w-md overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_40px_110px_-38px_rgba(37,99,235,0.72)]"
+          <section
+            className="relative w-full max-w-md overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_40px_110px_-38px_rgba(37,99,235,0.72)] animate-[estudaki-fast-sheet_140ms_ease-out]"
           >
             <div className="h-2 bg-gradient-to-r from-blue-600 via-cyan-400 to-orange-400" />
             <button
@@ -368,12 +365,7 @@ function AchievementModal({
               <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
                 Nova conquista
               </p>
-              <motion.div
-                initial={{ scale: 0.65, rotate: -12 }}
-                animate={{ scale: [0.65, 1.12, 1], rotate: [-12, 5, 0] }}
-                transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
-                className="mx-auto mt-5 flex h-28 w-28 items-center justify-center"
-              >
+              <div className="mx-auto mt-5 flex h-28 w-28 items-center justify-center animate-[estudaki-fast-pop_160ms_ease-out]">
                 {isLeague ? (
                   <LeagueBadge league={achievement.league!} size="xl" showLabel={false} />
                 ) : (
@@ -388,7 +380,7 @@ function AchievementModal({
                     className="h-24 w-24"
                   />
                 )}
-              </motion.div>
+              </div>
               {achievement.badge && (
                 <p className="mt-5 text-xs font-black uppercase tracking-wider text-orange-600">
                   {achievement.badge}
@@ -404,15 +396,10 @@ function AchievementModal({
                 {achievement.message}
               </p>
               {Boolean(achievement.xp) && (
-                <motion.span
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.28 }}
-                  className="mt-5 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-black text-amber-700"
-                >
+                <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-black text-amber-700">
                   <Sparkles className="h-4 w-4" />
                   +{achievement.xp} XP
-                </motion.span>
+                </span>
               )}
               <button
                 type="button"
@@ -423,10 +410,10 @@ function AchievementModal({
                 {achievement.actionLabel ?? "Continuar"}
               </button>
             </div>
-          </motion.section>
-        </motion.div>
+          </section>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }
 
@@ -448,13 +435,15 @@ function Confetti() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       {pieces.map((piece) => (
-        <motion.span
+        <span
           key={piece.id}
-          initial={{ left: `${piece.left}%`, top: "-5%", opacity: 1, rotate: 0 }}
-          animate={{ top: "108%", opacity: [1, 1, 0], rotate: piece.rotate + 540 }}
-          transition={{ duration: 2.7, delay: piece.delay, ease: "easeIn" }}
-          className="absolute h-3 w-1.5 rounded-sm"
-          style={{ backgroundColor: piece.color }}
+          className="absolute -top-5 h-3 w-1.5 rounded-sm animate-[ek-confetti-fall_1.8s_linear_forwards]"
+          style={{
+            backgroundColor: piece.color,
+            left: `${piece.left}%`,
+            animationDelay: `${piece.delay}s`,
+            transform: `rotate(${piece.rotate}deg)`,
+          }}
         />
       ))}
     </div>
@@ -497,22 +486,15 @@ function FeedbackDialog({
   }
 
   return (
-    <AnimatePresence>
+    <>
       {dialog && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[14000] flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-sm"
+        <div
+          className="fixed inset-0 z-[14000] flex items-center justify-center bg-slate-950/45 p-4 backdrop-blur-sm animate-[estudaki-fast-fade_100ms_ease-out]"
           role="dialog"
           aria-modal="true"
         >
-          <motion.section
-            initial={{ opacity: 0, y: 22, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 12, scale: 0.97 }}
-            transition={{ type: "spring", stiffness: 300, damping: 26 }}
-            className="w-full max-w-md overflow-hidden rounded-[26px] border border-white bg-white shadow-[0_30px_90px_-35px_rgba(15,23,42,0.75)]"
+          <section
+            className="w-full max-w-md overflow-hidden rounded-[26px] border border-white bg-white shadow-[0_30px_90px_-35px_rgba(15,23,42,0.75)] animate-[estudaki-fast-sheet_140ms_ease-out]"
           >
             <div
               className={`h-1.5 ${
@@ -571,10 +553,10 @@ function FeedbackDialog({
                 </button>
               </div>
             </div>
-          </motion.section>
-        </motion.div>
+          </section>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }
 

@@ -87,7 +87,6 @@ body {
     radial-gradient(70rem 70rem at -10% 0%, rgba(34, 211, 238, 0.16), transparent 60%),
     radial-gradient(45rem 45rem at 50% 120%, rgba(251, 191, 36, 0.10), transparent 60%),
     linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 60%, #F8FAFC 100%);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -145,6 +144,82 @@ button:disabled {
 .study-icon-object {
   transform-origin: center;
   transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sidebar-motion-icon .icon-main,
+.sidebar-motion-icon .check-card,
+.sidebar-motion-icon .tick,
+.sidebar-motion-icon .badge,
+.sidebar-motion-icon .folder-lid,
+.sidebar-motion-icon .paper,
+.sidebar-motion-icon .person-left,
+.sidebar-motion-icon .person-right,
+.sidebar-motion-icon .heart-badge,
+.sidebar-motion-icon .shield-main,
+.sidebar-motion-icon .plus-badge,
+.sidebar-motion-icon .glow-ring,
+.sidebar-motion-icon .gear-main,
+.sidebar-motion-icon .gear-core,
+.sidebar-motion-icon .gear-glow,
+.sidebar-motion-icon .door,
+.sidebar-motion-icon .arrow,
+.sidebar-motion-icon .trail,
+.sidebar-motion-icon .halo,
+.sidebar-motion-icon .home-body,
+.sidebar-motion-icon .home-roof,
+.sidebar-motion-icon .home-door,
+.sidebar-motion-icon .home-spark {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.sidebar-motion-icon .bar-1,
+.sidebar-motion-icon .bar-2,
+.sidebar-motion-icon .bar-3 {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.sidebar-motion-icon .line-1,
+.sidebar-motion-icon .line-2,
+.sidebar-motion-icon .line-3,
+.sidebar-motion-icon .trend-line,
+.sidebar-motion-icon .trail {
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+
+.subject-motion-icon [class] {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.subject-motion-icon .book-label,
+.subject-motion-icon .text-line-1,
+.subject-motion-icon .text-line-2,
+.subject-motion-icon .text-line-3,
+.subject-motion-icon .signature,
+.subject-motion-icon .dna-rung-1,
+.subject-motion-icon .dna-rung-2,
+.subject-motion-icon .dna-rung-3 {
+  transform-origin: left center;
+}
+
+.subject-motion-icon .chem-liquid,
+.subject-motion-icon .humanities-column {
+  transform-origin: center bottom;
+}
+
+.estudaki-platform-shell .transition,
+.estudaki-platform-shell .transition-all,
+.estudaki-platform-shell [class*="transition-"] {
+  transition-duration: 120ms !important;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+
+.estudaki-platform-shell a,
+.estudaki-platform-shell button {
+  touch-action: manipulation;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -660,6 +735,36 @@ button:disabled {
   28% { transform: scaleX(0.52); }
   66% { transform: scaleX(0.82); }
   100% { transform: scaleX(0.94); }
+}
+
+@keyframes estudaki-fast-fade {
+  from { opacity: 0; transform: translate3d(0, -2px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes estudaki-fast-pop {
+  from { opacity: 0; transform: translate3d(0, -4px, 0) scale(0.985); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes estudaki-fast-sheet {
+  from { opacity: 0; transform: translate3d(0, 12px, 0) scale(0.99); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+@keyframes estudaki-fast-drawer {
+  from { transform: translate3d(-100%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes estudaki-fast-reveal {
+  from { opacity: 0; transform: translate3d(0, -4px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes estudaki-fast-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.08) rotate(4deg); }
 }
 
 /* Helpers de borda gradient (claros) */

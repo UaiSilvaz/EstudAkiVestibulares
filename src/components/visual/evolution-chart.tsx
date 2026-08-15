@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 type Props = {
   data: number[];
   labels?: string[];
@@ -68,37 +64,26 @@ export function EvolutionChart({
         ))}
 
         {/* Area */}
-        <motion.path
+        <path
           d={areaD}
           fill="url(#evolution-area)"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
         />
 
         {/* Line */}
-        <motion.path
+        <path
           d={pathD}
           fill="none"
           stroke="url(#evolution-line)"
           strokeWidth={3.5}
           strokeLinecap="round"
           strokeLinejoin="round"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
         />
 
         {/* Dots */}
         {points.map((point, index) => (
-          <motion.g
-            key={index}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2 + index * 0.06, duration: 0.4 }}
-          >
+          <g key={index}>
             <circle cx={point.x} cy={point.y} r={6} fill="#ffffff" stroke={gradientFrom} strokeWidth={2.5} />
-          </motion.g>
+          </g>
         ))}
       </svg>
 

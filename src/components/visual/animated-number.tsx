@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 type AnimatedNumberProps = {
@@ -36,5 +35,5 @@ export function AnimatedNumber({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, duration]);
 
-  return <motion.span className={className}>{format(display)}</motion.span>;
+  return <span className={className}>{format(display)}</span>;
 }

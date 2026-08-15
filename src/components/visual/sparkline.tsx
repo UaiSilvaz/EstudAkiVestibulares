@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 type SparklineProps = {
   data: number[];
   color?: string;
@@ -41,23 +37,17 @@ export function Sparkline({
           <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
-      <motion.path
+      <path
         d={areaPath}
         fill={`url(#${id})`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.7 }}
       />
-      <motion.path
+      <path
         d={linePath}
         fill="none"
         stroke={color}
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
       />
     </svg>
   );

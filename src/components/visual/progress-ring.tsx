@@ -1,7 +1,3 @@
-"use client";
-
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 type ProgressRingProps = {
@@ -30,17 +26,8 @@ export function ProgressRing({
   const target = Math.max(0, Math.min(100, value));
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
-
-  const motionValue = useMotionValue(0);
-  const springValue = useSpring(motionValue, { duration: 1200, bounce: 0 });
-  const dashOffset = useTransform(springValue, (latest) => circumference - (latest / 100) * circumference);
-  const numeric = useTransform(springValue, (latest) => Math.round(latest));
-
-  useEffect(() => {
-    motionValue.set(target);
-  }, [target, motionValue]);
-
-  const id = `ring-gradient-${Math.round(target)}-${size}`;
+  const dashOffset = circumference - (target / 100) * circumference;
+  const id = `ring-gradient-${Math.round(target)}-${size}-${gradientFrom.replace(/[^a-z0-9]/gi, "")}-${gradientTo.replace(/[^a-z0-9]/gi, "")}`;
 
   return (
     <div className={cn("relative inline-flex items-center justify-center", className)} style={{ width: size, height: size }}>
@@ -59,7 +46,7 @@ export function ProgressRing({
           strokeWidth={strokeWidth}
           fill="transparent"
         />
-        <motion.circle
+        <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
@@ -67,14 +54,16 @@ export function ProgressRing({
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           fill="transparent"
-          style={{ strokeDasharray: circumference, strokeDashoffset: dashOffset }}
+          style={{
+            strokeDasharray: circumference,
+            strokeDashoffset: dashOffset,
+            transition: "stroke-dashoffset 160ms ease-out",
+          }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
         {label ?? (
-          <motion.span className="font-display text-xl font-extrabold text-[#0F172A]">
-            {numeric}
-          </motion.span>
+          <span className="font-display text-xl font-extrabold text-[#0F172A]">{Math.round(target)}</span>
         )}
         {caption && (
           <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">

@@ -1,22 +1,13 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { FastLink } from "./fast-link";
 import { cn } from "@/lib/utils";
+import { SidebarMotionIcon, type SidebarMotionIconName } from "@/components/visual/sidebar-motion-icon";
 
-type IconName =
-  | "home"
-  | "plan"
-  | "questions"
-  | "materials"
-  | "progress"
-  | "community"
-  | "settings"
-  | "logout"
-  | "admin";
+type IconName = SidebarMotionIconName;
 
 type NavChild = {
   href: string;
@@ -146,12 +137,10 @@ export function SidebarNav({
           const open = openGroup === item.id && !collapsed;
 
           return (
-            <motion.div
+            <div
               key={item.id}
-              initial={{ opacity: 0, x: -6 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.025, duration: 0.22 }}
-              className="w-full"
+              className="w-full animate-[estudaki-fast-fade_120ms_ease-out]"
+              style={{ animationDelay: `${Math.min(index * 12, 72)}ms` }}
             >
               {item.href ? (
                 <SidebarLink
@@ -170,32 +159,28 @@ export function SidebarNav({
                 >
                   <ActiveIndicator active={active} />
                   <span className={iconWrapClass(active, collapsed)}>
-                    <AnimatedNavIcon name={item.icon} />
+                    <AnimatedNavIcon name={item.icon} active={active} collapsed={collapsed} />
                   </span>
                   <span className={labelClass(collapsed)}>{item.label}</span>
                   {!collapsed && (
-                    <motion.span
-                      className="ml-auto flex h-7 w-7 items-center justify-center rounded-lg text-slate-400"
-                      animate={{ rotate: open ? 90 : 0 }}
-                      transition={{ duration: 0.2 }}
+                    <span
+                      className={cn(
+                        "ml-auto flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-transform duration-150",
+                        open && "rotate-90",
+                      )}
                       aria-hidden="true"
                     >
                       <ChevronRight className="h-4 w-4" />
-                    </motion.span>
+                    </span>
                   )}
                   <CollapsedTooltip show={collapsed} label={item.label} />
                 </button>
               )}
 
-              <AnimatePresence initial={false}>
-                {item.children && open && (
-                  <motion.div
+              {item.children && open && (
+                  <div
                     id={`sidebar-group-${item.id}`}
-                    initial={{ height: 0, opacity: 0, y: -4 }}
-                    animate={{ height: "auto", opacity: 1, y: 0 }}
-                    exit={{ height: 0, opacity: 0, y: -4 }}
-                    transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}
-                    className="overflow-hidden"
+                    className="overflow-hidden animate-[estudaki-fast-reveal_140ms_ease-out]"
                   >
                     <div className="ml-5 mt-1.5 space-y-1 border-l border-blue-100/80 pb-1 pl-3">
                       {item.children.map((child) => {
@@ -220,10 +205,9 @@ export function SidebarNav({
                         );
                       })}
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
-            </motion.div>
+            </div>
           );
         })}
       </div>
@@ -246,7 +230,7 @@ export function SidebarNav({
           aria-label={loggingOut ? "Saindo" : "Sair"}
         >
           <span className={iconWrapClass(false, collapsed)}>
-            <AnimatedNavIcon name="logout" />
+            <AnimatedNavIcon name="logout" collapsed={collapsed} />
           </span>
           <span className={labelClass(collapsed)}>{loggingOut ? "Saindo..." : "Sair"}</span>
           <CollapsedTooltip show={collapsed} label={loggingOut ? "Saindo..." : "Sair"} />
@@ -279,7 +263,7 @@ function SidebarLink({
     >
       <ActiveIndicator active={active} />
       <span className={iconWrapClass(active, collapsed)}>
-        <AnimatedNavIcon name={item.icon} />
+        <AnimatedNavIcon name={item.icon} active={active} collapsed={collapsed} />
       </span>
       <span className={labelClass(collapsed)}>{item.label}</span>
       <CollapsedTooltip show={collapsed} label={item.label} />
@@ -299,9 +283,9 @@ function navItemClass(active: boolean, collapsed: boolean) {
 
 function iconWrapClass(active: boolean, collapsed: boolean) {
   return cn(
-    "flex h-8 w-8 shrink-0 items-center justify-center rounded-xl transition-all duration-200",
-    collapsed && "h-10 w-10",
-    active ? "bg-white text-blue-700 ring-1 ring-blue-100" : "text-slate-400 group-hover:bg-white group-hover:text-blue-700 group-hover:shadow-sm",
+    "flex shrink-0 items-center justify-center rounded-xl transition-all duration-200",
+    collapsed ? "h-10 w-10" : "h-8 w-8",
+    active ? "text-blue-700" : "text-slate-400 group-hover:text-blue-700",
   );
 }
 
@@ -327,105 +311,14 @@ function CollapsedTooltip({ show, label }: { show: boolean; label: string }) {
   );
 }
 
-function AnimatedNavIcon({ name }: { name: IconName }) {
-  const svgClass = "h-[21px] w-[21px] overflow-visible";
-  const commonProps = {
-    className: svgClass,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 2,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    "aria-hidden": true,
-  };
-
-  switch (name) {
-    case "home":
-      return (
-        <svg {...commonProps}>
-          <path className="transition-transform duration-500 ease-out group-hover:-translate-y-0.5" d="M3.5 10.8 12 3.8l8.5 7" />
-          <path className="origin-bottom transition-transform duration-500 ease-out group-hover:scale-y-[0.94]" d="M5.5 10.5V20h13v-9.5" />
-          <path className="transition-transform duration-500 ease-out group-hover:translate-y-0.5" d="M10 20v-5h4v5" />
-        </svg>
-      );
-    case "plan":
-      return (
-        <svg {...commonProps}>
-          <path className="[stroke-dasharray:26] [stroke-dashoffset:10] transition-[stroke-dashoffset] duration-500 ease-out group-hover:[stroke-dashoffset:0]" d="M4 17.5c2.8-6.7 8.2-1.7 9.5-7.2C14.2 7.3 16 5.8 20 5.5" />
-          <path className="origin-center opacity-80 transition-transform duration-500 ease-out group-hover:rotate-[22deg]" d="M17.5 3.5 18.2 5l1.6.7-1.6.7-.7 1.6-.7-1.6-1.6-.7 1.6-.7.7-1.5Z" />
-          <path className="opacity-0 transition-opacity delay-75 duration-300 group-hover:opacity-100" d="M5 6.5h.01M19 17.5h.01" />
-        </svg>
-      );
-    case "questions":
-      return (
-        <svg {...commonProps}>
-          <path className="origin-center transition-transform duration-500 ease-out group-hover:rotate-[4deg]" d="M8 4.5h8M9 3h6l.7 2H8.3L9 3Z" />
-          <rect className="origin-center transition-transform duration-500 ease-out group-hover:rotate-[4deg]" x="5.5" y="5" width="13" height="16" rx="2.2" />
-          <path className="[stroke-dasharray:10] [stroke-dashoffset:10] transition-[stroke-dashoffset] duration-500 group-hover:[stroke-dashoffset:0]" d="M9 10h6" />
-          <path d="M9 14h3.2" />
-          <path className="opacity-0 transition-opacity delay-100 duration-300 group-hover:opacity-100" d="m13.8 15.2 1.1 1.1 2.3-2.6" />
-        </svg>
-      );
-    case "materials":
-      return (
-        <svg {...commonProps}>
-          <path className="transition-transform duration-500 ease-out group-hover:-translate-y-0.5 group-hover:translate-x-0.5" d="M4 7.5h6l1.6 2H20" />
-          <path d="M3.8 8.5h16.4l-1 10H4.8l-1-10Z" />
-          <path d="M5 18.5h14" />
-        </svg>
-      );
-    case "progress":
-      return (
-        <svg {...commonProps}>
-          <path d="M4 20h16" />
-          <path className="origin-bottom transition-transform duration-300 ease-out group-hover:scale-y-[1.22]" d="M7 16v-4" />
-          <path className="origin-bottom transition-transform delay-[50ms] duration-300 ease-out group-hover:scale-y-[1.18]" d="M12 16V8" />
-          <path className="origin-bottom transition-transform delay-100 duration-300 ease-out group-hover:scale-y-[1.14]" d="M17 16V5" />
-        </svg>
-      );
-    case "community":
-      return (
-        <svg {...commonProps}>
-          <g className="transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
-            <path d="M12 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-            <path d="M7.6 19c.7-2.7 2.2-4 4.4-4s3.7 1.3 4.4 4" />
-          </g>
-          <g className="transition-transform duration-500 ease-out group-hover:-translate-x-0.5">
-            <path d="M6.5 12.5a2.1 2.1 0 1 0 0-4.2" />
-            <path d="M4 18c.2-1.4 1-2.3 2.3-2.7" />
-          </g>
-          <g className="transition-transform duration-500 ease-out group-hover:translate-x-0.5">
-            <path d="M17.5 8.3a2.1 2.1 0 1 0 0 4.2" />
-            <path d="M17.7 15.3c1.3.4 2.1 1.3 2.3 2.7" />
-          </g>
-        </svg>
-      );
-    case "settings":
-      return (
-        <svg {...commonProps}>
-          <g className="origin-center transition-transform duration-500 ease-out group-hover:rotate-[25deg]">
-            <path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" />
-            <path d="M19.4 15a1.8 1.8 0 0 0 .36 2l.05.05-2 3.4-.08-.03a1.9 1.9 0 0 0-2.05.42 1.8 1.8 0 0 0-.55 1.13H8.87a1.8 1.8 0 0 0-.55-1.13 1.9 1.9 0 0 0-2.05-.42l-.08.03-2-3.4.05-.05a1.8 1.8 0 0 0 .36-2 1.8 1.8 0 0 0-1.42-1.08v-3.84A1.8 1.8 0 0 0 4.6 9a1.8 1.8 0 0 0-.36-2l-.05-.05 2-3.4.08.03a1.9 1.9 0 0 0 2.05-.42 1.8 1.8 0 0 0 .55-1.13h6.26a1.8 1.8 0 0 0 .55 1.13 1.9 1.9 0 0 0 2.05.42l.08-.03 2 3.4-.05.05a1.8 1.8 0 0 0-.36 2 1.8 1.8 0 0 0 1.42 1.08v3.84A1.8 1.8 0 0 0 19.4 15Z" />
-          </g>
-        </svg>
-      );
-    case "logout":
-      return (
-        <svg {...commonProps}>
-          <path d="M10 5H6.8A1.8 1.8 0 0 0 5 6.8v10.4A1.8 1.8 0 0 0 6.8 19H10" />
-          <g className="transition-transform duration-500 ease-out group-hover:translate-x-[3px]">
-            <path d="M13 8.5 16.5 12 13 15.5" />
-            <path d="M8.5 12h8" />
-          </g>
-        </svg>
-      );
-    case "admin":
-      return (
-        <svg {...commonProps}>
-          <path d="M12 3.5 19 6v5.8c0 4-2.8 7.1-7 8.7-4.2-1.6-7-4.7-7-8.7V6l7-2.5Z" />
-          <path className="[stroke-dasharray:12] [stroke-dashoffset:12] transition-[stroke-dashoffset] duration-500 group-hover:[stroke-dashoffset:0]" d="m8.8 12 2.1 2.1 4.4-4.6" />
-        </svg>
-      );
-  }
+function AnimatedNavIcon({
+  name,
+  active = false,
+  collapsed = false,
+}: {
+  name: IconName;
+  active?: boolean;
+  collapsed?: boolean;
+}) {
+  return <SidebarMotionIcon name={name} active={active} collapsed={collapsed} />;
 }

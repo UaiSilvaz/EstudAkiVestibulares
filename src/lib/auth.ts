@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
+import { cache } from "react";
 import { db } from "./db";
 import type { AppUser } from "./roles";
 import {
@@ -70,7 +71,7 @@ function localUserFromSession(value: string): AppUser | null {
   return null;
 }
 
-export async function getCurrentUser(): Promise<AppUser | null> {
+export const getCurrentUser = cache(async (): Promise<AppUser | null> => {
   const cookieStore = await cookies();
   const rawSession = cookieStore.get(SESSION_COOKIE)?.value;
 
@@ -110,25 +111,29 @@ export async function getCurrentUser(): Promise<AppUser | null> {
   } catch {
     return null;
   }
-}
+});
 
-export async function getPersistedUserId(
-  user: Pick<AppUser, "id" | "email">,
-): Promise<string | null> {
-  if (user.id === "local-admin" || user.id.startsWith("local-user:")) return null;
+const getPersistedUserIdByIdentity = cache(async (id: string, email: string): Promise<string | null> => {
+  if (id === "local-admin" || id.startsWith("local-user:")) return null;
 
   try {
     const persistedUser = await db.user.findFirst({
-      where: { OR: [{ id: user.id }, { email: user.email }] },
+      where: { OR: [{ id }, { email }] },
       select: { id: true },
     });
     return persistedUser?.id ?? null;
   } catch {
     return null;
   }
+});
+
+export async function getPersistedUserId(
+  user: Pick<AppUser, "id" | "email">,
+): Promise<string | null> {
+  return getPersistedUserIdByIdentity(user.id, user.email);
 }
 
-export async function requireUser(): Promise<AppUser> {
+export const requireUser = cache(async (): Promise<AppUser> => {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -136,9 +141,9 @@ export async function requireUser(): Promise<AppUser> {
   }
 
   return user;
-}
+});
 
-export async function requirePersistedUser(): Promise<AppUser> {
+export const requirePersistedUser = cache(async (): Promise<AppUser> => {
   const user = await requireUser();
   const persistedUserId = await getPersistedUserId(user);
   if (!persistedUserId) return user;
@@ -148,7 +153,7 @@ export async function requirePersistedUser(): Promise<AppUser> {
     select: appUserSelect,
   });
   return persisted ?? user;
-}
+});
 
 export async function requireManager(): Promise<AppUser> {
   const user = await requireUser();

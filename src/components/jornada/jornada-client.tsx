@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -39,6 +38,11 @@ import {
 } from "@/lib/jornada-progress";
 import type { JornadaSubject } from "@/lib/jornada-subjects";
 import { cn } from "@/lib/utils";
+import {
+  SubjectMotionIcon,
+  type SubjectMotionIconName,
+  type SubjectMotionIconSize,
+} from "@/components/visual/subject-motion-icon";
 
 type World = JornadaSubject & {
   courses: number;
@@ -128,22 +132,16 @@ function ProgressBar({ value, color }: { value: number; color: string }) {
   );
 }
 
-type SubjectIconSize = "xs" | "sm" | "md" | "lg" | "xl";
+type SubjectIconSize = SubjectMotionIconSize;
 
-const subjectIconSizeClass: Record<SubjectIconSize, string> = {
-  xs: "h-10 w-10",
-  sm: "h-12 w-12",
-  md: "h-16 w-16",
-  lg: "h-24 w-24",
-  xl: "h-40 w-40",
-};
-
-const subjectIconSizePx: Record<SubjectIconSize, number> = {
-  xs: 40,
-  sm: 48,
-  md: 64,
-  lg: 96,
-  xl: 160,
+const subjectMotionIconBySlug: Record<JornadaSubject["slug"], SubjectMotionIconName> = {
+  matematica: "matematica",
+  linguagens: "linguagens",
+  redacao: "redacao",
+  fisica: "fisica",
+  quimica: "quimica",
+  biologia: "biologia",
+  "ciencias-humanas": "ciencias_humanas",
 };
 
 function SubjectIcon({
@@ -157,35 +155,14 @@ function SubjectIcon({
   decorative?: boolean;
   className?: string;
 }) {
-  if (!subject.icon) {
-    return (
-      <span
-        aria-hidden
-        className={cn(
-          "relative inline-flex shrink-0 items-center justify-center overflow-visible",
-          subjectIconSizeClass[size],
-          className,
-        )}
-      />
-    );
-  }
-
   return (
-    <span
-      aria-hidden={decorative || undefined}
-      aria-label={decorative ? undefined : subject.name}
-      className={cn("relative inline-flex shrink-0 items-center justify-center overflow-visible", subjectIconSizeClass[size], className)}
-    >
-      <Image
-        src={subject.icon}
-        alt=""
-        width={subjectIconSizePx[size] * 2}
-        height={subjectIconSizePx[size] * 2}
-        sizes={`${subjectIconSizePx[size]}px`}
-        draggable={false}
-        className="pointer-events-none block h-full w-full select-none object-contain"
-      />
-    </span>
+    <SubjectMotionIcon
+      name={subjectMotionIconBySlug[subject.slug]}
+      label={subject.name}
+      size={size}
+      decorative={decorative}
+      className={className}
+    />
   );
 }
 

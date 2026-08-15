@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -66,11 +63,9 @@ export function ChallengeChip({
   const a = accentMap[accent];
   const pct = total > 0 ? Math.min(100, (progress / total) * 100) : 0;
   const inner = (
-    <motion.div
-      whileHover={{ y: -3 }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+    <div
       className={cn(
-        "group relative flex min-h-[216px] min-w-0 flex-col gap-3 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)]",
+        "group relative flex min-h-[216px] min-w-0 flex-col gap-3 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition-transform duration-150 ease-out hover:-translate-y-0.5",
         a.bg,
         done && "opacity-90",
       )}
@@ -125,10 +120,8 @@ export function ChallengeChip({
           <span>{Math.round(pct)}%</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-white/24">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${pct}%` }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          <div
+            style={{ width: `${pct}%` }}
             className="h-full rounded-full bg-white/88"
           />
         </div>
@@ -139,7 +132,7 @@ export function ChallengeChip({
           </div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 
   if (ctaHref && !done) {

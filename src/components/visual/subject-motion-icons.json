@@ -1,0 +1,1386 @@
+{
+  "_meta": {
+    "name": "EstudAki Subject Icons Motion",
+    "version": "7.1.0",
+    "engine": "Web Animations API",
+    "style": "colorful-duotone-3d-soft",
+    "notes": "V7.1: Filosofia refinada com busto clássico sem feições caricatas, esfera de ideia dourada e brilho.",
+    "defaults": {
+      "fill": "none",
+      "iterations": 1
+    }
+  },
+  "matematica": [
+    {
+      "selector": ".math-icon",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1) rotate(0deg)"
+        },
+        {
+          "transform": "translateY(-5px) scale(1.07) rotate(-2deg)",
+          "offset": 0.36
+        },
+        {
+          "transform": "translateY(1px) scale(.99) rotate(1deg)",
+          "offset": 0.72
+        },
+        {
+          "transform": "translateY(0px) scale(1) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".math-tile-plus",
+      "keyframes": [
+        {
+          "transform": "translate(-1px,1px) rotate(-4deg) scale(.96)"
+        },
+        {
+          "transform": "translate(-3px,-3px) rotate(-8deg) scale(1.08)",
+          "offset": 0.5
+        },
+        {
+          "transform": "translate(0,0) rotate(0deg) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 640,
+        "delay": 40,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".math-tile-minus",
+      "keyframes": [
+        {
+          "transform": "translate(1px,1px) rotate(3deg) scale(.96)"
+        },
+        {
+          "transform": "translate(3px,-2px) rotate(7deg) scale(1.07)",
+          "offset": 0.5
+        },
+        {
+          "transform": "translate(0,0) rotate(0deg) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 660,
+        "delay": 70,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".math-tile-times",
+      "keyframes": [
+        {
+          "transform": "translate(0,0) rotate(0deg)"
+        },
+        {
+          "transform": "translate(-2px,3px) rotate(-8deg)",
+          "offset": 0.55
+        },
+        {
+          "transform": "translate(0,0) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 650,
+        "delay": 100,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".math-tile-divide",
+      "keyframes": [
+        {
+          "transform": "translate(0,0) rotate(0deg)"
+        },
+        {
+          "transform": "translate(3px,3px) rotate(8deg)",
+          "offset": 0.55
+        },
+        {
+          "transform": "translate(0,0) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 650,
+        "delay": 130,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".math-glow",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "scale(.68)"
+        },
+        {
+          "opacity": 0.48,
+          "transform": "scale(1.10)",
+          "offset": 0.55
+        },
+        {
+          "opacity": 0,
+          "transform": "scale(1.36)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 820,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "linguagens": [
+    {
+      "selector": ".book-body",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) rotate(0deg) scale(1)"
+        },
+        {
+          "transform": "translateY(-6px) rotate(-4deg) scale(1.06)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(1px) rotate(1.5deg) scale(.995)",
+          "offset": 0.76
+        },
+        {
+          "transform": "translateY(0px) rotate(0deg) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".book-page",
+      "keyframes": [
+        {
+          "transform": "scaleX(.88) skewY(0deg)",
+          "opacity": 0.75
+        },
+        {
+          "transform": "scaleX(1.08) skewY(-2deg)",
+          "opacity": 1,
+          "offset": 0.55
+        },
+        {
+          "transform": "scaleX(1) skewY(0deg)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 520,
+        "delay": 110,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".book-label",
+      "keyframes": [
+        {
+          "transform": "scaleX(.35)",
+          "opacity": 0.3
+        },
+        {
+          "transform": "scaleX(1.08)",
+          "opacity": 1,
+          "offset": 0.7
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 460,
+        "delay": 160,
+        "easing": "ease-out"
+      }
+    },
+    {
+      "selector": ".bookmark",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scaleY(.92)"
+        },
+        {
+          "transform": "translateY(4px) scaleY(1.08)",
+          "offset": 0.55
+        },
+        {
+          "transform": "translateY(0px) scaleY(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 560,
+        "delay": 80,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".book-shine",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "translateX(-8px) skewX(-18deg)"
+        },
+        {
+          "opacity": 0.6,
+          "transform": "translateX(0px) skewX(-18deg)",
+          "offset": 0.5
+        },
+        {
+          "opacity": 0,
+          "transform": "translateX(9px) skewX(-18deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 700,
+        "delay": 70,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "redacao": [
+    {
+      "selector": ".paper",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-3px) scale(1.025)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 720,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".pencil-motion",
+      "keyframes": [
+        {
+          "transform": "translate(0px,0px) rotate(0deg)"
+        },
+        {
+          "transform": "translate(-5px,4px) rotate(-4deg)",
+          "offset": 0.36
+        },
+        {
+          "transform": "translate(2px,-1px) rotate(2deg)",
+          "offset": 0.7
+        },
+        {
+          "transform": "translate(0px,0px) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 820,
+        "delay": 40,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".text-line-1",
+      "keyframes": [
+        {
+          "transform": "scaleX(.05)",
+          "opacity": 0.2
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1
+        }
+      ],
+      "options": {
+        "duration": 250,
+        "delay": 100,
+        "easing": "ease-out"
+      }
+    },
+    {
+      "selector": ".text-line-2",
+      "keyframes": [
+        {
+          "transform": "scaleX(.05)",
+          "opacity": 0.2
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1
+        }
+      ],
+      "options": {
+        "duration": 280,
+        "delay": 170,
+        "easing": "ease-out"
+      }
+    },
+    {
+      "selector": ".text-line-3",
+      "keyframes": [
+        {
+          "transform": "scaleX(.05)",
+          "opacity": 0.2
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1
+        }
+      ],
+      "options": {
+        "duration": 310,
+        "delay": 240,
+        "easing": "ease-out"
+      }
+    },
+    {
+      "selector": ".signature",
+      "keyframes": [
+        {
+          "stroke-dasharray": "0 34",
+          "opacity": 0.2
+        },
+        {
+          "stroke-dasharray": "34 0",
+          "opacity": 1
+        }
+      ],
+      "options": {
+        "duration": 440,
+        "delay": 270,
+        "easing": "ease-out"
+      }
+    },
+    {
+      "selector": ".writing-spark",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "scale(.4) rotate(-20deg)"
+        },
+        {
+          "opacity": 1,
+          "transform": "scale(1.15) rotate(5deg)",
+          "offset": 0.55
+        },
+        {
+          "opacity": 0,
+          "transform": "scale(.7) rotate(18deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 560,
+        "delay": 300,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "fisica": [
+    {
+      "selector": ".physics-master-v5",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.045)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(1px) scale(.995)",
+          "offset": 0.72
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".physics-nucleus-v5",
+      "keyframes": [
+        {
+          "transform": "scale(.9)"
+        },
+        {
+          "transform": "scale(1.16)",
+          "offset": 0.52
+        },
+        {
+          "transform": "scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 560,
+        "delay": 90,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".physics-electron-a-v5",
+      "keyframes": [
+        {
+          "transform": "scale(.82)",
+          "opacity": 0.72
+        },
+        {
+          "transform": "scale(1.22)",
+          "opacity": 1,
+          "offset": 0.55
+        },
+        {
+          "transform": "scale(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 500,
+        "delay": 110,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".physics-electron-b-v5",
+      "keyframes": [
+        {
+          "transform": "scale(.82)",
+          "opacity": 0.72
+        },
+        {
+          "transform": "scale(1.22)",
+          "opacity": 1,
+          "offset": 0.55
+        },
+        {
+          "transform": "scale(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 520,
+        "delay": 165,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".physics-electron-c-v5",
+      "keyframes": [
+        {
+          "transform": "scale(.82)",
+          "opacity": 0.72
+        },
+        {
+          "transform": "scale(1.22)",
+          "opacity": 1,
+          "offset": 0.55
+        },
+        {
+          "transform": "scale(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 540,
+        "delay": 220,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".physics-spark-v5",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "scale(.4) rotate(-18deg)"
+        },
+        {
+          "opacity": 1,
+          "transform": "scale(1.18) rotate(5deg)",
+          "offset": 0.56
+        },
+        {
+          "opacity": 0,
+          "transform": "scale(.7) rotate(18deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 580,
+        "delay": 230,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "quimica": [
+    {
+      "selector": ".chem-master",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.04)",
+          "offset": 0.4
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".chem-tube-motion",
+      "keyframes": [
+        {
+          "transform": "translate(0px,0px) rotate(0deg)"
+        },
+        {
+          "transform": "translate(3px,-4px) rotate(7deg)",
+          "offset": 0.48
+        },
+        {
+          "transform": "translate(0px,0px) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "delay": 30,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".chem-flask-motion",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) rotate(0deg)"
+        },
+        {
+          "transform": "translateY(-2px) rotate(-3deg)",
+          "offset": 0.4
+        },
+        {
+          "transform": "translateY(1px) rotate(2deg)",
+          "offset": 0.7
+        },
+        {
+          "transform": "translateY(0px) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 840,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".chem-liquid",
+      "keyframes": [
+        {
+          "transform": "skewX(0deg) scaleY(.98)"
+        },
+        {
+          "transform": "skewX(-4deg) scaleY(1.045)",
+          "offset": 0.4
+        },
+        {
+          "transform": "skewX(3deg) scaleY(1.02)",
+          "offset": 0.68
+        },
+        {
+          "transform": "skewX(0deg) scaleY(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 800,
+        "delay": 60,
+        "easing": "ease-in-out"
+      }
+    },
+    {
+      "selector": ".bubble-1",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "translateY(7px) scale(.45)"
+        },
+        {
+          "opacity": 1,
+          "transform": "translateY(-4px) scale(1.12)",
+          "offset": 0.7
+        },
+        {
+          "opacity": 0,
+          "transform": "translateY(-10px) scale(.68)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 720,
+        "delay": 110,
+        "easing": "ease-out"
+      }
+    },
+    {
+      "selector": ".bubble-2",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "translateY(6px) scale(.4)"
+        },
+        {
+          "opacity": 1,
+          "transform": "translateY(-5px) scale(1.08)",
+          "offset": 0.68
+        },
+        {
+          "opacity": 0,
+          "transform": "translateY(-11px) scale(.64)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "delay": 200,
+        "easing": "ease-out"
+      }
+    },
+    {
+      "selector": ".bubble-3",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "translateY(5px) scale(.38)"
+        },
+        {
+          "opacity": 1,
+          "transform": "translateY(-6px) scale(1)",
+          "offset": 0.68
+        },
+        {
+          "opacity": 0,
+          "transform": "translateY(-12px) scale(.6)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 800,
+        "delay": 285,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "biologia": [
+    {
+      "selector": ".bio-master",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.04)",
+          "offset": 0.4
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".dna-left",
+      "keyframes": [
+        {
+          "transform": "translateX(0px)"
+        },
+        {
+          "transform": "translateX(-2px)",
+          "offset": 0.48
+        },
+        {
+          "transform": "translateX(0px)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 860,
+        "easing": "ease-in-out"
+      }
+    },
+    {
+      "selector": ".dna-right",
+      "keyframes": [
+        {
+          "transform": "translateX(0px)"
+        },
+        {
+          "transform": "translateX(2px)",
+          "offset": 0.48
+        },
+        {
+          "transform": "translateX(0px)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 860,
+        "easing": "ease-in-out"
+      }
+    },
+    {
+      "selector": ".dna-rung-1",
+      "keyframes": [
+        {
+          "transform": "scaleX(.18)",
+          "opacity": 0.25
+        },
+        {
+          "transform": "scaleX(1.08)",
+          "opacity": 1,
+          "offset": 0.74
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 320,
+        "delay": 70,
+        "easing": "cubic-bezier(.2,.8,.2,1)"
+      }
+    },
+    {
+      "selector": ".dna-rung-2",
+      "keyframes": [
+        {
+          "transform": "scaleX(.18)",
+          "opacity": 0.25
+        },
+        {
+          "transform": "scaleX(1.08)",
+          "opacity": 1,
+          "offset": 0.74
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 350,
+        "delay": 135,
+        "easing": "cubic-bezier(.2,.8,.2,1)"
+      }
+    },
+    {
+      "selector": ".dna-rung-3",
+      "keyframes": [
+        {
+          "transform": "scaleX(.18)",
+          "opacity": 0.25
+        },
+        {
+          "transform": "scaleX(1.08)",
+          "opacity": 1,
+          "offset": 0.74
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 380,
+        "delay": 200,
+        "easing": "cubic-bezier(.2,.8,.2,1)"
+      }
+    },
+    {
+      "selector": ".bio-dot",
+      "keyframes": [
+        {
+          "opacity": 0.45,
+          "transform": "translateY(2px) scale(.75)"
+        },
+        {
+          "opacity": 1,
+          "transform": "translateY(-3px) scale(1.16)",
+          "offset": 0.55
+        },
+        {
+          "opacity": 0.65,
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 600,
+        "delay": 170,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    }
+  ],
+  "ciencias_humanas": [
+    {
+      "selector": ".humanities-master",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.045)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".humanities-column",
+      "keyframes": [
+        {
+          "transform": "scaleY(.94)",
+          "opacity": 0.85
+        },
+        {
+          "transform": "scaleY(1.06)",
+          "opacity": 1,
+          "offset": 0.58
+        },
+        {
+          "transform": "scaleY(1)",
+          "opacity": 1,
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 520,
+        "delay": 100,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".humanities-spark",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "scale(.4) rotate(-15deg)"
+        },
+        {
+          "opacity": 1,
+          "transform": "scale(1.18) rotate(5deg)",
+          "offset": 0.55
+        },
+        {
+          "opacity": 0,
+          "transform": "scale(.7) rotate(17deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 560,
+        "delay": 180,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "historia": [
+    {
+      "selector": ".history-master",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.045)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".history-scroll",
+      "keyframes": [
+        {
+          "transform": "rotate(0deg)"
+        },
+        {
+          "transform": "rotate(-3deg)",
+          "offset": 0.48
+        },
+        {
+          "transform": "rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 700,
+        "delay": 40,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".history-clock-hand",
+      "keyframes": [
+        {
+          "transform": "rotate(0deg)"
+        },
+        {
+          "transform": "rotate(42deg)",
+          "offset": 0.7
+        },
+        {
+          "transform": "rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 720,
+        "delay": 100,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    }
+  ],
+  "geografia": [
+    {
+      "selector": ".geo-master-v7",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.04)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".geo-map-v7",
+      "keyframes": [
+        {
+          "transform": "rotate(0deg)"
+        },
+        {
+          "transform": "rotate(-1.6deg)",
+          "offset": 0.5
+        },
+        {
+          "transform": "rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 680,
+        "delay": 30,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".geo-pin-v7",
+      "keyframes": [
+        {
+          "transform": "translateY(1px) scale(.92)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.12)",
+          "offset": 0.56
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 580,
+        "delay": 100,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".geo-route-v7",
+      "keyframes": [
+        {
+          "stroke-dasharray": "0 54",
+          "opacity": 0.18
+        },
+        {
+          "stroke-dasharray": "54 0",
+          "opacity": 1
+        }
+      ],
+      "options": {
+        "duration": 470,
+        "delay": 150,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "filosofia": [
+    {
+      "selector": ".philo-master-v7",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.04)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".philo-bust-v7",
+      "keyframes": [
+        {
+          "transform": "rotate(0deg)"
+        },
+        {
+          "transform": "rotate(-1.8deg)",
+          "offset": 0.5
+        },
+        {
+          "transform": "rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 690,
+        "delay": 45,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".philo-thought-v7",
+      "keyframes": [
+        {
+          "opacity": 0.35,
+          "transform": "translateY(3px) scale(.68)"
+        },
+        {
+          "opacity": 1,
+          "transform": "translateY(-2px) scale(1.14)",
+          "offset": 0.58
+        },
+        {
+          "opacity": 1,
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 560,
+        "delay": 110,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".philo-star-v7",
+      "keyframes": [
+        {
+          "opacity": 0,
+          "transform": "rotate(-18deg) scale(.4)"
+        },
+        {
+          "opacity": 1,
+          "transform": "rotate(7deg) scale(1.16)",
+          "offset": 0.56
+        },
+        {
+          "opacity": 0.85,
+          "transform": "rotate(0deg) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 520,
+        "delay": 190,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "sociologia": [
+    {
+      "selector": ".socio-master-v7",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.04)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".socio-left-v7",
+      "keyframes": [
+        {
+          "transform": "translateX(0px) scale(1)"
+        },
+        {
+          "transform": "translateX(-3px) scale(1.07)",
+          "offset": 0.52
+        },
+        {
+          "transform": "translateX(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 610,
+        "delay": 70,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".socio-right-v7",
+      "keyframes": [
+        {
+          "transform": "translateX(0px) scale(1)"
+        },
+        {
+          "transform": "translateX(3px) scale(1.07)",
+          "offset": 0.52
+        },
+        {
+          "transform": "translateX(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 610,
+        "delay": 70,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".socio-center-v7",
+      "keyframes": [
+        {
+          "transform": "scale(.93)"
+        },
+        {
+          "transform": "scale(1.1)",
+          "offset": 0.54
+        },
+        {
+          "transform": "scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 560,
+        "delay": 110,
+        "easing": "cubic-bezier(.34,1.56,.64,1)"
+      }
+    },
+    {
+      "selector": ".socio-links-v7",
+      "keyframes": [
+        {
+          "stroke-dasharray": "0 70",
+          "opacity": 0.18
+        },
+        {
+          "stroke-dasharray": "70 0",
+          "opacity": 1
+        }
+      ],
+      "options": {
+        "duration": 480,
+        "delay": 155,
+        "easing": "ease-out"
+      }
+    }
+  ],
+  "literatura": [
+    {
+      "selector": ".lit-master-v7",
+      "keyframes": [
+        {
+          "transform": "translateY(0px) scale(1)"
+        },
+        {
+          "transform": "translateY(-4px) scale(1.04)",
+          "offset": 0.42
+        },
+        {
+          "transform": "translateY(0px) scale(1)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 760,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".lit-left-v7",
+      "keyframes": [
+        {
+          "transform": "translateX(0px) rotate(0deg)"
+        },
+        {
+          "transform": "translateX(-2px) rotate(-2deg)",
+          "offset": 0.55
+        },
+        {
+          "transform": "translateX(0px) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 640,
+        "delay": 55,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".lit-right-v7",
+      "keyframes": [
+        {
+          "transform": "translateX(0px) rotate(0deg)"
+        },
+        {
+          "transform": "translateX(2px) rotate(2deg)",
+          "offset": 0.55
+        },
+        {
+          "transform": "translateX(0px) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 640,
+        "delay": 55,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".lit-quill-v7",
+      "keyframes": [
+        {
+          "transform": "translate(0px,0px) rotate(0deg)"
+        },
+        {
+          "transform": "translate(-4px,3px) rotate(-4deg)",
+          "offset": 0.5
+        },
+        {
+          "transform": "translate(0px,0px) rotate(0deg)",
+          "offset": 1
+        }
+      ],
+      "options": {
+        "duration": 720,
+        "delay": 105,
+        "easing": "cubic-bezier(.22,1,.36,1)"
+      }
+    },
+    {
+      "selector": ".lit-line-v7",
+      "keyframes": [
+        {
+          "transform": "scaleX(.08)",
+          "opacity": 0.2
+        },
+        {
+          "transform": "scaleX(1)",
+          "opacity": 1
+        }
+      ],
+      "options": {
+        "duration": 380,
+        "delay": 190,
+        "easing": "ease-out"
+      }
+    }
+  ]
+}

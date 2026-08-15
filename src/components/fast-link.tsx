@@ -1,7 +1,7 @@
 "use client";
 
 import Link, { type LinkProps } from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   useCallback,
   useEffect,
@@ -48,20 +48,16 @@ export function FastLink({
   onFocus,
   onPointerEnter,
   onTouchStart,
-  pendingClassName = "opacity-80",
+  pendingClassName,
   pendingLabel,
   prefetch,
   target,
   ...props
 }: FastLinkProps) {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [pendingTarget, setPendingTarget] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
   const hrefString = hrefToString(href);
-  const currentQueryString = searchParams.toString();
-  const currentHref = currentQueryString ? `${pathname}?${currentQueryString}` : pathname;
-  const pending = pendingTarget === hrefString && currentHref !== hrefString;
+  const localPendingEnabled = Boolean(pendingClassName || pendingLabel);
 
   const warmRoute = useCallback(() => {
     if (prefetch !== false && canPrefetch(hrefString)) router.prefetch(hrefString);
@@ -69,7 +65,7 @@ export function FastLink({
 
   useEffect(() => {
     if (!pending) return;
-    const timeout = window.setTimeout(() => setPendingTarget(null), 2000);
+    const timeout = window.setTimeout(() => setPending(false), 900);
     return () => window.clearTimeout(timeout);
   }, [pending]);
 
@@ -83,11 +79,10 @@ export function FastLink({
       data-pending={pending ? "true" : undefined}
       className={cn("touch-manipulation", className, pending && pendingClassName)}
       onPointerEnter={(event) => {
-        warmRoute();
+        if (event.pointerType !== "touch") warmRoute();
         onPointerEnter?.(event);
       }}
       onTouchStart={(event) => {
-        warmRoute();
         onTouchStart?.(event);
       }}
       onFocus={(event) => {
@@ -101,10 +96,10 @@ export function FastLink({
           isPlainLeftClick(event) &&
           target !== "_blank" &&
           canPrefetch(hrefString) &&
-          hrefString !== currentHref
+          hrefString !== `${window.location.pathname}${window.location.search}`
         ) {
           announceRouteTransition(hrefString);
-          setPendingTarget(hrefString);
+          if (localPendingEnabled) setPending(true);
         }
       }}
     >

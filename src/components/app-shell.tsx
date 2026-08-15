@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Edit3, Menu, PanelLeftClose, PanelLeftOpen, ShoppingCart, Trophy, UserRound, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -45,14 +44,12 @@ export function AppShell({ user, children }: Props) {
       <RouteTransitionIndicator />
 
       {/* Desktop sidebar */}
-      <motion.aside
-        initial={false}
-        animate={{ width: sidebarCollapsed ? 76 : 232 }}
-        transition={{ duration: 0.24, ease: [0.2, 0.8, 0.2, 1] }}
+      <aside
         className={cn(
-          "fixed left-0 top-0 z-40 hidden h-screen flex-col border-r border-slate-100 bg-white/94 py-4 shadow-[18px_0_50px_-30px_rgba(15,23,42,0.16)] backdrop-blur-2xl lg:flex",
+          "fixed left-0 top-0 z-40 hidden h-screen flex-col border-r border-slate-100 bg-white/94 py-4 shadow-[18px_0_50px_-30px_rgba(15,23,42,0.16)] backdrop-blur-xl transition-[width] duration-150 ease-out lg:flex",
           sidebarCollapsed ? "overflow-visible px-2" : "px-3",
         )}
+        style={{ width: sidebarCollapsed ? 76 : 232 }}
       >
         <div
           className={cn(
@@ -71,24 +68,16 @@ export function AppShell({ user, children }: Props) {
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-br from-[#1E73FF] via-[#005CFF] to-[#00C896] text-base font-black text-white shadow-[0_12px_28px_-16px_rgba(30,115,255,0.8)] ring-1 ring-white/50">
               &amp;
             </span>
-            <AnimatePresence initial={false}>
-              {!sidebarCollapsed && (
-                <motion.span
-                  initial={{ opacity: 0, x: -6 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -6 }}
-                  transition={{ duration: 0.18 }}
-                  className="min-w-0 leading-none"
-                >
-                  <span className="block truncate font-display text-xl font-extrabold text-[#0F172A]">
-                    EstudAki
-                  </span>
-                  <span className="mt-1 block text-[9px] font-black uppercase text-slate-400">
-                    Vestibulares
-                  </span>
-                </motion.span>
-              )}
-            </AnimatePresence>
+            {!sidebarCollapsed && (
+              <span className="min-w-0 leading-none animate-[estudaki-fast-fade_120ms_ease-out]">
+                <span className="block truncate font-display text-xl font-extrabold text-[#0F172A]">
+                  EstudAki
+                </span>
+                <span className="mt-1 block text-[9px] font-black uppercase text-slate-400">
+                  Vestibulares
+                </span>
+              </span>
+            )}
           </FastLink>
 
           <button
@@ -109,12 +98,12 @@ export function AppShell({ user, children }: Props) {
             onRequestExpand={() => setSidebarCollapsed(false)}
           />
         </div>
-      </motion.aside>
+      </aside>
 
       {/* Desktop top bar */}
       <header
         className={cn(
-          "sticky top-0 z-30 hidden h-[76px] border-b border-slate-100 bg-white/92 shadow-[0_12px_32px_-28px_rgba(15,23,42,0.28)] backdrop-blur-2xl transition-[margin-left] duration-300 lg:flex",
+          "sticky top-0 z-30 hidden h-[76px] border-b border-slate-100 bg-white/92 shadow-[0_12px_32px_-28px_rgba(15,23,42,0.28)] backdrop-blur-xl transition-[margin-left] duration-150 ease-out lg:flex",
           sidebarCollapsed ? "lg:ml-[76px]" : "lg:ml-[232px]",
         )}
       >
@@ -153,14 +142,8 @@ export function AppShell({ user, children }: Props) {
                 </span>
                 <ChevronDown className={`h-3.5 w-3.5 text-slate-400 transition ${desktopProfileOpen ? "rotate-180" : ""}`} />
               </button>
-              <AnimatePresence>
-                {desktopProfileOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.98 }}
-                    className="absolute right-0 top-[calc(100%+10px)] w-72 overflow-hidden rounded-[24px] border border-slate-100 bg-white p-2 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.38)]"
-                  >
+              {desktopProfileOpen && (
+                  <div className="absolute right-0 top-[calc(100%+10px)] w-72 overflow-hidden rounded-[24px] border border-slate-100 bg-white p-2 shadow-[0_24px_60px_-24px_rgba(15,23,42,0.38)] animate-[estudaki-fast-pop_120ms_ease-out]">
                     <div className="flex items-center gap-3 rounded-[18px] bg-gradient-to-br from-blue-50 to-cyan-50 p-3">
                       <UserAvatar user={user} className="h-11 w-11 rounded-2xl text-xs" />
                       <div className="min-w-0">
@@ -181,16 +164,15 @@ export function AppShell({ user, children }: Props) {
                     <div className="mt-1 border-t border-slate-100 pt-2">
                       <LogoutButton />
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
             </div>
           </nav>
         </div>
       </header>
 
       {/* Mobile top bar */}
-      <header className="sticky top-0 z-30 border-b border-slate-100 bg-white/90 backdrop-blur-2xl lg:hidden">
+      <header className="sticky top-0 z-30 border-b border-slate-100 bg-white/90 backdrop-blur-xl lg:hidden">
         <div className="grid grid-cols-[44px_1fr_auto] items-center gap-2 px-3 py-2.5">
           <button
             type="button"
@@ -232,27 +214,15 @@ export function AppShell({ user, children }: Props) {
         </div>
       </header>
 
-      <AnimatePresence>
-        {profileOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[80] lg:hidden"
-          >
+      {profileOpen && (
+          <div className="fixed inset-0 z-[80] animate-[estudaki-fast-fade_100ms_ease-out] lg:hidden">
             <button
               type="button"
               aria-label="Fechar perfil"
               onClick={() => setProfileOpen(false)}
               className="absolute inset-0 bg-slate-950/35 backdrop-blur-sm"
             />
-            <motion.aside
-              initial={{ y: 32, opacity: 0, scale: 0.98 }}
-              animate={{ y: 0, opacity: 1, scale: 1 }}
-              exit={{ y: 28, opacity: 0, scale: 0.98 }}
-              transition={{ type: "spring", stiffness: 280, damping: 26 }}
-              className="absolute inset-x-3 top-20 overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-2xl"
-            >
+            <aside className="absolute inset-x-3 top-20 overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-2xl will-change-transform animate-[estudaki-fast-sheet_140ms_ease-out]">
               <div className="relative overflow-hidden bg-gradient-to-br from-[#2563EB] via-[#22D3EE] to-[#86EFAC] p-5 text-white">
                 <div className="absolute -right-12 -top-14 h-36 w-36 rounded-full bg-white/20 blur-2xl" />
                 <div className="relative z-10 flex items-center justify-between gap-4">
@@ -303,33 +273,20 @@ export function AppShell({ user, children }: Props) {
                 </div>
                 <LogoutButton />
               </div>
-            </motion.aside>
-          </motion.div>
+            </aside>
+          </div>
         )}
-      </AnimatePresence>
 
       {/* Mobile drawer */}
-      <AnimatePresence>
-        {openMobile && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[80] lg:hidden"
-          >
+      {openMobile && (
+          <div className="fixed inset-0 z-[80] animate-[estudaki-fast-fade_100ms_ease-out] lg:hidden">
             <button
               type="button"
               aria-label="Fechar menu"
               onClick={() => setOpenMobile(false)}
               className="absolute inset-0 bg-slate-900/40 backdrop-blur-md"
             />
-            <motion.aside
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", stiffness: 240, damping: 26 }}
-              className="absolute left-0 top-0 flex h-full w-[88%] max-w-sm flex-col overflow-hidden bg-white p-5 shadow-2xl"
-            >
+            <aside className="absolute left-0 top-0 flex h-full w-[88%] max-w-sm flex-col overflow-hidden bg-white p-5 shadow-2xl will-change-transform animate-[estudaki-fast-drawer_140ms_ease-out]">
               <div className="mb-5 flex items-center justify-between">
                 <FastLink href="/dashboard" onClick={() => setOpenMobile(false)} className="inline-flex items-center gap-3 rounded-[14px] px-1.5 py-1">
                   <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-gradient-to-br from-[#1E73FF] via-[#005CFF] to-[#00C896] text-base font-black text-white shadow-[0_12px_28px_-16px_rgba(30,115,255,0.8)] ring-1 ring-white/50">
@@ -354,15 +311,14 @@ export function AppShell({ user, children }: Props) {
               <div className="min-h-0 flex-1">
                 <SidebarNav canManage={canManage} onNavigate={() => setOpenMobile(false)} />
               </div>
-            </motion.aside>
-          </motion.div>
+            </aside>
+          </div>
         )}
-      </AnimatePresence>
 
       <FeedbackProvider>
         <main
           className={cn(
-            "min-w-0 overflow-x-hidden transition-[margin-left] duration-300",
+            "min-w-0 overflow-x-hidden transition-[margin-left] duration-150 ease-out",
             sidebarCollapsed ? "lg:ml-[76px]" : "lg:ml-[232px]",
           )}
         >

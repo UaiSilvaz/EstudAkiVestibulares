@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Inbox, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -32,10 +29,7 @@ export function EmptyState({
 }: EmptyStateProps) {
   const a = accentMap[accent];
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+    <div
       className={cn(
         "relative flex flex-col items-center justify-center gap-3 overflow-hidden rounded-3xl border border-slate-100 bg-white p-10 text-center shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]",
         className,
@@ -58,6 +52,6 @@ export function EmptyState({
         <p className="max-w-sm text-sm font-medium text-slate-600">{description}</p>
       )}
       {action && <div className="mt-2">{action}</div>}
-    </motion.div>
+    </div>
   );
 }

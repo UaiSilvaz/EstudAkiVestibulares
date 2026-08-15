@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -61,11 +58,9 @@ export function ContinueCard({
 
   return (
     <Link href={href} className={cn("block min-w-0", className)}>
-      <motion.div
-        whileHover={{ y: -3, scale: 1.005 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      <div
         className={cn(
-          "group relative min-h-[116px] min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br p-4 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] sm:min-h-[150px] sm:rounded-[24px] sm:p-6",
+          "group relative min-h-[116px] min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br p-4 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition-transform duration-150 ease-out hover:-translate-y-0.5 sm:min-h-[150px] sm:rounded-[24px] sm:p-6",
           a.bg,
         )}
       >
@@ -111,7 +106,7 @@ export function ContinueCard({
             <ArrowRight className="h-4 w-4" />
           </span>
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }
