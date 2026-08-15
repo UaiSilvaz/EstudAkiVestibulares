@@ -25,9 +25,9 @@ export default async function AdminExamsPage() {
   return (
     <div>
       <PageHeader
-        eyebrow="Banco de provas"
-        title="Cadastro de provas antigas"
-        description="Estruture o acervo por vestibular, ano, fase e caderno. Depois o aluno abre a prova com editor, marca-texto, notas e zoom."
+        eyebrow="Provas e simulados"
+        title="PDFs, agenda e gabaritos"
+        description="Publique provas no acervo ou agende simulados com janela de acesso, cronômetro, folha de respostas e liberação do resultado."
       />
       <ExamManager vestibulares={vestibulares} exams={exams} />
     </div>

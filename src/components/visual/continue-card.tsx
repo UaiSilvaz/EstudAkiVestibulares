@@ -65,7 +65,7 @@ export function ContinueCard({
         whileHover={{ y: -3, scale: 1.005 }}
         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "group relative min-h-[150px] min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] sm:p-6",
+          "group relative min-h-[116px] min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br p-4 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] sm:min-h-[150px] sm:rounded-[24px] sm:p-6",
           a.bg,
         )}
       >
@@ -85,12 +85,12 @@ export function ContinueCard({
           className="pointer-events-none absolute -right-14 -top-10 h-40 w-40 rounded-full opacity-64 blur-2xl"
           style={{ background: a.glow }}
         />
-        <div className="pointer-events-none absolute -right-8 bottom-0 flex h-32 w-32 rotate-[-10deg] items-center justify-center rounded-[30px] bg-white/18 text-white/36 opacity-76 transition group-hover:scale-105 group-hover:opacity-90 [&_svg]:h-20 [&_svg]:w-20 [&_svg]:stroke-[2.15]">
+        <div className="pointer-events-none absolute -right-8 bottom-0 flex h-28 w-28 rotate-[-10deg] items-center justify-center rounded-[30px] bg-white/18 text-white/36 opacity-76 transition group-hover:scale-105 group-hover:opacity-90 sm:h-32 sm:w-32 [&_svg]:h-16 [&_svg]:w-16 sm:[&_svg]:h-20 sm:[&_svg]:w-20 [&_svg]:stroke-[2.15]">
           {icon}
         </div>
 
         <div className="relative z-10 flex h-full items-center gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/22 text-white shadow-[0_12px_24px_-14px_rgba(15,23,42,0.65)] ring-1 ring-white/35 backdrop-blur">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/22 text-white shadow-[0_12px_24px_-14px_rgba(15,23,42,0.65)] ring-1 ring-white/35 backdrop-blur sm:h-12 sm:w-12">
             {icon}
           </div>
           <div className="min-w-0 flex-1">
@@ -100,14 +100,14 @@ export function ContinueCard({
               </p>
             )}
             <div className="mt-1 h-0.5 w-5 rounded-full bg-white/35" />
-            <p className="mt-2 truncate text-lg font-extrabold leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">
+            <p className="mt-1.5 line-clamp-2 max-w-[82%] text-base font-extrabold leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)] sm:mt-2 sm:text-lg md:max-w-[86%]">
               {title}
             </p>
-            <p className="mt-1 line-clamp-1 max-w-[78%] text-xs font-semibold text-white/88">
+            <p className="mt-1 line-clamp-1 max-w-[78%] text-xs font-semibold text-white/88 md:max-w-[82%]">
               {description}
             </p>
           </div>
-          <span className="relative z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl border border-white/30 bg-white/20 text-white shadow-sm backdrop-blur">
+          <span className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl border border-white/30 bg-white/20 text-white shadow-sm backdrop-blur sm:h-10 sm:w-10">
             <ArrowRight className="h-4 w-4" />
           </span>
         </div>

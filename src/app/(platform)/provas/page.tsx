@@ -4,6 +4,7 @@ import { ExamLibrary } from "@/components/exam-library";
 import { PageHeader } from "@/components/page-header";
 import { canManageContent, requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { mergeExamCatalog } from "@/lib/exam-document-urls";
 import { localExams } from "@/lib/local-exams";
 
 export default async function ExamsPage() {
@@ -11,13 +12,14 @@ export default async function ExamsPage() {
   let exams;
 
   try {
-    exams = await db.exam.findMany({
-      where: { status: "PUBLISHED" },
+    const databaseExams = await db.exam.findMany({
+      where: { status: "PUBLISHED", isSimulado: false },
       include: { vestibular: true },
       orderBy: [{ year: "asc" }, { title: "asc" }],
     });
+    exams = mergeExamCatalog(databaseExams, localExams);
   } catch {
-    exams = localExams;
+    exams = mergeExamCatalog([], localExams);
   }
 
   const canManage = canManageContent(user.role);

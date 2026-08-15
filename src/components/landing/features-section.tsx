@@ -8,7 +8,6 @@ import {
   LineChart,
   type LucideIcon,
   ShieldCheck,
-  Sparkles,
   Target,
   Timer,
 } from "lucide-react";
@@ -34,7 +33,7 @@ type Feature = {
 const features: Feature[] = [
   {
     title: "Banco de questões inteligente",
-    text: "Filtre por vestibular, matéria, conteúdo, dificuldade e revise erros automaticamente.",
+    text: "Filtre por vestibular, matéria, conteúdo e dificuldade, além de revisar seus erros.",
     icon: ClipboardList,
     badge: "Questões",
     gradient: "from-[#1E73FF] via-[#005CFF] to-[#38BDF8]",
@@ -43,7 +42,7 @@ const features: Feature[] = [
   },
   {
     title: "Simulados com tempo real",
-    text: "Cronômetro, gabarito comentado e pressão controlada como na prova.",
+    text: "Cronômetro, gabarito comentado e ritmo semelhante ao da prova.",
     icon: Timer,
     badge: "Simulados",
     gradient: "from-[#FF4D00] via-[#FF6B00] to-[#FFC400]",
@@ -52,7 +51,7 @@ const features: Feature[] = [
   },
   {
     title: "Cadernos digitais completos",
-    text: "Materiais com capa, benefícios e compra direta via Hotmart.",
+    text: "Materiais com capa, benefícios e compra direta pela Hotmart.",
     icon: Library,
     badge: "Materiais",
     gradient: "from-[#3DBB6A] via-[#00C896] to-[#7CFFB2]",
@@ -61,7 +60,7 @@ const features: Feature[] = [
   },
   {
     title: "Desempenho e estatísticas",
-    text: "Acompanhe acertos, erros, evolução por matéria e o que precisa reforçar.",
+    text: "Acompanhe acertos, erros, evolução por matéria e os conteúdos que precisam de reforço.",
     icon: LineChart,
     badge: "Desempenho",
     gradient: "from-[#7C3AED] via-[#A855F7] to-[#EC4899]",
@@ -70,7 +69,7 @@ const features: Feature[] = [
   },
   {
     title: "Trilha por vestibular",
-    text: "Sequência inteligente de estudo para ENEM, ETEC, FATEC, FUVEST e mais.",
+    text: "Sequência inteligente de estudo para ENEM, ETEC, FATEC, FUVEST e outros vestibulares.",
     icon: Compass,
     badge: "Trilhas",
     gradient: "from-[#001B5E] via-[#1E73FF] to-[#00C896]",
@@ -79,7 +78,7 @@ const features: Feature[] = [
   },
   {
     title: "Plano de estudos automático",
-    text: "Cronograma gerado a partir do seu ritmo, foco e meta de aprovação.",
+    text: "Cronograma gerado de acordo com seu ritmo, foco e meta de aprovação.",
     icon: Target,
     badge: "Cronograma",
     gradient: "from-[#FFC400] via-[#FF6B00] to-[#FF4D00]",
@@ -88,7 +87,7 @@ const features: Feature[] = [
   },
   {
     title: "Painel docente premium",
-    text: "CMS completo para cadastrar questões, materiais, provas e vídeos.",
+    text: "Área administrativa completa para cadastrar questões, materiais, provas e PDFs.",
     icon: ShieldCheck,
     badge: "Admin",
     gradient: "from-[#EC4899] via-[#F472B6] to-[#A855F7]",
@@ -96,12 +95,12 @@ const features: Feature[] = [
     size: "md",
   },
   {
-    title: "Express: vídeos curtos",
-    text: "Revisão rápida em formato vertical, com likes, saves e comentários.",
-    icon: Sparkles,
-    badge: "Express",
-    gradient: "from-[#FF4D00] via-[#FF6B00] to-[#FFC400]",
-    glowClass: "ek-glow-orange",
+    title: "Biblioteca privada",
+    text: "Compra direta, capa visivel e PDF liberado por licenca.",
+    icon: Library,
+    badge: "Materiais",
+    gradient: "from-[#6B2CF5] via-[#8A42FF] to-[#C4B5FD]",
+    glowClass: "ek-glow-purple",
     size: "md",
   },
 ];
@@ -131,7 +130,7 @@ export function FeaturesSection() {
               <span className="ek-text-gradient-mix">estudar melhor</span>.
             </>
           }
-          description="Uma plataforma com cara de produto premium: cards com movimento, cores fortes, ícones marcantes e foco total na sua aprovação."
+          description="Uma plataforma completa, com navegação fluida, recursos objetivos e foco total na sua aprovação."
         />
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">

@@ -47,12 +47,12 @@ export default async function PerfilPage() {
                 {user.name}
               </h1>
               <p className="mt-2 max-w-xl text-sm font-bold text-white/86">
-                {user.xp.toLocaleString("pt-BR")} XP acumulados. {progress.next ? `${progress.remaining.toLocaleString("pt-BR")} XP para a liga ${progress.next.name}.` : "Voce chegou ao topo da trilha."}
+                {user.xp.toLocaleString("pt-BR")} XP acumulados. {progress.next ? `${progress.remaining.toLocaleString("pt-BR")} XP para a liga ${progress.next.name}.` : "Você chegou ao topo da trilha."}
               </p>
             </div>
           </div>
           <div className="flex justify-start lg:justify-end">
-            <LeagueBadge league={user.league} size="xl" />
+            <LeagueBadge league={progress.current.name} size="xl" />
           </div>
         </div>
         <div className="relative z-10 mt-7 max-w-3xl">

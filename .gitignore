@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/test-artifacts/
 
 # next.js
 /.next/
@@ -27,16 +28,46 @@ public/uploads/**
 !public/uploads/**/
 !public/uploads/**/.gitkeep
 
+# private source files and generated datasets
+/data/
+/storage/*
+!/storage/exams/
+!/storage/exams/.gitkeep
+/private-materials/
+/private-old-exams/
+
+# generated public artifacts synced from storage/pipelines
+/public/provas-antigas/
+/public/question-assets/
+/public/questoes/
+/public/assets/jornada-icons/*
+!/public/assets/jornada-icons/
+!/public/assets/jornada-icons/*-compact.png
+
+# generated import outputs
+/scripts/import/output/
+
 # misc
 .DS_Store
 *.pem
+
+# PDFs privados enviados pelo painel (metadados ficam no banco)
+/storage/exams/*
+!/storage/exams/.gitkeep
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
 dev-server*.log
+.pilot-*.log
+/test-artifacts/*.log
+.codex/
+.codex-dev-*.log
+.codex-dev-*.out.log
+.codex-dev-*.err.log
 
 # env files (can opt-in for committing if needed)
 .env*
@@ -45,8 +76,15 @@ dev-server*.log
 # vercel
 .vercel
 
+# supabase local link/cache
+supabase/.temp/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python
+__pycache__/
+*.py[cod]
 
 /src/generated/prisma

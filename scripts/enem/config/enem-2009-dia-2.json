@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2009-dia-2-caderno-7-azul",
+  "vestibular": "ENEM",
+  "year": 2009,
+  "day": 2,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 7,
+  "bookletColor": "Azul",
+  "questionStart": 91,
+  "questionEnd": 180,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 90,
+  "oldExamId": "pa-enem-2009-dia-2",
+  "officialExamPdf": "data/provas/enem/2009/prova-2-dia-caderno-7-azul.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2009/gabarito-2-dia-caderno-7-azul.pdf",
+  "officialExamSha256": "1006d00bbd419de56cfdea13adc1a696ed227b05e8a654ac8951244ea13494de",
+  "officialAnswerKeySha256": "82615d5bb081c011ea83c15a145a7eae7ac0da3a13fd0f1c11e8cb3860286d20",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2009",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2009/dia2_caderno7_azul.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2009/gabarito_dia2.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2009-dia-2-caderno-7-azul",
+  "pdfPageCount": 32,
+  "objectivePageRanges": [
+    {
+      "start": 3,
+      "end": 31
+    }
+  ],
+  "essayPages": [
+    2
+  ],
+  "draftPages": [
+    32
+  ],
+  "administrativePages": [],
+  "layout": {
+    "top": 35,
+    "bottom": 741,
+    "left": 20,
+    "leftEnd": 284,
+    "rightStart": 292,
+    "right": 550,
+    "fullWidthObjectivePages": []
+  },
+  "languageSections": [],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [
+    101
+  ],
+  "areas": [
+    {
+      "name": "Linguagens, Códigos e suas Tecnologias",
+      "questionStart": 91,
+      "questionEnd": 135
+    },
+    {
+      "name": "Matemática e suas Tecnologias",
+      "questionStart": 136,
+      "questionEnd": 180
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 91 a 135",
+    "questoes de 136 a 180",
+    "linguagens, codigos e suas tecnologias",
+    "matematica e suas tecnologias"
+  ]
+}

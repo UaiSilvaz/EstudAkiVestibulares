@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2023-dia-1-caderno-2-amarelo",
+  "sourceAudit": {
+    "path": "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/auditoria-visual-v3.json",
+    "sha256": "62bdb17eaed43cf959941997e9511af739544a46ec38414bc03a25aeb49f3eff",
+    "sourceHash": "62ed5e17da5c8fa257c9e24a31502153078f330b99780f3f918469cfda2d060d",
+    "expected": 95,
+    "audited": 40,
+    "failed": 1,
+    "complete": false,
+    "interruption": "usage_limit_externo_do_auditor"
+  },
+  "questions": {
+    "enem-2023-dia-1-caderno-2-amarelo-q003-ingles": {
+      "baselineContentHash": "e4ef3436b325663fb62e0d961dba7b9f62758d88825f8b2642f5245b1354e4ef",
+      "evidence": "O recorte anterior terminava dentro do crédito iniciado em y=508,744; o contorno inferior oficial do cartaz termina em y=504,813.",
+      "visualRegions": [
+        {
+          "page": 2,
+          "x": 289.13,
+          "y": 304.74,
+          "width": 246.62,
+          "height": 200.08,
+          "altText": "Cartaz Food for Thought sobre desperdício de alimentos e seu impacto ambiental."
+        }
+      ]
+    }
+  }
+}

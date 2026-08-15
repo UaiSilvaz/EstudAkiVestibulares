@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-screenshot-pendentes",
+  "configs": [
+    "enem-2009-dia-1",
+    "enem-2009-dia-2",
+    "enem-2010-dia-2",
+    "enem-2020-dia-1",
+    "enem-2020-dia-2"
+  ],
+  "reportPath": "data/QUESTÕES/processamento/enem-screenshot-pendentes-report.json"
+}

@@ -1,246 +1,245 @@
-import { BookOpenCheck, Sparkles, TrendingDown, TrendingUp } from "lucide-react";
-import { MetricCard } from "@/components/metric-card";
+import {
+  BarChart3,
+  BookOpenCheck,
+  Brain,
+  Clock3,
+  Gauge,
+  Target,
+  TrendingUp,
+} from "lucide-react";
 import { PageHeader } from "@/components/page-header";
-import { EmptyState } from "@/components/visual/empty-state";
-import { requireUser } from "@/lib/auth";
+import { requirePersistedUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { buildDashboardInsights } from "@/lib/insights";
-import { percent } from "@/lib/utils";
 
-type DashboardInsightInput = Parameters<typeof buildDashboardInsights>[0];
-
-const subjectAccent: Array<{ ring: string; bar: string; text: string; icon: string }> = [
-  { ring: "from-[#2563EB] to-[#22D3EE]", bar: "from-[#2563EB] to-[#22D3EE]", text: "text-blue-700",   icon: "from-[#2563EB] to-[#22D3EE]" },
-  { ring: "from-[#22C55E] to-[#86EFAC]", bar: "from-[#22C55E] to-[#86EFAC]", text: "text-emerald-700", icon: "from-[#22C55E] to-[#86EFAC]" },
-  { ring: "from-[#F97316] to-[#FACC15]", bar: "from-[#F97316] to-[#FACC15]", text: "text-orange-700",  icon: "from-[#F97316] to-[#FACC15]" },
-  { ring: "from-[#FB7185] to-[#FDA4AF]", bar: "from-[#FB7185] to-[#FDA4AF]", text: "text-pink-700",    icon: "from-[#FB7185] to-[#FDA4AF]" },
-  { ring: "from-[#A78BFA] to-[#C4B5FD]", bar: "from-[#A78BFA] to-[#C4B5FD]", text: "text-violet-700",  icon: "from-[#A78BFA] to-[#C4B5FD]" },
-  { ring: "from-[#22D3EE] to-[#67E8F9]", bar: "from-[#22D3EE] to-[#67E8F9]", text: "text-cyan-700",    icon: "from-[#22D3EE] to-[#67E8F9]" },
-];
+type InsightInput = Parameters<typeof buildDashboardInsights>[0];
 
 export default async function PerformancePage() {
-  const user = await requireUser();
-  let attempts: DashboardInsightInput["attempts"] = [];
-  let questions: DashboardInsightInput["questions"] = [];
-
-  try {
-    [attempts, questions] = await Promise.all([
-      db.questionAttempt.findMany({
-        where: { userId: user.id },
-        include: { question: { include: { subject: true, topic: true } } },
-      }),
-      db.question.findMany({
-        where: { status: "PUBLISHED" },
-        include: { subject: true, topic: true },
-      }),
-    ]);
-  } catch {
-    attempts = [];
-    questions = [];
-  }
+  const user = await requirePersistedUser();
+  const [attempts, questions] = await Promise.all([
+    db.questionAttempt.findMany({
+      where: { userId: user.id, annulled: false },
+      include: { question: { include: { subject: true, topic: true } } },
+      orderBy: { createdAt: "desc" },
+    }),
+    db.question.findMany({
+      where: { status: "PUBLISHED", answerSituation: { not: "ANNULLED" } },
+      include: { subject: true, topic: true },
+    }),
+  ]) as [InsightInput["attempts"], InsightInput["questions"]];
   const insights = buildDashboardInsights({
-    profile: { name: user.name, weeklyHours: user.weeklyHours ?? 0, targetExam: user.targetExam ?? "ENEM" },
+    profile: {
+      name: user.name,
+      weeklyHours: user.weeklyHours ?? 0,
+      targetExam: user.targetExam ?? "ENEM",
+    },
     attempts,
     questions,
   });
 
-  const trendPositive = insights.trendScore >= 0;
+  const answered = new Set(attempts.map((attempt) => attempt.question.id)).size;
+  const coverage = questions.length ? Math.round((answered / questions.length) * 100) : 0;
+  const byDifficulty = ["EASY", "MEDIUM", "HARD"].map((difficulty) => {
+    const rows = attempts.filter((attempt) => attempt.question.difficulty === difficulty);
+    return {
+      difficulty,
+      total: rows.length,
+      accuracy: rows.length
+        ? Math.round((rows.filter((attempt) => attempt.correct).length / rows.length) * 100)
+        : 0,
+    };
+  });
+  const errorCounts = attempts
+    .filter((attempt) => !attempt.correct)
+    .reduce<Record<string, number>>((acc, attempt) => {
+      const key = attempt.errorType || "Não classificado";
+      acc[key] = (acc[key] ?? 0) + 1;
+      return acc;
+    }, {});
+  const maxDaily = Math.max(1, ...insights.dailyBuckets.map((bucket) => bucket.attempts));
 
   return (
     <div className="space-y-6">
       <PageHeader
-        eyebrow="Performance"
-        title="Seu desempenho por dados"
-        description="Acompanhe acertos, erros, assunto crítico e o tipo de erro que mais se repete."
+        eyebrow="Desempenho real"
+        title="Seu estudo em números"
+        description="Tentativas, tempo, cobertura, revisões e evolução calculados diretamente do seu histórico."
       />
 
-      <section className="grid gap-4 md:grid-cols-3">
-        <MetricCard
-          label="Média geral"
-          value={percent(insights.accuracyRate)}
-          iconName="checkCircle"
-          color="#22C55E"
-          variant="green"
-        />
-        <MetricCard
-          label="Taxa de erro"
-          value={percent(insights.errorRate)}
-          iconName="alertTriangle"
-          color="#F43F5E"
-          variant="red"
-        />
-        <MetricCard
-          label="Score de estudo"
-          value={insights.studyHealthScore.score}
-          iconName="gauge"
-          color="#2563EB"
-          variant="blue"
-          hint={`Tendência ${trendPositive ? "+" : ""}${insights.trendScore}% na semana`}
-        />
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <Kpi icon={Target} label="Precisão geral" value={`${Math.round(insights.accuracyRate)}%`} hint={`${attempts.length} respostas`} color="blue" />
+        <Kpi icon={Clock3} label="Tempo médio" value={`${insights.averageTimeSeconds}s`} hint="por questão" color="orange" />
+        <Kpi icon={BookOpenCheck} label="Revisões concluídas" value={String(insights.reviewedErrors)} hint={`${insights.pendingErrors} pendentes`} color="green" />
+        <Kpi icon={Gauge} label="Cobertura do banco" value={`${coverage}%`} hint={`${answered}/${questions.length} questões`} color="violet" />
+      </section>
+
+      <section className="grid gap-5 xl:grid-cols-[1.25fr_0.75fr]">
+        <article className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.3)] sm:p-6">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-700">Últimos 7 dias</p>
+              <h2 className="mt-1 font-display text-xl font-black text-slate-950">Ritmo e acertos</h2>
+            </div>
+            <TrendingUp className="h-6 w-6 text-emerald-500" />
+          </div>
+          <div className="mt-6 grid h-56 grid-cols-7 items-end gap-2">
+            {insights.dailyBuckets.map((bucket) => (
+              <div key={bucket.label} className="flex h-full flex-col justify-end">
+                <div className="mb-2 text-center text-[10px] font-black text-slate-500">
+                  {bucket.attempts}
+                </div>
+                <div className="relative flex-1 rounded-t-2xl bg-slate-50">
+                  <div
+                    className="absolute inset-x-0 bottom-0 rounded-t-2xl bg-gradient-to-t from-blue-600 to-cyan-400 transition-all"
+                    style={{ height: `${Math.max(4, (bucket.attempts / maxDaily) * 100)}%` }}
+                    title={`${bucket.accuracy}% de acerto`}
+                  />
+                </div>
+                <p className="mt-2 text-center text-[10px] font-black uppercase text-slate-400">{bucket.label}</p>
+                <p className="text-center text-[10px] font-bold text-emerald-600">{bucket.accuracy}%</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="rounded-[28px] border border-slate-100 bg-slate-950 p-5 text-white shadow-[0_24px_55px_-34px_rgba(15,23,42,0.65)] sm:p-6">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-300">Saúde do estudo</p>
+          <div className="mt-4 flex items-center gap-5">
+            <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full border-[10px] border-blue-500 bg-slate-900">
+              <span className="text-3xl font-black">{insights.studyHealthScore.score}</span>
+            </div>
+            <div>
+              <h2 className="font-display text-2xl font-black capitalize">{insights.studyHealthScore.label}</h2>
+              <p className="mt-2 text-sm font-semibold leading-6 text-slate-300">
+                Tendência {insights.trendScore >= 0 ? "+" : ""}{insights.trendScore}% e consistência de {Math.round(insights.consistencyScore)}%.
+              </p>
+            </div>
+          </div>
+          <div className="mt-6 space-y-3">
+            <ScoreBar label="Precisão ponderada" value={Math.round(insights.weightedAccuracyRate)} />
+            <ScoreBar label="Revisões" value={Math.round(insights.reviewCompletionRate)} />
+            <ScoreBar label="Meta diária" value={Math.round(insights.dailyGoalCompletionRate)} />
+          </div>
+        </article>
       </section>
 
       <section className="grid gap-5 xl:grid-cols-2">
-        <div className="relative overflow-hidden rounded-[28px] border border-rose-200/50 bg-gradient-to-br from-[#FEF2F2] via-white to-[#FFE4E6] p-6 shadow-[0_18px_40px_-22px_rgba(244,63,94,0.20)] md:p-7">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#FDA4AF] opacity-20 blur-3xl"
-          />
-          <div className="relative z-10">
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#F43F5E] to-[#FDA4AF] text-white shadow-md">
-                <TrendingDown className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-rose-600">
-                  Assuntos críticos
-                </p>
-                <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
-                  Onde você mais erra
-                </h2>
-              </div>
-            </div>
-            {insights.urgentTopics.length === 0 ? (
-              <EmptyState
-                title="Sem assuntos críticos"
-                description="Continue praticando para manter a regularidade."
-                accent="green"
-                className="!p-6"
-              />
-            ) : (
-              <div className="space-y-2.5">
-                {insights.urgentTopics.map((topic) => {
-                  return (
-                    <div
-                      key={topic.id}
-                      className="rounded-2xl border border-rose-100 bg-white p-4"
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-extrabold text-[#0F172A]">{topic.name}</p>
-                          <p className="mt-0.5 text-xs font-semibold text-rose-600">
-                            {percent(topic.errorRate)} de erro · {topic.easyErrors} erro(s) fácil(eis)
-                          </p>
-                        </div>
-                        <span className="rounded-full bg-rose-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-rose-700">
-                          risco {topic.priorityScore}
-                        </span>
-                      </div>
-                      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-rose-50">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#F43F5E] to-[#FDA4AF]"
-                          style={{ width: `${Math.min(100, topic.errorRate)}%` }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+        <Panel title="Desempenho por matéria" icon={BarChart3}>
+          <div className="space-y-3">
+            {insights.subjectPerformance
+              .sort((a, b) => b.total - a.total)
+              .map((subject) => (
+                <ProgressRow
+                  key={subject.id}
+                  label={subject.name}
+                  value={Math.round(subject.accuracy)}
+                  detail={`${subject.correct}/${subject.total} acertos`}
+                />
+              ))}
+            {!insights.subjectPerformance.length && <EmptyText />}
           </div>
-        </div>
+        </Panel>
 
-        <div className="relative overflow-hidden rounded-[28px] border border-emerald-200/50 bg-gradient-to-br from-[#ECFDF5] via-white to-[#D1FAE5] p-6 shadow-[0_18px_40px_-22px_rgba(34,197,94,0.20)] md:p-7">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#86EFAC] opacity-20 blur-3xl"
-          />
-          <div className="relative z-10">
-            <div className="mb-5 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#22C55E] to-[#86EFAC] text-white shadow-md">
-                <TrendingUp className="h-5 w-5" />
-              </div>
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-emerald-700">
-                  Pontos fortes
-                </p>
-                <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
-                  Onde você já brilha
-                </h2>
-              </div>
-            </div>
-            {insights.strongestSubjects.length === 0 ? (
-              <EmptyState
-                title="Ainda construindo seu histórico"
-                description="Resolva algumas questões para descobrir seus pontos fortes."
-                accent="green"
-                className="!p-6"
+        <Panel title="Precisão por dificuldade" icon={Brain}>
+          <div className="space-y-4">
+            {byDifficulty.map((item) => (
+              <ProgressRow
+                key={item.difficulty}
+                label={item.difficulty === "EASY" ? "Fácil" : item.difficulty === "MEDIUM" ? "Média" : "Difícil"}
+                value={item.accuracy}
+                detail={`${item.total} tentativa(s)`}
               />
-            ) : (
-              <div className="space-y-2.5">
-                {insights.strongestSubjects.map((subject) => {
-                  return (
-                    <div
-                      key={subject.id}
-                      className="rounded-2xl border border-emerald-100 bg-white p-4"
-                    >
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="min-w-0 flex-1">
-                          <p className="truncate text-sm font-extrabold text-[#0F172A]">{subject.name}</p>
-                          <p className="mt-0.5 text-xs font-semibold text-emerald-600">
-                            {percent(subject.accuracy)} de acerto · {subject.total} tentativa(s)
-                          </p>
-                        </div>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-700">
-                          <Sparkles className="h-3 w-3" />
-                          forte
-                        </span>
-                      </div>
-                      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-emerald-50">
-                        <div
-                          className="h-full rounded-full bg-gradient-to-r from-[#22C55E] to-[#86EFAC]"
-                          style={{ width: `${Math.min(100, subject.accuracy)}%` }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
+            ))}
           </div>
-        </div>
+          <div className="mt-6 border-t border-slate-100 pt-5">
+            <p className="text-xs font-black uppercase tracking-wider text-slate-500">Tipos de erro</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {Object.entries(errorCounts).map(([type, count]) => (
+                <span key={type} className="rounded-full border border-rose-100 bg-rose-50 px-3 py-1.5 text-xs font-bold text-rose-700">
+                  {type.replaceAll("_", " ")} · {count}
+                </span>
+              ))}
+              {!Object.keys(errorCounts).length && <span className="text-sm text-slate-500">Nenhum erro registrado.</span>}
+            </div>
+          </div>
+        </Panel>
       </section>
 
-      {insights.strongestSubjects.length > 0 && (
-        <section className="rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
-          <div className="mb-5 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2563EB] to-[#22D3EE] text-white shadow-md">
-              <BookOpenCheck className="h-5 w-5" />
+      <Panel title="Tentativas recentes" icon={Clock3}>
+        <div className="divide-y divide-slate-100">
+          {attempts.slice(0, 10).map((attempt) => (
+            <div key={`${attempt.question.id}-${attempt.createdAt.toISOString()}`} className="grid gap-2 py-3 text-sm sm:grid-cols-[1fr_auto_auto] sm:items-center">
+              <div>
+                <p className="font-black text-slate-800">{attempt.question.subject.name}</p>
+                <p className="text-xs font-semibold text-slate-500">{attempt.question.topic?.name ?? "Conteúdo geral"}</p>
+              </div>
+              <span className={`w-fit rounded-full px-2.5 py-1 text-[10px] font-black ${attempt.correct ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"}`}>
+                {attempt.correct ? "ACERTO" : "ERRO"}
+              </span>
+              <span className="text-xs font-bold text-slate-400">
+                {new Date(attempt.createdAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
+              </span>
             </div>
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-                Resumo por matéria
-              </p>
-              <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
-                Como você está em cada área
-              </h2>
-            </div>
-          </div>
-          <div className="grid gap-2.5 md:grid-cols-2">
-            {insights.strongestSubjects.concat(insights.urgentTopics).slice(0, 6).map((subject, index) => {
-              const a = subjectAccent[index % subjectAccent.length];
-              return (
-                <div
-                  key={`${subject.id}-${index}`}
-                  className="rounded-2xl border border-slate-100 bg-white p-3.5"
-                >
-                  <div className="flex items-center justify-between">
-                    <p className="truncate text-sm font-extrabold text-[#0F172A]">{subject.name}</p>
-                    <span className="text-xs font-black text-slate-500">
-                      {Math.round(subject.accuracy)}%
-                    </span>
-                  </div>
-                  <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-100">
-                    <div
-                      className={`h-full rounded-full bg-gradient-to-r ${a.bar}`}
-                      style={{ width: `${Math.min(100, subject.accuracy)}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
+          ))}
+          {!attempts.length && <EmptyText />}
+        </div>
+      </Panel>
     </div>
   );
+}
+
+function Kpi({ icon: Icon, label, value, hint, color }: { icon: typeof Target; label: string; value: string; hint: string; color: "blue" | "orange" | "green" | "violet" }) {
+  const styles = {
+    blue: "bg-blue-50 text-blue-700",
+    orange: "bg-orange-50 text-orange-700",
+    green: "bg-emerald-50 text-emerald-700",
+    violet: "bg-violet-50 text-violet-700",
+  };
+  return (
+    <article className="rounded-[24px] border border-slate-100 bg-white p-5 shadow-[0_18px_38px_-28px_rgba(15,23,42,0.3)]">
+      <span className={`flex h-10 w-10 items-center justify-center rounded-2xl ${styles[color]}`}><Icon className="h-5 w-5" /></span>
+      <p className="mt-4 text-xs font-black uppercase tracking-wider text-slate-400">{label}</p>
+      <p className="mt-1 font-display text-3xl font-black text-slate-950">{value}</p>
+      <p className="mt-1 text-xs font-semibold text-slate-500">{hint}</p>
+    </article>
+  );
+}
+
+function Panel({ title, icon: Icon, children }: { title: string; icon: typeof Target; children: React.ReactNode }) {
+  return (
+    <article className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.3)] sm:p-6">
+      <div className="mb-5 flex items-center gap-3">
+        <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-700"><Icon className="h-5 w-5" /></span>
+        <h2 className="font-display text-xl font-black text-slate-950">{title}</h2>
+      </div>
+      {children}
+    </article>
+  );
+}
+
+function ProgressRow({ label, value, detail }: { label: string; value: number; detail: string }) {
+  return (
+    <div>
+      <div className="flex items-center justify-between gap-3 text-sm">
+        <span className="font-black text-slate-700">{label}</span>
+        <span className="text-xs font-bold text-slate-500">{detail} · {value}%</span>
+      </div>
+      <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-slate-100">
+        <div className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-400" style={{ width: `${Math.min(100, value)}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function ScoreBar({ label, value }: { label: string; value: number }) {
+  return (
+    <div>
+      <div className="mb-1 flex justify-between text-xs font-bold text-slate-300"><span>{label}</span><span>{value}%</span></div>
+      <div className="h-2 overflow-hidden rounded-full bg-white/10"><div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-emerald-400" style={{ width: `${Math.min(100, value)}%` }} /></div>
+    </div>
+  );
+}
+
+function EmptyText() {
+  return <p className="py-8 text-center text-sm font-semibold text-slate-500">Responda algumas questões para gerar esta análise.</p>;
 }

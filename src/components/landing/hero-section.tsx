@@ -55,7 +55,7 @@ export function HeroSection() {
   return (
     <section
       id="inicio"
-      className="relative isolate overflow-hidden pb-24 pt-32 sm:pt-40"
+      className="relative isolate overflow-hidden pb-16 pt-24 sm:pb-24 sm:pt-40"
     >
       <BackgroundIcons density="medium" className="z-0" />
       <FloatingBlob
@@ -71,8 +71,8 @@ export function HeroSection() {
         className="bottom-[-12%] left-[20%] h-[26rem] w-[26rem]"
       />
 
-      <div className="relative z-10 mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-8 lg:px-8">
-        <div>
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-8 px-4 sm:gap-12 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-8 lg:px-8">
+        <div className="min-w-0">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -97,61 +97,51 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-4 font-display text-2xl font-extrabold leading-snug text-slate-700 sm:text-3xl"
+            className="mt-4 max-w-full overflow-hidden font-display text-xl font-extrabold leading-snug text-slate-700 sm:text-3xl"
           >
-            Evolua com{" "}
-            <TextType
-              text={TYPING_TEXTS}
-              as="span"
-              typingSpeed={60}
-              deletingSpeed={30}
-              pauseDuration={1600}
-              showCursor
-              cursorCharacter="|"
-              cursorClassName="text-[#2563EB] font-black"
-              className="ek-text-gradient font-extrabold"
-            />
+            <span className="block sm:inline">Evolua com </span>
+            <span className="ek-text-gradient block font-extrabold sm:hidden">
+              questões, simulados e materiais.
+            </span>
+            <span className="hidden sm:inline">
+              <TextType
+                text={TYPING_TEXTS}
+                as="span"
+                typingSpeed={60}
+                deletingSpeed={30}
+                pauseDuration={1600}
+                showCursor
+                cursorCharacter="|"
+                cursorClassName="text-[#2563EB] font-black"
+                className="ek-text-gradient break-words font-extrabold"
+              />
+            </span>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 max-w-xl text-base font-medium leading-relaxed text-slate-600 sm:text-lg"
-          >
+          <p className="mt-5 max-w-xl text-base font-medium leading-relaxed text-slate-600 sm:text-lg">
             Plataforma completa de estudos com banco de questões, simulados
             cronometrados, cadernos digitais e análise de desempenho por
             matéria, tema e dificuldade.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-8 flex flex-wrap items-center gap-3"
-          >
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href="/login"
-              className="ek-button ek-button-primary"
+              className="ek-button ek-button-primary w-full sm:w-auto"
               style={{ borderRadius: 999 }}
             >
               Começar agora <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="#como-funciona"
-              className="ek-button ek-button-ghost"
+              className="ek-button ek-button-ghost w-full sm:w-auto"
               style={{ borderRadius: 999 }}
             >
               Ver como funciona
             </Link>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap items-center gap-6 text-xs font-bold text-slate-600"
-          >
+          <div className="mt-10 flex flex-wrap items-center gap-6 text-xs font-bold text-slate-600">
             <div className="flex items-center gap-2">
               <div className="flex -space-x-2">
                 <div className="h-7 w-7 rounded-full border-2 border-white bg-gradient-to-br from-[#22D3EE] to-[#2563EB]" />
@@ -165,14 +155,14 @@ export function HeroSection() {
               <span className="h-1.5 w-1.5 rounded-full bg-[#22C55E]" />
               Conteúdo atualizado semanalmente
             </span>
-          </motion.div>
+          </div>
         </div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 30 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto w-full max-w-md"
+          className="relative mx-auto hidden w-full max-w-md sm:block"
         >
           <div className="relative overflow-hidden rounded-[40px] border border-white/80 bg-white/70 p-5 shadow-[0_30px_80px_-20px_rgba(37,99,235,0.18)] backdrop-blur-2xl">
             <div

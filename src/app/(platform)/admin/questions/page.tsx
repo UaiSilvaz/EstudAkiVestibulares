@@ -1,54 +1,71 @@
 import { PageHeader } from "@/components/page-header";
 import { QuestionEditor } from "@/components/admin/question-editor";
+import { QuestionReviewQueue } from "@/components/admin/question-review-queue";
 import { requireManager } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 export default async function AdminQuestionsPage() {
   await requireManager();
 
-  const [vestibulares, subjects, topics, recentQuestions] = await Promise.all([
+  const [vestibulares, subjects, topics, questionYears] = await Promise.all([
     db.vestibular.findMany({ orderBy: { name: "asc" } }),
     db.subject.findMany({ orderBy: { name: "asc" } }),
     db.topic.findMany({ orderBy: { name: "asc" } }),
-    db.question.findMany({
-      include: { subject: true, vestibular: true },
-      orderBy: { createdAt: "desc" },
-      take: 5,
+    db.question.groupBy({
+      by: ["vestibularId", "year"],
+      _count: { _all: true },
+      orderBy: [{ year: "desc" }],
     }),
   ]);
+
+  const yearsByVestibular = questionYears.reduce<
+    Record<string, Array<{ year: number; count: number }>>
+  >((acc, item) => {
+    acc[item.vestibularId] ??= [];
+    acc[item.vestibularId].push({ year: item.year, count: item._count._all });
+    return acc;
+  }, {});
+
+  const vestibularOptions = vestibulares.map((item) => ({
+    id: item.id,
+    name: item.name,
+    logo: item.logo,
+    color: item.color,
+  }));
+  const subjectOptions = subjects.map((item) => ({ id: item.id, name: item.name }));
+  const topicOptions = topics.map((item) => ({
+    id: item.id,
+    name: item.name,
+    subjectId: item.subjectId,
+  }));
 
   return (
     <div>
       <PageHeader
-        eyebrow="CMS pedagogico"
-        title="Editor de questoes"
-        description="Cadastre questoes com alternativas, explicacao, comentario pedagogico, tags, vestibular, dificuldade e preview em tempo real."
+        eyebrow="Banco administravel"
+        title="Questoes cadastradas"
+        description="Escolha o vestibular, selecione o ano e revise enunciado, imagens, gabarito e resolucoes em texto ou video."
       />
 
-      <QuestionEditor
-        vestibulares={vestibulares.map((item) => ({ id: item.id, name: item.name }))}
-        subjects={subjects.map((item) => ({ id: item.id, name: item.name }))}
-        topics={topics.map((item) => ({ id: item.id, name: item.name, subjectId: item.subjectId }))}
+      <QuestionReviewQueue
+        vestibulares={vestibularOptions}
+        subjects={subjectOptions}
+        topics={topicOptions}
+        yearsByVestibular={yearsByVestibular}
       />
 
-      <section className="estudaki-card mt-5 rounded-[30px] p-6">
-        <h2 className="mb-4 text-2xl font-black text-slate-950">Ultimas questoes</h2>
-        <div className="grid gap-3 md:grid-cols-2">
-          {recentQuestions.map((question) => (
-            <div key={question.id} className="rounded-2xl border border-slate-100 bg-white p-4">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-600">
-                {question.vestibular.name} · {question.subject.name}
-              </p>
-              <p className="mt-2 line-clamp-2 text-sm font-semibold leading-6 text-slate-700">
-                {question.statement}
-              </p>
-              <span className="mt-3 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500">
-                {question.status}
-              </span>
-            </div>
-          ))}
+      <details className="mt-5 rounded-[8px] border border-slate-200 bg-white p-4 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.14)]">
+        <summary className="cursor-pointer text-sm font-black text-slate-800">
+          Cadastrar nova questao manualmente
+        </summary>
+        <div className="mt-5">
+          <QuestionEditor
+            vestibulares={vestibularOptions}
+            subjects={subjectOptions}
+            topics={topicOptions}
+          />
         </div>
-      </section>
+      </details>
     </div>
   );
 }

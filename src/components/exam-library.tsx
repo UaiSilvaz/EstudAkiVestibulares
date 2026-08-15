@@ -212,7 +212,7 @@ export function ExamLibrary({ exams }: { exams: ExamCard[] }) {
         <div className="relative">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
           <input
-            className="ek-input h-12 pl-11"
+            className="ek-input ek-input-with-icon h-12 !pl-11"
             placeholder="Busque por fase, dia, caderno ou fonte..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -298,7 +298,7 @@ function ExamCardItem({ exam, index }: { exam: ExamCard; index: number }) {
       </div>
 
       <div className="mt-5 grid grid-cols-2 gap-2">
-        <Stat label="Questoes" value={exam.questionCount?.toString() ?? "--"} />
+        <Stat label="Questões" value={exam.questionCount?.toString() ?? "--"} />
         <Stat label="Tempo" value={exam.durationMinutes ? `${exam.durationMinutes}m` : "--"} />
       </div>
 

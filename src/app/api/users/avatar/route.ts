@@ -3,6 +3,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { detectImageContentType } from "@/server/security/uploads";
 
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   const formData = await request.formData();
@@ -36,6 +37,12 @@ export async function POST(request: Request) {
   }
 
   const bytes = Buffer.from(await file.arrayBuffer());
+  const detectedType = detectImageContentType(bytes);
+
+  if (!detectedType || !ALLOWED_TYPES.has(detectedType)) {
+    return NextResponse.json({ error: "Arquivo de imagem invalido." }, { status: 400 });
+  }
+
   const uploadDir = path.join(process.cwd(), "public", "uploads", "avatars");
   const fileName = safeFileName(file.name, user.id);
   const filePath = path.join(uploadDir, fileName);

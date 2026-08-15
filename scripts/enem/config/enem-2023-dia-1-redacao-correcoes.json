@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2023-dia-1-caderno-2-amarelo",
+  "baselineContentHash": "1cbecc382c26f56c815edbccd0a47d4310fa55c5b41de05fd17836d92bc80e6a",
+  "sourcePdfSha256": "c1d84e5482b28caee77445c28a5b1e1aec0e637dea0240c159470315b95951b1",
+  "evidence": [
+    "A tabela oficial ocupa x=41,557..267,419 e y=519,553..593,509; o recorte anterior terminava em y=560,531.",
+    "A capa oficial ocupa x=291,415..533,466 e y=327,840..640,347; o recorte anterior avançava até o crédito iniciado em y=644,121.",
+    "A camada textual do TEXTO IV contém representações vetoriais duplicadas; os blocos visuais 33 e 34 preservam uma única transcrição do título e subtítulo pertinentes."
+  ],
+  "visualRegions": [
+    {
+      "key": "texto-iv-capa",
+      "page": 19,
+      "x": 291.415,
+      "y": 327.84,
+      "width": 242.051,
+      "height": 312.507,
+      "filename": "pagina-019-visual-01.png",
+      "altText": "Capa da revista Pesquisa Fapesp com o título Desafios do cuidado e ilustração de três gerações caminhando."
+    },
+    {
+      "key": "texto-ii-tabela",
+      "page": 19,
+      "x": 41.557,
+      "y": 519.553,
+      "width": 225.862,
+      "height": 73.956,
+      "filename": "pagina-019-visual-02.png",
+      "altText": "Tabela Brasil 2019: homens dedicam 11,0 horas semanais e mulheres 21,4 horas semanais a afazeres domésticos e cuidados."
+    }
+  ],
+  "textIVSourceBlockOrders": [33, 34],
+  "textIITableBlockOrders": {
+    "caption": 9,
+    "columns": 10,
+    "rows": [11, 12]
+  },
+  "visualAssignments": {
+    "TEXTO II": ["texto-ii-tabela"],
+    "TEXTO IV": ["texto-iv-capa"]
+  }
+}

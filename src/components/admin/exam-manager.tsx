@@ -2,7 +2,9 @@
 
 import { FilePlus2, LinkIcon, UploadCloud } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { loopImageForVestibular } from "@/lib/assets";
+import { useFeedback } from "@/components/feedback/feedback-provider";
 
 type Vestibular = { id: string; name: string; slug: string; color: string };
 type Exam = {
@@ -16,6 +18,9 @@ type Exam = {
   sourceUrl: string | null;
   questionCount: number | null;
   durationMinutes: number | null;
+  isSimulado?: boolean;
+  startsAt?: Date | string | null;
+  endsAt?: Date | string | null;
   vestibular: { name: string };
 };
 
@@ -26,7 +31,9 @@ export function ExamManager({
   vestibulares: Vestibular[];
   exams: Exam[];
 }) {
+  const { notify } = useFeedback();
   const firstVestibular = vestibulares[0];
+  const router = useRouter();
   const [form, setForm] = useState({
     vestibularId: firstVestibular?.id ?? "",
     title: "",
@@ -39,6 +46,13 @@ export function ExamManager({
     imageUrl: firstVestibular?.slug ? loopImageForVestibular(firstVestibular.slug) : "",
     questionCount: 90,
     durationMinutes: 300,
+    isSimulado: true,
+    description: "",
+    instructions: "Leia o PDF, marque uma alternativa por questão e envie antes de o cronômetro terminar.",
+    startsAt: "",
+    endsAt: "",
+    resultsAt: "",
+    answerKey: "",
     color: firstVestibular?.color ?? "#1E73FF",
   });
   const [message, setMessage] = useState("");
@@ -51,6 +65,7 @@ export function ExamManager({
 
     const payload = new FormData();
     payload.append("file", file);
+    payload.append("kind", field === "answerKeyUrl" ? "answer" : "exam");
 
     const response = await fetch("/api/admin/uploads/exam-pdf", {
       method: "POST",
@@ -60,12 +75,19 @@ export function ExamManager({
     setUploading(null);
 
     if (!response.ok || !data?.url) {
-      setMessage(data?.error ?? "Nao foi possivel enviar o PDF.");
+      const error = data?.error ?? "Não foi possível enviar o PDF.";
+      setMessage(error);
+      notify({ tone: "error", title: "Arquivo não enviado", message: error });
       return;
     }
 
     setForm((current) => ({ ...current, [field]: data.url }));
     setMessage(field === "pdfUrl" ? "PDF da prova enviado." : "Gabarito enviado.");
+    notify({
+      tone: "success",
+      title: "Arquivo enviado com sucesso",
+      message: field === "pdfUrl" ? "O PDF da prova está pronto." : "O gabarito foi anexado.",
+    });
   }
 
   async function submit() {
@@ -74,17 +96,48 @@ export function ExamManager({
     const response = await fetch("/api/admin/exams", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+      body: JSON.stringify({
+        ...form,
+        startsAt: form.startsAt ? new Date(form.startsAt).toISOString() : "",
+        endsAt: form.endsAt ? new Date(form.endsAt).toISOString() : "",
+        resultsAt: form.resultsAt ? new Date(form.resultsAt).toISOString() : "",
+      }),
     });
     setLoading(false);
-    setMessage(response.ok ? "Prova cadastrada." : "Nao foi possivel cadastrar.");
+    const data = (await response.json().catch(() => null)) as { error?: string } | null;
+    const resultMessage = response.ok
+      ? form.isSimulado ? "Simulado agendado." : "Prova cadastrada."
+      : data?.error ?? "Não foi possível cadastrar.";
+    setMessage(resultMessage);
+    if (response.ok) {
+      notify({
+        tone: "success",
+        title: form.isSimulado ? "Simulado agendado" : "Prova cadastrada",
+        message: "O conteúdo foi salvo e já aparece no painel administrativo.",
+      });
+      router.refresh();
+    } else {
+      notify({ tone: "error", title: "Cadastro não concluído", message: resultMessage });
+    }
   }
 
   return (
     <div className="grid gap-5 xl:grid-cols-[0.86fr_1fr]">
       <section className="estudaki-card rounded-[30px] p-6">
-        <h2 className="mb-5 text-2xl font-black text-slate-950">Nova prova</h2>
+        <h2 className="mb-5 text-2xl font-black text-slate-950">Novo PDF de prova</h2>
         <div className="grid gap-4">
+          <label className="flex items-center gap-3 rounded-2xl border border-orange-200 bg-orange-50 p-4">
+            <input
+              type="checkbox"
+              checked={form.isSimulado}
+              onChange={(event) => setForm({ ...form, isSimulado: event.target.checked })}
+              className="h-5 w-5 accent-orange-500"
+            />
+            <span>
+              <strong className="block text-sm text-slate-950">Usar como simulado agendado</strong>
+              <small className="text-slate-600">Ativa a janela de prova, o cronômetro, a folha de respostas e a correção.</small>
+            </span>
+          </label>
           <label>
             <span className="mb-2 block text-sm font-black text-slate-700">Vestibular</span>
             <select
@@ -148,7 +201,7 @@ export function ExamManager({
 
           <div className="grid gap-4 md:grid-cols-2">
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">Questoes</span>
+              <span className="mb-2 block text-sm font-black text-slate-700">Questões</span>
               <input
                 className="estudaki-input"
                 type="number"
@@ -194,6 +247,30 @@ export function ExamManager({
             </div>
           </label>
 
+          {form.isSimulado && (
+            <>
+              <label>
+                <span className="mb-2 block text-sm font-black text-slate-700">Descricao para o aluno</span>
+                <textarea className="estudaki-input min-h-24" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} />
+              </label>
+              <div className="grid gap-4 md:grid-cols-3">
+                <DateTimeField label="Abre em" value={form.startsAt} onChange={(startsAt) => setForm({ ...form, startsAt })} />
+                <DateTimeField label="Encerra em" value={form.endsAt} onChange={(endsAt) => setForm({ ...form, endsAt })} />
+                <DateTimeField label="Libera resultado" value={form.resultsAt} onChange={(resultsAt) => setForm({ ...form, resultsAt })} />
+              </div>
+              <label>
+                <span className="mb-2 block text-sm font-black text-slate-700">Gabarito objetivo</span>
+                <textarea
+                  className="estudaki-input min-h-28 font-mono"
+                  value={form.answerKey}
+                  onChange={(event) => setForm({ ...form, answerKey: event.target.value })}
+                  placeholder="1:A, 2:C, 3:B ..."
+                />
+                <small className="mt-1 block text-slate-500">Cadastre uma resposta de A a E para cada questão. A correção ocorre no servidor.</small>
+              </label>
+            </>
+          )}
+
           <label>
             <span className="mb-2 block text-sm font-black text-slate-700">URL do gabarito / respostas</span>
             <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
@@ -238,7 +315,7 @@ export function ExamManager({
             className="estudaki-button estudaki-button-primary"
           >
             <FilePlus2 className="h-4 w-4" />
-            Salvar prova
+            {form.isSimulado ? "Agendar simulado" : "Salvar no acervo"}
           </button>
           {message && <p className="text-sm font-bold text-slate-600">{message}</p>}
         </div>
@@ -254,12 +331,12 @@ export function ExamManager({
               </p>
               <p className="mt-2 font-black text-slate-950">{exam.title}</p>
               <p className="mt-1 text-sm font-semibold text-slate-500">
-                {exam.phase} - {exam.day ?? "Caderno unico"} - {exam.pdfUrl ? "PDF" : "sem PDF"} -{" "}
+                {exam.isSimulado ? "Simulado" : "Acervo"} - {exam.phase} - {exam.day ?? "Caderno unico"} - {exam.pdfUrl ? "PDF" : "sem PDF"} -{" "}
                 {exam.answerKeyUrl ? "gabarito" : "sem gabarito"}
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-slate-500">
                 <span className="rounded-full bg-slate-100 px-2.5 py-1">
-                  {exam.questionCount ?? "--"} questoes
+                  {exam.questionCount ?? "--"} questões
                 </span>
                 <span className="rounded-full bg-slate-100 px-2.5 py-1">
                   {exam.durationMinutes ?? "--"} min
@@ -275,11 +352,21 @@ export function ExamManager({
                     fonte
                   </a>
                 )}
+                {exam.isSimulado && exam.startsAt && <span className="rounded-full bg-orange-50 px-2.5 py-1 text-orange-700">abre {new Date(exam.startsAt).toLocaleString("pt-BR")}</span>}
               </div>
             </div>
           ))}
         </div>
       </section>
     </div>
+  );
+}
+
+function DateTimeField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
+  return (
+    <label>
+      <span className="mb-2 block text-sm font-black text-slate-700">{label}</span>
+      <input className="estudaki-input" type="datetime-local" value={value} onChange={(event) => onChange(event.target.value)} />
+    </label>
   );
 }

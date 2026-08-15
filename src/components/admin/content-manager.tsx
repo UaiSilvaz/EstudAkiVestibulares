@@ -1,7 +1,8 @@
 "use client";
 
-import { FileText, FileUp, LinkIcon, PlayCircle, Tag } from "lucide-react";
+import { FileText, FileUp, LinkIcon, Tag } from "lucide-react";
 import { useState } from "react";
+import { useFeedback } from "@/components/feedback/feedback-provider";
 
 type Option = { id: string; name: string };
 type Material = {
@@ -14,13 +15,6 @@ type Material = {
   fileUrl: string | null;
   subject: { name: string } | null;
 };
-type Video = {
-  id: string;
-  title: string;
-  kind: string;
-  durationSeconds: number;
-  subject: { name: string } | null;
-};
 
 function formatPrice(cents: number) {
   if (!cents) return "Gratis";
@@ -30,12 +24,11 @@ function formatPrice(cents: number) {
 export function ContentManager({
   subjects,
   materials,
-  videos,
 }: {
   subjects: Option[];
   materials: Material[];
-  videos: Video[];
 }) {
+  const { notify } = useFeedback();
   const [material, setMaterial] = useState({
     title: "",
     subjectId: subjects[0]?.id ?? "",
@@ -44,17 +37,10 @@ export function ContentManager({
     description: "",
     price: "",
     purchaseUrl: "",
+    hotmartProductId: "",
     premium: false,
   });
   const [pdfFile, setPdfFile] = useState<File | null>(null);
-  const [video, setVideo] = useState({
-    title: "",
-    subjectId: subjects[0]?.id ?? "",
-    kind: "EXPRESS",
-    description: "",
-    durationSeconds: 90,
-    videoUrl: "",
-  });
   const [message, setMessage] = useState("");
 
   async function saveMaterial() {
@@ -66,10 +52,8 @@ export function ContentManager({
     formData.set("description", material.description);
     formData.set("price", material.price);
     formData.set("purchaseUrl", material.purchaseUrl);
-    formData.set(
-      "premium",
-      String(material.premium || Number(material.price.replace(",", ".")) > 0),
-    );
+    formData.set("hotmartProductId", material.hotmartProductId);
+    formData.set("premium", String(material.premium || Number(material.price.replace(",", ".")) > 0));
 
     if (pdfFile) {
       formData.set("file", pdfFile);
@@ -81,24 +65,42 @@ export function ContentManager({
     });
 
     setMessage(response.ok ? "Material salvo." : "Erro ao salvar material.");
-  }
-
-  async function saveVideo() {
-    const response = await fetch("/api/admin/videos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(video),
-    });
-    setMessage(response.ok ? "Video salvo." : "Erro ao salvar video.");
+    if (response.ok) {
+      notify({
+        tone: "success",
+        title: "Material salvo",
+        message: pdfFile
+          ? "O arquivo foi enviado e o material está disponível no painel."
+          : "O cadastro do material foi concluído.",
+      });
+      setMaterial({
+        title: "",
+        subjectId: subjects[0]?.id ?? "",
+        type: "PDF",
+        category: "Apostilas",
+        description: "",
+        price: "",
+        purchaseUrl: "",
+        hotmartProductId: "",
+        premium: false,
+      });
+      setPdfFile(null);
+    } else {
+      notify({
+        tone: "error",
+        title: "Material não salvo",
+        message: "Revise os campos e tente novamente.",
+      });
+    }
   }
 
   return (
-    <div className="grid gap-5 xl:grid-cols-2">
-      <section className="estudaki-card rounded-[30px] p-6">
+    <div className="grid gap-5 xl:grid-cols-[1fr_1fr]">
+      <section className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
         <h2 className="mb-5 text-2xl font-black text-slate-950">Cadastrar material</h2>
         <div className="grid gap-4">
           <input
-            className="estudaki-input"
+            className="ek-input"
             placeholder="Titulo do material"
             value={material.title}
             onChange={(event) => setMaterial({ ...material, title: event.target.value })}
@@ -106,7 +108,7 @@ export function ContentManager({
 
           <div className="grid gap-4 md:grid-cols-2">
             <select
-              className="estudaki-input"
+              className="ek-input"
               value={material.subjectId}
               onChange={(event) => setMaterial({ ...material, subjectId: event.target.value })}
             >
@@ -116,28 +118,16 @@ export function ContentManager({
                 </option>
               ))}
             </select>
-            <select
-              className="estudaki-input"
-              value={material.type}
-              onChange={(event) => setMaterial({ ...material, type: event.target.value })}
-            >
-              <option value="PDF">PDF</option>
-              <option value="SUMMARY">Resumo</option>
-              <option value="MINDMAP">Mapa mental</option>
-              <option value="SLIDES">Slides</option>
-              <option value="SHEET">Apostila</option>
-            </select>
+            <input
+              className="ek-input"
+              value={material.category}
+              onChange={(event) => setMaterial({ ...material, category: event.target.value })}
+              placeholder="Categoria"
+            />
           </div>
 
-          <input
-            className="estudaki-input"
-            placeholder="Categoria"
-            value={material.category}
-            onChange={(event) => setMaterial({ ...material, category: event.target.value })}
-          />
-
           <textarea
-            className="estudaki-input min-h-28"
+            className="ek-input min-h-28"
             placeholder="Descricao"
             value={material.description}
             onChange={(event) => setMaterial({ ...material, description: event.target.value })}
@@ -150,7 +140,7 @@ export function ContentManager({
                 Preco
               </span>
               <input
-                className="estudaki-input"
+                className="ek-input"
                 placeholder="Ex: 29,90"
                 value={material.price}
                 onChange={(event) => setMaterial({ ...material, price: event.target.value })}
@@ -160,20 +150,30 @@ export function ContentManager({
             <label className="block">
               <span className="mb-2 flex items-center gap-2 text-sm font-black text-slate-700">
                 <LinkIcon className="h-4 w-4 text-blue-600" />
-                Link Hotmart
+                Checkout Hotmart
               </span>
               <input
-                className="estudaki-input"
+                className="ek-input"
                 placeholder="https://pay.hotmart.com/..."
                 value={material.purchaseUrl}
-                onChange={(event) =>
-                  setMaterial({ ...material, purchaseUrl: event.target.value })
-                }
+                onChange={(event) => setMaterial({ ...material, purchaseUrl: event.target.value })}
               />
             </label>
           </div>
 
-          <label className="block rounded-[24px] border border-dashed border-blue-200 bg-blue-50/70 p-5">
+          <label className="block">
+            <span className="mb-2 block text-sm font-black text-slate-700">
+              ID do produto na Hotmart
+            </span>
+            <input
+              className="ek-input"
+              placeholder="Ex: 1234567"
+              value={material.hotmartProductId}
+              onChange={(event) => setMaterial({ ...material, hotmartProductId: event.target.value })}
+            />
+          </label>
+
+          <label className="block rounded-[20px] border border-dashed border-blue-200 bg-blue-50/70 p-5">
             <span className="mb-3 flex items-center gap-2 text-sm font-black text-blue-800">
               <FileText className="h-4 w-4" />
               Upload do PDF
@@ -185,9 +185,7 @@ export function ContentManager({
               onChange={(event) => setPdfFile(event.target.files?.[0] ?? null)}
             />
             <p className="mt-3 text-xs font-semibold text-blue-700">
-              {pdfFile
-                ? `Selecionado: ${pdfFile.name}`
-                : "O arquivo sera salvo em public/uploads/materials."}
+              {pdfFile ? `Selecionado: ${pdfFile.name}` : "O arquivo sera salvo em storage privado."}
             </p>
           </label>
 
@@ -211,68 +209,23 @@ export function ContentManager({
         </div>
       </section>
 
-      <section className="estudaki-card rounded-[30px] p-6">
-        <h2 className="mb-5 text-2xl font-black text-slate-950">Videoaula / Express</h2>
-        <div className="grid gap-4">
-          <input
-            className="estudaki-input"
-            placeholder="Titulo do video"
-            value={video.title}
-            onChange={(event) => setVideo({ ...video, title: event.target.value })}
-          />
-          <div className="grid gap-4 md:grid-cols-2">
-            <select
-              className="estudaki-input"
-              value={video.subjectId}
-              onChange={(event) => setVideo({ ...video, subjectId: event.target.value })}
-            >
-              {subjects.map((subject) => (
-                <option key={subject.id} value={subject.id}>
-                  {subject.name}
-                </option>
-              ))}
-            </select>
-            <select
-              className="estudaki-input"
-              value={video.kind}
-              onChange={(event) => setVideo({ ...video, kind: event.target.value })}
-            >
-              <option value="EXPRESS">Express</option>
-              <option value="LESSON">Videoaula</option>
-              <option value="RESOLUTION">Resolucao</option>
-            </select>
-          </div>
-          <textarea
-            className="estudaki-input min-h-28"
-            placeholder="Descricao"
-            value={video.description}
-            onChange={(event) => setVideo({ ...video, description: event.target.value })}
-          />
-          <div className="grid gap-4 md:grid-cols-[120px_1fr]">
-            <input
-              className="estudaki-input"
-              type="number"
-              value={video.durationSeconds}
-              onChange={(event) =>
-                setVideo({ ...video, durationSeconds: Number(event.target.value) })
-              }
-            />
-            <input
-              className="estudaki-input"
-              placeholder="URL do video"
-              value={video.videoUrl}
-              onChange={(event) => setVideo({ ...video, videoUrl: event.target.value })}
-            />
-          </div>
-          <button
-            type="button"
-            onClick={saveVideo}
-            className="estudaki-button estudaki-button-primary"
-          >
-            <PlayCircle className="h-4 w-4" />
-            Salvar video
-          </button>
+      <section className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
+        <h2 className="mb-4 text-xl font-black text-slate-950">Materiais recentes</h2>
+        <div className="space-y-3">
+          {materials.map((item) => (
+            <div key={item.id} className="rounded-2xl bg-slate-50 p-4">
+              <p className="font-black text-slate-950">{item.title}</p>
+              <p className="mt-1 text-sm font-semibold text-slate-500">
+                {item.subject?.name ?? "Geral"} · {item.category} · {formatPrice(item.priceCents)}
+                {item.fileUrl ? " · PDF protegido" : ""}
+                {item.purchaseUrl ? " · Hotmart" : ""}
+              </p>
+            </div>
+          ))}
         </div>
+        <p className="mt-4 text-xs font-semibold text-slate-500">
+          O conteúdo pago entra agora com checkout, ID de produto e PDF protegido.
+        </p>
       </section>
 
       {message && (
@@ -280,36 +233,6 @@ export function ContentManager({
           {message}
         </div>
       )}
-
-      <section className="estudaki-card rounded-[30px] p-6">
-        <h2 className="mb-4 text-xl font-black text-slate-950">Materiais recentes</h2>
-        <div className="space-y-3">
-          {materials.map((item) => (
-            <div key={item.id} className="rounded-2xl bg-white p-4">
-              <p className="font-black text-slate-950">{item.title}</p>
-              <p className="mt-1 text-sm font-semibold text-slate-500">
-                {item.subject?.name ?? "Geral"} · {item.category} · {formatPrice(item.priceCents)}
-                {item.fileUrl ? " · PDF" : ""}
-                {item.purchaseUrl ? " · Hotmart" : ""}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="estudaki-card rounded-[30px] p-6">
-        <h2 className="mb-4 text-xl font-black text-slate-950">Videos recentes</h2>
-        <div className="space-y-3">
-          {videos.map((item) => (
-            <div key={item.id} className="rounded-2xl bg-white p-4">
-              <p className="font-black text-slate-950">{item.title}</p>
-              <p className="mt-1 text-sm font-semibold text-slate-500">
-                {item.subject?.name ?? "Geral"} · {item.kind} · {item.durationSeconds}s
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }

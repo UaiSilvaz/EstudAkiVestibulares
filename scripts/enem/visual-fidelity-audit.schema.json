@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["audits"],
+  "properties": {
+    "audits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "officialNumber",
+          "language",
+          "verdict",
+          "statementFidelity",
+          "elementOrder",
+          "alternativeFidelity",
+          "imageLegibility",
+          "questionIsolation",
+          "inspectedFiles",
+          "issueCodes",
+          "evidence",
+          "recommendedAction"
+        ],
+        "properties": {
+          "sourceId": { "type": "string" },
+          "officialNumber": { "type": "integer" },
+          "language": {
+            "type": "string",
+            "enum": ["ENGLISH", "SPANISH", "PORTUGUESE", "NOT_APPLICABLE"]
+          },
+          "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "statementFidelity": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "elementOrder": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "alternativeFidelity": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "imageLegibility": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "questionIsolation": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "inspectedFiles": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string" }
+          },
+          "issueCodes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "evidence": { "type": "string", "minLength": 80 },
+          "recommendedAction": { "type": "string", "minLength": 10 }
+        }
+      }
+    }
+  }
+}

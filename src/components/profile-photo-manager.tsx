@@ -4,6 +4,7 @@ import { Camera, ImagePlus, Trash2, UploadCloud } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import type { AppUser } from "@/lib/roles";
+import { useFeedback } from "@/components/feedback/feedback-provider";
 
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -20,6 +21,7 @@ function initials(name: string) {
 
 export function ProfilePhotoManager({ user }: { user: AppUser }) {
   const router = useRouter();
+  const { notify } = useFeedback();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState("");
@@ -42,11 +44,21 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
 
     if (!ALLOWED_TYPES.has(nextFile.type)) {
       setError("Use uma imagem JPG, PNG ou WEBP.");
+      notify({
+        tone: "warning",
+        title: "Formato não aceito",
+        message: "Escolha uma imagem JPG, PNG ou WEBP.",
+      });
       return;
     }
 
     if (nextFile.size > MAX_FILE_SIZE) {
-      setError("A imagem deve ter no maximo 3 MB.");
+      setError("A imagem deve ter no máximo 3 MB.");
+      notify({
+        tone: "warning",
+        title: "Imagem muito grande",
+        message: "A foto de perfil pode ter no máximo 3 MB.",
+      });
       return;
     }
 
@@ -58,6 +70,11 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
   async function savePhoto() {
     if (!file) {
       setError("Escolha uma imagem antes de salvar.");
+      notify({
+        tone: "warning",
+        title: "Escolha uma imagem",
+        message: "Selecione a nova foto antes de salvar.",
+      });
       return;
     }
 
@@ -76,7 +93,9 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
       const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        setError(data.error ?? "Nao foi possivel salvar a foto.");
+        const error = data.error ?? "Não foi possível salvar a foto.";
+        setError(error);
+        notify({ tone: "error", title: "Foto não atualizada", message: error });
         return;
       }
 
@@ -84,9 +103,19 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       setPreviewUrl("");
       setMessage("Foto atualizada.");
+      notify({
+        tone: "success",
+        title: "Perfil atualizado",
+        message: "Sua nova foto foi salva com sucesso.",
+      });
       router.refresh();
     } catch {
-      setError("Nao foi possivel enviar a imagem.");
+      setError("Não foi possível enviar a imagem.");
+      notify({
+        tone: "error",
+        title: "Falha ao enviar a imagem",
+        message: "Confira sua conexão e tente novamente.",
+      });
     } finally {
       setSaving(false);
     }
@@ -106,7 +135,9 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
       const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        setError(data.error ?? "Nao foi possivel remover a foto.");
+        const error = data.error ?? "Não foi possível remover a foto.";
+        setError(error);
+        notify({ tone: "error", title: "Foto não removida", message: error });
         return;
       }
 
@@ -114,9 +145,19 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
       if (previewUrl) URL.revokeObjectURL(previewUrl);
       setPreviewUrl("");
       setMessage("Foto removida.");
+      notify({
+        tone: "info",
+        title: "Foto removida",
+        message: "Seu perfil foi atualizado.",
+      });
       router.refresh();
     } catch {
-      setError("Nao foi possivel remover a foto.");
+      setError("Não foi possível remover a foto.");
+      notify({
+        tone: "error",
+        title: "Falha de conexão",
+        message: "Não foi possível remover a foto agora.",
+      });
     } finally {
       setSaving(false);
     }

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2024-dia-1-caderno-1-azul",
+  "vestibular": "ENEM",
+  "year": 2024,
+  "day": 1,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 1,
+  "bookletColor": "Azul",
+  "questionStart": 1,
+  "questionEnd": 90,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 95,
+  "oldExamId": "pa-enem-2024-dia-1",
+  "officialExamPdf": "data/provas/enem/2024/prova-1-dia.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2024/gabarito-1-dia.pdf",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2024",
+  "officialExamUrl": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D1_CD1.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_GB_impresso_D1_CD1.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2024-dia-1-caderno-1-azul",
+  "objectivePageRanges": [{ "start": 2, "end": 18 }, { "start": 20, "end": 31 }],
+  "essayPages": [19],
+  "draftPages": [32],
+  "layout": { "top": 60.0, "bottom": 735.0, "left": 28.0, "leftEnd": 284.0, "rightStart": 287.0, "right": 541.0, "fullWidthObjectivePages": [15, 28] },
+  "languageSections": [
+    { "language": "ingles", "questionStart": 1, "questionEnd": 5, "occurrenceIndex": 1, "answerColumnOrder": 1 },
+    { "language": "espanhol", "questionStart": 1, "questionEnd": 5, "occurrenceIndex": 2, "answerColumnOrder": 2 }
+  ],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [],
+  "areas": [
+    { "name": "Linguagens, Códigos e suas Tecnologias", "questionStart": 1, "questionEnd": 45 },
+    { "name": "Ciências Humanas e suas Tecnologias", "questionStart": 46, "questionEnd": 90 }
+  ],
+  "sectionHeaderPatterns": ["questoes de 0?1 a 0?5", "questoes de 0?6 a 45", "questoes de 46 a 90", "opcao: ingles", "opcao: espanhol", "linguagens, codigos e suas tecnologias", "ciencias humanas e suas tecnologias"]
+}

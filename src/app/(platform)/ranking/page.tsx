@@ -1,7 +1,9 @@
-import { Crown, Medal, TrendingUp, Trophy } from "lucide-react";
+import { Crown, Medal, TrendingUp } from "lucide-react";
+import { LeagueBadge } from "@/components/visual/league-badge";
 import { PageHeader } from "@/components/page-header";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { leagueForXp } from "@/lib/utils";
 import type { User } from "@prisma/client";
 
 const LEAGUE_STYLE: Record<string, { ring: string; bg: string; text: string; icon: string; chip: string }> = {
@@ -12,14 +14,6 @@ const LEAGUE_STYLE: Record<string, { ring: string; bg: string; text: string; ico
   Prata:     { ring: "from-[#94A3B8] to-[#CBD5E1]", bg: "from-[#F1F5F9] to-[#E2E8F0]", text: "text-slate-700",  icon: "from-[#94A3B8] to-[#CBD5E1]", chip: "from-[#94A3B8] to-[#CBD5E1]" },
   Bronze:    { ring: "from-[#FB923C] to-[#FDBA74]", bg: "from-[#FFF7ED] to-[#FFEDD5]", text: "text-orange-700", icon: "from-[#FB923C] to-[#F97316]", chip: "from-[#FB923C] to-[#F97316]" },
 };
-
-function initials(name: string) {
-  return name
-    .split(" ")
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase() ?? "")
-    .join("");
-}
 
 export default async function RankingPage() {
   const currentUser = await requireUser();
@@ -46,13 +40,15 @@ export default async function RankingPage() {
     ].sort((a, b) => b.xp - a.xp);
   }
 
-  const myIndex = users.findIndex((u) => u.id === currentUser.id);
+  const rankedUsers = users.map((u) => ({ ...u, league: leagueForXp(u.xp) }));
+  const currentLeague = leagueForXp(currentUser.xp);
+  const myIndex = rankedUsers.findIndex((u) => u.id === currentUser.id);
   const myRank = myIndex >= 0 ? myIndex + 1 : null;
-  const next = myRank && myRank > 1 ? users[myRank - 2] : null;
+  const next = myRank && myRank > 1 ? rankedUsers[myRank - 2] : null;
   const xpToOvertake = next ? Math.max(0, next.xp - currentUser.xp + 1) : 0;
 
-  const podium = users.slice(0, 3);
-  const rest = users.slice(3);
+  const podium = rankedUsers.slice(0, 3);
+  const rest = rankedUsers.slice(3);
 
   return (
     <div className="space-y-6">
@@ -68,14 +64,16 @@ export default async function RankingPage() {
           <p className="mt-1 font-display text-3xl font-extrabold text-[#0F172A]">
             {myRank ? `#${myRank}` : "—"}
           </p>
-          <p className="mt-1 text-xs font-semibold text-slate-500">de {users.length} alunos</p>
+          <p className="mt-1 text-xs font-semibold text-slate-500">de {rankedUsers.length} alunos</p>
         </div>
         <div className="rounded-3xl border border-amber-100 bg-gradient-to-br from-[#FEFCE8] to-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
           <p className="text-[10px] font-black uppercase tracking-wider text-amber-700">Seu XP</p>
           <p className="mt-1 font-display text-3xl font-extrabold text-[#0F172A]">
             {currentUser.xp.toLocaleString("pt-BR")}
           </p>
-          <p className="mt-1 text-xs font-semibold text-slate-500">Liga {currentUser.league}</p>
+          <div className="mt-2">
+            <LeagueBadge league={currentLeague} size="sm" />
+          </div>
         </div>
         <div className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-[#ECFDF5] to-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
           <p className="text-[10px] font-black uppercase tracking-wider text-emerald-700">Próxima posição</p>
@@ -112,17 +110,14 @@ export default async function RankingPage() {
                     style={{ background: "linear-gradient(135deg, #FACC15, #FB7185)" }}
                   />
                   <div className="relative flex items-center gap-3">
-                    <div
-                      className={`flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-md ring-2 ring-white ${league.icon}`}
-                    >
-                      {idx === 0 ? <Crown className="h-5 w-5" /> : <Trophy className="h-5 w-5" />}
-                    </div>
+                    <LeagueBadge league={u.league} size="md" showLabel={false} />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-extrabold text-[#0F172A]">{u.name}</p>
                       <p className={`text-[10px] font-black uppercase tracking-wider ${league.text}`}>
-                        #{idx + 1} · {u.league}
+                        #{idx + 1} · Liga {u.league}
                       </p>
                     </div>
+                    {idx === 0 && <Crown className="h-5 w-5 shrink-0 text-amber-500" />}
                     <span
                       className={`rounded-full bg-gradient-to-r px-2.5 py-1 text-[10px] font-black text-white ${league.chip}`}
                     >
@@ -174,11 +169,7 @@ export default async function RankingPage() {
                 >
                   {realIndex + 1}
                 </div>
-                <div
-                  className={`flex h-9 w-9 items-center justify-center rounded-xl text-[11px] font-black text-white ring-2 ring-white bg-gradient-to-br ${league.icon}`}
-                >
-                  {initials(u.name)}
-                </div>
+                <LeagueBadge league={u.league} size="sm" showLabel={false} />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <p className="truncate text-sm font-extrabold text-[#0F172A]">{u.name}</p>
@@ -188,7 +179,7 @@ export default async function RankingPage() {
                       </span>
                     )}
                   </div>
-                  <p className={`text-[11px] font-bold ${league.text}`}>{u.league}</p>
+                  <p className={`text-[11px] font-bold ${league.text}`}>Liga {u.league}</p>
                 </div>
                 <div className="flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1.5 text-xs font-black text-slate-700">
                   <Medal className="h-3.5 w-3.5 text-amber-500" />

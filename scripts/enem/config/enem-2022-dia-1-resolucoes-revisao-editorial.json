@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "sourceByteSha256": "230462373545012111642aac18c65ab7b2e5edae6492bf9a568c1ab925abfef6",
+  "reviewer": "estudaki-editorial-codex-d1-frozen",
+  "method": "Leitura sequencial integral, lado a lado, do enunciado, comando, alternativas A-E, gabarito oficial, resolução e comentários autorais; evidência visual consultada nas ocorrências que dependem de imagem.",
+  "batches": [
+    {
+      "printedOrderStart": 1,
+      "printedOrderEnd": 32,
+      "batchSha256": "489ad021e538b2325fbf7ff5ed1d994e94d0c50e5273eb2e77c5798159404efc",
+      "reviewedAt": "2026-07-18T16:45:50Z",
+      "checks": {
+        "questionAndAlternativesRead": true,
+        "officialAnswerCompared": true,
+        "resolutionAccuracy": true,
+        "alternativeCommentsSpecific": true,
+        "visualReadWhenRequired": true,
+        "noGenericText": true
+      },
+      "notes": "Foram lidas integralmente, em ordem, as ocorrências impressas 1 a 32, comparando cada raciocínio e cada comentário A-E com o enunciado, as alternativas e a letra do gabarito oficial; os elementos visuais necessários também foram confrontados com a evidência recortada.",
+      "verdict": "PASS"
+    },
+    {
+      "printedOrderStart": 33,
+      "printedOrderEnd": 64,
+      "batchSha256": "f740c75a683b64890cd7ba4bf4ae668592e17e0ebb665dc5b26497da736206bd",
+      "reviewedAt": "2026-07-18T16:49:30Z",
+      "checks": {
+        "questionAndAlternativesRead": true,
+        "officialAnswerCompared": true,
+        "resolutionAccuracy": true,
+        "alternativeCommentsSpecific": true,
+        "visualReadWhenRequired": true,
+        "noGenericText": true
+      },
+      "notes": "Foram lidas integralmente, em ordem, as ocorrências impressas 33 a 64, verificando a aderência da explicação e dos cinco comentários de alternativas ao conteúdo efetivamente apresentado, ao gabarito oficial e às evidências visuais quando indispensáveis à resposta.",
+      "verdict": "PASS"
+    },
+    {
+      "printedOrderStart": 65,
+      "printedOrderEnd": 95,
+      "batchSha256": "16308399401ecb36c9f36011bf0e52968310b6704f03b5fcb7378fc1641b5897",
+      "reviewedAt": "2026-07-18T16:58:27Z",
+      "checks": {
+        "questionAndAlternativesRead": true,
+        "officialAnswerCompared": true,
+        "resolutionAccuracy": true,
+        "alternativeCommentsSpecific": true,
+        "visualReadWhenRequired": true,
+        "noGenericText": true
+      },
+      "notes": "Foram lidas integralmente, em ordem, as ocorrências impressas 65 a 95, incluindo cálculos, fórmulas, interpretação gráfica e os comentários específicos A-E; todas foram comparadas ao comando, às alternativas, à resposta oficial e à evidência visual aplicável.",
+      "verdict": "PASS"
+    }
+  ]
+}

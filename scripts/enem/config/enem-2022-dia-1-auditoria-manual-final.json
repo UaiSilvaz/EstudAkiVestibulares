@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2022-dia-1-caderno-1-azul",
+  "reviewer": "codex-agent:/root/d1_visual_finish",
+  "inspectionMethod": "visual_inspection_with_view_image_detail_original",
+  "reviews": [
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q020-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. O corpo iniciado por “Seis em cada dez pessoas” está completo como texto de apoio; a linha esporte.gov.br permanece como crédito separado, seguida pelo comando. As alternativas A–E coincidem com o fac-símile, e o recorte termina sem conteúdo de outra questão.",
+      "recommendedAction": "Aprovar a correção editorial do tipo do primeiro bloco."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q027-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os cinco arquivos foram abertos em resolução original. A frase “tem estrada para andar” está dentro da peça visual e não se repete como bloco textual; depois da imagem vêm somente o crédito e o comando. A peça está legível, as alternativas A–E conferem com o recorte oficial e B/D foram normalizadas apenas quanto às quebras artificiais de linha.",
+      "recommendedAction": "Aprovar a remoção da duplicação e a normalização tipográfica."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q074-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os três arquivos foram abertos em resolução original. O recorte isolado preserva integralmente mapa, título, coordenadas, legenda de 3,15 a 6,65 kWh/m², escala e crédito PEREIRA et al.; exclui a barra da QUESTÃO 74 e o comando subsequente. Comando e alternativas A–E permanecem completos e na ordem oficial.",
+      "recommendedAction": "Aprovar o recorte final do mapa solar."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q083-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. O texto sobre as duas irmãs nascidas no Líbano, o crédito da Agência Brasil e o comando sociopolítico estão completos e na ordem impressa. As alternativas A–E, de “exiladas” a “clandestinas”, coincidem com o original, sem mistura com questão vizinha.",
+      "recommendedAction": "Aprovar sem alterações."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q084-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. TEXTO I, referência de Merleau-Ponty, TEXTO II, referência de Deleuze e o comando aparecem completos e na sequência correta. As cinco alternativas conferem palavra por palavra, inclusive “experiência de conhecimento”, e não há conteúdo de outra questão.",
+      "recommendedAction": "Aprovar sem alterações."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q085-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. TEXTO I e sua referência PALMA, TEXTO II e a referência BETHENCOURT, seguidos do comando sobre a capacidade da Igreja, estão integrais e ordenados. As alternativas A–E coincidem com o fac-símile e o recorte contém somente a questão 85.",
+      "recommendedAction": "Aprovar sem alterações."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q086-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. O trecho de Simplício conserva travessões, Amor, Ódio e a referência; o comando mantém “arché” e “pré-socrático”. As alternativas A–E estão completas na ordem oficial; a identificação QUESTÃO 86 aparece apenas no fac-símile de auditoria, sem rodapé nem texto de outra questão.",
+      "recommendedAction": "Aprovar sem alterações."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q087-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. O texto sobre macrocefalia urbana, a referência de Milton Santos e o comando sobre fator geográfico estão completos e na ordem impressa. As alternativas A–E coincidem integralmente, incluindo “Êxodo da população do campo”, sem mistura com outra questão.",
+      "recommendedAction": "Aprovar sem alterações."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q088-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. O excerto sobre Basso, a referência SÊNECA e o comando sobre o bem fundamental da filosofia estão completos e ordenados. As alternativas A–E conferem com o original, de “valorização de disputas dialógicas” a “moderação das paixões”, sem contaminação.",
+      "recommendedAction": "Aprovar sem alterações."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q089-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. O texto de Galeano sobre Incas, Astecas e Maias, o crédito e o comando sobre diversidade de legados estão integrais. As alternativas A–E coincidem com o fac-símile, inclusive a quebra legítima de “conhecimento científico”, e não há conteúdo alheio.",
+      "recommendedAction": "Aprovar sem alterações."
+    },
+    {
+      "sourceId": "enem-2022-dia-1-caderno-1-azul-q090-portugues",
+      "verdict": "PASS",
+      "statementFidelity": "PASS",
+      "elementOrder": "PASS",
+      "alternativeFidelity": "PASS",
+      "imageLegibility": "PASS",
+      "questionIsolation": "PASS",
+      "evidence": "Os dois recortes oficiais foram abertos em resolução original. O texto sobre as paneleiras de Goiabeiras preserva “saberes/fazeres”, matérias-primas e mangue-vermelho; a referência TRISTÃO e o comando estão na sequência correta. As alternativas A–E são idênticas ao original, e o recorte termina na questão 90.",
+      "recommendedAction": "Aprovar sem alterações."
+    }
+  ]
+}

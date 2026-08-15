@@ -15,6 +15,16 @@ type MaterialItem = {
   priceCents: number;
   purchaseUrl: string | null;
   fileUrl: string | null;
+  owned?: boolean;
+  progress?: number;
+  lastOpenedAt?: string | Date | null;
+  lastPage?: number | null;
+  product?: {
+    id: string;
+    slug: string;
+    checkoutUrl: string | null;
+    coverUrl: string | null;
+  } | null;
   subject: { name: string } | null;
 };
 
@@ -27,6 +37,11 @@ type MaterialsExplorerProps = {
 function formatPrice(cents: number) {
   if (!cents) return "Grátis";
   return `R$ ${(cents / 100).toFixed(2).replace(".", ",")}`;
+}
+
+function whatsappPurchaseHref(material: MaterialItem) {
+  const text = `Ola, quero comprar o material ${material.title} no EstudAki.`;
+  return `https://wa.me/5517997172045?text=${encodeURIComponent(text)}`;
 }
 
 export function MaterialsExplorer({ materials, cover, renderCard }: MaterialsExplorerProps) {
@@ -119,7 +134,7 @@ export function MaterialsExplorer({ materials, cover, renderCard }: MaterialsExp
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar material..."
-              className="ek-input w-full pl-9"
+              className="ek-input ek-input-with-icon w-full !pl-11"
             />
           </div>
           <select
@@ -218,13 +233,13 @@ export function MaterialCardContent({
   material: MaterialItem;
   cover: { src: string; label: string };
 }) {
-  const isPaid = material.priceCents > 0 || Boolean(material.purchaseUrl);
+  const isPaid = material.priceCents > 0 || Boolean(material.purchaseUrl || material.product);
+  const owned = Boolean(material.owned);
   const price = formatPrice(material.priceCents);
-  const contactText = isPaid
-    ? "Comprar"
-    : material.fileUrl
-      ? "Abrir PDF"
-      : "Aguardando PDF";
+  const checkoutHref = whatsappPurchaseHref(material);
+  const readerHref = material.product?.slug ? `/biblioteca/${material.product.slug}` : material.fileUrl ?? "#";
+  const downloadHref = material.fileUrl ? `${material.fileUrl}?download=1` : "#";
+  const contactText = owned ? "Continuar" : isPaid ? "Comprar no WhatsApp" : material.fileUrl ? "Abrir PDF" : "Aguardando PDF";
 
   return (
     <div className="flex w-full flex-col items-center">
@@ -252,9 +267,19 @@ export function MaterialCardContent({
         </span>
       </div>
 
-      {material.purchaseUrl ? (
+      {owned ? (
         <a
-          href={material.purchaseUrl}
+          href={readerHref}
+          target="_blank"
+          rel="noreferrer"
+          className="estudaki-button estudaki-button-primary mt-3 w-full max-w-[320px]"
+        >
+          <Download className="h-4 w-4" />
+          {contactText}
+        </a>
+      ) : isPaid ? (
+        <a
+          href={checkoutHref}
           target="_blank"
           rel="noreferrer"
           className="estudaki-button estudaki-button-primary mt-3 w-full max-w-[320px]"
@@ -264,7 +289,7 @@ export function MaterialCardContent({
         </a>
       ) : material.fileUrl ? (
         <a
-          href={material.fileUrl}
+          href={downloadHref}
           target="_blank"
           rel="noreferrer"
           className="estudaki-button estudaki-button-ghost mt-3 w-full max-w-[320px]"

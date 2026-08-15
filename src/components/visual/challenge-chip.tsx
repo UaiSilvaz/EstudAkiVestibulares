@@ -101,7 +101,7 @@ export function ChallengeChip({
         </div>
         <div className="relative z-10 min-w-0 flex-1">
           <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/82">
-            {done ? "Concluido" : "Proxima meta"}
+            {done ? "Concluído" : "Próxima meta"}
           </p>
           <div className="mt-1 h-0.5 w-5 rounded-full bg-white/35" />
           <p className="mt-2 truncate text-lg font-extrabold leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">

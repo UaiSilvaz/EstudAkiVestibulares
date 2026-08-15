@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["audits"],
+  "properties": {
+    "audits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "officialNumber",
+          "language",
+          "verdict",
+          "contentFidelity",
+          "answerLogic",
+          "alternativeAnalysis",
+          "issueCodes",
+          "explanation",
+          "recommendedAction"
+        ],
+        "properties": {
+          "sourceId": { "type": "string", "minLength": 1 },
+          "officialNumber": { "type": "integer", "minimum": 1, "maximum": 180 },
+          "language": { "type": "string", "enum": ["NOT_APPLICABLE", "ENGLISH", "SPANISH", "PORTUGUESE"] },
+          "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "contentFidelity": { "type": "string", "enum": ["PASS", "FAIL", "NEEDS_VISUAL"] },
+          "answerLogic": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "alternativeAnalysis": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "issueCodes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "SOURCE_INCOMPLETE",
+                "VISUAL_NOT_CHECKED",
+                "WRONG_REASONING",
+                "WRONG_CALCULATION",
+                "WRONG_OFFICIAL_LETTER",
+                "CONTRADICTS_OFFICIAL_KEY",
+                "GENERIC_DISTRACTOR_COMMENT",
+                "MISSING_CONCEPT",
+                "MISCLASSIFIED_CONTENT",
+                "INTERNAL_CONTRADICTION",
+                "ANNULMENT_MISHANDLED"
+              ]
+            }
+          },
+          "explanation": { "type": "string", "minLength": 40 },
+          "recommendedAction": { "type": "string", "minLength": 20 }
+        }
+      }
+    }
+  }
+}

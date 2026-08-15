@@ -7,6 +7,7 @@ export const vestibularLogoMap: Record<string, string> = {
   fuvest: "/vestibulares/img-logo-fuvest-1.webp",
   unesp: "/vestibulares/unesp.png",
   unicamp: "/vestibulares/UNICAMP_logo.svg.png",
+  "provao-paulista": "/vestibulares/LOGO%20PROV%C3%83O%20PAULISTA.png",
 };
 
 export const vestibularLoopMap: Record<string, string> = {
@@ -16,6 +17,7 @@ export const vestibularLoopMap: Record<string, string> = {
   fuvest: "/loop/img-logo-fuvest-1.webp",
   unesp: "/loop/unesp-removebg-preview.png",
   unicamp: "/loop/UNICAMP_logo.svg.png",
+  "provao-paulista": "/vestibulares/LOGO%20PROV%C3%83O%20PAULISTA.png",
 };
 
 export const materialCovers = [

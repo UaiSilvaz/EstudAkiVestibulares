@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2023-2025-review-batch",
+  "configs": [
+    "enem-2023-dia-1",
+    "enem-2023-dia-2",
+    "enem-2024-dia-1",
+    "enem-2024-dia-2",
+    "enem-2025-dia-1",
+    "enem-2025-dia-2"
+  ],
+  "reportPath": "data/QUESTÕES/processamento/enem-2023-2025-relatorio-lote.json"
+}

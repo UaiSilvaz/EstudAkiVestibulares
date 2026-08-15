@@ -1,20 +1,21 @@
 "use client";
 
 import {
-  Home,
-  ListChecks,
-  GraduationCap,
-  Library,
-  Timer,
   BookOpen,
   CreditCard,
+  GraduationCap,
+  Home,
+  Library,
   LifeBuoy,
+  ListChecks,
+  Timer,
 } from "lucide-react";
 import PillNav from "./reactbits/PillNav";
 
 const NAV_ITEMS = [
   { label: "Início", href: "#inicio", icon: <Home /> },
   { label: "Questões", href: "#plataforma", icon: <ListChecks /> },
+  { label: "Matérias", href: "#materias", icon: <BookOpen /> },
   { label: "Vestibulares", href: "#vestibulares", icon: <GraduationCap /> },
   { label: "Biblioteca", href: "#cadernos", icon: <Library /> },
   { label: "Simulados", href: "#simulados", icon: <Timer /> },

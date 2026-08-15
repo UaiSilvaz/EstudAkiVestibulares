@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -9,6 +8,7 @@ type StatTileProps = {
   value: React.ReactNode;
   hint?: React.ReactNode;
   icon: React.ReactNode;
+  ghostIcon?: React.ReactNode;
   accent: "blue" | "orange" | "green" | "pink" | "yellow" | "purple" | "red" | "cyan";
   delta?: { value: string; positive?: boolean; suffix?: string };
   progress?: number;
@@ -60,7 +60,7 @@ const accentMap: Record<StatTileProps["accent"], { bg: string; shine: string; ic
     glow: "rgba(244, 63, 94, 0.38)",
   },
   cyan: {
-    bg: "from-[#06B6D4] via-[#22D3EE] to-[#67E8F9]",
+    bg: "from-[#168CC8] via-[#13A8D8] to-[#22C7DF]",
     shine: "bg-[#A5F3FC]",
     icon: "from-white/30 to-white/10",
     glow: "rgba(34, 211, 238, 0.36)",
@@ -72,6 +72,7 @@ export function StatTile({
   value,
   hint,
   icon,
+  ghostIcon,
   accent,
   delta,
   progress,
@@ -82,13 +83,9 @@ export function StatTile({
   const Comp = onClick ? "button" : "div";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+    <div
       className={cn(
-        "group relative min-h-[176px] min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-left text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] sm:p-6",
+        "group relative min-h-[176px] min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-left text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition duration-300 hover:-translate-y-1 hover:scale-[1.005] hover:shadow-[0_30px_56px_-30px_rgba(15,23,42,0.42)] sm:p-6",
         a.bg,
         className,
       )}
@@ -112,15 +109,15 @@ export function StatTile({
       <div
         aria-hidden
         className={cn(
-          "pointer-events-none absolute -right-9 bottom-2 flex h-32 w-32 rotate-[-10deg] items-center justify-center rounded-[30px] bg-gradient-to-br text-white/36 opacity-70 transition duration-300 group-hover:scale-105 group-hover:opacity-85 [&_svg]:h-20 [&_svg]:w-20 [&_svg]:stroke-[2.15]",
+          "pointer-events-none absolute -right-9 bottom-1 flex h-36 w-36 rotate-[-10deg] items-center justify-center overflow-hidden rounded-[34px] bg-gradient-to-br text-white/40 opacity-75 transition duration-300 group-hover:scale-105 group-hover:opacity-90 [&_svg]:h-24 [&_svg]:w-24 [&_svg]:stroke-[2]",
           a.icon,
         )}
       >
-        {icon}
+        {ghostIcon ?? icon}
       </div>
 
       <div className="relative z-10 flex items-start justify-between gap-3">
-        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/22 text-white shadow-[0_12px_24px_-14px_rgba(15,23,42,0.65)] ring-1 ring-white/35 backdrop-blur">
+        <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white/22 text-white shadow-[0_12px_24px_-14px_rgba(15,23,42,0.65)] ring-1 ring-white/35 backdrop-blur [&_img]:h-full [&_img]:w-full">
           {icon}
         </div>
         {delta && (
@@ -154,10 +151,8 @@ export function StatTile({
 
       {typeof progress === "number" && (
         <div className="relative z-10 mt-4 h-1.5 max-w-[72%] overflow-hidden rounded-full bg-white/24">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          <div
+            style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
             className="h-full rounded-full bg-white/88"
           />
         </div>
@@ -171,6 +166,6 @@ export function StatTile({
           className="absolute inset-0 z-20"
         />
       )}
-    </motion.div>
+    </div>
   );
 }

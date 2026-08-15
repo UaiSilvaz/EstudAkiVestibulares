@@ -17,38 +17,33 @@ const alternatives = (items: Array<[string, string]>) =>
 const tags = (...items: string[]) => JSON.stringify(items);
 
 async function main() {
+  const production =
+    process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
+  const seedAdminEmail = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase();
+  const seedAdminPassword = process.env.SEED_ADMIN_PASSWORD;
+  if (production && (!seedAdminEmail || !seedAdminPassword)) {
+    throw new Error(
+      "SEED_ADMIN_EMAIL e SEED_ADMIN_PASSWORD são obrigatórios para executar o seed em produção.",
+    );
+  }
+
   const passwordHash = await bcrypt.hash("123456", 10);
-  const adminHash = await bcrypt.hash("admin123", 10);
-  const localAdminHash = await bcrypt.hash("Admin@123", 10);
+  const adminEmail = seedAdminEmail || "admin@gmail.com";
+  const adminHash = await bcrypt.hash(seedAdminPassword || "Admin@123", 10);
   const teacherHash = await bcrypt.hash("prof123", 10);
 
   const admin = await prisma.user.upsert({
-    where: { email: "admin@estudaki.com" },
-    update: {},
-    create: {
-      name: "Guilherme Admin",
-      email: "admin@estudaki.com",
-      passwordHash: adminHash,
-      role: Role.ADMIN,
-      xp: 12800,
-      streak: 42,
-      league: "Diamante",
-      weeklyHours: 20,
-      targetExam: "ENEM",
-    },
-  });
-
-  await prisma.user.upsert({
-    where: { email: "admin@gmail" },
+    where: { email: adminEmail },
     update: {
       name: "Administrador EstudAki",
-      passwordHash: localAdminHash,
+      passwordHash: adminHash,
       role: Role.ADMIN,
+      targetExam: "ENEM",
     },
     create: {
       name: "Administrador EstudAki",
-      email: "admin@gmail",
-      passwordHash: localAdminHash,
+      email: adminEmail,
+      passwordHash: adminHash,
       role: Role.ADMIN,
       xp: 12800,
       streak: 42,
@@ -92,12 +87,13 @@ async function main() {
 
   const vestibulares = await Promise.all(
     [
-      ["ENEM", "enem", "#1E73FF", "Exame Nacional do Ensino Medio com foco em competencias, interpretacao e TRI."],
+      ["ENEM", "enem", "#1E73FF", "Exame Nacional do Ensino Médio com foco em competências, interpretação e TRI."],
       ["FUVEST", "fuvest", "#0057B8", "Vestibular da USP com primeira e segunda fase."],
       ["UNICAMP", "unicamp", "#7C3AED", "Prova contextualizada com forte leitura interdisciplinar."],
-      ["UNESP", "unesp", "#00A878", "Vestibular paulista com questoes objetivas e dissertativas."],
+      ["UNESP", "unesp", "#00A878", "Vestibular paulista com questões objetivas e dissertativas."],
       ["FATEC", "fatec", "#EF4444", "Vestibular das Faculdades de Tecnologia do Centro Paula Souza."],
       ["ETEC", "etec", "#F59E0B", "Processo seletivo das Escolas Tecnicas Estaduais."],
+      ["Provão Paulista", "provao-paulista", "#7C3AED", "Avaliação seriada paulista alinhada ao currículo da rede pública estadual."],
     ].map(([name, slug, color, description]) =>
       prisma.vestibular.upsert({
         where: { slug },
@@ -111,11 +107,11 @@ async function main() {
 
   const subjects = await Promise.all(
     [
-      ["Matematica", "matematica", "#1E73FF", "Numeros, algebra, geometria, estatistica e raciocinio logico."],
-      ["Linguagens", "linguagens", "#7C3AED", "Interpretacao, literatura, artes, gramatica e tecnologias."],
-      ["Ciencias da Natureza", "natureza", "#22C55E", "Biologia, fisica, quimica e leitura de fenomenos."],
-      ["Ciencias Humanas", "humanas", "#F59E0B", "Historia, geografia, filosofia, sociologia e atualidades."],
-      ["Redacao", "redacao", "#EF4444", "Competencias, repertorio, argumentacao e proposta de intervencao."],
+      ["Matemática", "matematica", "#1E73FF", "Números, álgebra, geometria, estatística e raciocínio lógico."],
+      ["Linguagens", "linguagens", "#7C3AED", "Interpretação, literatura, artes, gramática e tecnologias."],
+      ["Ciências da Natureza", "natureza", "#22C55E", "Biologia, física, química e leitura de fenômenos."],
+      ["Ciências Humanas", "humanas", "#F59E0B", "História, geografia, filosofia, sociologia e atualidades."],
+      ["Redação", "redacao", "#EF4444", "Competências, repertório, argumentação e proposta de intervenção."],
     ].map(([name, slug, color, description]) =>
       prisma.subject.upsert({
         where: { slug },
@@ -129,13 +125,13 @@ async function main() {
 
   const topicData = [
     [matematica.id, "Geometria Plana", "geometria-plana"],
-    [matematica.id, "Funcoes", "funcoes"],
+    [matematica.id, "Funções", "funcoes"],
     [matematica.id, "Porcentagem", "porcentagem"],
-    [linguagens.id, "Interpretacao de Texto", "interpretacao-texto"],
+    [linguagens.id, "Interpretação de Texto", "interpretacao-texto"],
     [natureza.id, "Ecologia", "ecologia"],
-    [natureza.id, "Termodinamica", "termodinamica"],
-    [humanas.id, "Brasil Republica", "brasil-republica"],
-    [redacao.id, "Competencia 3", "competencia-3"],
+    [natureza.id, "Termodinâmica", "termodinamica"],
+    [humanas.id, "Brasil República", "brasil-republica"],
+    [redacao.id, "Competência 3", "competencia-3"],
   ] as const;
 
   const topicRecords = await Promise.all(
@@ -158,7 +154,7 @@ async function main() {
       year: 2024,
       difficulty: Difficulty.EASY,
       statement:
-        "Um terreno retangular possui 12 m de comprimento e 8 m de largura. Para cercar todo o terreno com uma volta de arame, qual sera o comprimento minimo de arame utilizado?",
+        "Um terreno retangular possui 12 m de comprimento e 8 m de largura. Para cercar todo o terreno com uma volta de arame, qual será o comprimento mínimo de arame utilizado?",
       alternatives: alternatives([
         ["A", "20 m"],
         ["B", "40 m"],
@@ -168,12 +164,12 @@ async function main() {
       ]),
       correctAlternative: "B",
       explanation:
-        "O perimetro do retangulo e 2 vezes a soma do comprimento com a largura: 2 x (12 + 8) = 40 m.",
+        "O perímetro do retângulo é duas vezes a soma do comprimento com a largura: 2 x (12 + 8) = 40 m.",
       pedagogyComment:
-        "Se voce marcou area, o erro foi trocar perimetro por superficie. Essa confusao aparece muito em questoes faceis.",
+        "Se você marcou área, o erro foi trocar perímetro por superfície. Essa confusão aparece com frequência em questões fáceis.",
       tags: tags("perimetro", "base", "erro_conceitual"),
-      source: "Questao modelo EstudAki",
-      status: ContentStatus.PUBLISHED,
+      source: "Questão modelo EstudAki",
+      status: ContentStatus.REVIEW,
     },
     {
       vestibularId: enem.id,
@@ -182,7 +178,7 @@ async function main() {
       year: 2023,
       difficulty: Difficulty.MEDIUM,
       statement:
-        "Uma escola tinha 800 alunos. Apos uma campanha, o numero de inscritos em um simulado aumentou 15%. Quantos alunos passaram a participar do simulado?",
+        "Uma escola tinha 800 alunos. Após uma campanha, o número de inscritos em um simulado aumentou 15%. Quantos alunos passaram a participar do simulado?",
       alternatives: alternatives([
         ["A", "815"],
         ["B", "880"],
@@ -192,12 +188,12 @@ async function main() {
       ]),
       correctAlternative: "D",
       explanation:
-        "15% de 800 e 120. Somando ao total inicial, 800 + 120 = 920 alunos.",
+        "15% de 800 é 120. Somando ao total inicial, 800 + 120 = 920 alunos.",
       pedagogyComment:
         "Treine transformar porcentagem em multiplicador: aumento de 15% equivale a multiplicar por 1,15.",
       tags: tags("porcentagem", "multiplicador", "enem"),
-      source: "Questao modelo EstudAki",
-      status: ContentStatus.PUBLISHED,
+      source: "Questão modelo EstudAki",
+      status: ContentStatus.REVIEW,
     },
     {
       vestibularId: fuvest.id,
@@ -218,10 +214,10 @@ async function main() {
       explanation:
         "Substituindo f(a) por 17: 2a + 3 = 17. Logo, 2a = 14 e a = 7.",
       pedagogyComment:
-        "A questao cobra leitura de funcao como maquina: entrada a, saida 17.",
+        "A questão cobra a leitura de função como uma máquina: entrada a, saída 17.",
       tags: tags("funcao-afim", "algebra"),
-      source: "Questao modelo EstudAki",
-      status: ContentStatus.PUBLISHED,
+      source: "Questão modelo EstudAki",
+      status: ContentStatus.REVIEW,
     },
     {
       vestibularId: enem.id,
@@ -230,7 +226,7 @@ async function main() {
       year: 2024,
       difficulty: Difficulty.MEDIUM,
       statement:
-        "Em textos argumentativos, a funcao principal dos conectivos e:",
+        "Em textos argumentativos, a função principal dos conectivos é:",
       alternatives: alternatives([
         ["A", "Substituir a tese do autor"],
         ["B", "Organizar relacoes de sentido entre ideias"],
@@ -240,12 +236,12 @@ async function main() {
       ]),
       correctAlternative: "B",
       explanation:
-        "Conectivos indicam relacoes como causa, conclusao, contraste, adicao e consequencia.",
+        "Conectivos indicam relações como causa, conclusão, contraste, adição e consequência.",
       pedagogyComment:
-        "Em Linguagens, procure a funcao do recurso no texto, nao apenas o nome gramatical.",
+        "Em Linguagens, procure a função do recurso no texto, não apenas o nome gramatical.",
       tags: tags("interpretacao", "conectivos", "linguagens"),
-      source: "Questao modelo EstudAki",
-      status: ContentStatus.PUBLISHED,
+      source: "Questão modelo EstudAki",
+      status: ContentStatus.REVIEW,
     },
     {
       vestibularId: unesp.id,
@@ -256,20 +252,20 @@ async function main() {
       statement:
         "Em uma cadeia alimentar, organismos produtores sao aqueles que:",
       alternatives: alternatives([
-        ["A", "Decompoem materia organica em sais minerais"],
+        ["A", "Decompõem matéria orgânica em sais minerais"],
         ["B", "Obtêm energia apenas consumindo herbivoros"],
-        ["C", "Produzem materia organica a partir de fonte de energia"],
+        ["C", "Produzem matéria orgânica a partir de uma fonte de energia"],
         ["D", "Ocupam sempre o ultimo nivel trofico"],
-        ["E", "Nao participam do fluxo de energia"],
+        ["E", "Não participam do fluxo de energia"],
       ]),
       correctAlternative: "C",
       explanation:
-        "Produtores, como plantas e algas, produzem materia organica por fotossintese ou quimiossintese.",
+        "Produtores, como plantas e algas, produzem matéria orgânica por fotossíntese ou quimiossíntese.",
       pedagogyComment:
-        "A base da ecologia e separar fluxo de energia de ciclo da materia.",
+        "A base da ecologia é separar o fluxo de energia do ciclo da matéria.",
       tags: tags("ecologia", "cadeia-alimentar"),
-      source: "Questao modelo EstudAki",
-      status: ContentStatus.PUBLISHED,
+      source: "Questão modelo EstudAki",
+      status: ContentStatus.REVIEW,
     },
     {
       vestibularId: unicamp.id,
@@ -278,22 +274,22 @@ async function main() {
       year: 2020,
       difficulty: Difficulty.MEDIUM,
       statement:
-        "A Politica dos Governadores, na Primeira Republica brasileira, tinha como objetivo principal:",
+        "A Política dos Governadores, na Primeira República brasileira, tinha como objetivo principal:",
       alternatives: alternatives([
         ["A", "Ampliar a participacao direta dos trabalhadores urbanos"],
-        ["B", "Garantir estabilidade politica por acordos entre oligarquias estaduais e governo federal"],
+        ["B", "Garantir estabilidade política por acordos entre oligarquias estaduais e o governo federal"],
         ["C", "Extinguir o coronelismo nas regioes rurais"],
         ["D", "Centralizar completamente o poder no Exército"],
         ["E", "Criar voto secreto universal"],
       ]),
       correctAlternative: "B",
       explanation:
-        "O pacto articulava governo federal e elites estaduais para sustentar maiorias politicas e controlar oposicoes.",
+        "O pacto articulava o governo federal e as elites estaduais para sustentar maiorias políticas e controlar oposições.",
       pedagogyComment:
         "Cuidado com alternativas que usam palavras absolutas como 'extinguir' e 'completamente'.",
       tags: tags("primeira-republica", "oligarquias", "politica"),
-      source: "Questao modelo EstudAki",
-      status: ContentStatus.PUBLISHED,
+      source: "Questão modelo EstudAki",
+      status: ContentStatus.REVIEW,
     },
   ];
 
@@ -363,7 +359,7 @@ async function main() {
         durationSeconds: 35 * 60,
         questionsAnswered: 5,
         correctAnswers: 3,
-        notes: "Lista diagnostica de matematica e linguagens.",
+        notes: "Lista diagnóstica de matemática e linguagens.",
         startedAt: new Date(Date.now() - 1000 * 60 * 60 * 3),
         endedAt: new Date(Date.now() - 1000 * 60 * 60 * 3 + 35 * 60 * 1000),
       },
@@ -373,7 +369,7 @@ async function main() {
         durationSeconds: 18 * 60,
         questionsAnswered: 2,
         correctAnswers: 1,
-        notes: "Revisao de caderno de erros.",
+        notes: "Revisão do caderno de erros.",
         startedAt: new Date(Date.now() - 1000 * 60 * 60 * 28),
         endedAt: new Date(Date.now() - 1000 * 60 * 60 * 28 + 18 * 60 * 1000),
       },
@@ -383,7 +379,7 @@ async function main() {
         durationSeconds: 42 * 60,
         questionsAnswered: 0,
         correctAnswers: 0,
-        notes: "Criacao de resolucao e material.",
+        notes: "Criação de resolução e material.",
         startedAt: new Date(Date.now() - 1000 * 60 * 60 * 6),
         endedAt: new Date(Date.now() - 1000 * 60 * 60 * 6 + 42 * 60 * 1000),
       },
@@ -395,7 +391,7 @@ async function main() {
       {
         slug: "primeira-lista",
         title: "Primeira lista",
-        description: "Responda sua primeira lista de questoes.",
+        description: "Responda à sua primeira lista de questões.",
         icon: "book-open-check",
         color: "#2563EB",
         xpReward: 50,
@@ -538,7 +534,7 @@ async function main() {
     },
     {
       vestibularId: unicamp.id,
-      title: "UNICAMP 2026 - Segunda fase - Ciencias Exatas/Tecnologicas",
+      title: "UNICAMP 2026 - Segunda fase - Ciências Exatas/Tecnológicas",
       year: 2026,
       phase: "Segunda fase",
       day: "Dia 2 - CET",
@@ -551,7 +547,7 @@ async function main() {
     },
     {
       vestibularId: unesp.id,
-      title: "UNESP 2025 - Conhecimentos gerais e redacao",
+      title: "UNESP 2025 - Conhecimentos gerais e redação",
       year: 2025,
       phase: "Fase unica",
       day: "Prova objetiva",
@@ -834,7 +830,7 @@ async function main() {
         title: "Mapa mental de Geometria Plana",
         type: MaterialType.MINDMAP,
         category: "Mapas mentais",
-        description: "Perimetro, area, semelhanca e angulos com gatilhos rapidos de prova.",
+        description: "Perímetro, área, semelhança e ângulos com estratégias rápidas de prova.",
         subjectId: matematica.id,
         topicId: topic["geometria-plana"].id,
         premium: false,
@@ -842,10 +838,10 @@ async function main() {
         purchaseUrl: null,
       },
       {
-        title: "Checklist ENEM: Interpretacao",
+        title: "Checklist ENEM: Interpretação",
         type: MaterialType.PDF,
         category: "Resumos",
-        description: "Roteiro para identificar tese, argumento, funcao social e inferencia.",
+        description: "Roteiro para identificar tese, argumento, função social e inferência.",
         subjectId: linguagens.id,
         topicId: topic["interpretacao-texto"].id,
         premium: false,
@@ -853,10 +849,10 @@ async function main() {
         purchaseUrl: null,
       },
       {
-        title: "Apostila de Redacao Nota Alta",
+        title: "Apostila de Redação Nota Alta",
         type: MaterialType.PDF,
         category: "Apostilas",
-        description: "Estrutura, repertorio, competencias e modelos de intervencao.",
+        description: "Estrutura, repertório, competências e modelos de intervenção.",
         subjectId: redacao.id,
         topicId: topic["competencia-3"].id,
         premium: true,
@@ -875,7 +871,7 @@ async function main() {
     [
       {
         title: "Geometria Plana em 2 minutos",
-        description: "Como diferenciar area e perimetro sem cair em pegadinha.",
+        description: "Como diferenciar área e perímetro sem cair em pegadinhas.",
         kind: VideoKind.EXPRESS,
         durationSeconds: 122,
         subjectId: matematica.id,
@@ -884,7 +880,7 @@ async function main() {
       },
       {
         title: "Porcentagem pelo multiplicador",
-        description: "Um atalho seguro para aumento, desconto e comparacao percentual.",
+        description: "Uma estratégia segura para aumento, desconto e comparação percentual.",
         kind: VideoKind.RESOLUTION,
         durationSeconds: 188,
         subjectId: matematica.id,
@@ -893,7 +889,7 @@ async function main() {
       },
       {
         title: "Como ler alternativas do ENEM",
-        description: "Tecnica rapida para cortar alternativas absolutas e confusas.",
+        description: "Técnica rápida para eliminar alternativas absolutas e confusas.",
         kind: VideoKind.EXPRESS,
         durationSeconds: 95,
         subjectId: linguagens.id,
@@ -913,20 +909,20 @@ async function main() {
       {
         subjectId: matematica.id,
         topicId: topic["geometria-plana"].id,
-        front: "Quando uma questao pede cercar, contornar ou moldura, ela costuma cobrar o que?",
-        back: "Perimetro. Some os lados ou use a formula da figura.",
+        front: "Quando uma questão pede para cercar, contornar ou calcular uma moldura, o que ela costuma cobrar?",
+        back: "Perímetro. Some os lados ou use a fórmula da figura.",
       },
       {
         subjectId: matematica.id,
         topicId: topic["porcentagem"].id,
         front: "Qual multiplicador representa aumento de 15%?",
-        back: "1,15. O valor final e o inicial multiplicado por 1,15.",
+        back: "1,15. O valor final é o valor inicial multiplicado por 1,15.",
       },
       {
         subjectId: humanas.id,
         topicId: topic["brasil-republica"].id,
-        front: "O que sustentava a Politica dos Governadores?",
-        back: "Acordos entre governo federal e oligarquias estaduais para manter estabilidade politica.",
+        front: "O que sustentava a Política dos Governadores?",
+        back: "Acordos entre o governo federal e as oligarquias estaduais para manter a estabilidade política.",
       },
     ],
   });
@@ -936,7 +932,7 @@ async function main() {
     data: {
       vestibularId: enem.id,
       title: "Simulado Inteligente ENEM - Diagnostico",
-      description: "Lista curta para detectar pontos fracos e gerar recomendacoes.",
+      description: "Lista curta para detectar pontos fracos e gerar recomendações.",
       durationMin: 45,
       questionIds: JSON.stringify(questions.map((question) => question.id)),
     },
@@ -947,14 +943,14 @@ async function main() {
     data: [
       {
         title: "Semana da Geometria",
-        description: "Resolva 30 questoes de Geometria e revise seus erros.",
+        description: "Resolva 30 questões de Geometria e revise seus erros.",
         rewardXp: 500,
         goal: 30,
         metric: "questions",
         endsAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
       },
       {
-        title: "Sprint de Revisao",
+        title: "Sprint de Revisão",
         description: "Revise 15 erros do caderno para subir seu score de estudo.",
         rewardXp: 350,
         goal: 15,
@@ -976,7 +972,7 @@ async function main() {
       {
         userId: teacher.id,
         type: ActivityType.CONTENT,
-        message: "Prof. Pedro publicou uma resolucao de Porcentagem.",
+        message: "Prof. Pedro publicou uma resolução de Porcentagem.",
         xp: 0,
       },
       {

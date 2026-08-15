@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2023-dia-1-caderno-2-amarelo",
+  "essayId": "enem-2023-dia-1-caderno-2-amarelo-redacao",
+  "expectedContentHash": "c2af955f175cda2b373a410dc3b95ef1a7e92c9946bf6dd28e7d17224d986e9c",
+  "verdict": "PASS",
+  "checks": {
+    "instructionsFidelity": "PASS",
+    "motivatingTextsFidelity": "PASS",
+    "proposalFidelity": "PASS",
+    "elementOrder": "PASS",
+    "imageLegibility": "PASS",
+    "creditIsolation": "PASS",
+    "noDuplicatedContent": "PASS"
+  },
+  "evidence": "A página oficial 19 foi comparada com a estrutura atual. Há instruções completas, quatro textos motivadores ordenados, proposta e tema oficiais. A tabela contém cabeçalho e duas linhas; a capa termina antes do crédito. Créditos não permanecem dentro do conteúdo nem dos recortes, e o TEXTO IV possui uma única transcrição pertinente.",
+  "inspectedFiles": [
+    "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/paginas/pagina-019.png",
+    "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/redacao/pagina-019-visual-01.png",
+    "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/redacao/pagina-019-visual-02.png"
+  ]
+}

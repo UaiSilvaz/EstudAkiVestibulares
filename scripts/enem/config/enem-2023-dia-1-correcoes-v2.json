@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2023-dia-1-caderno-2-amarelo",
+  "sourceAudit": {
+    "path": "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/auditoria-visual-v2.json",
+    "sha256": "4b3e98691e81559be82265e29ccc0730d4f0d7542994a62dbae81c6beff2c56d",
+    "sourceHash": "5f98620d4b30caba7286bc063eba887da788404214d762a76aa5da783c4e2aef",
+    "expected": 95,
+    "failed": 2
+  },
+  "questions": {
+    "enem-2023-dia-1-caderno-2-amarelo-q020-portugues": {
+      "baselineContentHash": "8c8f925d4cf488ea1a473d0628f8bd15be73632938e820f931c024a4d8811e24",
+      "evidence": "O fac-símile oficial separa a pintura Eternos caminhantes do crédito SEGALL; o recorte anterior reproduzia o crédito já presente no bloco textual.",
+      "visualRegions": [
+        {
+          "page": 10,
+          "x": 38.58,
+          "y": 400.54,
+          "width": 231.82,
+          "height": 172.52,
+          "altText": "Pintura Eternos caminhantes, de Lasar Segall, com figuras humanas estilizadas em deslocamento."
+        }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q039-portugues": {
+      "baselineContentHash": "e718d7f9c688ece784e50f8cb0fe7893738961e8c4069f7f42f2c368d0974142",
+      "evidence": "No TEXTO II, os oito versos estão organizados em duas estrofes de quatro versos, e não em oito parágrafos independentes.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 1 },
+        { "existing": 2 },
+        { "mergeExisting": [3, 4, 5, 6], "separator": "\n" },
+        { "mergeExisting": [7, 8, 9, 10], "separator": "\n" },
+        { "existing": 11 },
+        { "existing": 12 }
+      ]
+    }
+  }
+}

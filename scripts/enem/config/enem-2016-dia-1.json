@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2016-dia-1-caderno-1-azul",
+  "vestibular": "ENEM",
+  "year": 2016,
+  "day": 1,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 1,
+  "bookletColor": "Azul",
+  "questionStart": 1,
+  "questionEnd": 90,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 90,
+  "oldExamId": "pa-enem-2016-dia-1",
+  "officialExamPdf": "data/provas/enem/2016/prova-1-dia.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2016/gabarito-1-dia.pdf",
+  "officialExamSha256": "d9c2811b2f2c6f933f1d199971456c78ba9c7c6abced6ad14bfb1133b5e335c7",
+  "officialAnswerKeySha256": "67f330f99e7106ba78737a6ea963c5b27d0635530b9e22778a4660064447505f",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2016",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2016/2016_PV_impresso_D1_CD1.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2016/GAB_ENEM_2016_DIA_1_01_AZUL.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2016-dia-1-caderno-1-azul",
+  "pdfPageCount": 32,
+  "objectivePageRanges": [
+    {
+      "start": 2,
+      "end": 31
+    }
+  ],
+  "essayPages": [],
+  "draftPages": [],
+  "administrativePages": [
+    32
+  ],
+  "layout": {
+    "top": 75,
+    "bottom": 772,
+    "left": 57,
+    "leftEnd": 312,
+    "rightStart": 317,
+    "right": 572,
+    "fullWidthObjectivePages": [
+      6,
+      12,
+      15,
+      17,
+      18,
+      26,
+      27,
+      28,
+      30
+    ]
+  },
+  "languageSections": [],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [],
+  "areas": [
+    {
+      "name": "Ciências Humanas e suas Tecnologias",
+      "questionStart": 1,
+      "questionEnd": 45
+    },
+    {
+      "name": "Ciências da Natureza e suas Tecnologias",
+      "questionStart": 46,
+      "questionEnd": 90
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 0?1 a 45",
+    "questoes de 46 a 90",
+    "ciencias humanas e suas tecnologias",
+    "ciencias da natureza e suas tecnologias"
+  ]
+}

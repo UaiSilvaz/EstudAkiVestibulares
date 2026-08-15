@@ -1,8 +1,4 @@
-import {
-  ClipboardList,
-  FileText,
-  Video,
-} from "lucide-react";
+import { ClipboardList, FileText, Map, Users } from "lucide-react";
 import type { Prisma } from "@prisma/client";
 import Link from "next/link";
 import { MetricCard } from "@/components/metric-card";
@@ -21,33 +17,24 @@ export default async function AdminPage() {
   let totalQuestions = 0;
   let publishedQuestions = 0;
   let totalExams = 0;
-  let totalVideos = 0;
   let totalMaterials = 0;
   let pendingQuestions: PendingQuestion[] = [];
 
   try {
-    [
-      totalUsers,
-      totalQuestions,
-      publishedQuestions,
-      totalExams,
-      totalVideos,
-      totalMaterials,
-      pendingQuestions,
-    ] = await Promise.all([
-      db.user.count(),
-      db.question.count(),
-      db.question.count({ where: { status: "PUBLISHED" } }),
-      db.exam.count(),
-      db.video.count(),
-      db.material.count(),
-      db.question.findMany({
-        where: { status: "REVIEW" },
-        include: { subject: true, vestibular: true },
-        orderBy: { createdAt: "desc" },
-        take: 5,
-      }),
-    ]);
+    [totalUsers, totalQuestions, publishedQuestions, totalExams, totalMaterials, pendingQuestions] =
+      await Promise.all([
+        db.user.count(),
+        db.question.count(),
+        db.question.count({ where: { status: "PUBLISHED" } }),
+        db.exam.count(),
+        db.material.count(),
+        db.question.findMany({
+          where: { status: "REVIEW" },
+          include: { subject: true, vestibular: true },
+          orderBy: { createdAt: "desc" },
+          take: 5,
+        }),
+      ]);
   } catch {
     totalUsers = 1;
     totalExams = 72;
@@ -57,13 +44,13 @@ export default async function AdminPage() {
     <div>
       <PageHeader
         eyebrow="Admin & docentes"
-        title="Gestão educacional EstudAki"
-        description="CMS invisível para alunos. Cadastre questões, provas antigas, materiais, videoaulas, Express e acompanhe a operação."
+        title="Gestao educacional EstudAki"
+        description="Área administrativa restrita. Cadastre questões, provas antigas e materiais, além de acompanhar a operação."
       />
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         <MetricCard
-          label="Usuários"
+          label="Usuarios"
           value={totalUsers}
           hint="alunos, professores e admins"
           iconName="users"
@@ -87,14 +74,6 @@ export default async function AdminPage() {
           variant="cyan"
         />
         <MetricCard
-          label="Vídeos"
-          value={totalVideos}
-          hint="videoaulas e Express"
-          iconName="video"
-          color="#A78BFA"
-          variant="purple"
-        />
-        <MetricCard
           label="Materiais"
           value={totalMaterials}
           hint="PDFs, resumos e apostilas"
@@ -105,7 +84,7 @@ export default async function AdminPage() {
         <MetricCard
           label="Simulados"
           value="1"
-          hint="diagnósticos e listas"
+          hint="diagnosticos e listas"
           iconName="graduationCap"
           color="#FB7185"
           variant="pink"
@@ -114,28 +93,31 @@ export default async function AdminPage() {
 
       <section className="mt-5 grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
         <div className="rounded-[24px] border border-blue-200/40 bg-white p-6 shadow-[0_12px_32px_-18px_rgba(15,23,42,0.10)]">
-          <h2 className="text-2xl font-black text-[#0F172A]">Ações rápidas</h2>
+          <h2 className="text-2xl font-black text-[#0F172A]">Acoes rapidas</h2>
           <div className="mt-5 grid gap-3">
-            <Link
-              href="/admin/questions"
-              className="ek-button ek-button-primary justify-start"
-            >
+            <Link href="/admin/questions" className="ek-button ek-button-primary justify-start">
               <ClipboardList className="h-4 w-4" />
               Abrir editor de questões
             </Link>
-            <Link
-              href="/admin/exams"
-              className="ek-button ek-button-ghost justify-start"
-            >
+            <Link href="/admin/users" className="ek-button ek-button-ghost justify-start">
+              <Users className="h-4 w-4" />
+              Gerenciar usuarios e PDFs
+            </Link>
+            <Link href="/admin/trilhas" className="ek-button ek-button-ghost justify-start">
+              <Map className="h-4 w-4" />
+              Gerenciar Jornada
+            </Link>
+            <Link href="/admin/provas-antigas" className="ek-button ek-button-ghost justify-start">
+              <FileText className="h-4 w-4" />
+              Gerenciar provas antigas
+            </Link>
+            <Link href="/admin/exams" className="ek-button ek-button-ghost justify-start">
               <FileText className="h-4 w-4" />
               Cadastrar prova antiga
             </Link>
-            <Link
-              href="/admin/content"
-              className="ek-button ek-button-ghost justify-start"
-            >
-              <Video className="h-4 w-4" />
-              Gerenciar materiais e vídeos
+            <Link href="/admin/content" className="ek-button ek-button-ghost justify-start">
+              <FileText className="h-4 w-4" />
+              Gerenciar materiais
             </Link>
           </div>
         </div>
@@ -154,10 +136,7 @@ export default async function AdminPage() {
               </p>
             )}
             {pendingQuestions.map((question) => (
-              <div
-                key={question.id}
-                className="rounded-2xl border border-amber-100 bg-white p-4"
-              >
+              <div key={question.id} className="rounded-2xl border border-amber-100 bg-white p-4">
                 <p className="text-sm font-black text-[#0F172A]">
                   {question.vestibular.name} · {question.subject.name}
                 </p>

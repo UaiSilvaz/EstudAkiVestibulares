@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2023-dia-1-caderno-2-amarelo",
+  "reviewMethod": "visual_inspection_of_current_artifacts",
+  "questions": {
+    "enem-2023-dia-1-caderno-2-amarelo-q003-ingles": {
+      "expectedContentHash": "96320697c9bccf7875f02a98cefb8aebd3ddf24edde9c456da97229f35ce36d4",
+      "verdict": "PASS",
+      "evidence": "O recorte atual termina exatamente no contorno inferior do cartaz. O crédito está completo apenas no bloco textual seguinte; enunciado, comando e alternativas A-E coincidem com o recorte oficial.",
+      "inspectedFiles": [
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q003-ingles/recorte-original-01.png",
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q003-ingles/enunciado-facsimile-01.png",
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q003-ingles/visual-01.png"
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q020-portugues": {
+      "expectedContentHash": "e2498854df29e8cd2c1bb93383f6cdb826fb188c3e96a044886810ea1a18bfe2",
+      "verdict": "PASS",
+      "evidence": "O visual atual contém somente a pintura, sem o crédito. Os dois recortes oficiais confirmam a ordem TEXTO I, pintura, crédito, TEXTO II, comando e alternativas A-E.",
+      "inspectedFiles": [
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q020-portugues/recorte-original-01.png",
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q020-portugues/recorte-original-02.png",
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q020-portugues/enunciado-facsimile-01.png",
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q020-portugues/enunciado-facsimile-02.png",
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q020-portugues/visual-01.png"
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q039-portugues": {
+      "expectedContentHash": "4fef0d256f14ef4cb561bb7133a5d487a75bd2799d12331d75441709bf4fce03",
+      "verdict": "PASS",
+      "evidence": "O TEXTO II atual preserva duas estrofes de quatro versos, com quebras simples internas e uma separação entre estrofes. Títulos, créditos, comando e alternativas A-E coincidem com o recorte oficial.",
+      "inspectedFiles": [
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q039-portugues/recorte-original-01.png",
+        "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/assets/questoes/enem-2023-dia-1-caderno-2-amarelo-q039-portugues/enunciado-facsimile-01.png"
+      ]
+    }
+  }
+}

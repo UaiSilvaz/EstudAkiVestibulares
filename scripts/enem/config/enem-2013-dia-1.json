@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2013-dia-1-caderno-1-azul",
+  "vestibular": "ENEM",
+  "year": 2013,
+  "day": 1,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 1,
+  "bookletColor": "Azul",
+  "questionStart": 1,
+  "questionEnd": 90,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 90,
+  "oldExamId": "pa-enem-2013-dia-1",
+  "officialExamPdf": "data/provas/enem/2013/prova-1-dia-caderno-1-azul.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2013/gabarito-1-dia-caderno-1-azul.pdf",
+  "officialExamSha256": "085dde9fa2190c3175be0a18688410db29fbb6b56a0dc22c91580a58f06cf77f",
+  "officialAnswerKeySha256": "d7d90d20008668e523288509b48be44e4f692f30e29c5dfa5b4b16cbaf75dea4",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2013",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2013/dia1_caderno1_azul.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2013/dia1_azul.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2013-dia-1-caderno-1-azul",
+  "pdfPageCount": 32,
+  "objectivePageRanges": [
+    {
+      "start": 2,
+      "end": 31
+    }
+  ],
+  "essayPages": [],
+  "draftPages": [],
+  "administrativePages": [
+    32
+  ],
+  "layout": {
+    "top": 50,
+    "bottom": 748,
+    "left": 34,
+    "leftEnd": 289,
+    "rightStart": 294,
+    "right": 549,
+    "fullWidthObjectivePages": [
+      2,
+      13,
+      24,
+      25,
+      29,
+      30
+    ]
+  },
+  "languageSections": [],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [],
+  "areas": [
+    {
+      "name": "Ciências Humanas e suas Tecnologias",
+      "questionStart": 1,
+      "questionEnd": 45
+    },
+    {
+      "name": "Ciências da Natureza e suas Tecnologias",
+      "questionStart": 46,
+      "questionEnd": 90
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 0?1 a 45",
+    "questoes de 46 a 90",
+    "ciencias humanas e suas tecnologias",
+    "ciencias da natureza e suas tecnologias"
+  ]
+}

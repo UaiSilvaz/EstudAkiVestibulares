@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2022-dia-1-caderno-1-azul",
+  "method": "manual_resolution_of_low_confidence_matrix_mappings_against_question_and_official_matrix",
+  "decisions": {
+    "enem-2022-dia-1-caderno-1-azul-q002-espanhol": {
+      "confidence": 0.91,
+      "evidence": "As perguntas indignadas sobre o celular decidir o que constitui uma lembrança sustentam a crítica à ingerência tecnológica. LC-H6 é a melhor habilidade da competência de língua estrangeira porque a leitura em espanhol dá acesso direto a uma reflexão sobre tecnologia e cultura; LC-H7 seria menos precisa, pois o comando não pede a função social do gênero."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q009-portugues": {
+      "confidence": 0.96,
+      "updates": {
+        "subcontent": "Apelo à culpa do condutor"
+      },
+      "evidence": "A peça visual oficialmente auditada associa a ação do condutor à vítima e busca provocar culpa, exatamente a estratégia argumentativa de convencimento pedida no comando. LC-H24 menciona explicitamente estratégias como intimidação e comoção e, por isso, é um encaixe direto, não apenas aproximado."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q038-portugues": {
+      "confidence": 0.91,
+      "evidence": "A imagem auditada de Laocoonte mostra o alongamento e a distorção das figuras, e o comando pede a característica que distingue a obra maneirista. LC-H13 é a melhor escolha porque exige analisar a produção artística e seu padrão de representação corporal; LC-H12 trataria prioritariamente da função social da arte."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q039-portugues": {
+      "confidence": 0.91,
+      "evidence": "A obra de Judd e o texto sobre materiais industriais permitem reconhecer a combinação de formas sintéticas no espaço. LC-H12 sustenta a leitura do trabalho minimalista e de sua recepção no meio cultural, enquanto LC-H13 seria menos central porque o item não discute padrão de beleza ou preconceito."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q044-portugues": {
+      "confidence": 0.91,
+      "evidence": "A instalação In absentia, conferida no recurso visual, dialoga com o ready-made para questionar valores estéticos estabelecidos. LC-H12 é o melhor mapeamento porque o comando compara funções e procedimentos do trabalho artístico em seus contextos culturais; a identificação formal isolada não é a operação principal."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q047-portugues": {
+      "confidence": 0.87,
+      "evidence": "Arendt vincula discurso, pluralidade e inteligibilidade mútua à condição política, levando à construção da sociabilidade. Dentro da matriz de Humanas, CH-H24 é a correspondência mais defensável por relacionar comunicação pública, cidadania e organização da vida coletiva; nenhuma habilidade alternativa descreve melhor essa operação."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q057-portugues": {
+      "confidence": 0.87,
+      "evidence": "Rejeição, confinamento, policiamento, análise e repartição dos indivíduos são registros concretos de práticas de controle que formam a sociedade disciplinar. CH-H11 é sustentável porque pede identificar práticas de grupos sociais no tempo e no espaço; o item não exige comparar interpretações institucionais, o que afastaria CH-H14."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q063-portugues": {
+      "confidence": 0.9,
+      "evidence": "A fonte distingue a aparência de caridade individual da responsabilidade pública atribuída à realeza na monarquia cristã. CH-H14 é direta porque o estudante compara o registro das fontes com a interpretação historiográfica sobre o papel de uma instituição política medieval."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q070-portugues": {
+      "confidence": 0.93,
+      "evidence": "O gráfico auditado mostra pobreza maior entre mulheres pretas ou pardas sem cônjuge e com filhos do que entre o grupo equivalente de mulheres brancas, permitindo aplicar o conceito de interseccionalidade a raça e gênero. CH-H15 contempla a avaliação crítica desse conflito e desigualdade social."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q072-portugues": {
+      "confidence": 0.91,
+      "evidence": "O deslocamento diário entre moradia e trabalho, sem mudança de residência, caracteriza inequivocamente movimento pendular. CH-H8 é a única habilidade da matriz que trata diretamente da dinâmica dos fluxos populacionais e de seus problemas socioeconômicos, mesmo que o item não cobre ação estatal."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q073-portugues": {
+      "confidence": 0.92,
+      "evidence": "O Primeiro de Maio é apresentado como ato deliberado que confere unidade política e cultural à classe operária. A operação é analisar a produção social de uma memória comemorativa para afirmar identidade coletiva, correspondendo diretamente a CH-H2."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q077-portugues": {
+      "confidence": 0.91,
+      "evidence": "O texto define o saber médico como instrumento da gestão moderna da mão de obra escravizada e do desenvolvimento colonial. CH-H16 é direta porque identifica o papel de uma técnica e de um conhecimento na organização do trabalho em função dos objetivos econômicos das elites."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q085-portugues": {
+      "confidence": 0.88,
+      "evidence": "A ordem do Santo Ofício e a descrição da sequência ritual fixam lugares, gestos, palavras e condutas. CH-H1 é adequada porque o aluno interpreta duas fontes documentais sobre uma prática cultural historicamente situada para reconhecer seu disciplinamento social."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q086-portugues": {
+      "confidence": 0.87,
+      "evidence": "A fonte sobre Empédocles apresenta elementos eternos movidos por Amor e Ódio como explicação da arché, levando à discussão cosmogônica. Na matriz de Humanas, CH-H1 é a correspondência disponível mais consistente para interpretar historicamente uma fonte filosófica sobre aspecto cultural."
+    },
+    "enem-2022-dia-1-caderno-1-azul-q088-portugues": {
+      "confidence": 0.88,
+      "evidence": "Sêneca apresenta firmeza e serenidade diante da morte e da fragilidade corporal, núcleo estoico da moderação das paixões. CH-H23 é a melhor habilidade disponível porque exige reconhecer a importância de um valor ético, ainda que o item não explore diretamente sua dimensão política."
+    }
+  }
+}

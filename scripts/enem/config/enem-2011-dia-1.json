@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2011-dia-1-caderno-1-azul",
+  "vestibular": "ENEM",
+  "year": 2011,
+  "day": 1,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 1,
+  "bookletColor": "Azul",
+  "questionStart": 1,
+  "questionEnd": 90,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 90,
+  "oldExamId": "pa-enem-2011-dia-1",
+  "officialExamPdf": "data/provas/enem/2011/prova-1-dia-caderno-1-azul.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2011/gabarito-1-dia-caderno-1-azul.pdf",
+  "officialExamSha256": "0abce128c2a854d6ec649467abe076b81a3b56bb5828f27c024e0cbbfb4d8165",
+  "officialAnswerKeySha256": "6f48be59b9802da4ba18bffa78e8bff69b8af0cd1c2b985cb8924d180255fffb",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2011",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2011/dia1_caderno1_azul.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2011/01_AZUL_GABARITO.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2011-dia-1-caderno-1-azul",
+  "pdfPageCount": 32,
+  "objectivePageRanges": [
+    {
+      "start": 2,
+      "end": 31
+    }
+  ],
+  "essayPages": [],
+  "draftPages": [],
+  "administrativePages": [
+    32
+  ],
+  "layout": {
+    "top": 70,
+    "bottom": 740,
+    "left": 34,
+    "leftEnd": 288,
+    "rightStart": 293,
+    "right": 549,
+    "fullWidthObjectivePages": [
+      3,
+      21
+    ]
+  },
+  "languageSections": [],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [],
+  "areas": [
+    {
+      "name": "Ciências Humanas e suas Tecnologias",
+      "questionStart": 1,
+      "questionEnd": 45
+    },
+    {
+      "name": "Ciências da Natureza e suas Tecnologias",
+      "questionStart": 46,
+      "questionEnd": 90
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 0?1 a 45",
+    "questoes de 46 a 90",
+    "ciencias humanas e suas tecnologias",
+    "ciencias da natureza e suas tecnologias"
+  ]
+}

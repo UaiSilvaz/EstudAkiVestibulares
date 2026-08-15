@@ -1,55 +1,83 @@
-import { Camera, FileText, PenLine } from "lucide-react";
+import { EssayWorkspace } from "@/components/essay-workspace";
 import { PageHeader } from "@/components/page-header";
-import { requireUser } from "@/lib/auth";
+import { requirePersistedUser } from "@/lib/auth";
+import { db } from "@/lib/db";
 
-const themes = [
-  "Desafios para democratizar o acesso a educacao digital no Brasil",
-  "A importancia da cultura cientifica na formacao dos jovens",
-  "Caminhos para combater a evasao escolar no ensino medio",
-];
+function asStringArray(value: unknown) {
+  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
+}
+
+function asProposalBlocks(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object" || Array.isArray(item)) return [];
+    const block = item as Record<string, unknown>;
+    if (typeof block.content !== "string" || !block.content.trim()) return [];
+    return [{
+      type: typeof block.type === "string" ? block.type : "text",
+      content: block.content,
+      order: typeof block.order === "number" ? block.order : 0,
+    }];
+  }).sort((left, right) => left.order - right.order);
+}
+
+function asProposalAssets(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value.flatMap((item) => {
+    if (!item || typeof item !== "object" || Array.isArray(item)) return [];
+    const asset = item as Record<string, unknown>;
+    if (typeof asset.url !== "string" || !asset.url.trim()) return [];
+    return [{
+      url: asset.url,
+      altText: typeof asset.altText === "string" ? asset.altText : "Elemento visual da proposta oficial",
+      order: typeof asset.order === "number" ? asset.order : 0,
+    }];
+  }).sort((left, right) => left.order - right.order);
+}
 
 export default async function RedacaoPage() {
-  await requireUser();
-
+  const user = await requirePersistedUser();
+  const [history, officialProposals] = await Promise.all([
+    db.essaySubmission.findMany({
+      where: { userId: user.id },
+      orderBy: { createdAt: "desc" },
+      take: 10,
+      select: { id: true, theme: true, score: true, createdAt: true },
+    }),
+    db.officialEssayProposal.findMany({
+      where: { status: "PUBLISHED", reviewStatus: "APPROVED" },
+      orderBy: [{ provaAntiga: { ano: "desc" } }, { createdAt: "desc" }],
+      select: {
+        id: true,
+        title: true,
+        theme: true,
+        promptText: true,
+        instructions: true,
+        blocks: true,
+        assets: true,
+        originalPageUrl: true,
+        provaAntiga: { select: { ano: true, dia: true } },
+      },
+    }),
+  ]);
   return (
-    <div>
-      <PageHeader
-        eyebrow="Redacao"
-        title="Temas e envio de redacao"
-        description="Estrutura preparada para texto digitado ou foto da redacao manuscrita, com correcao por competencia."
+    <div className="space-y-6">
+      <PageHeader eyebrow="Redação ENEM" title="Escreva, escaneie e evolua" description="OCR para textos manuscritos e análise pedagógica pelas cinco competências da matriz oficial." />
+      <EssayWorkspace
+        history={history.map((item) => ({ ...item, createdAt: item.createdAt.toISOString() }))}
+        officialProposals={officialProposals.map((proposal) => ({
+          id: proposal.id,
+          year: proposal.provaAntiga.ano,
+          day: proposal.provaAntiga.dia,
+          title: proposal.title,
+          theme: proposal.theme,
+          promptText: proposal.promptText,
+          instructions: asStringArray(proposal.instructions),
+          blocks: asProposalBlocks(proposal.blocks),
+          assets: asProposalAssets(proposal.assets),
+          originalPageUrl: proposal.originalPageUrl,
+        }))}
       />
-      <section className="grid gap-5 xl:grid-cols-[1fr_0.8fr]">
-        <div className="estudaki-card rounded-[30px] p-6">
-          <h2 className="mb-5 text-2xl font-black text-slate-950">Temas disponiveis</h2>
-          <div className="space-y-3">
-            {themes.map((theme) => (
-              <div key={theme} className="rounded-2xl border border-slate-100 bg-white p-4">
-                <p className="font-black text-slate-950">{theme}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-500">
-                  Texto motivador, repertorios e matriz de competencias podem ser cadastrados no CMS.
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="estudaki-card rounded-[30px] p-6">
-          <h2 className="mb-5 text-2xl font-black text-slate-950">Enviar producao</h2>
-          <div className="grid gap-3">
-            <button className="estudaki-button estudaki-button-primary justify-start">
-              <PenLine className="h-4 w-4" />
-              Digitar redacao
-            </button>
-            <button className="estudaki-button estudaki-button-ghost justify-start">
-              <Camera className="h-4 w-4" />
-              Enviar foto manuscrita
-            </button>
-            <button className="estudaki-button estudaki-button-ghost justify-start">
-              <FileText className="h-4 w-4" />
-              Baixar folha oficial
-            </button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

@@ -2,6 +2,8 @@
 
 import {
   Brush,
+  ArrowLeft,
+  CheckCircle2,
   Download,
   Eraser,
   ExternalLink,
@@ -22,6 +24,8 @@ import {
   ZoomIn,
   ZoomOut,
 } from "lucide-react";
+import Link from "next/link";
+import type { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
 import {
   PointerEvent,
   type Dispatch,
@@ -43,6 +47,7 @@ type Point = {
 type StrokeAnnotation = {
   id: string;
   document: DocumentKind;
+  page: number;
   type: Exclude<Tool, "pan" | "note" | "erase-stroke" | "erase-brush">;
   points: Point[];
   color: string;
@@ -54,6 +59,7 @@ type StrokeAnnotation = {
 type NoteAnnotation = {
   id: string;
   document: DocumentKind;
+  page: number;
   type: "note";
   x: number;
   y: number;
@@ -78,6 +84,7 @@ type Exam = {
   durationMinutes: number | null;
   color: string;
   official: boolean;
+  availableQuestionCount?: number;
   vestibular: { name: string; slug: string; color: string };
 };
 
@@ -95,46 +102,62 @@ const toolMeta: Array<{ id: Tool; label: string; icon: React.ReactNode }> = [
   { id: "erase-brush", label: "Borracha pincel", icon: <Eraser className="h-4 w-4" /> },
 ];
 
-export function ExamWorkspace({ exam }: { exam: Exam }) {
-  const storageKey = useMemo(() => `estudaki-exam-${exam.id}-annotations-v2`, [exam.id]);
-  const surfaceRef = useRef<HTMLDivElement | null>(null);
+const answerOptions = ["A", "B", "C", "D", "E"];
+
+export function ExamWorkspace({
+  exam,
+  backHref = "/provas",
+  initialDocumentKind = "exam",
+}: {
+  exam: Exam;
+  backHref?: string;
+  initialDocumentKind?: DocumentKind;
+}) {
+  const storageKey = useMemo(() => `estudaki-exam-${exam.id}-annotations-v3`, [exam.id]);
+  const answerStorageKey = useMemo(() => `estudaki-old-exam-${exam.id}-answer-sheet-v1`, [exam.id]);
   const [annotations, setAnnotations] = useState<Annotation[]>(() => readSavedAnnotations(storageKey));
   const [redoStack, setRedoStack] = useState<Annotation[]>([]);
   const [currentStroke, setCurrentStroke] = useState<StrokeAnnotation | null>(null);
   const [tool, setTool] = useState<Tool>("marker");
-  const [documentKind, setDocumentKind] = useState<DocumentKind>("exam");
+  const [documentKind, setDocumentKind] = useState<DocumentKind>(initialDocumentKind);
   const [color, setColor] = useState(colors[0]);
   const [size, setSize] = useState(4);
   const [opacity, setOpacity] = useState(55);
   const [zoom, setZoom] = useState(100);
   const [noteText, setNoteText] = useState("Revisar esta parte");
   const [toolsOpen, setToolsOpen] = useState(false);
+  const [answers, setAnswers] = useState<Record<number, string>>(() => readSavedAnswerSheet(answerStorageKey));
 
   const activeUrl = documentKind === "exam" ? exam.pdfUrl : exam.answerKeyUrl;
   const visibleAnnotations = annotations.filter((annotation) => annotation.document === documentKind);
   const canDraw = tool !== "pan";
+  const questionCount = Math.max(1, Math.min(exam.questionCount ?? 90, 180));
+  const answeredCount = Object.keys(answers).length;
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, JSON.stringify(annotations));
   }, [annotations, storageKey]);
 
-  function pointFromEvent(event: PointerEvent<HTMLDivElement>): Point | null {
-    const surface = surfaceRef.current;
-    if (!surface) return null;
+  useEffect(() => {
+    window.localStorage.setItem(answerStorageKey, JSON.stringify(answers));
+  }, [answerStorageKey, answers]);
 
+  function pointFromEvent(event: PointerEvent<HTMLDivElement>): Point {
+    const surface = event.currentTarget;
     const rect = surface.getBoundingClientRect();
     return {
-      x: ((event.clientX - rect.left) / rect.width) * 100,
-      y: ((event.clientY - rect.top) / rect.height) * 100,
+      x: clampPercent(((event.clientX - rect.left) / rect.width) * 100),
+      y: clampPercent(((event.clientY - rect.top) / rect.height) * 100),
     };
   }
 
-  function createStroke(point: Point): StrokeAnnotation {
+  function createStroke(point: Point, page: number): StrokeAnnotation {
     const strokeType = tool === "erase-brush" || tool === "erase-stroke" || tool === "note" || tool === "pan" ? "pen" : tool;
     const isMarker = strokeType === "highlight" || strokeType === "marker";
     return {
       id: crypto.randomUUID(),
       document: documentKind,
+      page,
       type: strokeType,
       points: [point],
       color,
@@ -149,10 +172,10 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
     setRedoStack([]);
   }
 
-  function eraseNear(point: Point, radius = 3.5) {
+  function eraseNear(point: Point, page: number, radius = 3.5) {
     setAnnotations((current) =>
       current.filter((annotation) => {
-        if (annotation.document !== documentKind) return true;
+        if (annotation.document !== documentKind || annotation.page !== page) return true;
         if (annotation.type === "note") {
           return distance(point, { x: annotation.x, y: annotation.y }) > radius * 1.4;
         }
@@ -161,14 +184,13 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
     );
   }
 
-  function handlePointerDown(event: PointerEvent<HTMLDivElement>) {
+  function handlePointerDown(event: PointerEvent<HTMLDivElement>, page: number) {
     if (tool === "pan") return;
     event.currentTarget.setPointerCapture(event.pointerId);
     const point = pointFromEvent(event);
-    if (!point) return;
 
     if (tool === "erase-stroke" || tool === "erase-brush") {
-      eraseNear(point, tool === "erase-brush" ? size * 1.2 : 4);
+      eraseNear(point, page, tool === "erase-brush" ? size * 1.2 : 4);
       return;
     }
 
@@ -176,6 +198,7 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
       pushAnnotation({
         id: crypto.randomUUID(),
         document: documentKind,
+        page,
         type: "note",
         x: point.x,
         y: point.y,
@@ -186,20 +209,19 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
       return;
     }
 
-    setCurrentStroke(createStroke(point));
+    setCurrentStroke(createStroke(point, page));
   }
 
-  function handlePointerMove(event: PointerEvent<HTMLDivElement>) {
+  function handlePointerMove(event: PointerEvent<HTMLDivElement>, page: number) {
     if (!canDraw) return;
     const point = pointFromEvent(event);
-    if (!point) return;
 
     if (tool === "erase-brush" && event.buttons === 1) {
-      eraseNear(point, size * 1.2);
+      eraseNear(point, page, size * 1.2);
       return;
     }
 
-    if (!currentStroke) return;
+    if (!currentStroke || currentStroke.page !== page) return;
     setCurrentStroke((current) => (current ? { ...current, points: [...current.points, point] } : current));
   }
 
@@ -243,6 +265,14 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
     URL.revokeObjectURL(url);
   }
 
+  function selectAnswer(questionNumber: number, answer: string) {
+    setAnswers((current) => ({ ...current, [questionNumber]: answer }));
+  }
+
+  function clearAnswers() {
+    setAnswers({});
+  }
+
   const toolbar = (
     <ToolbarPanel
       tool={tool}
@@ -268,6 +298,9 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
 
   return (
     <div className="relative mx-auto w-full min-w-0 overflow-x-hidden">
+      <Link href={backHref} className="estudaki-button estudaki-button-ghost mb-4 inline-flex">
+        <ArrowLeft className="h-4 w-4" /> Voltar para Provas Antigas
+      </Link>
       <div className="mb-4 flex items-start justify-between gap-3 rounded-[28px] border border-blue-100 bg-white/92 p-4 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.24)] backdrop-blur lg:hidden">
         <div className="min-w-0">
           <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
@@ -312,65 +345,20 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
             </div>
 
             <div className="thin-scrollbar relative h-[calc(100vh-210px)] min-h-[560px] overflow-auto bg-gradient-to-br from-slate-100 via-[#F8FBFF] to-[#EEF8FF] p-3 sm:p-5 lg:h-[calc(100vh-230px)] lg:min-h-[700px]">
-              <div
-                className="relative mx-auto min-h-[720px] rounded-[22px] bg-white shadow-[0_22px_54px_-32px_rgba(15,23,42,0.55)] ring-1 ring-slate-200/80"
-                style={{
-                  width: zoom <= 100 ? "min(100%, 980px)" : `${zoom}%`,
-                  maxWidth: zoom <= 100 ? "980px" : `${Math.round(980 * (zoom / 100))}px`,
-                  minWidth: zoom > 120 ? `${Math.round(760 * (zoom / 100))}px` : undefined,
-                }}
-              >
-            {activeUrl ? (
-              <PdfDocument
-                url={activeUrl}
-                title={documentKind === "exam" ? exam.title : `${exam.title} - gabarito`}
-              />
-            ) : (
-              <FallbackPaper exam={exam} documentKind={documentKind} />
-            )}
-
-            <div
-              ref={surfaceRef}
-              className={`absolute inset-0 rounded-[18px] ${canDraw ? "touch-none cursor-crosshair" : "pointer-events-none"}`}
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={finishStroke}
-              onPointerCancel={finishStroke}
-              onPointerLeave={finishStroke}
-            >
-              <svg className="h-full w-full overflow-visible rounded-[18px]" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {[...visibleAnnotations, ...(currentStroke ? [currentStroke] : [])].map((annotation) =>
-                  annotation.type === "note" ? null : (
-                    <polyline
-                      key={annotation.id}
-                      points={annotation.points.map((point) => `${point.x},${point.y}`).join(" ")}
-                      vectorEffect="non-scaling-stroke"
-                      fill="none"
-                      stroke={annotation.color}
-                      strokeWidth={annotation.size}
-                      strokeLinecap={annotation.type === "pencil" ? "round" : "round"}
-                      strokeLinejoin="round"
-                      opacity={annotation.opacity}
-                      style={{
-                        mixBlendMode: annotation.type === "highlight" || annotation.type === "marker" ? "multiply" : "normal",
-                      }}
-                    />
-                  ),
-                )}
-              </svg>
-              {visibleAnnotations
-                .filter((annotation): annotation is NoteAnnotation => annotation.type === "note")
-                .map((annotation) => (
-                  <div
-                    key={annotation.id}
-                    className="absolute max-w-[260px] -translate-x-2 -translate-y-2 rounded-2xl border bg-white p-3 text-xs font-bold text-slate-700 shadow-xl"
-                    style={{ left: `${annotation.x}%`, top: `${annotation.y}%`, borderColor: annotation.color }}
-                  >
-                    {annotation.text}
-                  </div>
-                ))}
-            </div>
-          </div>
+              {activeUrl ? (
+                <PdfDocument
+                  url={activeUrl}
+                  title={documentKind === "exam" ? exam.title : `${exam.title} - gabarito`}
+                  zoom={zoom}
+                  annotations={[...visibleAnnotations, ...(currentStroke ? [currentStroke] : [])]}
+                  canDraw={canDraw}
+                  onPointerDown={handlePointerDown}
+                  onPointerMove={handlePointerMove}
+                  onPointerUp={finishStroke}
+                />
+              ) : (
+                <FallbackPaper exam={exam} documentKind={documentKind} />
+              )}
             </div>
           </div>
         </section>
@@ -385,10 +373,20 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
           <div className="mt-5 grid grid-cols-2 gap-3">
             <MiniStat label="Ano" value={String(exam.year)} />
             <MiniStat label="Marcacoes" value={String(visibleAnnotations.length)} />
-            <MiniStat label="Questoes" value={exam.questionCount ? String(exam.questionCount) : "--"} />
+            <MiniStat label="QuestÃµes" value={exam.questionCount ? String(exam.questionCount) : "--"} />
             <MiniStat label="Tempo" value={exam.durationMinutes ? `${exam.durationMinutes}m` : "--"} />
           </div>
         </div>
+
+        <AnswerSheet
+          answers={answers}
+          answeredCount={answeredCount}
+          questionCount={questionCount}
+          hasAnswerKey={!!exam.answerKeyUrl}
+          setDocumentKind={setDocumentKind}
+          onSelect={selectAnswer}
+          onClear={clearAnswers}
+        />
 
         <div className="rounded-[30px] border border-blue-100/70 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
           <p className="mb-3 text-sm font-black text-slate-800">Arquivos oficiais</p>
@@ -447,7 +445,6 @@ export function ExamWorkspace({ exam }: { exam: Exam }) {
     </div>
   );
 }
-
 function ToolbarPanel({
   tool,
   setTool,
@@ -586,94 +583,331 @@ function readSavedAnnotations(storageKey: string): Annotation[] {
   }
 }
 
+function readSavedAnswerSheet(storageKey: string): Record<number, string> {
+  if (typeof window === "undefined") return {};
+  try {
+    const saved = window.localStorage.getItem(storageKey);
+    if (!saved) return {};
+    const parsed = JSON.parse(saved) as Record<string, unknown>;
+    return Object.fromEntries(
+      Object.entries(parsed)
+        .map(([question, answer]) => [Number(question), String(answer).toUpperCase()] as const)
+        .filter(([question, answer]) => Number.isInteger(question) && question > 0 && answerOptions.includes(answer)),
+    );
+  } catch {
+    return {};
+  }
+}
+
 function proxiedPdfUrl(url: string) {
   if (url.startsWith("/")) return url;
   return `/api/pdf-proxy?url=${encodeURIComponent(url)}`;
 }
 
-function PdfDocument({ url, title }: { url: string; title: string }) {
-  const holderRef = useRef<HTMLDivElement | null>(null);
-  const [pageCount, setPageCount] = useState(0);
+type PdfDocumentProps = {
+  url: string;
+  title: string;
+  zoom: number;
+  annotations: Annotation[];
+  canDraw: boolean;
+  onPointerDown: (event: PointerEvent<HTMLDivElement>, page: number) => void;
+  onPointerMove: (event: PointerEvent<HTMLDivElement>, page: number) => void;
+  onPointerUp: () => void;
+};
+
+function PdfDocument({
+  url,
+  title,
+  zoom,
+  annotations,
+  canDraw,
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
+}: PdfDocumentProps) {
+  const src = proxiedPdfUrl(url);
+  const [pdf, setPdf] = useState<PDFDocumentProxy | null>(null);
+  const [status, setStatus] = useState("Carregando PDF oficial...");
   const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
-    const holder = holderRef.current;
-    if (!holder) return;
+    let loadingTask: { promise: Promise<PDFDocumentProxy>; destroy: () => Promise<void> } | null = null;
 
-    async function renderPdf() {
-      const currentHolder = holderRef.current;
-      if (!currentHolder) return;
+    async function load() {
+      setPdf(null);
       setError("");
-      setPageCount(0);
-      currentHolder.innerHTML = "";
-
+      setStatus("Carregando PDF oficial...");
       try {
-        const pdfjs = await import("pdfjs-dist");
-        pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-          "pdfjs-dist/build/pdf.worker.min.mjs",
-          import.meta.url,
-        ).toString();
-
-        const pdf = await pdfjs.getDocument({ url: proxiedPdfUrl(url) }).promise;
-        if (cancelled) return;
-        setPageCount(pdf.numPages);
-
-        for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
-          if (cancelled) return;
-          const page = await pdf.getPage(pageNumber);
-          const viewport = page.getViewport({ scale: 1.35 });
-          const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
-          if (!context) continue;
-
-          canvas.width = viewport.width;
-          canvas.height = viewport.height;
-          canvas.className = "mx-auto mb-4 block max-w-full rounded-sm bg-white shadow-[0_10px_24px_-18px_rgba(15,23,42,0.55)]";
-          canvas.setAttribute("aria-label", `${title} pagina ${pageNumber}`);
-          currentHolder.appendChild(canvas);
-
-          await page.render({ canvas, canvasContext: context, viewport }).promise;
+        const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+        pdfjs.GlobalWorkerOptions.workerSrc = "/api/pdf-worker";
+        loadingTask = pdfjs.getDocument({
+          url: src,
+          withCredentials: src.startsWith("/"),
+          disableAutoFetch: false,
+          disableStream: false,
+        }) as { promise: Promise<PDFDocumentProxy>; destroy: () => Promise<void> };
+        const loaded = await loadingTask.promise;
+        if (cancelled) {
+          return;
         }
+        setPdf(loaded);
+        setStatus(`${loaded.numPages} pagina(s) prontas`);
       } catch {
-        if (!cancelled) setError("Nao foi possivel renderizar este PDF dentro do editor.");
+        if (!cancelled) {
+          setError("Nao foi possivel abrir este PDF agora.");
+          setStatus("PDF indisponivel");
+        }
       }
     }
 
-    void renderPdf();
-
+    void load();
     return () => {
       cancelled = true;
+      if (loadingTask) void loadingTask.destroy();
     };
-  }, [title, url]);
+  }, [src]);
 
-  if (error) {
-    return (
-      <div className="min-h-[840px] p-10">
-        <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-bold text-amber-800">
-          {error}
-        </p>
-        <a href={url} target="_blank" rel="noreferrer" className="estudaki-button estudaki-button-primary mt-4">
-          Abrir PDF original
+  return (
+    <div className="min-h-[840px] px-1 py-3 sm:px-3 sm:py-5">
+      <div className="mb-4 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700">
+        <span className="min-w-0 truncate">{title}</span>
+        <a href={url} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-1 text-blue-700">
+          Abrir PDF
           <ExternalLink className="h-4 w-4" />
         </a>
       </div>
-    );
-  }
-
-  return (
-    <div className="min-h-[840px] bg-[#f8fafc] px-3 py-5">
-      <div className="mb-4 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700">
-        <span>{title}</span>
-        <span>{pageCount ? `${pageCount} paginas` : "Carregando PDF..."}</span>
-      </div>
-      <div ref={holderRef} />
+      {error ? (
+        <div className="rounded-[26px] border border-rose-100 bg-white p-8 text-center shadow-sm">
+          <p className="text-lg font-black text-slate-950">{error}</p>
+          <p className="mt-2 text-sm font-semibold text-slate-500">
+            Tente abrir pela fonte oficial ou recarregue a pagina.
+          </p>
+        </div>
+      ) : pdf ? (
+        <div className="space-y-5">
+          {Array.from({ length: pdf.numPages }, (_, index) => (
+            <PdfPageCanvas
+              key={`${src}-${index + 1}`}
+              pdf={pdf}
+              pageNumber={index + 1}
+              zoom={zoom}
+              annotations={annotations}
+              canDraw={canDraw}
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="grid min-h-[620px] place-items-center rounded-[26px] border border-blue-100 bg-white text-center shadow-sm">
+          <div>
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600" />
+            <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-blue-700">{status}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
+function PdfPageCanvas({
+  pdf,
+  pageNumber,
+  zoom,
+  annotations,
+  canDraw,
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
+}: {
+  pdf: PDFDocumentProxy;
+  pageNumber: number;
+  zoom: number;
+  annotations: Annotation[];
+  canDraw: boolean;
+  onPointerDown: (event: PointerEvent<HTMLDivElement>, page: number) => void;
+  onPointerMove: (event: PointerEvent<HTMLDivElement>, page: number) => void;
+  onPointerUp: () => void;
+}) {
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [visible, setVisible] = useState(pageNumber <= 2);
+  const [dimensions, setDimensions] = useState(() => fallbackPageDimensions(zoom));
+  const pageAnnotations = annotations.filter((annotation) => annotation.page === pageNumber);
+  const displayDimensions = visible ? dimensions : fallbackPageDimensions(zoom);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper || visible) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { root: null, rootMargin: "900px 0px" },
+    );
+    observer.observe(wrapper);
+    return () => observer.disconnect();
+  }, [visible]);
+
+  useEffect(() => {
+    if (!visible) return;
+
+    let cancelled = false;
+    let renderTask: { promise: Promise<void>; cancel: () => void } | null = null;
+
+    async function render() {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const page = await pdf.getPage(pageNumber);
+      if (cancelled) return;
+
+      const scale = Math.max(0.75, Math.min(2.8, (zoom / 100) * 1.35));
+      const viewport = page.getViewport({ scale });
+      const deviceScale = Math.min(window.devicePixelRatio || 1, 2);
+      const renderViewport = page.getViewport({ scale: scale * deviceScale });
+      const context = canvas.getContext("2d");
+      if (!context) return;
+
+      setDimensions({
+        width: Math.round(viewport.width),
+        height: Math.round(viewport.height),
+      });
+      canvas.width = Math.floor(renderViewport.width);
+      canvas.height = Math.floor(renderViewport.height);
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+      context.setTransform(1, 0, 0, 1, 0, 0);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      renderTask = page.render({
+        canvas,
+        canvasContext: context,
+        viewport: renderViewport,
+      }) as { promise: Promise<void>; cancel: () => void };
+      await renderTask.promise.catch((error: unknown) => {
+        if (error instanceof Error && error.name === "RenderingCancelledException") return;
+        throw error;
+      });
+    }
+
+    void render();
+    return () => {
+      cancelled = true;
+      if (renderTask) renderTask.cancel();
+    };
+  }, [pdf, pageNumber, visible, zoom]);
+
+  return (
+    <div ref={wrapperRef} className="mx-auto">
+      <div
+        className="relative mx-auto overflow-hidden rounded-[10px] bg-white shadow-[0_18px_45px_-30px_rgba(15,23,42,0.65)] ring-1 ring-slate-200"
+        style={{
+          width: `${displayDimensions.width}px`,
+          maxWidth: zoom <= 100 ? "100%" : undefined,
+          aspectRatio: `${displayDimensions.width} / ${displayDimensions.height}`,
+        }}
+      >
+        <canvas ref={canvasRef} className="block h-full w-full bg-white" aria-label={`Pagina ${pageNumber}`} />
+        {!visible && (
+          <div className="absolute inset-0 grid place-items-center bg-slate-50 text-xs font-black uppercase tracking-wider text-slate-400">
+            Pagina {pageNumber}
+          </div>
+        )}
+        <PageAnnotationLayer
+          page={pageNumber}
+          annotations={pageAnnotations}
+          canDraw={canDraw}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+        />
+      </div>
+      <p className="mt-2 text-center text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">
+        Pagina {pageNumber}
+      </p>
+    </div>
+  );
+}
+
+function PageAnnotationLayer({
+  page,
+  annotations,
+  canDraw,
+  onPointerDown,
+  onPointerMove,
+  onPointerUp,
+}: {
+  page: number;
+  annotations: Annotation[];
+  canDraw: boolean;
+  onPointerDown: (event: PointerEvent<HTMLDivElement>, page: number) => void;
+  onPointerMove: (event: PointerEvent<HTMLDivElement>, page: number) => void;
+  onPointerUp: () => void;
+}) {
+  return (
+    <div
+      className={`absolute inset-0 ${canDraw ? "touch-none cursor-crosshair" : "pointer-events-none"}`}
+      onPointerDown={(event) => onPointerDown(event, page)}
+      onPointerMove={(event) => onPointerMove(event, page)}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+      onPointerLeave={onPointerUp}
+    >
+      <svg className="h-full w-full overflow-visible" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {annotations.map((annotation) =>
+          annotation.type === "note" ? null : (
+            <polyline
+              key={annotation.id}
+              points={annotation.points.map((point) => `${point.x},${point.y}`).join(" ")}
+              vectorEffect="non-scaling-stroke"
+              fill="none"
+              stroke={annotation.color}
+              strokeWidth={annotation.size}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity={annotation.opacity}
+              style={{
+                mixBlendMode: annotation.type === "highlight" || annotation.type === "marker" ? "multiply" : "normal",
+              }}
+            />
+          ),
+        )}
+      </svg>
+      {annotations
+        .filter((annotation): annotation is NoteAnnotation => annotation.type === "note")
+        .map((annotation) => (
+          <div
+            key={annotation.id}
+            className="absolute max-w-[260px] -translate-x-2 -translate-y-2 rounded-2xl border bg-white p-3 text-xs font-bold text-slate-700 shadow-xl"
+            style={{ left: `${annotation.x}%`, top: `${annotation.y}%`, borderColor: annotation.color }}
+          >
+            {annotation.text}
+          </div>
+        ))}
+    </div>
+  );
+}
+
+function fallbackPageDimensions(zoom: number) {
+  const scale = Math.max(0.75, Math.min(2.8, (zoom / 100) * 1.35));
+  return {
+    width: Math.round(612 * scale),
+    height: Math.round(792 * scale),
+  };
+}
+
 function distance(a: Point, b: Point) {
   return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+function clampPercent(value: number) {
+  return Math.min(100, Math.max(0, value));
 }
 
 function ToolButton({
@@ -756,6 +990,92 @@ function MiniStat({ label, value }: { label: string; value: string }) {
   );
 }
 
+function AnswerSheet({
+  answers,
+  answeredCount,
+  questionCount,
+  hasAnswerKey,
+  setDocumentKind,
+  onSelect,
+  onClear,
+}: {
+  answers: Record<number, string>;
+  answeredCount: number;
+  questionCount: number;
+  hasAnswerKey: boolean;
+  setDocumentKind: Dispatch<SetStateAction<DocumentKind>>;
+  onSelect: (questionNumber: number, answer: string) => void;
+  onClear: () => void;
+}) {
+  const progress = Math.round((answeredCount / questionCount) * 100);
+
+  return (
+    <div className="rounded-[30px] border border-blue-100/70 bg-white p-5 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">Cartao-resposta</p>
+          <h2 className="mt-1 text-xl font-black text-slate-950">
+            {answeredCount}/{questionCount}
+          </h2>
+        </div>
+        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
+          {progress}%
+        </span>
+      </div>
+
+      <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
+        <div
+          className="h-full rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE]"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+
+      <div className="thin-scrollbar mt-4 max-h-[420px] space-y-2 overflow-y-auto pr-1">
+        {Array.from({ length: questionCount }, (_, index) => {
+          const questionNumber = index + 1;
+          const selected = answers[questionNumber];
+          return (
+            <div key={questionNumber} className="grid grid-cols-[2.75rem_1fr] items-center gap-2 rounded-2xl bg-slate-50 p-2">
+              <span className="text-center text-xs font-black text-slate-500">{questionNumber}</span>
+              <div className="grid grid-cols-5 gap-1">
+                {answerOptions.map((answer) => (
+                  <button
+                    key={answer}
+                    type="button"
+                    onClick={() => onSelect(questionNumber, answer)}
+                    className={`h-8 rounded-xl text-xs font-black transition ${
+                      selected === answer
+                        ? "bg-gradient-to-r from-[#2563EB] to-[#22D3EE] text-white shadow-sm"
+                        : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-blue-50"
+                    }`}
+                    aria-label={`Questao ${questionNumber}, alternativa ${answer}`}
+                  >
+                    {answer}
+                  </button>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-1 2xl:grid-cols-2">
+        <button
+          type="button"
+          disabled={!hasAnswerKey}
+          onClick={() => setDocumentKind("answer")}
+          className="estudaki-button estudaki-button-primary justify-center disabled:opacity-50"
+        >
+          <CheckCircle2 className="h-4 w-4" /> Conferir gabarito
+        </button>
+        <button type="button" onClick={onClear} className="estudaki-button estudaki-button-ghost justify-center">
+          Limpar respostas
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function ExternalButton({ href, label, icon }: { href: string | null; label: string; icon: React.ReactNode }) {
   if (!href) {
     return (
@@ -786,7 +1106,7 @@ function FallbackPaper({ exam, documentKind }: { exam: Exam; documentKind: Docum
         <div className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-black text-blue-700">{exam.year}</div>
       </div>
       <p className="text-sm leading-7 text-slate-600">
-        Este documento ainda nao tem PDF direto cadastrado. Use a fonte oficial ou cadastre o PDF no painel admin para abrir dentro do editor.
+        Este documento ainda nÃ£o possui um PDF cadastrado. Use a fonte oficial ou cadastre o arquivo no painel administrativo para abri-lo no editor.
       </p>
     </div>
   );

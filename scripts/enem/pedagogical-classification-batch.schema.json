@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["classifications"],
+  "properties": {
+    "classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "officialNumber",
+          "language",
+          "knowledgeArea",
+          "disciplinaryComponent",
+          "content",
+          "subcontent",
+          "competencyCode",
+          "abilityCode",
+          "cognitiveAxes",
+          "difficulty",
+          "estimatedMinutes",
+          "interdisciplinary",
+          "interdisciplinaryAreas",
+          "reasoningTypes",
+          "requiresCalculation",
+          "requiresVisualInterpretation",
+          "confidence",
+          "reviewRequired",
+          "rationale"
+        ],
+        "properties": {
+          "sourceId": { "type": "string", "minLength": 1 },
+          "officialNumber": { "type": "integer", "minimum": 1, "maximum": 180 },
+          "language": { "type": "string", "enum": ["NOT_APPLICABLE", "ENGLISH", "SPANISH", "PORTUGUESE"] },
+          "knowledgeArea": { "type": "string", "enum": ["Linguagens, Códigos e suas Tecnologias", "Ciências Humanas e suas Tecnologias", "Ciências da Natureza e suas Tecnologias", "Matemática e suas Tecnologias"] },
+          "disciplinaryComponent": { "type": "string", "enum": ["Língua Portuguesa", "Literatura", "Língua Inglesa", "Língua Espanhola", "Arte", "Educação Física", "Tecnologias da Informação e Comunicação", "História", "Geografia", "Filosofia", "Sociologia", "Biologia", "Física", "Química", "Matemática"] },
+          "content": { "type": "string", "minLength": 3 },
+          "subcontent": { "type": "string", "minLength": 3 },
+          "competencyCode": { "type": "string", "pattern": "^(LC|CH|CN|MT)-C[1-9]$" },
+          "abilityCode": { "type": "string", "pattern": "^(LC|CH|CN|MT)-H([1-9]|[12][0-9]|30)$" },
+          "cognitiveAxes": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "enum": ["DL", "CF", "SP", "CA", "EP"] }
+          },
+          "difficulty": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD"] },
+          "estimatedMinutes": { "type": "integer", "minimum": 1, "maximum": 20 },
+          "interdisciplinary": { "type": "boolean" },
+          "interdisciplinaryAreas": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["LC", "CH", "CN", "MT"] }
+          },
+          "reasoningTypes": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "enum": ["INTERPRETATION", "CALCULATION", "MODELING", "DATA_ANALYSIS", "VISUAL_ANALYSIS", "COMPARISON", "CAUSAL_REASONING", "ARGUMENT_EVALUATION", "SPATIAL_REASONING", "EXPERIMENTAL_REASONING"] }
+          },
+          "requiresCalculation": { "type": "boolean" },
+          "requiresVisualInterpretation": { "type": "boolean" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "reviewRequired": { "type": "boolean" },
+          "rationale": { "type": "string", "minLength": 80 }
+        }
+      }
+    }
+  }
+}

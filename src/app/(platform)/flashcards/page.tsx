@@ -1,35 +1,49 @@
 import { FlashcardDeck } from "@/components/flashcard-deck";
 import { PageHeader } from "@/components/page-header";
-import { requireUser } from "@/lib/auth";
+import { requirePersistedUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import type { Prisma } from "@prisma/client";
+import { ensureAnkiFlashcards } from "@/lib/flashcards-bootstrap";
 
-type FlashcardWithRelations = Prisma.FlashcardGetPayload<{
-  include: { subject: true; topic: true };
-}>;
+export default async function FlashcardsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const user = await requirePersistedUser();
+  const params = await searchParams;
+  const initialSubject = typeof params.subject === "string" ? params.subject : "";
 
-export default async function FlashcardsPage() {
-  await requireUser();
-  let cards: FlashcardWithRelations[] = [];
+  await ensureAnkiFlashcards();
 
-  try {
-    cards = await db.flashcard.findMany({
-      where: { status: "PUBLISHED" },
-      include: { subject: true, topic: true },
-      orderBy: { createdAt: "desc" },
-    });
-  } catch {
-    cards = [];
-  }
+  const [subjects, deckRows] = await Promise.all([
+    db.subject.findMany({
+      where: { flashcards: { some: { status: "PUBLISHED" } } },
+      select: { id: true, name: true },
+      orderBy: { name: "asc" },
+    }),
+    db.flashcard.findMany({
+      where: { status: "PUBLISHED", deck: { not: null } },
+      distinct: ["subjectId", "deck"],
+      select: { subjectId: true, deck: true },
+      orderBy: { deck: "asc" },
+    }),
+  ]);
 
   return (
-    <div>
+    <div className="space-y-6">
       <PageHeader
-        eyebrow="Revisao ativa"
-        title="Flashcards"
-        description="Cards de memorizacao para revisar conceitos que costumam aparecer nos seus erros."
+        eyebrow="Revisão ativa"
+        title="Flashcards por matéria"
+        description="Flashcards reais do acervo ENEM e Pré-Med, favoritos e baralhos criados pela comunidade."
       />
-      <FlashcardDeck cards={cards} />
+      <FlashcardDeck
+        subjects={subjects}
+        decks={deckRows
+          .filter((item): item is { subjectId: string | null; deck: string } => Boolean(item.deck))
+          .map((item) => ({ subjectId: item.subjectId, name: item.deck }))}
+        currentUserId={user.id}
+        initialSubject={initialSubject}
+      />
     </div>
   );
 }

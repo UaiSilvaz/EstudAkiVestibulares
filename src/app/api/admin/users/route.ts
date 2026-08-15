@@ -1,17 +1,21 @@
 import bcrypt from "bcryptjs";
 import { Role } from "@prisma/client";
 import { NextResponse } from "next/server";
-import { canManageContent, getCurrentUser } from "@/lib/auth";
+import { requireAdminApi } from "@/lib/admin-api-auth";
 import { db } from "@/lib/db";
+import { ensureEstudakiMaterials } from "@/lib/materials-bootstrap";
 
 export async function GET() {
-  const user = await getCurrentUser();
-
-  if (!user || !canManageContent(user.role)) {
-    return NextResponse.json({ error: "Sem permissao." }, { status: 403 });
+  const authorization = await requireAdminApi();
+  if (!authorization.ok) return authorization.response;
+  try {
+    await ensureEstudakiMaterials();
+  } catch (error) {
+    console.error("Falha ao preparar materiais no admin", error);
   }
 
-  const users = await db.user.findMany({
+  const [users, products] = await Promise.all([
+    db.user.findMany({
     orderBy: { createdAt: "desc" },
     select: {
       id: true,
@@ -25,25 +29,72 @@ export async function GET() {
       weeklyHours: true,
       targetExam: true,
       createdAt: true,
+      purchases: {
+        orderBy: { createdAt: "desc" },
+        take: 5,
+        select: {
+          id: true,
+          buyerEmail: true,
+          status: true,
+          createdAt: true,
+          product: { select: { name: true, priceCents: true, checkoutUrl: true } },
+        },
+      },
+      licenses: {
+        orderBy: { unlockedAt: "desc" },
+        take: 5,
+        select: {
+          id: true,
+          unlockedAt: true,
+          progress: true,
+          product: { select: { name: true, slug: true, priceCents: true } },
+        },
+      },
+      cartItems: {
+        orderBy: { updatedAt: "desc" },
+        take: 5,
+        select: {
+          id: true,
+          status: true,
+          quantity: true,
+          product: { select: { name: true, priceCents: true } },
+        },
+      },
       _count: {
         select: {
-          attempts: true,
+          attempts: { where: { annulled: false } },
           achievements: true,
           studySessions: true,
+          purchases: true,
+          licenses: true,
         },
       },
     },
-  });
+    }),
+    db.product.findMany({
+      where: { status: "PUBLISHED" },
+      orderBy: { name: "asc" },
+      select: {
+        id: true,
+        name: true,
+        slug: true,
+        priceCents: true,
+        checkoutUrl: true,
+        material: { select: { title: true, fileUrl: true, premium: true } },
+      },
+    }),
+  ]);
 
-  return NextResponse.json({ users });
+  return NextResponse.json({
+    users,
+    products: products.filter((product) => product.material),
+  });
 }
 
 export async function POST(request: Request) {
-  const currentUser = await getCurrentUser();
-
-  if (!currentUser || !canManageContent(currentUser.role)) {
-    return NextResponse.json({ error: "Sem permissao." }, { status: 403 });
-  }
+  const authorization = await requireAdminApi();
+  if (!authorization.ok) return authorization.response;
+  const currentUser = authorization.user;
 
   const body = (await request.json()) as {
     name?: string;

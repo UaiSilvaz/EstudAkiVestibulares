@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Remediações autorais verificadas das lacunas que não foram concluídas pela geração seletiva anterior.",
+  "overrides": {
+    "enem-2022-dia-2-caderno-5-amarelo-q99": {
+      "officialAnswer": "A",
+      "answerVerified": true,
+      "answerVerification": "A tabela completa fornece R₁ = 510/4 = 127,5, R₂ = 608/4 = 152 e R₃ = 575/3 ≈ 191,7. Como o aplicativo ordena as resistências da menor para a maior, a sequência é 1, 2, 3, exatamente a alternativa A."
+    },
+    "enem-2022-dia-2-caderno-5-amarelo-q105": {
+      "officialAnswer": "B",
+      "answerVerified": true,
+      "answerVerification": "Na queda de 1 m, t² = 2h/g = 0,2 s². Como o alcance horizontal é 3 m, v² = 3²/0,2 = 45 m²/s². No lançamento vertical, H = v²/(2g) = 45/20 = 2,25 m, confirmando a alternativa B.",
+      "fullResolution": "No lançamento horizontal, a componente vertical parte do repouso. Para cair 1 m sob g = 10 m/s², vale h = gt²/2, então 1 = 5t² e t² = 0,2 s². Não é necessário arredondar t: como o jato percorre 3 m horizontalmente, v = 3/t e, portanto, v² = 9/t² = 9/0,2 = 45 m²/s².\n\nAo posicionar a mesma mangueira verticalmente, essa velocidade passa a ser a velocidade inicial para cima. No ponto mais alto, a velocidade é zero. Pela relação v_final² = v_inicial² − 2gH, tem-se 0 = 45 − 20H, logo H = 45/20 = 2,25 m.\n\nAssim, a altura alcançada a partir da saída de água é 2,25 m, alternativa B.",
+      "alternativeComments": {
+        "A": "Para H = 1,50 m, a relação 2gH exigiria v² = 30 m²/s², mas o lançamento horizontal determina v² = 45 m²/s².",
+        "B": "Correta. O tempo de queda fornece v² = 45 m²/s² e H = v²/(2g) = 45/20 = 2,25 m.",
+        "C": "H = 4,00 m corresponderia a v² = 2·10·4 = 80 m²/s², incompatível com os 45 m²/s² obtidos no experimento.",
+        "D": "H = 4,50 m faria 2gH = 90 m²/s², exatamente o dobro do v² determinado pelo alcance horizontal.",
+        "E": "H = 5,00 m exigiria v² = 100 m²/s²; esse valor não decorre da queda de 1 m combinada com o alcance de 3 m."
+      },
+      "commonError": "Arredondar √0,2 antes de calcular a velocidade acumula erro desnecessário. É mais seguro usar diretamente v² = alcance²/t².",
+      "studyTip": "Em lançamentos combinados, conserve t² e v² nas contas para evitar raízes e arredondamentos antes do resultado final."
+    },
+    "enem-2022-dia-2-caderno-5-amarelo-q110": {
+      "officialAnswer": "B",
+      "answerVerified": true,
+      "answerVerification": "A base consumida corresponde a 8,0×10⁻⁴ mol de NaOH. Pela proporção 2:1, há 4,0×10⁻⁴ mol de ácido em 0,0250 L; isso dá 0,016 mol L⁻¹ e, com 150 g mol⁻¹, 2,4 g L⁻¹, alternativa B.",
+      "alternativeComments": {
+        "A": "1,8 g L⁻¹ implicaria somente 0,045 g de ácido na alíquota de 25,0 mL, isto é, 3,0×10⁻⁴ mol, abaixo dos 4,0×10⁻⁴ mol determinados pela titulação.",
+        "B": "Correta. A alíquota contém 4,0×10⁻⁴ mol, ou 0,060 g de ácido; 0,060 g em 0,0250 L corresponde a 2,4 g L⁻¹.",
+        "C": "3,6 g L⁻¹ equivaleria a 0,090 g, ou 6,0×10⁻⁴ mol, na alíquota; esse número não respeita a razão estequiométrica 2 NaOH : 1 ácido.",
+        "D": "4,8 g L⁻¹ é o resultado de tratar os 8,0×10⁻⁴ mol de NaOH como igual quantidade de ácido, esquecendo de dividir por 2.",
+        "E": "9,6 g L⁻¹ duplica até mesmo o resultado do erro monoprotônico: corresponderia a 1,6×10⁻³ mol de ácido na alíquota."
+      },
+      "commonError": "Tratar o ácido tartárico como monoprotônico. A equação oficial mostra que um mol do ácido consome dois mols de NaOH.",
+      "studyTip": "Antes de converter para g L⁻¹, escreva a razão molar da equação e calcule a massa efetivamente presente na alíquota."
+    },
+    "enem-2022-dia-2-caderno-5-amarelo-q136": {
+      "officialAnswer": "D",
+      "answerVerified": true,
+      "answerVerification": "Definindo r como taxa decimal do reajuste dos doutores, a nova média é [60·10 000 + 40·12 000(1+r)]/100 = 10 800 + 4 800r. O teto 12 240 impõe r ≤ 0,30, ou 30%, alternativa D.",
+      "fullResolution": "Após o aumento de 25%, cada mestre passa de R$ 8 000,00 para R$ 10 000,00. Defina r como a taxa decimal de reajuste dos doutores: por exemplo, r = 0,30 significa 30%. Assim, o novo salário de cada doutor é 12 000(1 + r).\n\nA média ponderada dos cem professores não pode superar R$ 12 240,00:\n\n[60·10 000 + 40·12 000(1 + r)]/100 ≤ 12 240.\n\nMultiplicando por 100 e desenvolvendo:\n600 000 + 480 000 + 480 000r ≤ 1 224 000,\n480 000r ≤ 144 000,\nr ≤ 0,30.\n\nPortanto, o maior reajuste possível para os doutores é 0,30 = 30%, alternativa D.",
+      "alternativeComments": {
+        "A": "Com r = 0,144, a média seria 10 800 + 4 800·0,144 = R$ 11 491,20, abaixo do teto; portanto, não é o máximo.",
+        "B": "Com 20,7%, a média seria R$ 11 793,60. O limite ainda permitiria reajuste maior, logo 20,7% não responde ao máximo pedido.",
+        "C": "Com 22%, a média seria R$ 11 856,00, também inferior ao teto de R$ 12 240,00.",
+        "D": "Correta. Com 30%, a média vale exatamente 10 800 + 4 800·0,30 = R$ 12 240,00.",
+        "E": "Com 37,5%, a média chegaria a R$ 12 600,00 e ultrapassaria o limite institucional."
+      },
+      "commonError": "Chamar r de porcentagem e usar 1+r sem dividir por 100. Aqui r foi definido explicitamente como taxa decimal.",
+      "studyTip": "Declare se a incógnita percentual está em forma decimal ou em pontos percentuais antes de montar a expressão."
+    },
+    "enem-2022-dia-2-caderno-5-amarelo-q137": {
+      "officialAnswer": "B",
+      "answerVerified": true,
+      "answerVerification": "Sessenta dias têm 86 400 minutos. Com um acionamento a cada 48 minutos, ocorrem 1 800 acionamentos; dividir os 360 mL por 1 800 fornece 0,200 mL por acionamento, alternativa B.",
+      "alternativeComments": {
+        "A": "A dosagem de 0,125 mL consumiria 0,125·1 800 = 225 mL em 60 dias, deixando 135 mL no recipiente; não corresponde ao esvaziamento informado.",
+        "B": "Correta. 0,200·1 800 = 360 mL, exatamente o volume consumido nos 60 dias.",
+        "C": "Com 4,800 mL por acionamento, o consumo seria 8 640 mL, vinte e quatro vezes a capacidade de 360 mL.",
+        "D": "A dose de 6,000 mL levaria a 10 800 mL no período; o recipiente acabaria muito antes de 60 dias.",
+        "E": "A dose de 12,000 mL não excede sozinha 360 mL, mas 1 800 doses consumiriam 21 600 mL, sessenta recipientes."
+      },
+      "commonError": "Comparar uma única dose com a capacidade total. O teste correto é multiplicar cada dose pelos 1 800 acionamentos do período.",
+      "studyTip": "Converta todo o período para a unidade da periodicidade, encontre o número de eventos e só então divida a quantidade total."
+    },
+    "enem-2022-dia-2-caderno-5-amarelo-q153": {
+      "officialAnswer": "D",
+      "answerVerified": true,
+      "answerVerification": "Os oito lucros positivos são 3, 1, 5, 3, 2, 4, 1 e 4. Ordenados, ficam 1, 1, 2, 3, 3, 4, 4, 5; a média do quarto e do quinto termos é 3,0, alternativa D.",
+      "alternativeComments": {
+        "A": "1,5 é a média dos dois menores valores distintos, 1 e 2, não dos dois termos centrais da lista ordenada.",
+        "B": "2,0 é o terceiro termo da lista ordenada; com oito dados, a mediana usa o quarto e o quinto termos.",
+        "C": "2,9 resulta de calcular a média aritmética: 23/8 = 2,875 ≈ 2,9. A pergunta solicita a mediana.",
+        "D": "Correta. O quarto e o quinto termos são ambos 3, de modo que a mediana é (3+3)/2 = 3,0.",
+        "E": "5,5 é maior que o maior lucro da lista, que é 5; não pode ser uma medida central desses oito lucros."
+      },
+      "commonError": "Somar os lucros e dividir por oito, obtendo aproximadamente 2,9, que é a média e não a mediana.",
+      "studyTip": "Para a mediana, ordene os dados e conte posições; só faça média aritmética entre os dois termos centrais quando a quantidade for par."
+    },
+    "enem-2022-dia-2-caderno-5-amarelo-q154": {
+      "officialAnswer": "E",
+      "answerVerified": true,
+      "answerVerification": "O documento oficial marca E. A razão do básico é 50 moedas por gema; o especial tem 10 000 gemas e requer 500 000 moedas no total. Na convenção usada pela chave, o especial amplia um pacote básico que já contém 100 000 moedas, exigindo inserir mais 400 000.",
+      "shortComment": "O total proporcional é 500 000 moedas. A leitura adotada pelo gabarito considera o especial como ampliação do pacote básico de 100 000 moedas; por isso, inserem-se 400 000, alternativa E.",
+      "fullResolution": "O pacote básico estabelece a razão\n\n100 000/2 000 = 50 moedas por gema.\n\nCom R$ 100,00, dois pacotes básicos forneceriam 4 000 gemas. O especial oferece 6 000 gemas além dessa referência, totalizando 10 000 gemas. Para manter 50 moedas por gema, o conteúdo final precisa ter\n\n10 000·50 = 500 000 moedas.\n\nA chave oficial interpreta 'inserir ao pacote especial' como o acréscimo feito sobre o conteúdo de moedas de um pacote básico, usado como base do novo produto. Como essa base contém 100 000 moedas, o acréscimo é\n\n500 000 − 100 000 = 400 000 moedas.\n\nSob essa convenção editorial, a alternativa correta é E. A redação não explicita com a mesma clareza a base do acréscimo das moedas: se os dois pacotes usados para comparar o preço fossem também tomados como base de moedas, surgiriam 300 000. Essa leitura alternativa explica o distrator D, mas não altera a chave oficial registrada pelo Inep.",
+      "reasoningPath": [
+        "Calcular a razão de 50 moedas por gema no pacote básico.",
+        "Obter 4 000 gemas como referência de dois pacotes e somar as 6 000 promocionais.",
+        "Calcular o total proporcional de 500 000 moedas para 10 000 gemas.",
+        "Aplicar a convenção da chave: subtrair as 100 000 moedas do pacote básico que serve de base ao especial.",
+        "Distinguir essa convenção da leitura alternativa que usaria dois pacotes como base do acréscimo."
+      ],
+      "steps": [
+        "100 000/2 000 = 50 moedas por gema.",
+        "2·2 000 + 6 000 = 10 000 gemas no especial.",
+        "10 000·50 = 500 000 moedas no conteúdo final.",
+        "500 000 − 100 000 = 400 000 moedas inseridas segundo a chave oficial."
+      ],
+      "alternativeComments": {
+        "A": "Somar 50 000 às 100 000 moedas de base daria 150 000 no total, ou apenas 15 moedas por cada uma das 10 000 gemas.",
+        "B": "Com acréscimo de 100 000, o total seria 200 000 e a razão cairia para 20 moedas por gema.",
+        "C": "Inserir 200 000 produziria total de 300 000, ou 30 moedas por gema, ainda abaixo da razão original de 50.",
+        "D": "300 000 é obtido ao subtrair de 500 000 as 200 000 moedas de dois pacotes. Essa é uma leitura possível da referência de preço, mas não a convenção adotada pela chave oficial.",
+        "E": "Correta na convenção oficial. O acréscimo de 400 000 às 100 000 moedas do pacote básico totaliza 500 000 e preserva 50 moedas por gema."
+      },
+      "commonError": "Confundir total final com quantidade inserida ou assumir silenciosamente qual é a base do acréscimo. O total matemático é 500 000; a letra E depende da convenção oficial de partir de um pacote básico.",
+      "studyTip": "Quando um problema pede acréscimo, separe base, acréscimo e total. Se a base não estiver inequívoca, registre a interpretação usada antes de calcular.",
+      "keywords": ["proporcionalidade", "razão", "acréscimo", "interpretação", "gabarito oficial"],
+      "relatedContent": ["Regra de três", "Razões equivalentes", "Aumento absoluto", "Leitura crítica de enunciado"],
+      "difficulty": "HARD",
+      "estimatedMinutes": 4,
+      "knowledgeArea": "Matemática e suas Tecnologias",
+      "disciplinaryComponent": "Matemática",
+      "content": "Proporcionalidade",
+      "subcontent": "Razão entre grandezas e interpretação de acréscimo"
+    }
+  }
+}

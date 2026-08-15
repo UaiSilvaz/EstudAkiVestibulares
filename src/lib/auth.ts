@@ -3,17 +3,44 @@ import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
 import { db } from "./db";
 import type { AppUser } from "./roles";
+import {
+  hashAuthSessionToken,
+  isLocalAuthEnabled,
+  readSessionCookieValue,
+} from "./session-cookie";
 
 export { canManageContent, canPublishDirectly, type AppUser } from "./roles";
+export {
+  createAuthSessionToken,
+  createSessionCookieValue,
+  hashAuthSessionToken,
+  isLocalAuthEnabled,
+  SESSION_MAX_AGE_SECONDS,
+} from "./session-cookie";
 
 export const SESSION_COOKIE = "estudaki_user_id";
 
+const appUserSelect = {
+  id: true,
+  name: true,
+  email: true,
+  role: true,
+  avatarUrl: true,
+  xp: true,
+  streak: true,
+  league: true,
+  weeklyHours: true,
+  targetExam: true,
+} as const;
+
 function localUserFromSession(value: string): AppUser | null {
+  if (!isLocalAuthEnabled()) return null;
+
   if (value === "local-admin") {
     return {
       id: "local-admin",
       name: "Administrador EstudAki",
-      email: "admin@gmail",
+      email: process.env.LOCAL_ADMIN_EMAIL?.trim().toLowerCase() || "local-admin@estudaki.invalid",
       role: Role.ADMIN,
       avatarUrl: null,
       xp: 12800,
@@ -45,31 +72,57 @@ function localUserFromSession(value: string): AppUser | null {
 
 export async function getCurrentUser(): Promise<AppUser | null> {
   const cookieStore = await cookies();
-  const userId = cookieStore.get(SESSION_COOKIE)?.value;
+  const rawSession = cookieStore.get(SESSION_COOKIE)?.value;
 
-  if (!userId) {
+  if (!rawSession) {
     return null;
   }
 
+  const userId = readSessionCookieValue(rawSession);
+  if (!userId) return null;
+
   const localUser = localUserFromSession(userId);
-  if (localUser) return localUser;
+  if (userId === "local-admin" || userId.startsWith("local-user:")) {
+    return localUser;
+  }
 
   try {
+    const session = await db.authSession.findFirst({
+      where: {
+        tokenHash: hashAuthSessionToken(userId),
+        revokedAt: null,
+        expiresAt: { gt: new Date() },
+      },
+      select: { user: { select: appUserSelect } },
+    });
+
+    if (session?.user) return session.user;
+  } catch {
+    // Allow already-issued signed user-id cookies to keep working before migrations run.
+  }
+
+  try {
+    // Backward compatibility for signed cookies issued before database sessions.
     return await db.user.findUnique({
       where: { id: userId },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        avatarUrl: true,
-        xp: true,
-        streak: true,
-        league: true,
-        weeklyHours: true,
-        targetExam: true,
-      },
+      select: appUserSelect,
     });
+  } catch {
+    return null;
+  }
+}
+
+export async function getPersistedUserId(
+  user: Pick<AppUser, "id" | "email">,
+): Promise<string | null> {
+  if (user.id === "local-admin" || user.id.startsWith("local-user:")) return null;
+
+  try {
+    const persistedUser = await db.user.findFirst({
+      where: { OR: [{ id: user.id }, { email: user.email }] },
+      select: { id: true },
+    });
+    return persistedUser?.id ?? null;
   } catch {
     return null;
   }
@@ -83,6 +136,18 @@ export async function requireUser(): Promise<AppUser> {
   }
 
   return user;
+}
+
+export async function requirePersistedUser(): Promise<AppUser> {
+  const user = await requireUser();
+  const persistedUserId = await getPersistedUserId(user);
+  if (!persistedUserId) return user;
+
+  const persisted = await db.user.findUnique({
+    where: { id: persistedUserId },
+    select: appUserSelect,
+  });
+  return persisted ?? user;
 }
 
 export async function requireManager(): Promise<AppUser> {

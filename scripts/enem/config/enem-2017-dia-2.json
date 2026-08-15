@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2017-dia-2-caderno-7-azul",
+  "vestibular": "ENEM",
+  "year": 2017,
+  "day": 2,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 7,
+  "bookletColor": "Azul",
+  "questionStart": 91,
+  "questionEnd": 180,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 90,
+  "oldExamId": "pa-enem-2017-dia-2",
+  "officialExamPdf": "data/provas/enem/2017/prova-2-dia-caderno-7-azul.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2017/gabarito-2-dia-caderno-7-azul.pdf",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2017",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2017/2017_PV_impresso_D2_CD7.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2017/cad_7_gabarito_azul_12112017.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2017-dia-2-caderno-7-azul",
+  "objectivePageRanges": [
+    { "start": 2, "end": 31 }
+  ],
+  "essayPages": [],
+  "draftPages": [],
+  "layout": {
+    "top": 60.0,
+    "bottom": 735.0,
+    "left": 35.0,
+    "leftEnd": 290.0,
+    "rightStart": 293.0,
+    "right": 547.0,
+    "fullWidthObjectivePages": [3, 6, 11, 12, 14, 21, 27, 29]
+  },
+  "languageSections": [],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [],
+  "areas": [
+    {
+      "name": "Ciências da Natureza e suas Tecnologias",
+      "questionStart": 91,
+      "questionEnd": 135
+    },
+    {
+      "name": "Matemática e suas Tecnologias",
+      "questionStart": 136,
+      "questionEnd": 180
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 91 a 135",
+    "questoes de 136 a 180",
+    "ciencias da natureza e suas tecnologias",
+    "matematica e suas tecnologias"
+  ]
+}

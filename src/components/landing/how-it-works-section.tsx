@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GraduationCap, BookOpen, Timer, LineChart } from "lucide-react";
-import ScrollReveal from "../reactbits/ScrollReveal";
+import { BookOpen, GraduationCap, LineChart, Timer } from "lucide-react";
 
 const STEPS = [
   {
@@ -103,19 +102,6 @@ export function HowItWorksSection() {
               </motion.div>
             );
           })}
-        </div>
-
-        <div className="mt-16">
-          <ScrollReveal
-            baseOpacity={0.2}
-            baseRotation={1.5}
-            blurStrength={3}
-            textClassName="text-center font-display text-2xl font-extrabold text-[#0F172A] sm:text-3xl"
-            containerClassName="text-center"
-          >
-            Cada matéria com sua cor e energia, cada fase com estratégia e dados
-            reais de evolução.
-          </ScrollReveal>
         </div>
       </div>
     </section>

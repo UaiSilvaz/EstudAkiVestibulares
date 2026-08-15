@@ -1,38 +1,18 @@
-import { getCurrentUser } from "@/lib/auth";
+import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { LandingNavbar } from "@/components/landing-navbar";
-import { HeroSection } from "@/components/landing/hero-section";
-import { VestibularesLoopSection } from "@/components/landing/vestibulares-loop-section";
-import { HowItWorksSection } from "@/components/landing/how-it-works-section";
-import { VestibularesSection } from "@/components/landing/vestibulares-section";
-import { MateriasSection } from "@/components/landing/materias-section";
-import { SimuladosSection } from "@/components/landing/simulados-section";
-import { MaterialsSection } from "@/components/landing/materials-section";
-import { PricingSection } from "@/components/landing/pricing-section";
-import { FaqSection } from "@/components/landing/faq-section";
-import { CtaFinal } from "@/components/landing/cta-final";
-import { LandingFooter } from "@/components/landing/landing-footer";
-import { FloatingWhatsApp } from "@/components/visual/floating-whatsapp";
+import { CloudLandingPage } from "@/components/landing/cloud-landing-page";
+import { getCurrentUser } from "@/lib/auth";
+import "@/components/landing/cloud-landing.css";
+
+export const metadata: Metadata = {
+  title: "EstudAki Vestibulares | Sua aprovação começa aqui",
+  description:
+    "Plano de estudos, questões, simulados, redação e acompanhamento inteligente para ENEM, ETEC, FATEC e vestibulares.",
+};
 
 export default async function LandingPage() {
   const user = await getCurrentUser();
   if (user) redirect("/dashboard");
 
-  return (
-    <main className="relative overflow-hidden bg-white">
-      <LandingNavbar />
-      <HeroSection />
-      <VestibularesLoopSection />
-      <HowItWorksSection />
-      <VestibularesSection />
-      <MateriasSection />
-      <SimuladosSection />
-      <MaterialsSection />
-      <PricingSection />
-      <FaqSection />
-      <CtaFinal />
-      <LandingFooter />
-      <FloatingWhatsApp variant="landing" />
-    </main>
-  );
+  return <CloudLandingPage />;
 }

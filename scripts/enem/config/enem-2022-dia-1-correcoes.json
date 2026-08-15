@@ -1,0 +1,368 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2022-dia-1-caderno-1-azul",
+  "basis": {
+    "audit": "data/QUESTÕES/processamento/enem-2022-dia-1-caderno-1-azul/auditoria-visual-v1.json",
+    "auditSourceHash": "86a21166fa12512547ba6004f4d62d020457d96ffcfb6d8851dd3511632eb252",
+    "result": "75_PASS_20_FAIL"
+  },
+  "questions": {
+    "enem-2022-dia-1-caderno-1-azul-q003-ingles": {
+      "evidence": "Quadros 1 a 4 da tirinha oficial; ordem e apóstrofos conferidos visualmente.",
+      "blockPlan": [
+        { "visual": 0 },
+        { "existing": 2 },
+        { "existing": 3 },
+        { "existing": 1 },
+        { "existing": 4, "content": "I SUPPOSE IT’S\nMY LIBRARY TOO,\nNOW WE’RE\nMARRIED." },
+        { "existing": 5 },
+        { "existing": 7, "content": "SO MANY BOOKS!\nI CAN’T BELIEVE\nMY LUCK!" },
+        { "existing": 6, "content": "WHEN THE SUN SETS,\nI TRANSFORM INTO A WILD\nBEAST AND SOAR INTO\nTHE NIGHT, SEIZED BY\nA TERRIBLE BLOODLUST!\nOK. I’LL STAY\nHERE AND READ.\nSEE YOU IN THE\nMORNING." },
+        { "existing": 8 },
+        { "existing": 9 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q001-espanhol": {
+      "evidence": "Cartaz zapoteco integralmente legível no visual oficial.",
+      "blockPlan": [
+        { "existing": 0 },
+        {
+          "new": {
+            "type": "support_text",
+            "content": "Diidxagola\nBinnigula’ sa’\n\nNisa ri’ biraru’ mani’\nDuxhu’ dxa’ ndaani\n\n(Proverbio zapoteco)\n\n¿Te gustó?\n\nContigo\nes posible\n\nLas lenguas originarias de nuestra nación\nguardan gran parte de la riqueza cultural.\nSon parte viva de nuestro país.\nSi se hablan, son reconocidas y todos las\nrespetamos, protegemos nuestro\npatrimonio nacional.\n\nSECRETARÍA DE\nEDUCACIÓN\nPÚBLICA | SEP\n\nINSTITUTO NACIONAL DE LENGUAS INDÍGENAS\nwww.inali.gob.mx"
+          },
+          "templateExisting": 1
+        },
+        { "existing": 5 },
+        { "existing": 6 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q007-portugues": {
+      "evidence": "Cartaz do Texto I isolado entre o rótulo e o crédito; texto interno conferido.",
+      "visualRegions": [
+        {
+          "page": 6,
+          "x": 34.0,
+          "y": 96.0,
+          "width": 242.0,
+          "height": 166.0,
+          "altText": "Cartaz da 14ª Feira de Adoção de Cães e Gatos"
+        }
+      ],
+      "blockPlan": [
+        { "existing": 1 },
+        { "visual": 0 },
+        {
+          "new": {
+            "type": "support_text",
+            "content": "EI...\nME LEVE PARA SUA CASA!!!\n\n14ª FEIRA DE ADOÇÃO\nDE CÃES E GATOS\n\nADOTE UM\nANIMAL DE RUA\n\nDOCUMENTOS OBRIGATÓRIOS PARA ADOÇÃO\nCARTEIRA DE IDENTIDADE | CPF | COMPROVANTE DE RESIDÊNCIA\n\nE muito amor!!"
+          },
+          "templateExisting": 2
+        },
+        { "existing": 7 },
+        { "existing": 8 },
+        { "existing": 9 },
+        { "existing": 10 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q009-portugues": {
+      "evidence": "DETRAN ES integra o logotipo da peça e não é linha textual autônoma.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 2 },
+        { "existing": 3 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q013-portugues": {
+      "evidence": "Corpo inicial é texto de apoio; referência SILVA et al. é o crédito.",
+      "blockPlan": [
+        { "existing": 0, "type": "support_text" },
+        { "existing": 1 },
+        { "existing": 2 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q017-portugues": {
+      "evidence": "Aspas curvas do comando e espaços da alternativa C conferidos no recorte oficial.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 1 },
+        { "existing": 2 },
+        { "existing": 3, "content": "Esse texto, que simula um verbete para a palavra\n“palavra”, constitui-se como um poema porque" }
+      ],
+      "alternativeTexts": {
+        "C": "valoriza a gramática da língua, como em “substantivo,\nadjetivo, verbo, advérbio, conjunção”."
+      }
+    },
+    "enem-2022-dia-1-caderno-1-azul-q020-portugues": {
+      "evidence": "Auditoria integral final: corpo iniciado por 'Seis em cada dez pessoas' é apoio; somente a fonte esporte.gov.br é crédito.",
+      "blockPlan": [
+        { "existing": 0, "type": "support_text" },
+        { "existing": 1 },
+        { "existing": 2 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q022-portugues": {
+      "evidence": "TEXTO I e TEXTO II são corpos de apoio; somente as referências KIFFER são créditos.",
+      "blockPlan": [
+        { "existing": 0, "type": "support_text" },
+        { "existing": 1 },
+        { "existing": 2, "type": "support_text" },
+        { "existing": 3 },
+        { "existing": 4 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q027-portugues": {
+      "evidence": "Auditoria integral final: 'tem estrada para andar' integra a peça visual e não é linha autônoma após a imagem.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 2 },
+        { "existing": 3 }
+      ],
+      "alternativeTexts": {
+        "B": "revisão de representações estereotipadas de gênero.",
+        "D": "ratificação de comportamentos femininos e masculinos."
+      }
+    },
+    "enem-2022-dia-1-caderno-1-azul-q032-portugues": {
+      "evidence": "Infográfico lido por colunas, da esquerda para a direita; recortes contêm apenas os três ícones.",
+      "visualRegions": [
+        { "page": 15, "x": 39.5, "y": 223.0, "width": 40.0, "height": 33.0, "altText": "Ícone da faixa etária até 2 anos" },
+        { "page": 15, "x": 213.5, "y": 214.0, "width": 40.0, "height": 45.0, "altText": "Ícone da faixa etária de 2 a 5 anos" },
+        { "page": 15, "x": 395.5, "y": 213.5, "width": 38.0, "height": 51.0, "altText": "Ícone da faixa etária até 10 anos" }
+      ],
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 1 },
+        { "existing": 4 },
+        { "new": { "type": "support_text", "content": "Até 2 anos" }, "templateExisting": 8 },
+        { "visual": 0 },
+        { "existing": 9 },
+        { "new": { "type": "support_text", "content": "De 2 a 5 anos" }, "templateExisting": 8 },
+        { "visual": 1 },
+        { "existing": 10 },
+        { "new": { "type": "support_text", "content": "Até 10 anos" }, "templateExisting": 8 },
+        { "visual": 2 },
+        { "existing": 11, "type": "support_text" },
+        { "existing": 12 },
+        { "existing": 13 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q038-portugues": {
+      "evidence": "Pintura Laocoonte isolada sem rótulo e sem créditos.",
+      "visualRegions": [
+        { "page": 17, "x": 37.3, "y": 512.4, "width": 234.4, "height": 185.7, "altText": "Pintura Laocoonte, de El Greco" }
+      ],
+      "blockPlan": [
+        { "existing": 1 },
+        { "visual": 0 },
+        { "existing": 2 },
+        { "existing": 3 },
+        { "existing": 4 },
+        { "existing": 5 },
+        { "existing": 6 },
+        { "existing": 7 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q039-portugues": {
+      "evidence": "Fotografia da escultura de Judd isolada sem rótulo, créditos ou Texto II.",
+      "visualRegions": [
+        { "page": 17, "x": 372.7, "y": 296.7, "width": 68.3, "height": 177.0, "altText": "Escultura sem título, de Donald Judd" }
+      ],
+      "blockPlan": [
+        { "existing": 1 },
+        { "visual": 0 },
+        { "existing": 2 },
+        { "existing": 3 },
+        { "existing": 4 },
+        { "existing": 5 },
+        { "existing": 6 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q044-portugues": {
+      "evidence": "Instalação In absentia isolada antes dos dois créditos.",
+      "visualRegions": [
+        { "page": 19, "x": 31.0, "y": 455.3, "width": 247.0, "height": 256.3, "altText": "Instalação In absentia, de Regina Silveira" }
+      ],
+      "blockPlan": [
+        { "existing": 0 },
+        { "visual": 0 },
+        { "existing": 2 },
+        { "existing": 3 },
+        { "existing": 4 },
+        { "existing": 5 },
+        { "existing": 6 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q064-portugues": {
+      "evidence": "Parágrafo termina em 'outros agentes de erosão.'; referência PRESS et al. vem separada.",
+      "blockPlan": [
+        {
+          "new": {
+            "type": "support_text",
+            "content": "As forças tectônicas dentro da litosfera, controladas\npelo calor interno das profundezas, geram terremotos,\nerupções e soerguimento de montanhas. As forças\nmeteorológicas dentro da atmosfera e da hidrosfera,\ncontroladas pelo calor do Sol, produzem tempestades,\ninundações, geleiras e outros agentes de erosão."
+          },
+          "templateExisting": 0
+        },
+        {
+          "new": {
+            "type": "credit",
+            "content": "PRESS, F. et al. Para entender a Terra. Porto Alegre: Bookman, 2006 (adaptado)."
+          },
+          "templateExisting": 0
+        },
+        { "existing": 1 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q065-portugues": {
+      "evidence": "Rótulos repetidos permanecem no diagrama; legenda estruturada inicia por LUA DE MEL.",
+      "visualRegions": [
+        { "page": 25, "x": 286.0, "y": 398.5, "width": 253.7, "height": 250.4, "altText": "Ciclo de tensão, agressão, lua de mel e morte" }
+      ],
+      "blockPlan": [
+        { "visual": 0 },
+        { "existing": 19, "content": "LUA DE MEL\ncarinho, paixão, presentes, promessas, reconciliação, liberdade" },
+        { "existing": 20 },
+        { "existing": 21 },
+        { "existing": 22 },
+        { "existing": 23 },
+        { "existing": 24 },
+        { "existing": 25 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q068-portugues": {
+      "evidence": "Primeira linha da legenda lida da esquerda para a direita.",
+      "visualRegions": [
+        { "page": 26, "x": 298.5, "y": 198.5, "width": 222.5, "height": 182.0, "altText": "Mapa-múndi do Novo Mapa do Pentágono e sua legenda" }
+      ],
+      "blockPlan": [
+        { "existing": 0 },
+        { "visual": 0 },
+        { "existing": 2, "content": "Alta densidade e\nvariedade germoplásmica\nPetróleo e gás" },
+        { "existing": 3 },
+        { "existing": 4 },
+        { "existing": 5 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q069-portugues": {
+      "evidence": "Pronunciamento e crédito web são blocos visualmente separados.",
+      "blockPlan": [
+        {
+          "new": {
+            "type": "support_text",
+            "content": "Colegas, na mente e no coração do povo, a Crimeia\nsempre foi uma porção inseparável da Rússia. Essa firme\nconvicção se baseia na verdade e na justiça e foi passada\nde geração em geração, ao longo do tempo, sob quaisquer\ncircunstâncias, apesar de todas as drásticas mudanças\nque nosso país atravessou durante todo o século XX."
+          },
+          "templateExisting": 0
+        },
+        {
+          "new": {
+            "type": "credit",
+            "content": "Disponível em: http://g1.globo.com. Acesso em: 28 jul. 2014."
+          },
+          "templateExisting": 0
+        },
+        { "existing": 1 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q070-portugues": {
+      "evidence": "Sete categorias e percentuais transcritos do gráfico oficial.",
+      "visualRegions": [
+        { "page": 27, "x": 28.0, "y": 138.6, "width": 253.8, "height": 188.3, "altText": "Gráfico da proporção de pessoas abaixo da linha de pobreza por arranjo domiciliar" }
+      ],
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 1 },
+        { "visual": 0 },
+        {
+          "new": {
+            "type": "support_text",
+            "content": "Proporção de pessoas abaixo da linha de pobreza\nPor arranjo domiciliar no Brasil — 2017\n\nMulher sem cônjuge e com filho(s) até 14 anos — 56,9%\nMulher preta ou parda sem cônjuge e com filho(s) até 14 anos — 64,4%\nMulher branca sem cônjuge e com filho(s) até 14 anos — 41,5%\nCasal com filho(s) — 30,4%\nOutros — 21,0%\nUnipessoal — 11,6%\nCasal sem filho — 10,0%"
+          },
+          "templateExisting": 3
+        },
+        { "existing": 15 },
+        { "existing": 16 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q074-portugues": {
+      "evidence": "Auditoria integral final: recorte do mapa solar deve terminar após PEREIRA et al., antes do comando.",
+      "visualRegions": [
+        { "page": 28, "x": 28.0, "y": 83.0, "width": 253.8, "height": 279.7, "altText": "Mapa da radiação solar global horizontal média anual no Brasil" }
+      ],
+      "blockPlan": [
+        { "visual": 0 },
+        { "existing": 1 },
+        { "existing": 2 },
+        { "existing": 3 },
+        { "existing": 4 },
+        { "existing": 5 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q075-portugues": {
+      "evidence": "Comando oficial termina em 'um(a)' sem sufixo.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 1 },
+        { "existing": 2, "content": "Pelo descrito no texto, o povo Kambeba tem o rio como um(a)" }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q078-portugues": {
+      "evidence": "Recorte encerrado no limite inferior do mapa, antes do crédito.",
+      "visualRegions": [
+        { "page": 29, "x": 31.0, "y": 107.8, "width": 247.0, "height": 152.7, "altText": "Mapa do possível trajeto do voo MH370 antes da queda" }
+      ],
+      "blockPlan": [
+        { "existing": 1 },
+        { "visual": 0 },
+        { "existing": 2 },
+        { "existing": 3 },
+        { "existing": 4 },
+        { "existing": 5 },
+        { "existing": 6 },
+        { "existing": 7 },
+        { "existing": 8 },
+        { "existing": 9 },
+        { "existing": 10 },
+        { "existing": 11 },
+        { "existing": 12 },
+        { "existing": 13 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q081-portugues": {
+      "evidence": "Artigos 1º e 2º são corpo do decreto; BRASIL apud CARONE é o crédito.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 1, "type": "support_text" },
+        { "existing": 2 },
+        { "existing": 3 }
+      ]
+    },
+    "enem-2022-dia-1-caderno-1-azul-q082-portugues": {
+      "evidence": "Título, mapa, rótulos, escala, dados cartográficos, legenda e crédito conferidos no fac-símile.",
+      "visualRegions": [
+        { "page": 30, "x": 28.0, "y": 97.8, "width": 254.0, "height": 183.3, "altText": "Mapa das rochas ígneas da Amazônia Legal" },
+        { "page": 30, "x": 64.7, "y": 285.5, "width": 90.0, "height": 26.0, "altText": "Legenda do mapa: rochas ígneas e Amazônia Legal" }
+      ],
+      "blockPlan": [
+        { "existing": 1 },
+        { "visual": 0 },
+        {
+          "new": {
+            "type": "support_text",
+            "content": "Rótulos do mapa: 70°W; 60°W; 50°W; 5°N; 0°; 5°S; 10°S; 15°S; Colômbia; Venezuela; Roraima; Guiana; Suriname; Guiana-Francesa; Amapá; Oceano Atlântico; Amazonas; Pará; Maranhão; Acre; Peru; Rondônia; Mato Grosso; Piauí; Tocantins; Bahia; Goiás; DF; Minas Gerais; Bolívia; Oceano Pacífico; Chile; Mato Grosso do Sul.\nEscala: 0 | 80 | 160 | 320 Km.\nProjeção: Albers.\nDatum: SIRGAS 2000."
+          },
+          "templateExisting": 2
+        },
+        { "visual": 1 },
+        {
+          "new": {
+            "type": "support_text",
+            "content": "Rochas ígneas\nAmazônia Legal"
+          },
+          "templateExisting": 36
+        },
+        { "existing": 37 },
+        { "existing": 38 }
+      ]
+    }
+  }
+}

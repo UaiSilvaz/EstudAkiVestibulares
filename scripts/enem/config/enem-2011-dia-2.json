@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2011-dia-2-caderno-5-amarelo",
+  "vestibular": "ENEM",
+  "year": 2011,
+  "day": 2,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 5,
+  "bookletColor": "Amarelo",
+  "questionStart": 91,
+  "questionEnd": 180,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 95,
+  "oldExamId": "pa-enem-2011-dia-2",
+  "officialExamPdf": "data/provas/enem/2011/prova-2-dia-caderno-5-amarelo-com-errata.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2011/gabarito-2-dia-caderno-5-amarelo.pdf",
+  "officialExamSha256": "d9fff9bbe18915cf129bf130b001866032c772d102859b53b6bf88772b2fc657",
+  "officialAnswerKeySha256": "1261036dffb14d9f156031b219fb07be10df923482fe328b3812aca410cbc6e5",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2011",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2011/05_AMARELO.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2011/05_AMARELO_GABARITO.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2011-dia-2-caderno-5-amarelo",
+  "pdfPageCount": 33,
+  "objectivePageRanges": [
+    {
+      "start": 3,
+      "end": 31
+    }
+  ],
+  "essayPages": [
+    2
+  ],
+  "draftPages": [
+    32
+  ],
+  "administrativePages": [
+    33
+  ],
+  "errataPages": [
+    33
+  ],
+  "layout": {
+    "top": 101,
+    "bottom": 768,
+    "left": 40,
+    "leftEnd": 295,
+    "rightStart": 300,
+    "right": 556,
+    "fullWidthObjectivePages": [
+      4,
+      7,
+      20
+    ]
+  },
+  "languageSections": [
+    {
+      "language": "ingles",
+      "questionStart": 91,
+      "questionEnd": 95,
+      "occurrenceIndex": 1,
+      "answerColumnOrder": 1
+    },
+    {
+      "language": "espanhol",
+      "questionStart": 91,
+      "questionEnd": 95,
+      "occurrenceIndex": 2,
+      "answerColumnOrder": 2
+    }
+  ],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [],
+  "areas": [
+    {
+      "name": "Linguagens, Códigos e suas Tecnologias",
+      "questionStart": 91,
+      "questionEnd": 135
+    },
+    {
+      "name": "Matemática e suas Tecnologias",
+      "questionStart": 136,
+      "questionEnd": 180
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 91 a 135",
+    "questoes de 91 a 95",
+    "questoes de 96 a 135",
+    "opcao: ingles",
+    "opcao ingles",
+    "opcao: espanhol",
+    "opcao espanhol",
+    "questoes de 136 a 180",
+    "linguagens, codigos e suas tecnologias",
+    "matematica e suas tecnologias"
+  ]
+}

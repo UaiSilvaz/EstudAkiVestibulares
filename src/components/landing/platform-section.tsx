@@ -11,7 +11,6 @@ import {
   Timer,
   Trophy,
   Users,
-  Video,
 } from "lucide-react";
 import { EKButton } from "../visual/ek-button";
 import { FadeUp, SectionTitle } from "../visual/motion-primitives";
@@ -27,11 +26,11 @@ type Item = {
 const items: Item[] = [
   { icon: Target, title: "Lista inteligente", text: "Questões recomendadas para o seu momento.", color: "#1E73FF", color2: "#005CFF" },
   { icon: Timer, title: "Cronograma automático", text: "Plano gerado a partir do seu ritmo.", color: "#FF6B00", color2: "#FFC400" },
-  { icon: BookOpenCheck, title: "Revisão dos erros", text: "Tudo que você errou separado para revisar.", color: "#7C3AED", color2: "#A855F7" },
+  { icon: BookOpenCheck, title: "Revisão dos erros", text: "Tudo o que você errou, organizado para revisão.", color: "#7C3AED", color2: "#A855F7" },
   { icon: Trophy, title: "Liga de estudo", text: "XP, conquistas, ranking e evolução.", color: "#FFC400", color2: "#FF6B00" },
   { icon: Library, title: "Cadernos digitais", text: "Apostilas e cadernos com compra direta.", color: "#3DBB6A", color2: "#00C896" },
   { icon: PenLine, title: "Redação com IA", text: "Treine, receba feedback e evolua.", color: "#FF4D00", color2: "#FF6B00" },
-  { icon: Video, title: "Express", text: "Vídeos curtos para revisar em minutos.", color: "#EC4899", color2: "#A855F7" },
+  { icon: Library, title: "Biblioteca privada", text: "Capas, compra e PDFs protegidos por licenca.", color: "#8B5CF6", color2: "#C4B5FD" },
   { icon: Users, title: "Comunidade", text: "Ranking, feed e desafios com outros alunos.", color: "#38BDF8", color2: "#005CFF" },
 ];
 
@@ -48,7 +47,7 @@ export function PlatformSection() {
               <span className="ek-text-gradient-mix">viva, completa e colorida</span>.
             </>
           }
-          description="Tudo o que você precisa, num só lugar, com a cara de produto premium."
+          description="Tudo o que você precisa em um só lugar, com uma experiência de estudo completa."
         />
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">

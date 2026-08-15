@@ -28,6 +28,7 @@ export const localVestibulares: LocalVestibular[] = [
   { id: "local-fuvest", name: "FUVEST", slug: "fuvest", color: "#0057B8", description: "Acervo local FUVEST" },
   { id: "local-unicamp", name: "UNICAMP", slug: "unicamp", color: "#7C3AED", description: "Acervo local UNICAMP" },
   { id: "local-unesp", name: "UNESP", slug: "unesp", color: "#00A878", description: "Acervo local UNESP" },
+  { id: "local-provao-paulista", name: "Provão Paulista", slug: "provao-paulista", color: "#7C3AED", description: "Banco de questões do Provão Paulista" },
 ];
 
 const officialYears = {
@@ -37,6 +38,7 @@ const officialYears = {
   fuvest: range(2009, 2026),
   unicamp: range(2017, 2026),
   unesp: range(2017, 2026),
+  "provao-paulista": [2023, 2024, 2025, 2026],
 };
 
 function range(from: number, to: number) {

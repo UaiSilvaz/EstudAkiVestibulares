@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2018-dia-2-caderno-5-amarelo",
+  "vestibular": "ENEM",
+  "year": 2018,
+  "day": 2,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 5,
+  "bookletColor": "Amarelo",
+  "questionStart": 91,
+  "questionEnd": 180,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 90,
+  "oldExamId": "pa-enem-2018-dia-2",
+  "officialExamPdf": "data/provas/enem/2018/prova-2-dia.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2018/gabarito-2-dia.pdf",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2018",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2018/2DIA_05_AMARELO_BAIXA.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2018/GAB_ENEM_2018_DIA_2_AMARELO.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2018-dia-2-caderno-5-amarelo",
+  "objectivePageRanges": [
+    { "start": 2, "end": 31 }
+  ],
+  "essayPages": [],
+  "draftPages": [],
+  "layout": {
+    "top": 83.5,
+    "bottom": 758.5,
+    "left": 58.5,
+    "leftEnd": 313.5,
+    "rightStart": 316.5,
+    "right": 570.5,
+    "fullWidthObjectivePages": [4, 8, 10, 13, 14, 19, 28, 29]
+  },
+  "languageSections": [],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [150],
+  "areas": [
+    {
+      "name": "Ciências da Natureza e suas Tecnologias",
+      "questionStart": 91,
+      "questionEnd": 135
+    },
+    {
+      "name": "Matemática e suas Tecnologias",
+      "questionStart": 136,
+      "questionEnd": 180
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 91 a 135",
+    "questoes de 136 a 180",
+    "ciencias da natureza e suas tecnologias",
+    "matematica e suas tecnologias"
+  ]
+}

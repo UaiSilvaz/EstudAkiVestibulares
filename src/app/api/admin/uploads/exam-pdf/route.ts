@@ -1,11 +1,13 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { NextResponse } from "next/server";
 import { canManageContent, getCurrentUser } from "@/lib/auth";
+import { storeExamPdf } from "@/lib/exam-file-storage";
+import { looksLikePdf } from "@/server/security/uploads";
 
 const MAX_FILE_SIZE = 35 * 1024 * 1024;
 
-function safeFileName(name: string) {
+function safeFileName(name: string, kind: string) {
   const extension = path.extname(name).toLowerCase() || ".pdf";
   const base = path
     .basename(name, extension)
@@ -15,7 +17,7 @@ function safeFileName(name: string) {
     .replace(/(^-|-$)/g, "")
     .toLowerCase();
 
-  return `${base || "prova"}-${Date.now()}${extension}`;
+  return `${kind}-${base || "documento"}-${randomUUID()}${extension}`;
 }
 
 export async function POST(request: Request) {
@@ -27,6 +29,7 @@ export async function POST(request: Request) {
 
   const formData = await request.formData();
   const file = formData.get("file");
+  const kind = formData.get("kind") === "answer" ? "answer" : "exam";
 
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "Arquivo PDF ausente." }, { status: 400 });
@@ -43,15 +46,15 @@ export async function POST(request: Request) {
   }
 
   const bytes = Buffer.from(await file.arrayBuffer());
-  const uploadDir = path.join(process.cwd(), "public", "uploads", "exams");
-  const fileName = safeFileName(file.name);
-  const filePath = path.join(uploadDir, fileName);
+  if (!looksLikePdf(bytes)) {
+    return NextResponse.json({ error: "O arquivo enviado nao parece ser um PDF valido." }, { status: 400 });
+  }
 
-  await mkdir(uploadDir, { recursive: true });
-  await writeFile(filePath, bytes);
+  const fileName = safeFileName(file.name, kind);
+  await storeExamPdf(fileName, bytes);
 
   return NextResponse.json({
-    url: `/uploads/exams/${fileName}`,
+    url: `/api/exams/files/${fileName}`,
     name: file.name,
     size: file.size,
   });

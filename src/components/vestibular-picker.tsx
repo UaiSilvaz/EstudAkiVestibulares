@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpenCheck, ClipboardList, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpenCheck, ClipboardList, Loader2, Sparkles } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import { logoForVestibular, loopImageForVestibular } from "@/lib/assets";
+import { FastLink } from "@/components/fast-link";
+import { loopImageForVestibular } from "@/lib/assets";
 import { cn } from "@/lib/utils";
 
 type VestibularCard = {
@@ -24,6 +24,7 @@ const descriptions: Record<string, string> = {
   fuvest: "A porta de entrada para a USP, uma das melhores universidades do mundo. Conteúdo direto e aprofundado.",
   unesp: "Vagas em todo o estado de São Paulo, com excelente reputação e provas específicas.",
   unicamp: "Uma das mais concorridas do Brasil, com questões interdisciplinares e raciocínio crítico.",
+  "provao-paulista": "Avaliação seriada para estudantes da rede pública paulista, alinhada ao currículo e ao ingresso nas universidades estaduais.",
 };
 
 function lightenHex(hex: string, alpha: number): string {
@@ -39,8 +40,6 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
           const description = descriptions[item.slug] ?? item.description;
           const accent = item.color || "#2563EB";
           const cardBg = `linear-gradient(135deg, ${lightenHex(accent, 0.06)} 0%, #FFFFFF 60%, ${lightenHex(accent, 0.04)} 100%)`;
-          const iconBg = `linear-gradient(135deg, ${lightenHex(accent, 0.18)} 0%, ${lightenHex(accent, 0.32)} 100%)`;
-          const logo = logoForVestibular(item.slug);
           const loopImage = loopImageForVestibular(item.slug);
           return (
             <motion.div
@@ -72,25 +71,8 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
                 />
               </div>
 
-              <div className="relative flex items-start gap-4">
-                <div
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-white/80 shadow-[0_10px_24px_-12px_rgba(15,23,42,0.20)]"
-                  style={{ background: iconBg }}
-                >
-                  {logo.startsWith("/") ? (
-                    <Image
-                      src={logo}
-                      alt={item.name}
-                      width={40}
-                      height={40}
-                      className="h-8 w-8 rounded-xl object-contain"
-                      unoptimized
-                    />
-                  ) : (
-                    <BookOpenCheck className="h-7 w-7" style={{ color: accent }} />
-                  )}
-                </div>
-                <div className="min-w-0 flex-1">
+              <div className="relative">
+                <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg font-bold text-[#0F172A]">{item.name}</h3>
                     <span
@@ -130,10 +112,17 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
                 </div>
               </div>
 
-              <Link
-                href={`/questions?vestibular=${item.id}`}
+              <FastLink
+                href={`/questions?vestibular=${item.slug}`}
+                pendingClassName="scale-[0.99] opacity-95"
+                pendingLabel={
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Abrindo {item.name}
+                  </>
+                }
                 className={cn(
-                  "relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold transition-all",
+                  "relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold transition-all active:scale-[0.99]",
                   "text-white shadow-[0_10px_24px_-12px_rgba(15,23,42,0.30)] hover:shadow-[0_14px_30px_-12px_rgba(15,23,42,0.40)]"
                 )}
                 style={{
@@ -142,7 +131,7 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
               >
                 Praticar {item.name}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
+              </FastLink>
             </motion.div>
           );
         })}

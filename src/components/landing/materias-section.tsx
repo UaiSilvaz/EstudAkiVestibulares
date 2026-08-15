@@ -1,321 +1,339 @@
 "use client";
 
-import { motion } from "framer-motion";
-import {
-  Calculator,
-  Atom,
-  FlaskConical,
-  Leaf,
-  Globe2,
-  BookText,
-  Languages,
-  Pen,
-  History,
-  Palette,
-  Music4,
-  Code2,
-  Brain,
-  Sigma,
-} from "lucide-react";
-import { FloatingBlob } from "../visual/motion-primitives";
+import { useMemo, useState } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Check, Sparkles, X } from "lucide-react";
+import { StudyIcon, type StudyIconName } from "@/components/visual/study-icon";
 
-type Materia = {
-  nome: string;
-  icon: typeof Calculator;
-  cor: string;
-  cor2: string;
-  questoes: number;
-  acerto: number;
-  status: "dominada" | "evolucao" | "atencao";
-  descricao: string;
+type SubjectTheme =
+  | "humanas"
+  | "biologia"
+  | "redacao"
+  | "quimica"
+  | "matematica"
+  | "linguagens"
+  | "fisica";
+
+type SubjectCard = {
+  id: SubjectTheme;
+  index: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  longDescription: string;
+  questions: string;
+  focus: string;
+  href: string;
+  icon: StudyIconName;
+  accent: string;
+  rgb: string;
 };
 
-const MATERIAS: Materia[] = [
+const SUBJECTS: SubjectCard[] = [
   {
-    nome: "Matemática",
-    icon: Calculator,
-    cor: "#2563EB",
-    cor2: "#22D3EE",
-    questoes: 2480,
-    acerto: 78,
-    status: "evolucao",
-    descricao: "Álgebra, geometria e análise combinatória",
+    id: "humanas",
+    index: "01",
+    eyebrow: "Área do conhecimento",
+    title: "Ciências Humanas",
+    description: "História, Geografia, Filosofia e Sociologia",
+    longDescription:
+      "Treine leitura de mapas, atualidades, Brasil, mundo contemporâneo, filosofia e sociologia com questões separadas por tema.",
+    questions: "+2.800 questões",
+    focus: "Interpretação e contexto",
+    href: "/login?redirect=/questions?subject=humanas",
+    icon: "ciencias-humanas",
+    accent: "#F6B500",
+    rgb: "246,181,0",
   },
   {
-    nome: "Física",
-    icon: Atom,
-    cor: "#22C55E",
-    cor2: "#22D3EE",
-    questoes: 1820,
-    acerto: 64,
-    status: "evolucao",
-    descricao: "Mecânica, termodinâmica e eletricidade",
+    id: "biologia",
+    index: "02",
+    eyebrow: "Ciências da Natureza",
+    title: "Biologia",
+    description: "Vida, ecologia, genética e evolução",
+    longDescription:
+      "Domine ecologia, citologia, fisiologia, genética e evolução com revisão visual e banco de questões por dificuldade.",
+    questions: "+1.700 questões",
+    focus: "Natureza aplicada",
+    href: "/login?redirect=/questions?subject=biologia",
+    icon: "biologia",
+    accent: "#72BF32",
+    rgb: "114,191,50",
   },
   {
-    nome: "Química",
-    icon: FlaskConical,
-    cor: "#A78BFA",
-    cor2: "#22D3EE",
-    questoes: 1640,
-    acerto: 71,
-    status: "evolucao",
-    descricao: "Orgânica, físico-química e inorgânica",
+    id: "redacao",
+    index: "03",
+    eyebrow: "Produção textual",
+    title: "Redação",
+    description: "Estrutura, repertório e argumentação",
+    longDescription:
+      "Organize tese, repertório, proposta de intervenção e evolução por competência para escrever com mais segurança.",
+    questions: "Correção por competência",
+    focus: "Nota alta no texto",
+    href: "/login?redirect=/redacao",
+    icon: "redacao",
+    accent: "#FF7A17",
+    rgb: "255,122,23",
   },
   {
-    nome: "Biologia",
-    icon: Leaf,
-    cor: "#22C55E",
-    cor2: "#2563EB",
-    questoes: 1740,
-    acerto: 82,
-    status: "dominada",
-    descricao: "Citologia, ecologia e genética",
+    id: "quimica",
+    index: "04",
+    eyebrow: "Ciências da Natureza",
+    title: "Química",
+    description: "Matéria, reações, orgânica e energia",
+    longDescription:
+      "Pratique química geral, orgânica, físico-química e temas ambientais com questões completas e filtros acumulativos.",
+    questions: "+1.600 questões",
+    focus: "Reações e cálculo",
+    href: "/login?redirect=/questions?subject=quimica",
+    icon: "quimica",
+    accent: "#8B43EE",
+    rgb: "139,67,238",
   },
   {
-    nome: "Geografia",
-    icon: Globe2,
-    cor: "#F97316",
-    cor2: "#FACC15",
-    questoes: 1320,
-    acerto: 55,
-    status: "atencao",
-    descricao: "Geopolítica, clima e urbanização",
+    id: "matematica",
+    index: "05",
+    eyebrow: "Raciocínio lógico",
+    title: "Matemática",
+    description: "Números, funções, geometria e estatística",
+    longDescription:
+      "Resolva questões de álgebra, funções, porcentagem, geometria, probabilidade e estatística no ritmo de prova.",
+    questions: "+2.400 questões",
+    focus: "Cálculo sem travar",
+    href: "/login?redirect=/questions?subject=matematica",
+    icon: "matematica",
+    accent: "#3D8DF5",
+    rgb: "61,141,245",
   },
   {
-    nome: "Língua Portuguesa",
-    icon: BookText,
-    cor: "#2563EB",
-    cor2: "#22C55E",
-    questoes: 2860,
-    acerto: 89,
-    status: "dominada",
-    descricao: "Gramática, interpretação e literatura",
+    id: "linguagens",
+    index: "06",
+    eyebrow: "Comunicação",
+    title: "Linguagens",
+    description: "Português, literatura, artes e idiomas",
+    longDescription:
+      "Treine interpretação, gêneros textuais, literatura, artes, inglês e espanhol com leitura responsiva no celular.",
+    questions: "+2.800 questões",
+    focus: "Leitura rápida",
+    href: "/login?redirect=/questions?subject=linguagens",
+    icon: "linguagens",
+    accent: "#1686AA",
+    rgb: "22,134,170",
   },
   {
-    nome: "Inglês",
-    icon: Languages,
-    cor: "#22D3EE",
-    cor2: "#2563EB",
-    questoes: 720,
-    acerto: 76,
-    status: "evolucao",
-    descricao: "Interpretação de texto e vocabulário",
-  },
-  {
-    nome: "Espanhol",
-    icon: Languages,
-    cor: "#F97316",
-    cor2: "#FDBA74",
-    questoes: 420,
-    acerto: 68,
-    status: "evolucao",
-    descricao: "Leitura e gramática básica",
-  },
-  {
-    nome: "Redação",
-    icon: Pen,
-    cor: "#F97316",
-    cor2: "#22D3EE",
-    questoes: 320,
-    acerto: 80,
-    status: "dominada",
-    descricao: "Dissertativo-argumentativo e competências",
-  },
-  {
-    nome: "História",
-    icon: History,
-    cor: "#A78BFA",
-    cor2: "#2563EB",
-    questoes: 1980,
-    acerto: 61,
-    status: "evolucao",
-    descricao: "Brasil colonial, império e república",
-  },
-  {
-    nome: "Filosofia",
-    icon: Brain,
-    cor: "#A78BFA",
-    cor2: "#F97316",
-    questoes: 580,
-    acerto: 70,
-    status: "evolucao",
-    descricao: "Filosofia antiga, moderna e contemporânea",
-  },
-  {
-    nome: "Sociologia",
-    icon: Brain,
-    cor: "#22C55E",
-    cor2: "#2563EB",
-    questoes: 480,
-    acerto: 73,
-    status: "evolucao",
-    descricao: "Cultura, política e movimentos sociais",
-  },
-  {
-    nome: "Artes",
-    icon: Palette,
-    cor: "#FB7185",
-    cor2: "#A78BFA",
-    questoes: 320,
-    acerto: 84,
-    status: "dominada",
-    descricao: "História da arte e linguagens visuais",
-  },
-  {
-    nome: "Música",
-    icon: Music4,
-    cor: "#A78BFA",
-    cor2: "#22D3EE",
-    questoes: 140,
-    acerto: 90,
-    status: "dominada",
-    descricao: "Teoria musical e história da música",
-  },
-  {
-    nome: "Programação",
-    icon: Code2,
-    cor: "#22D3EE",
-    cor2: "#A78BFA",
-    questoes: 240,
-    acerto: 58,
-    status: "atencao",
-    descricao: "Lógica, algoritmos e estrutura de dados",
+    id: "fisica",
+    index: "07",
+    eyebrow: "Ciências da Natureza",
+    title: "Física",
+    description: "Movimento, energia, ondas e eletricidade",
+    longDescription:
+      "Revise mecânica, eletricidade, termologia, óptica e ondas com questões visuais bem dimensionadas.",
+    questions: "+1.800 questões",
+    focus: "Fenômenos e fórmulas",
+    href: "/login?redirect=/questions?subject=fisica",
+    icon: "fisica",
+    accent: "#F43E48",
+    rgb: "244,62,72",
   },
 ];
 
-const STATUS_MAP: Record<
-  Materia["status"],
-  { label: string; bg: string; text: string; border: string }
-> = {
-  dominada: {
-    label: "Dominada",
-    bg: "bg-emerald-50",
-    text: "text-emerald-700",
-    border: "border-emerald-200",
-  },
-  evolucao: {
-    label: "Em evolução",
-    bg: "bg-cyan-50",
-    text: "text-cyan-700",
-    border: "border-cyan-200",
-  },
-  atencao: {
-    label: "Precisa atenção",
-    bg: "bg-rose-50",
-    text: "text-rose-700",
-    border: "border-rose-200",
-  },
-};
-
 export function MateriasSection() {
+  const [selectedId, setSelectedId] = useState<SubjectTheme>("matematica");
+
+  const selected = useMemo(
+    () => SUBJECTS.find((subject) => subject.id === selectedId) ?? SUBJECTS[0],
+    [selectedId],
+  );
+
   return (
     <section
       id="materias"
-      className="relative isolate overflow-hidden py-24 sm:py-32"
-      style={{
-        background: "linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%)",
-      }}
+      className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#fbfcff_0%,#f4f7ff_58%,#ffffff_100%)] py-20 sm:py-28"
     >
-      <FloatingBlob
-        color="rgba(96, 165, 250, 0.20)"
-        className="left-[-6%] top-[-5%] h-[28rem] w-[28rem]"
-      />
-      <FloatingBlob
-        color="rgba(134, 239, 172, 0.16)"
-        className="right-[-6%] top-[20%] h-[22rem] w-[22rem]"
-      />
-      <FloatingBlob
-        color="rgba(250, 204, 21, 0.14)"
-        className="bottom-[-10%] left-[20%] h-[26rem] w-[26rem]"
-      />
+      <div className="pointer-events-none absolute -left-40 top-40 h-80 w-80 rounded-full bg-[#7B61FF]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -right-36 bottom-28 h-80 w-80 rounded-full bg-[#FF9A5F]/12 blur-3xl" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 text-center sm:mb-16">
-          <p className="mb-3 text-[11px] font-extrabold uppercase tracking-[0.3em] text-blue-700">
-            Matérias
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <p className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.22em] text-blue-700 shadow-sm">
+            <Sparkles className="h-3.5 w-3.5 text-orange-500" />
+            Matérias interativas
           </p>
-          <h2 className="font-display text-4xl font-extrabold leading-tight text-[#0F172A] sm:text-5xl">
-            Cada matéria com sua{" "}
-            <span className="ek-text-gradient">cor e energia</span>
+          <h2 className="font-display mt-5 text-[1.75rem] font-black leading-tight text-slate-950 sm:text-5xl">
+            Escolha a matéria e entre direto no treino certo.
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base font-medium text-slate-600">
-            Acompanhe seu progresso por disciplina, identifique pontos fracos e
-            receba recomendações personalizadas de revisão.
+          <p className="mx-auto mt-4 max-w-2xl text-base font-semibold leading-7 text-slate-600">
+            Ícones visuais, cores por área e cards rápidos para você começar em
+            questões, simulados ou materiais sem ficar procurando.
           </p>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {MATERIAS.map((m, index) => {
-            const Icon = m.icon;
-            const status = STATUS_MAP[m.status];
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {SUBJECTS.map((subject, index) => {
+            const isSelected = subject.id === selected.id;
             return (
-              <motion.div
-                key={m.nome}
-                initial={{ opacity: 0, y: 24, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.04,
-                  ease: [0.22, 1, 0.36, 1],
+              <motion.button
+                key={subject.id}
+                type="button"
+                initial={{ opacity: 0, y: 22 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.45, delay: index * 0.035 }}
+                onClick={() => setSelectedId(subject.id)}
+                className="group relative min-h-[25rem] overflow-hidden rounded-[28px] border bg-white/85 p-5 text-left shadow-[0_18px_46px_-30px_rgba(15,23,42,0.28)] outline-none transition duration-300 hover:-translate-y-2 focus-visible:ring-4 active:scale-[0.98]"
+                style={{
+                  borderColor: isSelected ? `rgba(${subject.rgb},0.46)` : "rgba(34,42,72,0.08)",
+                  boxShadow: isSelected
+                    ? `0 28px 70px -35px rgba(${subject.rgb},0.78), 0 0 0 4px rgba(${subject.rgb},0.09)`
+                    : undefined,
                 }}
-                whileHover={{ y: -6, transition: { duration: 0.25 } }}
-                className="group relative overflow-hidden rounded-[24px] border border-slate-100 bg-white p-5 shadow-[0_12px_32px_-18px_rgba(15,23,42,0.10)]"
+                aria-pressed={isSelected}
               >
                 <div
-                  className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full opacity-25 blur-2xl transition-opacity duration-500 group-hover:opacity-50"
+                  className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                   style={{
-                    background: `linear-gradient(135deg, ${m.cor}, ${m.cor2})`,
+                    background: `linear-gradient(145deg, rgba(${subject.rgb},0.12), transparent 48%, rgba(${subject.rgb},0.06))`,
                   }}
                 />
 
-                <div className="relative flex items-start justify-between gap-3">
-                  <div
-                    className="flex h-11 w-11 items-center justify-center rounded-2xl text-white shadow-md ring-1 ring-white/40"
-                    style={{
-                      background: `linear-gradient(135deg, ${m.cor}, ${m.cor2})`,
-                    }}
-                  >
-                    <Icon className="h-5 w-5" />
-                  </div>
+                <div className="relative z-10 flex items-center justify-between text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">
+                  <span>{subject.eyebrow}</span>
                   <span
-                    className={`rounded-full border px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${status.bg} ${status.text} ${status.border}`}
+                    className="grid h-9 w-9 place-items-center rounded-xl transition group-hover:rotate-6 group-hover:scale-105"
+                    style={{ backgroundColor: `rgba(${subject.rgb},0.10)`, color: subject.accent }}
                   >
-                    {status.label}
+                    {subject.index}
                   </span>
                 </div>
 
-                <h3 className="font-display mt-4 text-lg font-extrabold text-[#0F172A]">
-                  {m.nome}
-                </h3>
-                <p className="mt-1 text-[12px] font-medium leading-relaxed text-slate-500">
-                  {m.descricao}
-                </p>
-
-                <div className="mt-4 flex items-center justify-between text-[11px] font-bold text-slate-600">
-                  <span className="flex items-center gap-1">
-                    <Sigma className="h-3 w-3" />
-                    {m.questoes.toLocaleString("pt-BR")} questões
-                  </span>
-                  <span className="font-black text-[#0F172A]">{m.acerto}% acerto</span>
-                </div>
-
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${m.acerto}%` }}
-                    viewport={{ once: true, amount: 0.5 }}
-                    transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
-                    className="h-full rounded-full"
+                <div className="relative z-10 my-2 grid min-h-56 place-items-center">
+                  <div
+                    className="absolute h-48 w-48 rounded-full blur-sm transition-transform duration-500 group-hover:scale-110"
                     style={{
-                      background: `linear-gradient(90deg, ${m.cor}, ${m.cor2})`,
+                      background: `radial-gradient(circle, rgba(${subject.rgb},0.17), rgba(${subject.rgb},0.03) 60%, transparent 72%)`,
                     }}
                   />
+                  <div
+                    className="absolute h-48 w-48 rounded-full border opacity-0 transition duration-500 group-hover:rotate-12 group-hover:opacity-100"
+                    style={{ borderColor: `rgba(${subject.rgb},0.18)` }}
+                  />
+                  <StudyIcon
+                    name={subject.icon}
+                    variant="plain"
+                    size="xl"
+                    className="relative z-10 h-56 w-56 drop-shadow-[0_22px_22px_rgba(15,23,42,0.12)] transition duration-500 group-hover:-translate-y-2 group-hover:scale-[1.03]"
+                  />
                 </div>
-              </motion.div>
+
+                <div className="relative z-10">
+                  <h3 className="font-display text-2xl font-black leading-tight text-slate-950">
+                    {subject.title}
+                  </h3>
+                  <p className="mt-2 min-h-10 text-sm font-semibold leading-6 text-slate-500">
+                    {subject.description}
+                  </p>
+                </div>
+
+                <div className="relative z-10 mt-5 flex items-center justify-between border-t border-slate-100 pt-4 text-[11px] font-black uppercase tracking-[0.12em] text-slate-500">
+                  <span>{isSelected ? "Selecionada" : "Explorar matéria"}</span>
+                  <span
+                    className="grid h-9 w-9 place-items-center rounded-full transition group-hover:rotate-45 group-hover:text-white"
+                    style={{
+                      backgroundColor: isSelected ? subject.accent : `rgba(${subject.rgb},0.10)`,
+                      color: isSelected ? "#FFFFFF" : subject.accent,
+                    }}
+                  >
+                    {isSelected ? <Check className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}
+                  </span>
+                </div>
+              </motion.button>
             );
           })}
         </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={selected.id}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.98 }}
+            transition={{ duration: 0.28 }}
+            className="relative mt-6 overflow-hidden rounded-[30px] border bg-white/86 p-5 shadow-[0_24px_70px_-38px_rgba(15,23,42,0.32)] md:grid md:grid-cols-[17rem_1fr_auto] md:items-center md:gap-6 md:p-7"
+            style={{
+              borderColor: `rgba(${selected.rgb},0.18)`,
+              backgroundImage: `radial-gradient(30rem 22rem at 0% 50%, rgba(${selected.rgb},0.14), transparent 68%)`,
+            }}
+          >
+            <button
+              type="button"
+              onClick={() => setSelectedId("matematica")}
+              className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-slate-200 bg-white/80 text-slate-400 transition hover:rotate-90 hover:text-slate-700"
+              aria-label="Voltar para Matemática"
+            >
+              <X className="h-4 w-4" />
+            </button>
+
+            <div className="relative grid min-h-48 place-items-center">
+              <div
+                className="absolute h-40 w-40 rounded-full border"
+                style={{
+                  borderColor: `rgba(${selected.rgb},0.18)`,
+                  boxShadow: `0 0 0 28px rgba(${selected.rgb},0.05), 0 0 0 54px rgba(${selected.rgb},0.025)`,
+                }}
+              />
+              <StudyIcon
+                name={selected.icon}
+                variant="plain"
+                size="xl"
+                className="relative z-10 h-52 w-52 drop-shadow-[0_22px_24px_rgba(15,23,42,0.14)]"
+              />
+            </div>
+
+            <div className="relative z-10 mt-4 md:mt-0">
+              <p className="text-[11px] font-black uppercase tracking-[0.18em]" style={{ color: selected.accent }}>
+                {selected.eyebrow}
+              </p>
+              <h3 className="font-display mt-2 text-3xl font-black text-slate-950 sm:text-4xl">
+                {selected.title}
+              </h3>
+              <p className="mt-3 max-w-2xl text-sm font-semibold leading-7 text-slate-600">
+                {selected.longDescription}
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[selected.questions, selected.focus, "Filtros por tema"].map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-2xl border px-3 py-2 text-[11px] font-black uppercase tracking-wider"
+                    style={{
+                      borderColor: `rgba(${selected.rgb},0.18)`,
+                      backgroundColor: `rgba(${selected.rgb},0.08)`,
+                      color: selected.accent,
+                    }}
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="relative z-10 mt-6 flex flex-col gap-3 md:mt-0 md:min-w-52">
+              <Link
+                href={selected.href}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl px-5 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5 active:scale-[0.98]"
+                style={{ backgroundColor: selected.accent, boxShadow: `0 16px 28px rgba(${selected.rgb},0.24)` }}
+              >
+                Praticar agora <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/login?redirect=/materials"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-5 text-sm font-black text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
+              >
+                Ver materiais
+              </Link>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 type InsightAttempt = {
   correct: boolean;
+  annulled?: boolean;
   errorType: string | null;
   reviewed: boolean;
   createdAt: Date;
@@ -15,9 +16,9 @@ type InsightAttempt = {
 type InsightQuestion = {
   id: string;
   difficulty: string;
-  explanation: string;
   subject: { id: string; name: string; color: string };
   topic: { id: string; name: string } | null;
+  vestibular?: { slug: string } | null;
 };
 
 type StudyProfile = {
@@ -26,9 +27,12 @@ type StudyProfile = {
   targetExam: string;
 };
 
-export function calculateAccuracyRate(attempts: Array<{ correct: boolean }>) {
-  if (attempts.length === 0) return 0;
-  return (attempts.filter((attempt) => attempt.correct).length / attempts.length) * 100;
+export function calculateAccuracyRate(attempts: Array<{ correct: boolean; annulled?: boolean }>) {
+  const validAttempts = attempts.filter((attempt) => !attempt.annulled);
+  if (validAttempts.length === 0) return 0;
+  return (
+    validAttempts.filter((attempt) => attempt.correct).length / validAttempts.length
+  ) * 100;
 }
 
 const difficultyWeight: Record<string, number> = {
@@ -37,9 +41,30 @@ const difficultyWeight: Record<string, number> = {
   HARD: 1.8,
 };
 
+const DEFAULT_QUESTION_VESTIBULAR = "enem";
+export const ERROR_NOTEBOOK_HREF = `/questions?vestibular=${DEFAULT_QUESTION_VESTIBULAR}&mode=errors`;
+
+function focusedQuestionHref(input: {
+  amount: number;
+  subjectId?: string;
+  topicId?: string;
+}) {
+  const params = new URLSearchParams({
+    vestibular: DEFAULT_QUESTION_VESTIBULAR,
+    session: "1",
+    count: String(Math.max(1, input.amount)),
+  });
+
+  if (input.subjectId) params.set("subject", input.subjectId);
+  if (input.topicId) params.set("topic", input.topicId);
+
+  return `/questions?${params.toString()}`;
+}
+
 export function calculateWeightedAccuracyRate(attempts: InsightAttempt[]) {
-  if (attempts.length === 0) return 0;
-  const totals = attempts.reduce(
+  const validAttempts = attempts.filter((attempt) => !attempt.annulled);
+  if (validAttempts.length === 0) return 0;
+  const totals = validAttempts.reduce(
     (acc, attempt) => {
       const weight = difficultyWeight[attempt.question.difficulty] ?? 1.2;
       acc.total += weight;
@@ -155,6 +180,7 @@ function groupPerformance(attempts: InsightAttempt[], key: "subject" | "topic") 
       id: string;
       name: string;
       color: string;
+      subjectId: string;
       total: number;
       correct: number;
       easyErrors: number;
@@ -169,6 +195,7 @@ function groupPerformance(attempts: InsightAttempt[], key: "subject" | "topic") 
       id: source.id,
       name: source.name,
       color: key === "subject" ? attempt.question.subject.color : attempt.question.subject.color,
+      subjectId: attempt.question.subject.id,
       total: 0,
       correct: 0,
       easyErrors: 0,
@@ -203,14 +230,15 @@ export function generateAutomaticQuestionList(
   attempts: InsightAttempt[],
   amount: number,
 ) {
+  const validAttempts = attempts.filter((attempt) => !attempt.annulled);
   const wrongQuestionIds = new Set(
-    attempts.filter((attempt) => !attempt.correct).map((attempt) => attempt.question.id),
+    validAttempts.filter((attempt) => !attempt.correct).map((attempt) => attempt.question.id),
   );
   const solvedCorrectly = new Set(
-    attempts.filter((attempt) => attempt.correct).map((attempt) => attempt.question.id),
+    validAttempts.filter((attempt) => attempt.correct).map((attempt) => attempt.question.id),
   );
   const weakTopicIds = new Set(
-    groupPerformance(attempts, "topic")
+    groupPerformance(validAttempts, "topic")
       .filter((topic) => topic.errorRate >= 50)
       .map((topic) => topic.id),
   );
@@ -234,7 +262,8 @@ export function buildDashboardInsights(input: {
   attempts: InsightAttempt[];
   questions: InsightQuestion[];
 }) {
-  const { attempts, profile, questions } = input;
+  const { profile, questions } = input;
+  const attempts = input.attempts.filter((attempt) => !attempt.annulled);
   const accuracyRate = calculateAccuracyRate(attempts);
   const weightedAccuracyRate = calculateWeightedAccuracyRate(attempts);
   const errors = attempts.filter((attempt) => !attempt.correct);
@@ -267,10 +296,27 @@ export function buildDashboardInsights(input: {
     dailyGoalCompletionRate,
   });
 
-  const targetName = weakestTopic?.name ?? weakestSubject?.name ?? "questoes diagnosticas";
-  const targetSubject = weakestSubject?.name ?? "Matematica";
+  const fallbackQuestion = questions[0] ?? null;
+  const targetName =
+    weakestTopic?.name ??
+    weakestSubject?.name ??
+    fallbackQuestion?.topic?.name ??
+    fallbackQuestion?.subject.name ??
+    "questões diagnósticas";
+  const targetSubject =
+    weakestSubject?.name ??
+    fallbackQuestion?.subject.name ??
+    profile.targetExam ??
+    "ENEM";
+  const targetSubjectId = weakestTopic?.subjectId ?? weakestSubject?.id ?? fallbackQuestion?.subject.id;
+  const targetTopicId = weakestTopic?.id ?? fallbackQuestion?.topic?.id;
   const errorType = mainErrorType(attempts);
   const automaticList = generateAutomaticQuestionList(questions, attempts, dailyGoal.questions);
+  const questionActionTarget = focusedQuestionHref({
+    amount: automaticList.length || dailyGoal.questions,
+    subjectId: targetSubjectId,
+    topicId: targetTopicId,
+  });
 
   const recommendations = [
     {
@@ -278,10 +324,10 @@ export function buildDashboardInsights(input: {
       priority: "alta",
       title: `Estude ${targetName} hoje`,
       reason: weakestTopic
-        ? `Voce tem ${Math.round(weakestTopic.errorRate)}% de erro nesse assunto.`
-        : "Ainda faltam dados suficientes, entao comece por uma lista diagnostica.",
-      actionLabel: `Resolver ${automaticList.length || dailyGoal.questions} questoes`,
-      actionTarget: "/questions",
+        ? `Você tem ${Math.round(weakestTopic.errorRate)}% de erro nesse assunto.`
+        : "Ainda faltam dados suficientes, então comece por uma lista diagnóstica.",
+      actionLabel: `Resolver ${automaticList.length || dailyGoal.questions} questões`,
+      actionTarget: questionActionTarget,
     },
     {
       type: "review_errors",
@@ -289,18 +335,18 @@ export function buildDashboardInsights(input: {
       title: "Revisar caderno de erros",
       reason:
         pendingErrors > 0
-          ? `${pendingErrors} erro(s) ainda nao foram revisados.`
-          : "Seu caderno esta em dia. Mantenha o ritmo.",
-      actionLabel: "Abrir questoes erradas",
-      actionTarget: "/questions?mode=errors",
+          ? `${pendingErrors} erro(s) ainda não foram revisados.`
+          : "Seu caderno está em dia. Mantenha o ritmo.",
+      actionLabel: "Abrir questões erradas",
+      actionTarget: ERROR_NOTEBOOK_HREF,
     },
     {
-      type: "watch_lesson",
+      type: "review_materials",
       priority: "media",
-      title: `Ver Express de ${targetSubject}`,
-      reason: "Videos curtos ajudam a corrigir o conceito logo apos o erro.",
-      actionLabel: "Abrir Express",
-      actionTarget: "/videos",
+      title: `Revisar material de ${targetSubject}`,
+      reason: "Um PDF bem marcado ajuda a fixar o conceito depois da questão.",
+      actionLabel: "Abrir biblioteca",
+      actionTarget: "/biblioteca",
     },
   ];
 
@@ -310,6 +356,8 @@ export function buildDashboardInsights(input: {
     errorRate: 100 - accuracyRate,
     studyHealthScore,
     weakestSubjects: weakestSubject ? [weakestSubject] : [],
+    subjectPerformance,
+    topicPerformance,
     strongestSubjects,
     urgentTopics: [...topicPerformance]
       .map((topic) => ({
@@ -332,16 +380,16 @@ export function buildDashboardInsights(input: {
     dailyBuckets,
     readinessLabel:
       studyHealthScore.score >= 80
-        ? "pronto para subir nivel"
+        ? "pronto para subir nível"
         : studyHealthScore.score >= 60
-          ? "em evolucao"
-          : "precisa de revisao guiada",
+          ? "em evolução"
+          : "precisa de revisão guiada",
     recommendations,
     automaticList,
     message:
-      `${profile.name}, seu foco hoje e ${targetSubject}. ` +
+      `${profile.name}, seu foco hoje é ${targetSubject}. ` +
       (weakestTopic
-        ? `O assunto que mais trava sua evolucao agora e ${weakestTopic.name}.`
-        : "Comece por uma lista diagnostica para o EstudAki entender seus pontos fracos."),
+        ? `O assunto que mais trava sua evolução agora é ${weakestTopic.name}.`
+        : "Comece por uma lista diagnóstica para o EstudAki entender seus pontos fracos."),
   };
 }

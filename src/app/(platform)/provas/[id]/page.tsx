@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { ExamWorkspace } from "@/components/exam-workspace";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { resolveExamDocumentUrls } from "@/lib/exam-document-urls";
 import { localExams } from "@/lib/local-exams";
 
 export default async function ExamPage({ params }: { params: Promise<{ id: string }> }) {
@@ -10,10 +11,11 @@ export default async function ExamPage({ params }: { params: Promise<{ id: strin
   let exam;
 
   try {
-    exam = await db.exam.findUnique({
+    const databaseExam = await db.exam.findUnique({
       where: { id },
       include: { vestibular: true },
     });
+    exam = databaseExam ?? localExams.find((item) => item.id === id) ?? null;
   } catch {
     exam = localExams.find((item) => item.id === id) ?? null;
   }
@@ -22,5 +24,9 @@ export default async function ExamPage({ params }: { params: Promise<{ id: strin
     notFound();
   }
 
-  return <ExamWorkspace exam={exam} />;
+  if ("isSimulado" in exam && exam.isSimulado) {
+    notFound();
+  }
+
+  return <ExamWorkspace exam={resolveExamDocumentUrls(exam)} />;
 }

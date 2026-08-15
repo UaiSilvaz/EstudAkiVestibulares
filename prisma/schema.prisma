@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url      = env("DATABASE_URL")
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
@@ -29,6 +29,33 @@ enum Difficulty {
   HARD
 }
 
+enum QuestionSourceType {
+  OFFICIAL
+  WEB_PUBLIC
+  LICENSE_REQUIRED
+  AUTHORIAL
+}
+
+enum QuestionReviewState {
+  PENDING_REVIEW
+  APPROVED
+  HAS_ERROR
+}
+
+enum QuestionReportStatus {
+  OPEN
+  RESOLVED
+  DISMISSED
+}
+
+enum ProvaAntigaStatus {
+  DISPONIVEL
+  APROVADA
+  EM_PROCESSAMENTO
+  PENDENTE
+  COM_ERRO
+}
+
 enum MaterialType {
   PDF
   SUMMARY
@@ -51,6 +78,129 @@ enum ActivityType {
   CONTENT
 }
 
+enum PurchaseStatus {
+  PENDING
+  APPROVED
+  REFUNDED
+  CANCELED
+  CHARGEBACK
+}
+
+enum CartItemStatus {
+  CART
+  WISHLIST
+  WAITING
+}
+
+enum OfficialFileType {
+  INDEX_PAGE
+  EXAM
+  ANSWER_KEY
+}
+
+enum OfficialSourceKind {
+  SEED_PAGE
+  DIRECT_FILE
+}
+
+enum OfficialSourceStatus {
+  PENDING
+  APPROVED
+  DOWNLOADED
+  ERROR
+  ARCHIVED
+}
+
+enum OfficialDownloadStatus {
+  PENDING
+  DOWNLOADING
+  DOWNLOADED
+  DUPLICATE
+  ERROR
+}
+
+enum OfficialProcessingStatus {
+  FILE_DOWNLOADED
+  WAITING_EXTRACTION
+  EXTRACTING
+  EXTRACTED
+  WAITING_REVIEW
+  APPROVED
+  PUBLISHED
+  ERROR
+}
+
+enum OfficialResolutionStatus {
+  NOT_GENERATED
+  IN_REVIEW
+  APPROVED
+  REJECTED
+  PUBLISHED
+}
+
+enum OfficialAnswerReviewStatus {
+  EXTRACTED
+  CHECKED
+  APPROVED
+  REJECTED
+}
+
+enum QuestionImportJobStatus {
+  PREPARED
+  IMPORTING
+  WAITING_REVIEW
+  READY_TO_PUBLISH
+  PUBLISHED
+  FAILED
+}
+
+enum QuestionAnswerSituation {
+  PENDING_OFFICIAL_KEY
+  CONFIRMED
+  ANNULLED
+}
+
+enum OfficialQuestionLanguage {
+  NOT_APPLICABLE
+  PORTUGUESE
+  ENGLISH
+  SPANISH
+}
+
+enum QuestionExtractionStatus {
+  EXTRACTED
+  NEEDS_REVIEW
+  INVALID
+}
+
+enum QuestionBlockType {
+  SUPPORT_TEXT
+  COMMAND
+  CREDIT
+  IMAGE
+}
+
+enum QuestionAssetType {
+  VISUAL
+  PROMPT_FACSIMILE
+  ALTERNATIVE_VISUAL
+  ORIGINAL_REFERENCE
+}
+
+enum QuestionAssetRelation {
+  STATEMENT
+  ALTERNATIVE
+  ADMIN_REFERENCE
+}
+
+enum QuestionRevisionAction {
+  IMPORTED
+  UPDATED
+  APPROVED
+  REOPENED
+  PUBLISHED
+}
+
 model User {
   id           String   @id @default(cuid())
   name         String
@@ -66,15 +216,49 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  activities        Activity[]
-  attempts          QuestionAttempt[]
-  authoredQuestions Question[]        @relation("QuestionAuthor")
-  authoredVideos    Video[]           @relation("VideoAuthor")
-  achievements      UserAchievement[]
-  studySessions     StudySession[]
-  videoComments     VideoComment[]
-  videoLikes        VideoLike[]
-  videoSaves        VideoSave[]
+  activities              Activity[]
+  attempts                QuestionAttempt[]
+  authoredQuestions       Question[]           @relation("QuestionAuthor")
+  authoredVideos          Video[]              @relation("VideoAuthor")
+  achievements            UserAchievement[]
+  purchases               Purchase[]
+  licenses                UserProduct[]
+  pdfAnnotations          PdfAnnotation[]
+  studySessions           StudySession[]
+  videoComments           VideoComment[]
+  videoLikes              VideoLike[]
+  videoSaves              VideoSave[]
+  examAttempts            ExamAttempt[]
+  questionFavorites       QuestionFavorite[]
+  questionReports         QuestionReport[]
+  cartItems               CartItem[]
+  ownedFlashcards         Flashcard[]          @relation("FlashcardOwner")
+  flashcardFavorites      FlashcardFavorite[]
+  essays                  EssaySubmission[]
+  communityPosts          CommunityPost[]
+  communityPostLikes      CommunityPostLike[]
+  conversationMemberships ConversationMember[]
+  chatMessages            ChatMessage[]
+  createdConversations    Conversation[]       @relation("ConversationCreator")
+  authSessions            AuthSession[]
+  studyPlanPreference     StudyPlanPreference?
+  studyPlanTasks          StudyPlanTask[]
+}
+
+model AuthSession {
+  id         String    @id @default(cuid())
+  userId     String
+  tokenHash  String    @unique
+  expiresAt  DateTime
+  revokedAt  DateTime?
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+  @@index([expiresAt, revokedAt])
 }
 
 model Vestibular {
@@ -125,45 +309,152 @@ model Topic {
 }
 
 model Question {
-  id                 String        @id @default(cuid())
-  vestibularId       String
-  subjectId          String
-  topicId            String?
-  authorId           String?
-  year               Int
-  difficulty         Difficulty    @default(MEDIUM)
-  statement          String
-  alternatives       String
-  correctAlternative String
-  explanation        String
-  pedagogyComment    String?
-  videoUrl           String?
-  imageUrl           String?
-  tags               String        @default("[]")
-  source             String?
-  status             ContentStatus @default(REVIEW)
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
+  id                      String                   @id @default(cuid())
+  vestibularId            String
+  subjectId               String
+  topicId                 String?
+  authorId                String?
+  year                    Int
+  exam                    String?
+  phase                   String?
+  day                     String?
+  questionNumber          Int?
+  difficulty              Difficulty               @default(MEDIUM)
+  statement               String
+  supportText             String?
+  alternatives            String
+  alternativeExplanations String                   @default("{}")
+  correctAlternative      String
+  explanation             String
+  pedagogyComment         String?
+  skill                   String?
+  videoUrl                String?
+  imageUrl                String?
+  images                  String                   @default("[]")
+  tags                    String                   @default("[]")
+  source                  String?
+  sourceName              String?
+  sourceUrl               String?
+  sourceCitation          String?
+  sourceAccessedAt        String?
+  sourceType              QuestionSourceType       @default(AUTHORIAL)
+  answerSituation         QuestionAnswerSituation  @default(CONFIRMED)
+  officialLanguage        OfficialQuestionLanguage @default(NOT_APPLICABLE)
+  officialGroup           String?
+  officialVariant         String?
+  reviewState             QuestionReviewState      @default(PENDING_REVIEW)
+  reviewNotes             String?
+  contentHash             String?                  @unique
+  pilotTestPublishedAt    DateTime?
+  pilotTestPublishedBy    String?
+  status                  ContentStatus            @default(REVIEW)
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
 
-  attempts    QuestionAttempt[]
-  author      User?             @relation("QuestionAuthor", fields: [authorId], references: [id])
-  subject     Subject           @relation(fields: [subjectId], references: [id])
-  topic       Topic?            @relation(fields: [topicId], references: [id])
-  vestibular  Vestibular        @relation(fields: [vestibularId], references: [id])
-  videos      Video[]
+  attempts             QuestionAttempt[]
+  alternativeItems     QuestionAlternative[]
+  author               User?                         @relation("QuestionAuthor", fields: [authorId], references: [id])
+  imageItems           QuestionImage[]
+  subject              Subject                       @relation(fields: [subjectId], references: [id])
+  topic                Topic?                        @relation(fields: [topicId], references: [id])
+  vestibular           Vestibular                    @relation(fields: [vestibularId], references: [id])
+  videos               Video[]
+  provasAntigas        ProvaAntigaQuestao[]
+  favorites            QuestionFavorite[]
+  reports              QuestionReport[]
+  structuredExtraction QuestionExtraction?
+  pedagogicalMetadata  QuestionPedagogicalMetadata?
+  authorialResolutions QuestionAuthorialResolution[]
+  blocks               QuestionBlock[]
+  revisions            QuestionRevision[]
+  officialAnswerKey    OfficialAnswerKey?
+
+  @@index([vestibularId, status, difficulty])
+  @@index([subjectId, topicId, status])
+  @@index([sourceType, reviewState, status])
+  @@index([year, status])
+  @@index([year, questionNumber, officialLanguage])
+  @@index([officialGroup, officialVariant])
+  @@index([pilotTestPublishedAt])
+}
+
+model QuestionAlternative {
+  id                  String   @id @default(cuid())
+  questionId          String
+  key                 String
+  text                String
+  imageUrl            String?
+  explanation         String?
+  correct             Boolean  @default(false)
+  order               Int
+  sourcePdfPage       Int?
+  consolidatedPdfPage Int?
+  regionX             Float?
+  regionY             Float?
+  regionWidth         Float?
+  regionHeight        Float?
+  normalizedX         Float?
+  normalizedY         Float?
+  normalizedWidth     Float?
+  normalizedHeight    Float?
+  confidence          Float?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, key])
+  @@index([questionId, order])
+}
+
+model QuestionImage {
+  id                  String                @id @default(cuid())
+  questionId          String
+  url                 String
+  description         String?
+  altText             String?
+  order               Int                   @default(0)
+  width               Int?
+  height              Int?
+  assetType           QuestionAssetType     @default(VISUAL)
+  relation            QuestionAssetRelation @default(STATEMENT)
+  alternativeKey      String?
+  storagePath         String?
+  mimeType            String?
+  sha256Hash          String?
+  sourcePdfPage       Int?
+  consolidatedPdfPage Int?
+  regionX             Float?
+  regionY             Float?
+  regionWidth         Float?
+  regionHeight        Float?
+  normalizedX         Float?
+  normalizedY         Float?
+  normalizedWidth     Float?
+  normalizedHeight    Float?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+
+  question Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  blocks   QuestionBlock[]
+
+  @@index([questionId, order])
+  @@index([questionId, assetType, relation])
+  @@index([sha256Hash])
 }
 
 model QuestionAttempt {
-  id                String   @id @default(cuid())
-  userId            String
-  questionId        String
+  id                  String    @id @default(cuid())
+  userId              String
+  questionId          String
   selectedAlternative String
-  correct           Boolean
-  timeSpentSeconds  Int      @default(0)
-  errorType         String?
-  reviewed          Boolean  @default(false)
-  createdAt         DateTime @default(now())
-  reviewedAt        DateTime?
+  correct             Boolean
+  annulled            Boolean   @default(false)
+  timeSpentSeconds    Int       @default(0)
+  errorType           String?
+  reviewed            Boolean   @default(false)
+  createdAt           DateTime  @default(now())
+  reviewedAt          DateTime?
 
   question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -173,26 +464,551 @@ model QuestionAttempt {
   @@index([correct, reviewed])
 }
 
-model Exam {
-  id           String        @id @default(cuid())
-  vestibularId String
-  title        String
-  year         Int
-  phase        String
-  day          String?
-  pdfUrl       String?
-  answerKeyUrl String?
-  sourceUrl    String?
-  imageUrl     String?
-  questionCount Int?
-  durationMinutes Int?
-  official     Boolean       @default(true)
-  color        String        @default("#1E73FF")
-  status       ContentStatus @default(PUBLISHED)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+model QuestionFavorite {
+  id         String   @id @default(cuid())
+  userId     String
+  questionId String
+  createdAt  DateTime @default(now())
 
-  vestibular Vestibular @relation(fields: [vestibularId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId, createdAt])
+}
+
+model QuestionReport {
+  id         String               @id @default(cuid())
+  userId     String
+  questionId String
+  reason     String
+  details    String?
+  status     QuestionReportStatus @default(OPEN)
+  createdAt  DateTime             @default(now())
+  updatedAt  DateTime             @updatedAt
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([questionId, status])
+  @@index([userId, createdAt])
+}
+
+model Exam {
+  id              String        @id @default(cuid())
+  vestibularId    String
+  title           String
+  year            Int
+  phase           String
+  day             String?
+  pdfUrl          String?
+  answerKeyUrl    String?
+  sourceUrl       String?
+  imageUrl        String?
+  questionCount   Int?
+  durationMinutes Int?
+  official        Boolean       @default(true)
+  color           String        @default("#1E73FF")
+  status          ContentStatus @default(PUBLISHED)
+  isSimulado      Boolean       @default(false)
+  description     String?
+  instructions    String?
+  startsAt        DateTime?
+  endsAt          DateTime?
+  resultsAt       DateTime?
+  answerKey       String        @default("{}")
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  vestibular Vestibular    @relation(fields: [vestibularId], references: [id], onDelete: Cascade)
+  attempts   ExamAttempt[]
+}
+
+model ExamAttempt {
+  id           String    @id @default(cuid())
+  examId       String
+  userId       String
+  startedAt    DateTime  @default(now())
+  expiresAt    DateTime
+  submittedAt  DateTime?
+  responses    String    @default("{}")
+  status       String    @default("IN_PROGRESS")
+  correctCount Int?
+  score        Float?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  exam Exam @relation(fields: [examId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([examId, userId])
+  @@index([userId, submittedAt])
+  @@index([examId, status])
+}
+
+model ProvaAntiga {
+  id                      String             @id
+  vestibular              String
+  slug                    String             @unique
+  ano                     Int
+  titulo                  String
+  descricao               String
+  fase                    String
+  dia                     String?
+  tipo                    String             @default("OFICIAL")
+  arquivoProvaUrl         String             @map("arquivo_prova_url")
+  arquivoGabaritoUrl      String?            @map("arquivo_gabarito_url")
+  arquivoProvaPath        String             @map("arquivo_prova_path")
+  arquivoGabaritoPath     String?            @map("arquivo_gabarito_path")
+  fonteOficial            String             @map("fonte_oficial")
+  fonteUrl                String             @map("fonte_url")
+  totalQuestoes           Int?               @map("total_questoes")
+  status                  ProvaAntigaStatus  @default(PENDENTE)
+  importacaoStatus        String             @default("NAO_INICIADA") @map("importacao_status")
+  importacaoRelatorio     String?            @map("importacao_relatorio")
+  officialExamFileId      String?            @unique @map("official_exam_file_id")
+  officialKeyFileId       String?            @unique @map("official_key_file_id")
+  fileHash                String?            @map("file_hash")
+  questoesDetectadas      Int                @default(0) @map("questoes_detectadas")
+  questoesValidas         Int                @default(0) @map("questoes_validas")
+  questoesComErro         Int                @default(0) @map("questoes_com_erro")
+  imagensDetectadas       Int                @default(0) @map("imagens_detectadas")
+  pilotTestAvailableAt    DateTime?          @map("pilot_test_available_at")
+  pilotTestPreviousStatus ProvaAntigaStatus? @map("pilot_test_previous_status")
+  criadoEm                DateTime           @default(now()) @map("criado_em")
+  atualizadoEm            DateTime           @updatedAt @map("atualizado_em")
+
+  questoes         ProvaAntigaQuestao[]
+  officialExamFile OfficialFile?           @relation("OfficialExamPdf", fields: [officialExamFileId], references: [id], onDelete: SetNull)
+  officialKeyFile  OfficialFile?           @relation("OfficialAnswerKeyPdf", fields: [officialKeyFileId], references: [id], onDelete: SetNull)
+  importJobs       QuestionImportJob[]
+  essayProposals   OfficialEssayProposal[]
+
+  @@index([vestibular, ano])
+  @@index([status])
+  @@map("provas_antigas")
+}
+
+model ProvaAntigaQuestao {
+  id                   String                   @id @default(cuid())
+  provaAntigaId        String                   @map("prova_antiga_id")
+  questaoId            String                   @map("questao_id")
+  numeroQuestao        Int                      @map("numero_questao")
+  officialLanguage     OfficialQuestionLanguage @default(NOT_APPLICABLE) @map("official_language")
+  officialGroup        String?                  @map("official_group")
+  officialVariant      String?                  @map("official_variant")
+  ordem                Int
+  paginaPdf            Int?                     @map("pagina_pdf")
+  extractedStatement   String?                  @map("extracted_statement")
+  extractionConfidence Float?                   @map("extraction_confidence")
+  pageStart            Int?                     @map("page_start")
+  pageEnd              Int?                     @map("page_end")
+  hasImage             Boolean                  @default(false) @map("has_image")
+  needsHumanReview     Boolean                  @default(true) @map("needs_human_review")
+  criadoEm             DateTime                 @default(now()) @map("criado_em")
+
+  provaAntiga ProvaAntiga @relation(fields: [provaAntigaId], references: [id], onDelete: Cascade)
+  questao     Question    @relation(fields: [questaoId], references: [id], onDelete: Cascade)
+
+  @@unique([provaAntigaId, questaoId])
+  @@unique([provaAntigaId, numeroQuestao, officialLanguage], map: "paq_exam_number_language_key")
+  @@index([questaoId])
+  @@index([provaAntigaId, officialGroup, officialVariant], map: "paq_exam_group_variant_idx")
+  @@map("prova_antiga_questoes")
+}
+
+model OfficialSource {
+  id           String               @id @default(cuid())
+  vestibular   String
+  year         Int?
+  edition      String               @default("regular")
+  examDay      String?              @map("exam_day")
+  fileType     OfficialFileType     @map("file_type")
+  sourceKind   OfficialSourceKind   @default(DIRECT_FILE) @map("source_kind")
+  sourceUrl    String               @unique @map("source_url")
+  sourceDomain String               @map("source_domain")
+  status       OfficialSourceStatus @default(PENDING)
+  notes        String?
+  approvedAt   DateTime?            @map("approved_at")
+  archivedAt   DateTime?            @map("archived_at")
+  createdAt    DateTime             @default(now()) @map("created_at")
+  updatedAt    DateTime             @updatedAt @map("updated_at")
+
+  files OfficialFile[]
+  logs  OfficialImportLog[]
+
+  @@index([vestibular, year])
+  @@index([status, sourceKind])
+  @@map("official_sources")
+}
+
+model OfficialFile {
+  id               String                   @id @default(cuid())
+  sourceId         String                   @map("source_id")
+  vestibular       String
+  year             Int
+  edition          String
+  examDay          String?                  @map("exam_day")
+  fileType         OfficialFileType         @map("file_type")
+  originalUrl      String                   @map("original_url")
+  storageUrl       String                   @map("storage_url")
+  fileName         String                   @map("file_name")
+  mimeType         String                   @map("mime_type")
+  fileSize         Int                      @map("file_size")
+  sha256Hash       String                   @unique @map("sha256_hash")
+  downloadStatus   OfficialDownloadStatus   @default(PENDING) @map("download_status")
+  downloadLog      String                   @default("") @map("download_log")
+  processingStatus OfficialProcessingStatus @default(FILE_DOWNLOADED) @map("processing_status")
+  createdAt        DateTime                 @default(now()) @map("created_at")
+  updatedAt        DateTime                 @updatedAt @map("updated_at")
+
+  source         OfficialSource      @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  answerKeys     OfficialAnswerKey[]
+  logs           OfficialImportLog[]
+  examRecords    ProvaAntiga[]       @relation("OfficialExamPdf")
+  keyRecords     ProvaAntiga[]       @relation("OfficialAnswerKeyPdf")
+  examImportJobs QuestionImportJob[] @relation("QuestionImportExamFile")
+  keyImportJobs  QuestionImportJob[] @relation("QuestionImportAnswerKeyFile")
+
+  @@index([sourceId, downloadStatus])
+  @@index([vestibular, year, fileType])
+  @@index([processingStatus])
+  @@map("official_files")
+}
+
+model OfficialAnswerKey {
+  id                  String                     @id @default(cuid())
+  fileId              String                     @map("file_id")
+  questionNumber      Int                        @map("question_number")
+  officialLanguage    OfficialQuestionLanguage   @default(NOT_APPLICABLE) @map("official_language")
+  officialGroup       String?                    @map("official_group")
+  officialVariant     String?                    @map("official_variant")
+  correctAlternative  String                     @map("correct_alternative")
+  questionId          String?                    @unique @map("question_id")
+  answerSituation     QuestionAnswerSituation    @default(CONFIRMED) @map("answer_situation")
+  sourceUrl           String?                    @map("source_url")
+  sourceSha256        String?                    @map("source_sha256")
+  sourcePdfPage       Int?                       @map("source_pdf_page")
+  validationStatus    String?                    @map("validation_status")
+  importedAt          DateTime?                  @map("imported_at")
+  statement           String?
+  subject             String?
+  topic               String?
+  difficulty          Difficulty?
+  officialQuestionUrl String?                    @map("official_question_url")
+  /// Legacy compatibility only. New authorial resolution content belongs to QuestionAuthorialResolution.
+  shortComment        String?                    @map("short_comment")
+  fullResolution      String?                    @map("full_resolution")
+  steps               String                     @default("[]")
+  alternativeComments String                     @default("{}") @map("alternative_comments")
+  commonError         String?                    @map("common_error")
+  studyTip            String?                    @map("study_tip")
+  relatedContent      String?                    @map("related_content")
+  answerReviewStatus  OfficialAnswerReviewStatus @default(EXTRACTED) @map("answer_review_status")
+  answerReviewedBy    String?                    @map("answer_reviewed_by")
+  answerReviewedAt    DateTime?                  @map("answer_reviewed_at")
+  resolutionStatus    OfficialResolutionStatus   @default(NOT_GENERATED) @map("resolution_status")
+  generatedByModel    String?                    @map("generated_by_model")
+  generatedAt         DateTime?                  @map("generated_at")
+  reviewedBy          String?                    @map("reviewed_by")
+  reviewedAt          DateTime?                  @map("reviewed_at")
+  publishedAt         DateTime?                  @map("published_at")
+  createdAt           DateTime                   @default(now()) @map("created_at")
+  updatedAt           DateTime                   @updatedAt @map("updated_at")
+
+  file                 OfficialFile                  @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  question             Question?                     @relation(fields: [questionId], references: [id], onDelete: SetNull)
+  extraction           QuestionExtraction?
+  authorialResolutions QuestionAuthorialResolution[]
+
+  @@unique([fileId, questionNumber, officialLanguage], map: "official_answer_keys_file_number_language_key")
+  @@index([fileId, officialGroup, officialVariant], map: "official_answer_keys_file_group_variant_idx")
+  @@index([answerReviewStatus, updatedAt])
+  @@index([resolutionStatus, updatedAt])
+  @@map("official_answer_keys")
+}
+
+model OfficialImportLog {
+  id        String   @id @default(cuid())
+  sourceId  String?  @map("source_id")
+  fileId    String?  @map("file_id")
+  action    String
+  status    String
+  message   String
+  metadata  String   @default("{}")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  source OfficialSource? @relation(fields: [sourceId], references: [id], onDelete: SetNull)
+  file   OfficialFile?   @relation(fields: [fileId], references: [id], onDelete: SetNull)
+
+  @@index([sourceId, createdAt])
+  @@index([fileId, createdAt])
+  @@map("official_import_logs")
+}
+
+model QuestionImportJob {
+  id                         String                  @id @default(cuid())
+  pilotId                    String                  @unique @map("pilot_id")
+  provaAntigaId              String                  @map("prova_antiga_id")
+  examFileId                 String                  @map("exam_file_id")
+  answerKeyFileId            String                  @map("answer_key_file_id")
+  vestibular                 String
+  year                       Int
+  day                        Int
+  application                String
+  modality                   String
+  bookletNumber              Int                     @map("booklet_number")
+  bookletColor               String                  @map("booklet_color")
+  manifestPath               String                  @map("manifest_path")
+  sourceJsonPath             String                  @map("source_json_path")
+  sourceJsonSha256           String                  @map("source_json_sha256")
+  sourceSchemaVersion        Int                     @default(1) @map("source_schema_version")
+  expectedQuestionCount      Int                     @default(90) @map("expected_question_count")
+  importedQuestionCount      Int                     @default(0) @map("imported_question_count")
+  approvedQuestionCount      Int                     @default(0) @map("approved_question_count")
+  publishedQuestionCount     Int                     @default(0) @map("published_question_count")
+  requirePedagogicalReview   Boolean                 @default(false) @map("require_pedagogical_review")
+  requireAuthorialResolution Boolean                 @default(false) @map("require_authorial_resolution")
+  requireEssayProposal       Boolean                 @default(false) @map("require_essay_proposal")
+  approvedPedagogicalCount   Int                     @default(0) @map("approved_pedagogical_count")
+  approvedResolutionCount    Int                     @default(0) @map("approved_resolution_count")
+  publishedResolutionCount   Int                     @default(0) @map("published_resolution_count")
+  approvedEssayProposalCount Int                     @default(0) @map("approved_essay_proposal_count")
+  status                     QuestionImportJobStatus @default(PREPARED)
+  validationReport           Json                    @default("{}") @map("validation_report")
+  checkpoint                 Json                    @default("{}")
+  createdBy                  String                  @map("created_by")
+  startedAt                  DateTime?               @map("started_at")
+  completedAt                DateTime?               @map("completed_at")
+  publishedAt                DateTime?               @map("published_at")
+  createdAt                  DateTime                @default(now()) @map("created_at")
+  updatedAt                  DateTime                @updatedAt @map("updated_at")
+
+  provaAntiga          ProvaAntiga                   @relation(fields: [provaAntigaId], references: [id], onDelete: Restrict)
+  examFile             OfficialFile                  @relation("QuestionImportExamFile", fields: [examFileId], references: [id], onDelete: Restrict)
+  answerKeyFile        OfficialFile                  @relation("QuestionImportAnswerKeyFile", fields: [answerKeyFileId], references: [id], onDelete: Restrict)
+  extractions          QuestionExtraction[]
+  revisions            QuestionRevision[]
+  essayProposal        OfficialEssayProposal?
+  pedagogicalMetadata  QuestionPedagogicalMetadata[]
+  authorialResolutions QuestionAuthorialResolution[]
+
+  @@index([year, day, status])
+  @@index([provaAntigaId, status])
+  @@map("question_import_jobs")
+}
+
+model QuestionExtraction {
+  id                       String                   @id @default(cuid())
+  questionId               String                   @unique @map("question_id")
+  importJobId              String                   @map("import_job_id")
+  answerKeyId              String                   @unique @map("answer_key_id")
+  sourceId                 String                   @unique @map("source_id")
+  schemaVersion            Int                      @default(1) @map("schema_version")
+  officialNumber           Int                      @map("official_number")
+  officialLanguage         OfficialQuestionLanguage @default(NOT_APPLICABLE) @map("official_language")
+  officialGroup            String?                  @map("official_group")
+  officialVariant          String?                  @map("official_variant")
+  officialOrder            Int                      @map("official_order")
+  officialPdfPageStart     Int                      @map("official_pdf_page_start")
+  officialPdfPageEnd       Int                      @map("official_pdf_page_end")
+  consolidatedPdfPageStart Int                      @map("consolidated_pdf_page_start")
+  consolidatedPdfPageEnd   Int                      @map("consolidated_pdf_page_end")
+  originalPageUrl          String                   @map("original_page_url")
+  extractionStatus         QuestionExtractionStatus @default(EXTRACTED) @map("extraction_status")
+  reviewStatus             QuestionReviewState      @default(PENDING_REVIEW) @map("review_status")
+  answerSituation          QuestionAnswerSituation  @default(CONFIRMED) @map("answer_situation")
+  confidenceText           Float                    @map("confidence_text")
+  confidenceAlternatives   Float                    @map("confidence_alternatives")
+  confidenceImages         Float                    @map("confidence_images")
+  confidenceAnswer         Float                    @map("confidence_answer")
+  confidenceClassification Float                    @map("confidence_classification")
+  confidenceOverall        Float                    @map("confidence_overall")
+  flags                    Json                     @default("{}")
+  sourceMetadata           Json                     @default("{}") @map("source_metadata")
+  sourceContentHash        String                   @map("source_content_hash")
+  rawPayloadHash           String                   @map("raw_payload_hash")
+  createdAt                DateTime                 @default(now()) @map("created_at")
+  updatedAt                DateTime                 @updatedAt @map("updated_at")
+
+  question  Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  importJob QuestionImportJob @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+  answerKey OfficialAnswerKey @relation(fields: [answerKeyId], references: [id], onDelete: Restrict)
+
+  @@unique([importJobId, officialNumber, officialLanguage], map: "question_extractions_job_number_language_key")
+  @@index([importJobId, reviewStatus])
+  @@index([importJobId, officialGroup, officialVariant], map: "question_extractions_job_group_variant_idx")
+  @@index([consolidatedPdfPageStart, consolidatedPdfPageEnd])
+  @@map("question_extractions")
+}
+
+model QuestionBlock {
+  id                  String            @id @default(cuid())
+  questionId          String            @map("question_id")
+  assetId             String?           @map("asset_id")
+  type                QuestionBlockType
+  content             String
+  order               Int
+  sourcePdfPage       Int               @map("source_pdf_page")
+  consolidatedPdfPage Int               @map("consolidated_pdf_page")
+  regionX             Float             @map("region_x")
+  regionY             Float             @map("region_y")
+  regionWidth         Float             @map("region_width")
+  regionHeight        Float             @map("region_height")
+  normalizedX         Float             @map("normalized_x")
+  normalizedY         Float             @map("normalized_y")
+  normalizedWidth     Float             @map("normalized_width")
+  normalizedHeight    Float             @map("normalized_height")
+  confidence          Float
+  createdAt           DateTime          @default(now()) @map("created_at")
+  updatedAt           DateTime          @updatedAt @map("updated_at")
+
+  question Question       @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  asset    QuestionImage? @relation(fields: [assetId], references: [id], onDelete: SetNull)
+
+  @@unique([questionId, order])
+  @@index([questionId, type, order])
+  @@index([assetId])
+  @@map("question_blocks")
+}
+
+model QuestionRevision {
+  id             String                 @id @default(cuid())
+  questionId     String                 @map("question_id")
+  importJobId    String                 @map("import_job_id")
+  action         QuestionRevisionAction
+  actor          String
+  notes          String?
+  beforeSnapshot Json?                  @map("before_snapshot")
+  afterSnapshot  Json?                  @map("after_snapshot")
+  dedupeKey      String                 @unique @map("dedupe_key")
+  createdAt      DateTime               @default(now()) @map("created_at")
+
+  question  Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  importJob QuestionImportJob @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+
+  @@index([questionId, createdAt])
+  @@index([importJobId, action, createdAt])
+  @@map("question_revisions")
+}
+
+model OfficialEssayProposal {
+  id                       String                   @id @default(cuid())
+  importJobId              String                   @unique @map("import_job_id")
+  provaAntigaId            String                   @map("prova_antiga_id")
+  officialLanguage         OfficialQuestionLanguage @default(PORTUGUESE) @map("official_language")
+  officialGroup            String?                  @map("official_group")
+  officialVariant          String?                  @map("official_variant")
+  title                    String?
+  theme                    String?
+  promptText               String                   @map("prompt_text")
+  instructions             Json                     @default("[]")
+  blocks                   Json                     @default("[]")
+  assets                   Json                     @default("[]")
+  officialPdfPageStart     Int                      @map("official_pdf_page_start")
+  officialPdfPageEnd       Int                      @map("official_pdf_page_end")
+  consolidatedPdfPageStart Int?                     @map("consolidated_pdf_page_start")
+  consolidatedPdfPageEnd   Int?                     @map("consolidated_pdf_page_end")
+  originalPageUrl          String                   @map("original_page_url")
+  extractionStatus         QuestionExtractionStatus @default(EXTRACTED) @map("extraction_status")
+  reviewStatus             QuestionReviewState      @default(PENDING_REVIEW) @map("review_status")
+  status                   ContentStatus            @default(REVIEW)
+  confidenceText           Float                    @default(0) @map("confidence_text")
+  confidenceImages         Float                    @default(0) @map("confidence_images")
+  confidenceOverall        Float                    @default(0) @map("confidence_overall")
+  flags                    Json                     @default("{}")
+  sourceMetadata           Json                     @default("{}") @map("source_metadata")
+  sourceContentHash        String                   @map("source_content_hash")
+  rawPayloadHash           String                   @map("raw_payload_hash")
+  reviewedBy               String?                  @map("reviewed_by")
+  reviewedAt               DateTime?                @map("reviewed_at")
+  publishedAt              DateTime?                @map("published_at")
+  createdAt                DateTime                 @default(now()) @map("created_at")
+  updatedAt                DateTime                 @updatedAt @map("updated_at")
+
+  importJob   QuestionImportJob @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+  provaAntiga ProvaAntiga       @relation(fields: [provaAntigaId], references: [id], onDelete: Restrict)
+
+  @@index([provaAntigaId, status], map: "official_essay_proposals_exam_status_idx")
+  @@index([reviewStatus, status, updatedAt], map: "official_essay_proposals_review_status_idx")
+  @@map("official_essay_proposals")
+}
+
+model QuestionPedagogicalMetadata {
+  id                       String              @id @default(cuid())
+  questionId               String              @unique @map("question_id")
+  importJobId              String?             @map("import_job_id")
+  knowledgeArea            String?             @map("knowledge_area")
+  disciplinaryComponent    String?             @map("disciplinary_component")
+  competencyCode           String?             @map("competency_code")
+  competencyDescription    String?             @map("competency_description")
+  abilityCode              String?             @map("ability_code")
+  abilityDescription       String?             @map("ability_description")
+  cognitiveDemand          String?             @map("cognitive_demand")
+  learningObjectives       Json                @default("[]") @map("learning_objectives")
+  concepts                 Json                @default("[]")
+  prerequisites            Json                @default("[]")
+  curriculumCodes          Json                @default("[]") @map("curriculum_codes")
+  keywords                 Json                @default("[]")
+  estimatedMinutes         Int?                @map("estimated_minutes")
+  classificationSource     String?             @map("classification_source")
+  classificationConfidence Float?              @map("classification_confidence")
+  reviewStatus             QuestionReviewState @default(PENDING_REVIEW) @map("review_status")
+  reviewNotes              String?             @map("review_notes")
+  reviewedBy               String?             @map("reviewed_by")
+  reviewedAt               DateTime?           @map("reviewed_at")
+  provenance               Json                @default("{}")
+  createdAt                DateTime            @default(now()) @map("created_at")
+  updatedAt                DateTime            @updatedAt @map("updated_at")
+
+  question  Question           @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  importJob QuestionImportJob? @relation(fields: [importJobId], references: [id], onDelete: SetNull)
+
+  @@index([importJobId, reviewStatus], map: "question_pedagogy_job_review_idx")
+  @@index([knowledgeArea, disciplinaryComponent], map: "question_pedagogy_area_component_idx")
+  @@index([reviewStatus, updatedAt], map: "question_pedagogy_review_updated_idx")
+  @@map("question_pedagogical_metadata")
+}
+
+model QuestionAuthorialResolution {
+  id                  String                   @id @default(cuid())
+  questionId          String                   @map("question_id")
+  importJobId         String                   @map("import_job_id")
+  answerKeyId         String?                  @map("answer_key_id")
+  version             Int                      @default(1)
+  status              OfficialResolutionStatus @default(NOT_GENERATED)
+  reviewStatus        QuestionReviewState      @default(PENDING_REVIEW) @map("review_status")
+  shortComment        String?                  @map("short_comment")
+  fullResolution      String?                  @map("full_resolution")
+  reasoningPath       Json                     @default("[]") @map("reasoning_path")
+  steps               Json                     @default("[]")
+  alternativeComments Json                     @default("{}") @map("alternative_comments")
+  commonError         String?                  @map("common_error")
+  studyTip            String?                  @map("study_tip")
+  keywords            Json                     @default("[]")
+  relatedContent      Json                     @default("[]") @map("related_content")
+  contentHash         String?                  @map("content_hash")
+  generatedByModel    String?                  @map("generated_by_model")
+  generationMetadata  Json                     @default("{}") @map("generation_metadata")
+  generatedAt         DateTime?                @map("generated_at")
+  authoredBy          String?                  @map("authored_by")
+  submittedAt         DateTime?                @map("submitted_at")
+  reviewNotes         String?                  @map("review_notes")
+  reviewedBy          String?                  @map("reviewed_by")
+  reviewedAt          DateTime?                @map("reviewed_at")
+  publishedAt         DateTime?                @map("published_at")
+  createdAt           DateTime                 @default(now()) @map("created_at")
+  updatedAt           DateTime                 @updatedAt @map("updated_at")
+
+  question  Question           @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  importJob QuestionImportJob  @relation(fields: [importJobId], references: [id], onDelete: Cascade)
+  answerKey OfficialAnswerKey? @relation(fields: [answerKeyId], references: [id], onDelete: SetNull)
+
+  @@unique([questionId, version], map: "question_resolutions_question_version_key")
+  @@index([importJobId, status, reviewStatus], map: "question_resolutions_job_status_review_idx")
+  @@index([answerKeyId])
+  @@index([reviewStatus, updatedAt], map: "question_resolutions_review_updated_idx")
+  @@map("question_authorial_resolutions")
 }
 
 model Material {
@@ -213,6 +1029,123 @@ model Material {
 
   subject Subject? @relation(fields: [subjectId], references: [id])
   topic   Topic?   @relation(fields: [topicId], references: [id])
+  product Product?
+}
+
+model Product {
+  id               String        @id @default(cuid())
+  materialId       String        @unique
+  name             String
+  slug             String        @unique
+  description      String
+  priceCents       Int           @default(0)
+  coverUrl         String?
+  checkoutUrl      String?
+  hotmartProductId String?       @unique
+  status           ContentStatus @default(PUBLISHED)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  material    Material            @relation(fields: [materialId], references: [id], onDelete: Cascade)
+  purchases   Purchase[]
+  licenses    UserProduct[]
+  annotations PdfAnnotation[]
+  webhookLogs HotmartWebhookLog[]
+  cartItems   CartItem[]
+}
+
+model CartItem {
+  id        String         @id @default(cuid())
+  userId    String
+  productId String
+  quantity  Int            @default(1)
+  status    CartItemStatus @default(CART)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId, status, updatedAt])
+}
+
+model Purchase {
+  id                 String         @id @default(cuid())
+  hotmartTransaction String         @unique
+  hotmartPurchaseId  String?
+  userId             String
+  productId          String
+  buyerName          String?
+  buyerEmail         String
+  status             PurchaseStatus @default(PENDING)
+  rawPayload         String         @default("{}")
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([productId, createdAt])
+  @@index([status, createdAt])
+}
+
+model UserProduct {
+  id           String    @id @default(cuid())
+  userId       String
+  productId    String
+  unlockedAt   DateTime  @default(now())
+  lastOpenedAt DateTime?
+  progress     Float     @default(0)
+  lastPage     Int?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId, lastOpenedAt])
+  @@index([productId, unlockedAt])
+}
+
+model PdfAnnotation {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  page      Int
+  kind      String
+  color     String   @default("#FACC15")
+  data      String   @default("{}")
+  text      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([userId, productId, page])
+  @@index([productId, kind])
+}
+
+model HotmartWebhookLog {
+  id            String    @id @default(cuid())
+  eventKey      String    @unique
+  eventType     String
+  transactionId String?
+  purchaseId    String?
+  productId     String?
+  status        String
+  payload       String    @default("{}")
+  error         String?
+  createdAt     DateTime  @default(now())
+  processedAt   DateTime?
+
+  product Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([transactionId, eventType])
+  @@index([status, createdAt])
 }
 
 model Video {
@@ -233,11 +1166,11 @@ model Video {
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
 
-  author   User?      @relation("VideoAuthor", fields: [authorId], references: [id])
-  question Question?  @relation(fields: [questionId], references: [id])
-  subject  Subject?   @relation(fields: [subjectId], references: [id])
-  topic    Topic?     @relation(fields: [topicId], references: [id])
-  comments VideoComment[]
+  author      User?          @relation("VideoAuthor", fields: [authorId], references: [id])
+  question    Question?      @relation(fields: [questionId], references: [id])
+  subject     Subject?       @relation(fields: [subjectId], references: [id])
+  topic       Topic?         @relation(fields: [topicId], references: [id])
+  comments    VideoComment[]
   likeRecords VideoLike[]
   saveRecords VideoSave[]
 }
@@ -278,31 +1211,51 @@ model VideoComment {
 }
 
 model Achievement {
-  id           String        @id @default(cuid())
-  slug         String        @unique
-  title        String
-  description  String
-  icon         String        @default("trophy")
-  color        String        @default("#F97316")
-  xpReward     Int          @default(0)
-  criteriaType String
-  criteriaValue Int         @default(1)
-  status       ContentStatus @default(PUBLISHED)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+  id                String        @id @default(cuid())
+  slug              String        @unique
+  title             String
+  description       String
+  lockedDescription String?
+  category          String        @default("GENERAL")
+  rarity            String        @default("COMMON")
+  metric            String        @default("questions")
+  target            Int           @default(1)
+  requirement       Json          @default("{}")
+  subjectId         String?
+  examId            String?
+  contentId         String?
+  icon              String        @default("trophy")
+  color             String        @default("#F97316")
+  xpReward          Int           @default(0)
+  coinReward        Int           @default(0)
+  titleReward       String?
+  cosmeticReward    String?
+  iconKey           String        @default("trophy")
+  iconDescription   String        @default("Emblema original do EstudAki.")
+  unlockedIconPath  String?
+  lockedIconPath    String?
+  isHidden          Boolean       @default(false)
+  isRepeatable      Boolean       @default(false)
+  order             Int           @default(0)
+  criteriaType      String
+  criteriaValue     Int           @default(1)
+  status            ContentStatus @default(PUBLISHED)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 
   users UserAchievement[]
 }
 
 model UserAchievement {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   userId        String
   achievementId String
-  progress      Int      @default(0)
-  completed     Boolean  @default(false)
+  progress      Int       @default(0)
+  completed     Boolean   @default(false)
   unlockedAt    DateTime?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  rewardClaimed Boolean   @default(false)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -312,17 +1265,17 @@ model UserAchievement {
 }
 
 model StudySession {
-  id                String   @id @default(cuid())
+  id                String    @id @default(cuid())
   userId            String
-  focus             String   @default("questions")
-  durationSeconds   Int      @default(0)
-  questionsAnswered Int      @default(0)
-  correctAnswers    Int      @default(0)
+  focus             String    @default("questions")
+  durationSeconds   Int       @default(0)
+  questionsAnswered Int       @default(0)
+  correctAnswers    Int       @default(0)
   notes             String?
-  startedAt         DateTime @default(now())
+  startedAt         DateTime  @default(now())
   endedAt           DateTime?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -333,14 +1286,156 @@ model Flashcard {
   id        String        @id @default(cuid())
   subjectId String?
   topicId   String?
+  ownerId   String?
+  deck      String?
+  source    String?
+  shared    Boolean       @default(false)
   front     String
   back      String
   status    ContentStatus @default(PUBLISHED)
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
 
-  subject Subject? @relation(fields: [subjectId], references: [id])
-  topic   Topic?   @relation(fields: [topicId], references: [id])
+  subject   Subject?            @relation(fields: [subjectId], references: [id])
+  topic     Topic?              @relation(fields: [topicId], references: [id])
+  owner     User?               @relation("FlashcardOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  favorites FlashcardFavorite[]
+
+  @@index([ownerId, shared, createdAt])
+  @@index([subjectId, deck])
+}
+
+model FlashcardFavorite {
+  id          String   @id @default(cuid())
+  userId      String
+  flashcardId String
+  createdAt   DateTime @default(now())
+
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  flashcard Flashcard @relation(fields: [flashcardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, flashcardId])
+  @@index([userId, createdAt])
+}
+
+model EssaySubmission {
+  id           String   @id @default(cuid())
+  userId       String
+  theme        String
+  text         String
+  imageUrl     String?
+  ocrText      String?
+  score        Int
+  competencies String   @default("[]")
+  strengths    String   @default("[]")
+  improvements String   @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model CommunityPost {
+  id        String   @id @default(cuid())
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  likes CommunityPostLike[]
+
+  @@index([createdAt])
+  @@index([userId, createdAt])
+}
+
+model CommunityPostLike {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post CommunityPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  creatorId String
+  title     String?
+  isGroup   Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  creator  User                 @relation("ConversationCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  members  ConversationMember[]
+  messages ChatMessage[]
+
+  @@index([updatedAt])
+}
+
+model ConversationMember {
+  id             String   @id @default(cuid())
+  conversationId String
+  userId         String
+  role           String   @default("MEMBER")
+  joinedAt       DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([conversationId, userId])
+  @@index([userId, joinedAt])
+}
+
+model ChatMessage {
+  id             String   @id @default(cuid())
+  conversationId String
+  userId         String
+  content        String
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+model StudyPlanPreference {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  availableDays String    @default("[1,2,3,4,5]")
+  minutesPerDay Int       @default(90)
+  examDate      DateTime?
+  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model StudyPlanTask {
+  id              String    @id @default(cuid())
+  userId          String
+  scheduledFor    DateTime
+  type            String
+  title           String
+  description     String
+  durationMinutes Int
+  subjectId       String?
+  topicId         String?
+  actionHref      String
+  completedAt     DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, scheduledFor])
+  @@index([userId, completedAt])
 }
 
 model Simulado {

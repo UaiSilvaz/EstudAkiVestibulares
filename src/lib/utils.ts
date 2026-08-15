@@ -40,9 +40,9 @@ export function roleLabel(role: string) {
 
 export function difficultyLabel(difficulty: string) {
   const labels: Record<string, string> = {
-    EASY: "Facil",
+    EASY: "Fácil",
     MEDIUM: "Media",
-    HARD: "Dificil",
+    HARD: "Difícil",
   };
 
   return labels[difficulty] ?? difficulty;

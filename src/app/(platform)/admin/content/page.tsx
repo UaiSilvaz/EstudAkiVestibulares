@@ -6,14 +6,9 @@ import { db } from "@/lib/db";
 export default async function AdminContentPage() {
   await requireManager();
 
-  const [subjects, materials, videos] = await Promise.all([
+  const [subjects, materials] = await Promise.all([
     db.subject.findMany({ orderBy: { name: "asc" } }),
     db.material.findMany({
-      include: { subject: true },
-      orderBy: { createdAt: "desc" },
-      take: 8,
-    }),
-    db.video.findMany({
       include: { subject: true },
       orderBy: { createdAt: "desc" },
       take: 8,
@@ -23,14 +18,13 @@ export default async function AdminContentPage() {
   return (
     <div>
       <PageHeader
-        eyebrow="Conteudos"
-        title="Materiais, videoaulas e Express"
-        description="Publique materiais gratuitos ou premium e videos controlados para professores, monitores e administradores."
+        eyebrow="Conteúdos"
+        title="Materiais e biblioteca"
+        description="Publique materiais com capa, checkout Hotmart e PDF protegido no EstudAki."
       />
       <ContentManager
         subjects={subjects.map((item) => ({ id: item.id, name: item.name }))}
         materials={materials}
-        videos={videos}
       />
     </div>
   );

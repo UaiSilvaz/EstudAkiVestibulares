@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["audits"],
+  "properties": {
+    "audits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceId",
+          "officialNumber",
+          "language",
+          "matrixAlignment",
+          "disciplineAndContent",
+          "difficultyAndTime",
+          "reasoningAndFlags",
+          "verdict",
+          "issueCodes",
+          "reviewNotes"
+        ],
+        "properties": {
+          "sourceId": { "type": "string", "minLength": 1 },
+          "officialNumber": { "type": "integer", "minimum": 1, "maximum": 180 },
+          "language": { "type": "string", "enum": ["NOT_APPLICABLE", "ENGLISH", "SPANISH", "PORTUGUESE"] },
+          "matrixAlignment": { "type": "string", "enum": ["PASS", "FAIL", "AMBIGUOUS"] },
+          "disciplineAndContent": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "difficultyAndTime": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "reasoningAndFlags": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+          "issueCodes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "WRONG_COMPETENCY",
+                "WRONG_ABILITY",
+                "AMBIGUOUS_MATRIX_MAPPING",
+                "WRONG_DISCIPLINE",
+                "GENERIC_CONTENT",
+                "WRONG_DIFFICULTY",
+                "WRONG_ESTIMATED_TIME",
+                "WRONG_INTERDISCIPLINARITY",
+                "WRONG_REASONING_TYPE",
+                "WRONG_CALCULATION_FLAG",
+                "WRONG_VISUAL_FLAG",
+                "UNSUPPORTED_RATIONALE",
+                "NEEDS_VISUAL_REVIEW"
+              ]
+            }
+          },
+          "reviewNotes": { "type": "string", "minLength": 40 }
+        }
+      }
+    }
+  }
+}

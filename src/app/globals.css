@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source("..");
 
 :root {
   --background: #F8FAFC;
@@ -104,6 +104,17 @@ button {
   cursor: pointer;
 }
 
+a[href],
+button,
+[role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a[data-pending="true"] {
+  cursor: progress;
+}
+
 button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
@@ -122,6 +133,43 @@ button:disabled {
   font-family: var(--font-display, var(--font-geist-sans));
   letter-spacing: 0;
   font-weight: 800;
+}
+
+.study-icon-badge {
+  transform: translateZ(0);
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1), filter 220ms ease;
+}
+
+.study-icon-object {
+  transform-origin: center;
+  transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .study-icon-badge {
+    animation: study-icon-float 7.5s ease-in-out infinite;
+  }
+
+  .study-icon-badge:hover {
+    animation-play-state: paused;
+    transform: translateY(-2px) scale(1.05);
+  }
+
+  .study-icon-badge:hover .study-icon-object {
+    transform: translateY(-2px) scale(1.06) rotate(-2deg);
+  }
+}
+
+@keyframes study-icon-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-1px) scale(1.004);
+  }
 }
 
 /* Texto com gradiente EstudAki (vibrante) */
@@ -524,6 +572,10 @@ button:disabled {
   opacity: 0.7;
 }
 
+.ek-input.ek-input-with-icon {
+  padding-left: 2.75rem !important;
+}
+
 /* Pills / Badges */
 .ek-pill {
   display: inline-flex;
@@ -584,6 +636,30 @@ button:disabled {
   background-size: 200% 100%;
   animation: ek-shimmer 1.6s linear infinite;
   border-radius: 12px;
+}
+
+.estudaki-loading-progress {
+  width: 42%;
+  transform-origin: left center;
+  animation: estudaki-loading-scan 1.55s ease-in-out infinite;
+}
+
+.estudaki-route-progress {
+  transform-origin: left center;
+  animation: estudaki-route-load 4.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes estudaki-loading-scan {
+  0% { transform: translateX(-95%) scaleX(0.75); }
+  55% { transform: translateX(145%) scaleX(1.2); }
+  100% { transform: translateX(245%) scaleX(0.85); }
+}
+
+@keyframes estudaki-route-load {
+  0% { transform: scaleX(0.08); }
+  28% { transform: scaleX(0.52); }
+  66% { transform: scaleX(0.82); }
+  100% { transform: scaleX(0.94); }
 }
 
 /* Helpers de borda gradient (claros) */
@@ -901,6 +977,8 @@ button:disabled {
   inset: 0;
   pointer-events: none;
   opacity: 0.55;
+  background-image: radial-gradient(circle, rgba(249, 115, 22, 0.32) 2px, transparent 2px);
+  background-size: 20px 20px;
   mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 30%, transparent 78%);
   -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, #000 30%, transparent 78%);
 }
@@ -910,7 +988,6 @@ button:disabled {
   border-radius: 9999px;
   filter: blur(80px);
   pointer-events: none;
-  will-change: transform;
   opacity: 0.55;
 }
 
@@ -920,7 +997,6 @@ button:disabled {
   width: 32rem;
   height: 32rem;
   background: radial-gradient(circle, rgba(249, 115, 22, 0.55), rgba(253, 186, 116, 0.18) 50%, transparent 72%);
-  animation: estudaki-login-drift-a 18s ease-in-out infinite;
 }
 
 .estudaki-login-bg-blob-b {
@@ -929,7 +1005,6 @@ button:disabled {
   width: 34rem;
   height: 34rem;
   background: radial-gradient(circle, rgba(37, 99, 235, 0.32), rgba(147, 197, 253, 0.16) 50%, transparent 72%);
-  animation: estudaki-login-drift-b 22s ease-in-out infinite;
 }
 
 .estudaki-login-bg-blob-c {
@@ -938,20 +1013,10 @@ button:disabled {
   width: 26rem;
   height: 26rem;
   background: radial-gradient(circle, rgba(251, 146, 60, 0.30), rgba(254, 215, 170, 0.16) 50%, transparent 72%);
-  animation: estudaki-login-drift-c 26s ease-in-out infinite;
 }
 
 .estudaki-login-card {
   background: rgba(255, 255, 255, 0.82);
-}
-
-.estudaki-login-card-enter {
-  animation: estudaki-login-card-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes estudaki-login-card-in {
-  0% { opacity: 0; transform: translateY(20px) scale(0.985); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .estudaki-login-badge {
@@ -986,7 +1051,6 @@ button:disabled {
   filter: blur(40px);
   transform: translateX(-50%);
   pointer-events: none;
-  animation: estudaki-login-glow-pulse 8s ease-in-out infinite;
 }
 
 .estudaki-login-hero-blob {
@@ -999,7 +1063,6 @@ button:disabled {
   background: radial-gradient(circle, rgba(37, 99, 235, 0.18), transparent 64%);
   filter: blur(40px);
   pointer-events: none;
-  animation: estudaki-login-blob-rotate 24s linear infinite;
 }
 
 .estudaki-login-hero-ring {
@@ -1011,7 +1074,6 @@ button:disabled {
   border-radius: 9999px;
   border: 1.5px solid rgba(249, 115, 22, 0.22);
   pointer-events: none;
-  animation: estudaki-login-ring-spin 32s linear infinite;
 }
 
 .estudaki-login-hero-ring::before {
@@ -1035,7 +1097,6 @@ button:disabled {
   width: 14rem;
   height: 14rem;
   border-color: rgba(37, 99, 235, 0.22);
-  animation: estudaki-login-ring-spin-rev 40s linear infinite;
 }
 
 .estudaki-login-hero-ring-2::before {
@@ -1044,56 +1105,12 @@ button:disabled {
 }
 
 .estudaki-login-floating {
-  animation: estudaki-login-float-img 6s ease-in-out infinite;
+  margin-bottom: -1px;
 }
 
-.estudaki-login-quote {
-  animation: estudaki-login-quote-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 250ms both;
-}
-
-@keyframes estudaki-login-drift-a {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(2.2rem, 1.6rem, 0) scale(1.06); }
-}
-
-@keyframes estudaki-login-drift-b {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(-2rem, -1.4rem, 0) scale(1.05); }
-}
-
-@keyframes estudaki-login-drift-c {
-  0%, 100% { transform: translate3d(-50%, -50%, 0) scale(1); }
-  50% { transform: translate3d(-46%, -54%, 0) scale(1.08); }
-}
-
-@keyframes estudaki-login-glow-pulse {
-  0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
-  50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
-}
-
-@keyframes estudaki-login-blob-rotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes estudaki-login-ring-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes estudaki-login-ring-spin-rev {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(-360deg); }
-}
-
-@keyframes estudaki-login-float-img {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes estudaki-login-quote-in {
-  0% { opacity: 0; transform: translateY(8px) scale(0.96); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+.estudaki-login-hero-img {
+  display: block;
+  transform: translateY(20px);
 }
 
 /* ============================================================
@@ -1108,21 +1125,6 @@ button:disabled {
     0 0 0 1px rgba(255, 255, 255, 0.18) inset;
   position: relative;
   overflow: hidden;
-}
-
-.ek-login-tab-active::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.32) 50%, transparent 70%);
-  transform: translateX(-110%);
-  animation: ek-login-tab-shine 4s ease-in-out infinite;
-  pointer-events: none;
-}
-
-@keyframes ek-login-tab-shine {
-  0%, 70% { transform: translateX(-110%); }
-  100% { transform: translateX(110%); }
 }
 
 .ek-login-field {
@@ -1143,7 +1145,7 @@ button:disabled {
   justify-content: center;
   color: #94A3B8;
   pointer-events: none;
-  transition: color 200ms ease, transform 200ms ease;
+  transition: color 200ms ease;
   z-index: 1;
 }
 
@@ -1183,7 +1185,6 @@ button:disabled {
 
 .ek-login-field:focus-within .ek-login-field-icon {
   color: #F97316;
-  transform: scale(1.05);
 }
 
 .ek-login-submit {
@@ -1271,6 +1272,28 @@ button:disabled {
 }
 
 @media (max-width: 640px) {
+  body {
+    background-attachment: scroll;
+  }
+  .ek-button:hover,
+  .estudaki-button:hover,
+  .estudaki-card:hover {
+    transform: none;
+  }
+  .ek-button,
+  .estudaki-button,
+  .estudaki-card,
+  .ek-card,
+  .ek-card-glass {
+    will-change: auto;
+    transition-duration: 120ms;
+  }
+  .ek-glow,
+  .estudaki-login-bg-blob,
+  .estudaki-login-hero-glow,
+  .estudaki-login-hero-blob {
+    filter: blur(34px);
+  }
   .estudaki-login-card {
     border-radius: 24px;
   }

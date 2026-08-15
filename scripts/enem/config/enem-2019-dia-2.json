@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "id": "enem-2019-dia-2-caderno-5-amarelo",
+  "vestibular": "ENEM",
+  "year": 2019,
+  "day": 2,
+  "application": "regular",
+  "applicationLabel": "1ª Aplicação",
+  "modality": "impressa",
+  "bookletNumber": 5,
+  "bookletColor": "Amarelo",
+  "questionStart": 91,
+  "questionEnd": 180,
+  "expectedLogicalQuestions": 90,
+  "expectedPrintedOccurrences": 90,
+  "oldExamId": "pa-enem-2019-dia-2",
+  "officialExamPdf": "data/provas/enem/2019/prova-2-dia.pdf",
+  "officialAnswerKeyPdf": "data/provas/enem/2019/gabarito-2-dia.pdf",
+  "officialSourcePage": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2019",
+  "officialExamUrl": "https://download.inep.gov.br/educacao_basica/enem/provas/2019/2019_PV_impresso_D2_CD5.pdf",
+  "officialAnswerKeyUrl": "https://download.inep.gov.br/educacao_basica/enem/gabaritos/2019/gabarito_2_dia_caderno_5_amarelo_aplicacao_regular.pdf",
+  "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+  "outputDirectory": "data/QUESTÕES/processamento/enem-2019-dia-2-caderno-5-amarelo",
+  "objectivePageRanges": [
+    { "start": 2, "end": 31 }
+  ],
+  "essayPages": [],
+  "draftPages": [],
+  "layout": {
+    "top": 60.0,
+    "bottom": 735.0,
+    "left": 28.0,
+    "leftEnd": 283.0,
+    "rightStart": 286.0,
+    "right": 540.0,
+    "fullWidthObjectivePages": [5, 7, 13, 14, 19, 25, 29, 30]
+  },
+  "languageSections": [],
+  "commonLanguage": "portugues",
+  "expectedAnnulled": [],
+  "areas": [
+    {
+      "name": "Ciências da Natureza e suas Tecnologias",
+      "questionStart": 91,
+      "questionEnd": 135
+    },
+    {
+      "name": "Matemática e suas Tecnologias",
+      "questionStart": 136,
+      "questionEnd": 180
+    }
+  ],
+  "sectionHeaderPatterns": [
+    "questoes de 91 a 135",
+    "questoes de 136 a 180",
+    "ciencias da natureza e suas tecnologias",
+    "matematica e suas tecnologias"
+  ]
+}

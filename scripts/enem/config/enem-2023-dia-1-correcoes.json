@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "corpusId": "enem-2023-dia-1-caderno-2-amarelo",
+  "sourceAudit": {
+    "path": "data/QUESTÕES/processamento/enem-2023-dia-1-caderno-2-amarelo/auditoria-visual-v1.json",
+    "sha256": "2acb1dae0b16294cdb6da9c82ad65358fb3c0ab850a07006362b4c884759ff69",
+    "sourceHash": "a8777f487d23acb4e282b264f79b229b64422a3c1cf1d5aada62a2c542a05858",
+    "expected": 95,
+    "failed": 14
+  },
+  "questions": {
+    "enem-2023-dia-1-caderno-2-amarelo-q005-espanhol": {
+      "baselineContentHash": "3dcc92e951802b6f423f6158cf873cef360a52e3ef3ec3f5e081ad8e9c1c1180",
+      "evidence": "O fac-símile oficial preserva seis sinais iniciais ¿, ordena todo o TEXTO I antes do cartaz e limita a mídia ao cartaz.",
+      "visualRegions": [
+        {
+          "page": 5,
+          "x": 289.0,
+          "y": 188.5,
+          "width": 247.0,
+          "height": 166.0,
+          "altText": "Cartaz do filme Como estrelas en la tierra com professor e aluno diante de um desenho de nave."
+        }
+      ],
+      "blockPlan": [
+        { "existing": 0 },
+        {
+          "new": {
+            "type": "support_text",
+            "content": "¿QUÉ ME PASA?:\n¿PorQUÉ ME CUESTA TANTO ESTUDIAR?\n¿pORQUÉ ME CUESTA TANTO CONCENTRARME?\n¿PoRQUÉ......\n¿pORQUÉ......\n......\n¿PORQUé NO CONSIGO APRENDER COMO LOS DEMÁS?"
+          },
+          "templateExisting": 1
+        },
+        { "visual": 0 },
+        { "existing": 10 },
+        { "existing": 11 },
+        { "existing": 12 },
+        { "existing": 13 },
+        { "existing": 14 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q007-portugues": {
+      "baselineContentHash": "30b3a8c02bb62a89f6f255e990b421e81ef887e21455e87aa44faefb6f7c3405",
+      "evidence": "O crédito oficial do Texto I mostra www.rascunho.com.br, com ponto entre com e br.",
+      "blockPlan": [
+        { "existing": 0 },
+        {
+          "existing": 1,
+          "content": "RIBEIRO, A. E. Disponível em: www.rascunho.com.br. Acesso em: 21 out. 2021 (adaptado)."
+        },
+        { "existing": 2 },
+        { "existing": 3 },
+        { "existing": 4 },
+        { "existing": 5 },
+        { "existing": 6 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q008-portugues": {
+      "baselineContentHash": "7ea85c7360d4afd37bdb91efb2d9e968bfb779cce3045f100b6d2bc716d9192b",
+      "evidence": "A frase A Defensoria não para! integra o anúncio e o crédito começa somente abaixo da peça.",
+      "visualRegions": [
+        {
+          "page": 6,
+          "x": 289.0,
+          "y": 397.5,
+          "width": 248.0,
+          "height": 149.0,
+          "altText": "Anúncio da Defensoria Pública sobre violência contra a mulher durante a pandemia de covid-19."
+        }
+      ],
+      "blockPlan": [
+        { "visual": 0 },
+        { "existing": 2 },
+        { "existing": 3 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q027-portugues": {
+      "baselineContentHash": "1cf26638d5b9ddc364a0d661ff6b2d6ae9879db7bca9921b02f6c3d5c60af5b4",
+      "evidence": "O crédito do Ministério da Saúde fica integralmente abaixo da campanha, sem integrar a mídia.",
+      "visualRegions": [
+        {
+          "page": 12,
+          "x": 33.8,
+          "y": 515.1,
+          "width": 241.4,
+          "height": 206.0,
+          "altText": "Campanha do Ministério da Saúde sobre a importância da amamentação."
+        }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q032-portugues": {
+      "baselineContentHash": "ddb83b184538712565726b02cb8512da7760255910d0d94c2850ec88a9d09614",
+      "evidence": "O primeiro parágrafo é texto de apoio; apenas a referência KNUTH e ANTUNES é crédito.",
+      "blockPlan": [
+        { "existing": 0, "type": "support_text" },
+        { "existing": 1 },
+        { "existing": 2 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q055-portugues": {
+      "baselineContentHash": "a57106961b4f63c2884dae51d803313f1207bd14fc0cb6538dccd0baf7ea2d8b",
+      "evidence": "O infográfico oficial inclui título, seta 1960–2020, resumo e gráfico completos; Fonte: IBGE permanece em bloco separado.",
+      "visualRegions": [
+        {
+          "page": 22,
+          "x": 286.0,
+          "y": 316.0,
+          "width": 253.0,
+          "height": 288.8,
+          "altText": "Infográfico da taxa de fecundidade no Brasil entre 1960 e 2050, com destaque para a queda de 6,3 para 1,5 filho por mulher entre 1960 e 2020."
+        }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q058-portugues": {
+      "baselineContentHash": "50b236e54edb5eeb7a313187a4194039932ad549f52c1cbe167942cc65b91d2c",
+      "evidence": "No Texto II, o título e as falas pertencem semanticamente à charge e antecedem o bloco visual na leitura acessível.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 1 },
+        { "existing": 2 },
+        { "existing": 4, "type": "support_text" },
+        { "existing": 5 },
+        { "existing": 6 },
+        { "existing": 3 },
+        { "existing": 7 },
+        { "existing": 8 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q060-portugues": {
+      "baselineContentHash": "acd4cfb2e13dfa6685e2df34a880a4c8267569d01b722b0e0102fcafd1eb09b5",
+      "evidence": "A referência TRUZZI e MATOS é um único parágrafo no oficial.",
+      "blockPlan": [
+        { "existing": 0 },
+        {
+          "new": {
+            "type": "credit",
+            "content": "TRUZZI, O.; MATOS, I. Saudades: sensibilidades no epistolário de e/imigrantes\nportugueses (Portugal-Brasil 1890-1930). Rev. Bras. Hist., n. 70, jul.-dez. 2015."
+          },
+          "templateExisting": 1
+        },
+        { "existing": 3 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q063-portugues": {
+      "baselineContentHash": "21919e5fa1c94b97de7b7569592709e1c8409a4c33572c442db189811348e64f",
+      "evidence": "O primeiro parágrafo é apoio e o comando oficial termina em respectivamente, a, sem l residual.",
+      "blockPlan": [
+        { "existing": 0, "type": "support_text" },
+        { "existing": 1 },
+        {
+          "existing": 2,
+          "content": "No contexto do acordo citado, os dois grupos econômicos\neuropeus defendem, respectivamente, a"
+        }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q068-portugues": {
+      "baselineContentHash": "cd2aed821a6f3a993b0f8c2a59853da4b14bf55a35ed1aba8f932d6946142b9d",
+      "evidence": "O primeiro parágrafo é apoio e a referência PORTILHO, RODRIGUES e FERNANDEZ é contínua.",
+      "blockPlan": [
+        { "existing": 0, "type": "support_text" },
+        {
+          "new": {
+            "type": "credit",
+            "content": "PORTILHO, M.; RODRIGUES, C. G. O.; FERNANDEZ, A. C. F. Cultivando relações no\narranjo local da Penha: a mobilização de mulheres a partir das práticas de agricultura\nurbana na favela. Cidades, Comunidades e Territórios, n. 42, jun. 2021."
+          },
+          "templateExisting": 1
+        },
+        { "existing": 3 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q077-portugues": {
+      "baselineContentHash": "ef2805019af92f810e0b9f7fbc593d39f2776fe4ec21afae6d387be82a1e05ca",
+      "evidence": "A leitura dos balões é esquerda para direita: EU QUERIA PODER; FORÇA/VISÃO/TELECINESE/TELEPATIA; PODER POLÍTICO.",
+      "blockPlan": [
+        { "existing": 0 },
+        { "existing": 3 },
+        { "existing": 1 },
+        { "existing": 2 },
+        { "existing": 4 },
+        { "existing": 5 }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q079-portugues": {
+      "baselineContentHash": "304203299c16a140f0d8f9411e7b90875e476a6f639ced35ebc24c82460fa2f8",
+      "evidence": "A mídia deve terminar antes da legenda Fotografia da avó bordada e do crédito SCARELI.",
+      "visualRegions": [
+        {
+          "page": 29,
+          "x": 61.0,
+          "y": 79.6,
+          "width": 190.4,
+          "height": 283.4,
+          "altText": "Fotografia de bordado com a frase Sertão é a avó bordando caminhos com linhas coloridas."
+        }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q086-portugues": {
+      "baselineContentHash": "dcc479a467faa5b1b7db0253f0eb8de12d23bc1756812f9a5d86909b1a631989",
+      "evidence": "A mídia deve conter somente a fotografia do Masp, encerrando antes do texto iniciado por Nas reportagens.",
+      "visualRegions": [
+        {
+          "page": 30,
+          "x": 286.0,
+          "y": 285.1,
+          "width": 254.0,
+          "height": 149.5,
+          "altText": "Fotografia do Museu de Arte de São Paulo, com sua estrutura suspensa e pilares vermelhos."
+        }
+      ]
+    },
+    "enem-2023-dia-1-caderno-2-amarelo-q088-portugues": {
+      "baselineContentHash": "574139f9f214ff78220ca19288b2228b9f564327a5e2a8a17dde07433900f787",
+      "evidence": "A referência SOLLBERG, SCHIAVETTI e MORAES é um único parágrafo no oficial.",
+      "blockPlan": [
+        { "existing": 0 },
+        {
+          "new": {
+            "type": "credit",
+            "content": "SOLLBERG, I.; SCHIAVETTI, A.; MORAES, M. E. B. Manejo agrícola no\nRefúgio de Vida Silvestre de Una: agroflorestas como uma perspectiva\nde conservação. Revista Árvore, n. 2, 2014 (adaptado)."
+          },
+          "templateExisting": 1
+        },
+        { "existing": 3 }
+      ]
+    }
+  }
+}
