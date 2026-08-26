@@ -1,3 +1,5 @@
+import { hasRichTextMarkup, richTextToPlainText } from "@/lib/question-rich-text";
+
 export type QuestionParts = {
   supportText: string | null;
   prompt: string;
@@ -10,6 +12,8 @@ const commandTerms =
   /\b(é|são|será|deverá|corresponde|representa|indica|consiste|encontra-se|pode ser|deve ser|mais se aproxima)\b/i;
 
 export function formatQuestionText(value: string) {
+  if (hasRichTextMarkup(value)) return richTextToPlainText(value);
+
   return value
     .replace(/\r\n?/g, "\n")
     .replace(/\s*•\s*/g, "\n• ")

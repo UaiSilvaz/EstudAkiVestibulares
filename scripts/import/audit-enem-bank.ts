@@ -27,6 +27,7 @@ function normalizeAlternativeContent(value: string) {
   return value
     .normalize("NFKC")
     .toLocaleLowerCase("pt-BR")
+    .replace(/[\u2219\u22c5*]/g, " multiplicado ")
     .replace(/[^\p{L}\p{N}=<>+\-−×÷/%.,]+/gu, " ")
     .replace(/\s+/g, " ")
     .trim();
@@ -94,6 +95,7 @@ async function main() {
       return imageUrl ? `${text}|image:${imageUrl}` : text;
     });
     const images = parseQuestionImages(question.images);
+    const annulled = question.answerSituation === "ANNULLED";
     const hasStatementVisual = Boolean(question.imageUrl) ||
       images.some(
         (image) =>
@@ -118,7 +120,7 @@ async function main() {
     if (new Set(contentKeys).size !== alternatives.length || contentKeys.some((key) => !key)) {
       reasons.push("alternativas duplicadas ou vazias");
     }
-    if (!keys.includes(question.correctAlternative)) reasons.push("gabarito não encontrado nas alternativas");
+    if (!annulled && !keys.includes(question.correctAlternative)) reasons.push("gabarito não encontrado nas alternativas");
     if (!question.statement.trim()) reasons.push("comando ausente");
     if (
       !question.supportText?.trim() &&

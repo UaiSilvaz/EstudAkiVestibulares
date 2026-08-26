@@ -18,6 +18,7 @@ import { EmptyState } from "@/components/visual/empty-state";
 import { EvolutionChart } from "@/components/visual/evolution-chart";
 import { FloatingWhatsApp } from "@/components/visual/floating-whatsapp";
 import { ProgressRing } from "@/components/visual/progress-ring";
+import { StudyNowCard } from "@/components/study-now-card";
 import { SmartPrefetcher } from "@/components/smart-prefetcher";
 import { LeagueBadge } from "@/components/visual/league-badge";
 import { Sparkline } from "@/components/visual/sparkline";
@@ -28,6 +29,7 @@ import { getPersistedUserId, requireUser } from "@/lib/auth";
 import { getOrCreateStudyPlan } from "@/lib/adaptive-study-plan";
 import { db } from "@/lib/db";
 import { buildDashboardInsights, ERROR_NOTEBOOK_HREF } from "@/lib/insights";
+import { getInitialStudyNowRecommendation } from "@/lib/learning/study-now";
 import { difficultyLabel, leagueForXp, percent } from "@/lib/utils";
 
 const LEAGUE_THRESHOLDS: Array<{ name: string; min: number }> = [
@@ -164,11 +166,17 @@ export default async function DashboardPage() {
   const now = new Date();
   const persistedUserId = await getPersistedUserId(user);
   const dashboardUserId = persistedUserId ?? user.id;
+  const dashboardProfile = {
+    name: user.name,
+    weeklyHours: user.weeklyHours ?? 0,
+    targetExam: user.targetExam ?? "ENEM",
+  };
 
   let attempts: AttemptWithQuestion[] = [];
   let questions: QuestionWithSubject[] = [];
   let activities: ActivityWithUser[] = [];
   let studyPlan: Awaited<ReturnType<typeof getOrCreateStudyPlan>> | null = null;
+  let studyNowSession: Awaited<ReturnType<typeof getInitialStudyNowRecommendation>> | null = null;
   let lastAttempt: AttemptWithQuestion | null = null;
 
   try {
@@ -205,12 +213,13 @@ export default async function DashboardPage() {
     ];
   }
 
+  studyNowSession = await getInitialStudyNowRecommendation({
+    userId: dashboardUserId,
+    profile: dashboardProfile,
+  });
+
   const insights = buildDashboardInsights({
-    profile: {
-      name: user.name,
-      weeklyHours: user.weeklyHours ?? 0,
-      targetExam: user.targetExam ?? "ENEM",
-    },
+    profile: dashboardProfile,
     attempts,
     questions,
   });
@@ -278,9 +287,11 @@ export default async function DashboardPage() {
           }
         : null;
   const prefetchTargets = [
+    studyNowSession.startHref,
     mainRecommendation.actionTarget,
     "/questions?vestibular=enem",
     ERROR_NOTEBOOK_HREF,
+    ...studyNowSession.blocks.map((block) => block.href),
     ...activePlanTasks.map((task) => normalizeStudyHref(task.actionHref)),
     "/trilhas",
     "/cronograma",
@@ -361,6 +372,8 @@ export default async function DashboardPage() {
           accent={continueCard.accent}
         />
       )}
+
+      {studyNowSession && <StudyNowCard initialSession={studyNowSession} />}
 
       <section className="grid min-w-0 gap-3 sm:gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.85fr)]">
         {/* Foco do dia */}

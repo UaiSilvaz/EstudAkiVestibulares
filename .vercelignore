@@ -46,6 +46,7 @@ scripts/import
 scripts/import/
 scripts/import/**
 *.log
+*.zip
 .env
 .env.*
 !.env.example

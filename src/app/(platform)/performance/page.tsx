@@ -102,15 +102,15 @@ export default async function PerformancePage() {
           </div>
         </article>
 
-        <article className="rounded-[28px] border border-slate-100 bg-slate-950 p-5 text-white shadow-[0_24px_55px_-34px_rgba(15,23,42,0.65)] sm:p-6">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-300">Saúde do estudo</p>
+        <article className="rounded-[28px] border border-emerald-200/60 bg-gradient-to-br from-[#047857] via-[#10B981] to-[#86EFAC] p-5 text-white shadow-[0_24px_55px_-34px_rgba(5,150,105,0.65)] sm:p-6">
+          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/78">Saúde do estudo</p>
           <div className="mt-4 flex items-center gap-5">
-            <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full border-[10px] border-blue-500 bg-slate-900">
+            <div className="flex h-28 w-28 shrink-0 items-center justify-center rounded-full border-[10px] border-white/35 bg-white/16 shadow-[inset_0_0_0_1px_rgba(255,255,255,0.16)]">
               <span className="text-3xl font-black">{insights.studyHealthScore.score}</span>
             </div>
             <div>
               <h2 className="font-display text-2xl font-black capitalize">{insights.studyHealthScore.label}</h2>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-300">
+              <p className="mt-2 text-sm font-semibold leading-6 text-white/78">
                 Tendência {insights.trendScore >= 0 ? "+" : ""}{insights.trendScore}% e consistência de {Math.round(insights.consistencyScore)}%.
               </p>
             </div>

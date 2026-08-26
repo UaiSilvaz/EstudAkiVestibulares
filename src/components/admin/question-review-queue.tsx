@@ -19,6 +19,8 @@ import {
 import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
 import { ImageDropZone } from "@/components/admin/image-drop-zone";
+import { QuestionRichText } from "@/components/question-rich-text";
+import { richTextToPlainText } from "@/lib/question-rich-text";
 
 type Option = { id: string; name: string; subjectId?: string; logo?: string | null; color?: string | null };
 type Alternative = { key: string; text: string; imageUrl?: string | null };
@@ -178,6 +180,7 @@ export function QuestionReviewQueue({
   const [alternativeImageFiles, setAlternativeImageFiles] = useState<Record<string, File[]>>({});
   const [removeImages, setRemoveImages] = useState<Record<string, boolean>>({});
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [yearsIndex, setYearsIndex] = useState(yearsByVestibular);
 
   const filteredTopics = useMemo(
     () => topics.filter((topic) => !filters.subjectId || topic.subjectId === filters.subjectId),
@@ -187,7 +190,7 @@ export function QuestionReviewQueue({
     () => vestibulares.find((item) => item.id === filters.vestibularId) ?? null,
     [filters.vestibularId, vestibulares],
   );
-  const availableYears = selectedVestibular ? yearsByVestibular[selectedVestibular.id] ?? [] : [];
+  const availableYears = selectedVestibular ? yearsIndex[selectedVestibular.id] ?? [] : [];
   const canShowQuestions = Boolean(filters.vestibularId && filters.year);
 
   const load = useCallback(async () => {
@@ -228,6 +231,47 @@ export function QuestionReviewQueue({
     return () => window.clearTimeout(timeout);
   }, [load]);
 
+  useEffect(() => {
+    function handleQuestionSaved(event: Event) {
+      const question = (event as CustomEvent<{ question?: QuestionItem }>).detail?.question;
+      if (!question?.id) return;
+
+      setYearsIndex((current) => {
+        const years = current[question.vestibularId] ?? [];
+        const nextYears = years.some((item) => item.year === question.year)
+          ? years.map((item) =>
+              item.year === question.year ? { ...item, count: item.count + 1 } : item,
+            )
+          : [{ year: question.year, count: 1 }, ...years];
+
+        return {
+          ...current,
+          [question.vestibularId]: nextYears.sort((first, second) => second.year - first.year),
+        };
+      });
+      setFilters({
+        ...emptyFilters,
+        vestibularId: question.vestibularId,
+        year: String(question.year),
+      });
+      setPage(1);
+      setPages(1);
+      setTotal(1);
+      setItems([question]);
+      setOpenId(question.id);
+      setLoading(false);
+      setMessage({ type: "success", text: "Questão cadastrada e salva." });
+      notify({
+        tone: "success",
+        title: "Questão salva no banco",
+        message: "Ela já aparece aberta na fila de revisão.",
+      });
+    }
+
+    window.addEventListener("estudaki:admin-question-saved", handleQuestionSaved);
+    return () => window.removeEventListener("estudaki:admin-question-saved", handleQuestionSaved);
+  }, [notify]);
+
   function updateLocal(id: string, patch: Partial<QuestionItem>) {
     setItems((current) => current.map((item) => (item.id === id ? { ...item, ...patch } : item)));
   }
@@ -250,13 +294,6 @@ export function QuestionReviewQueue({
         alternative.key === key ? { ...alternative, imageUrl: imageUrl || null } : alternative,
       ),
     );
-  }
-
-  function updateAlternativeExplanation(item: QuestionItem, key: string, text: string) {
-    const explanations = explanationsOf(item);
-    updateLocal(item.id, {
-      alternativeExplanations: JSON.stringify({ ...explanations, [key]: text }),
-    });
   }
 
   function removeQuestionImage(item: QuestionItem, url: string) {
@@ -654,7 +691,6 @@ export function QuestionReviewQueue({
           items.map((item) => {
             const open = openId === item.id;
             const alternatives = alternativesOf(item);
-            const explanations = explanationsOf(item);
             const questionImageFiles = imageFiles[item.id] ?? [];
             const markedForRemoval = removeImages[item.id];
             const questionImages = markedForRemoval ? [] : imagesOf(item);
@@ -677,7 +713,7 @@ export function QuestionReviewQueue({
                     <p className="text-[10px] font-black uppercase tracking-wider text-blue-600">
                       {item.vestibular.name} - {item.year} - {item.subject.name} - {item.topic?.name ?? "Sem conteúdo"}
                     </p>
-                    <p className="mt-1 line-clamp-2 text-sm font-bold text-slate-700">{item.statement}</p>
+                    <p className="mt-1 line-clamp-2 text-sm font-bold text-slate-700">{richTextToPlainText(item.statement)}</p>
                   </div>
                   <div className="hidden text-right md:block">
                     <p className="text-xs font-black text-slate-600">{item.status}</p>
@@ -754,12 +790,6 @@ export function QuestionReviewQueue({
                                   </button>
                                 )}
                               </div>
-                              <textarea
-                                className="ek-input mt-2 min-h-20 w-full"
-                                placeholder={`Comentário da alternativa ${alternative.key}`}
-                                value={explanations[alternative.key] ?? ""}
-                                onChange={(event) => updateAlternativeExplanation(item, alternative.key, event.target.value)}
-                              />
                               <div className="mt-2">
                                 <input
                                   className="ek-input mb-2 w-full"
@@ -920,7 +950,11 @@ function QuestionPreview({ item, imagePreviews }: { item: QuestionItem; imagePre
           <p className="text-sm font-black text-slate-900">{item.vestibular?.name ?? "Questão"} - {item.year}</p>
         </div>
       </div>
-      {item.supportText && <p className="mb-3 whitespace-pre-line rounded-[8px] bg-slate-50 p-3 text-xs font-semibold leading-5 text-slate-600">{item.supportText}</p>}
+      {item.supportText && (
+        <div className="mb-3 rounded-[8px] bg-slate-50 p-3 text-xs font-semibold leading-5 text-slate-600">
+          <QuestionRichText value={item.supportText} />
+        </div>
+      )}
       {imagePreviews.length > 0 && (
         <div className="mb-3 grid gap-2">
           {imagePreviews.map((imagePreview, index) => (
@@ -935,13 +969,13 @@ function QuestionPreview({ item, imagePreviews }: { item: QuestionItem; imagePre
           ))}
         </div>
       )}
-      <p className="whitespace-pre-line text-sm font-bold leading-6 text-slate-900">{item.statement}</p>
+      <QuestionRichText value={item.statement} className="text-sm font-bold leading-6 text-slate-900" />
       <div className="mt-4 space-y-2">
         {alternatives.map((alternative) => (
           <div key={alternative.key} className={`flex gap-2 rounded-[8px] border p-2 text-xs font-semibold ${alternative.key === item.correctAlternative ? "border-emerald-200 bg-emerald-50 text-emerald-900" : "border-slate-200 text-slate-700"}`}>
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[10px] font-black">{alternative.key}</span>
             <span className="flex-1">
-              {alternative.text}
+              <QuestionRichText value={alternative.text} inline />
               {alternative.imageUrl && (
                 <span className="mt-2 block overflow-hidden rounded-[8px] border border-slate-200 bg-white p-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -954,7 +988,7 @@ function QuestionPreview({ item, imagePreviews }: { item: QuestionItem; imagePre
       </div>
       <div className="mt-4 rounded-[8px] bg-slate-50 p-3">
         <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Resolução</p>
-        <p className="mt-1 line-clamp-6 whitespace-pre-line text-xs font-semibold leading-5 text-slate-600">{item.explanation}</p>
+        <QuestionRichText value={item.explanation} className="mt-1 line-clamp-6 text-xs font-semibold leading-5 text-slate-600" />
       </div>
       {item.videoUrl && (
         <a

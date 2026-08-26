@@ -46,6 +46,7 @@ public/uploads/**
 
 # generated import outputs
 /scripts/import/output/
+/enem-question-bank-*.zip
 
 # misc
 .DS_Store

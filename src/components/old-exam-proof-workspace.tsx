@@ -13,7 +13,8 @@ import {
   Send,
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { formatQuestionText, splitQuestionParts } from "@/lib/question-formatting";
+import { splitQuestionParts } from "@/lib/question-formatting";
+import { hasRichTextMarkup } from "@/lib/question-rich-text";
 import {
   createOldExamProofDraft,
   oldExamProofVisibleImages,
@@ -23,6 +24,7 @@ import {
   type OldExamProofDraft,
   type OldExamProofQuestion,
 } from "@/lib/old-exam-proof";
+import { QuestionRichText } from "@/components/question-rich-text";
 import { cn } from "@/lib/utils";
 
 type ProofResult = {
@@ -199,7 +201,11 @@ export function OldExamProofWorkspace({
     );
   }
 
-  const parts = splitQuestionParts(activeQuestion.statement, activeQuestion.supportText);
+  const hasRichQuestionText =
+    hasRichTextMarkup(activeQuestion.statement) || hasRichTextMarkup(activeQuestion.supportText ?? "");
+  const parts = hasRichQuestionText
+    ? { supportText: activeQuestion.supportText, prompt: activeQuestion.statement }
+    : splitQuestionParts(activeQuestion.statement, activeQuestion.supportText);
   const images = oldExamProofVisibleImages(activeQuestion);
   const selectedAnswer = draft.answers[activeQuestion.id];
 
@@ -271,7 +277,7 @@ export function OldExamProofWorkspace({
           <div className="p-5 sm:p-7">
             {parts.supportText && (
               <div className="whitespace-pre-wrap text-sm leading-7 text-slate-700">
-                {formatQuestionText(parts.supportText)}
+                <QuestionRichText value={parts.supportText} />
               </div>
             )}
             {images.map((image, index) => (
@@ -290,9 +296,10 @@ export function OldExamProofWorkspace({
                 />
               </a>
             ))}
-            <p className="mt-6 whitespace-pre-wrap text-base font-semibold leading-8 text-slate-950">
-              {formatQuestionText(parts.prompt)}
-            </p>
+            <QuestionRichText
+              value={parts.prompt}
+              className="mt-6 text-base font-semibold leading-8 text-slate-950"
+            />
 
             <div className="mt-7 space-y-3" role="radiogroup" aria-label="Alternativas">
               {activeQuestion.alternatives.map((alternative) => {
@@ -324,7 +331,7 @@ export function OldExamProofWorkspace({
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={alternative.imageUrl} alt={`Alternativa ${alternative.key}`} className="max-h-64 max-w-full" />
                       ) : (
-                        formatQuestionText(alternative.text)
+                        <QuestionRichText value={alternative.text} inline />
                       )}
                     </span>
                     {isCorrect && <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />}
@@ -355,7 +362,7 @@ export function OldExamProofWorkspace({
                   </div>
                 </div>
                 <div className="whitespace-pre-wrap text-sm leading-7 text-slate-800">
-                  {formatQuestionText(activeResult.explanation)}
+                  <QuestionRichText value={activeResult.explanation} />
                 </div>
                 <div className="space-y-2">
                   {Object.entries(activeResult.alternativeExplanations).map(([key, comment]) => (

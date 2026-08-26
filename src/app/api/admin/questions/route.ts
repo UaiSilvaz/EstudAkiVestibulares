@@ -12,6 +12,7 @@ import { NextResponse } from "next/server";
 import { requireAdminApi } from "@/lib/admin-api-auth";
 import { canPublishDirectly, getCurrentUser, canManageContent } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { richTextToPlainText, sanitizeQuestionRichText } from "@/lib/question-rich-text";
 
 type Alternative = { key: string; text: string; imageUrl?: string | null };
 type QuestionImagePayload =
@@ -69,6 +70,13 @@ const IMAGE_TYPES = new Set([
   "image/gif",
   "image/svg+xml",
 ]);
+
+const questionAdminInclude = {
+  vestibular: true,
+  subject: true,
+  topic: true,
+  _count: { select: { reports: { where: { status: "OPEN" } } } },
+} satisfies Prisma.QuestionInclude;
 
 function errorMessage(error: unknown) {
   if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2003") {
@@ -134,7 +142,7 @@ function safeImageName(name: string, contentType?: string) {
 }
 
 function normalizeForHash(value: string | null | undefined) {
-  return (value ?? "")
+  return richTextToPlainText(value ?? "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/\s+/g, " ")
@@ -406,10 +414,9 @@ function validateQuestionPayload(body: QuestionPayload) {
     !body.vestibularId ||
     !body.subjectId ||
     !body.year ||
-    !body.statement?.trim() ||
+    !richTextToPlainText(body.statement).trim() ||
     !body.alternatives?.length ||
-    !body.correctAlternative ||
-    !body.explanation?.trim()
+    !body.correctAlternative
   ) {
     return "Preencha os campos obrigatórios.";
   }
@@ -423,17 +430,10 @@ function validateQuestionPayload(body: QuestionPayload) {
   const correct = alternatives.find((item) => item.key === correctAlternative);
 
   if (alternatives.length < 2) return "Cadastre pelo menos duas alternativas.";
-  if (alternatives.some((item) => !item.key || (!item.text && !item.imageUrl))) {
+  if (alternatives.some((item) => !item.key || (!richTextToPlainText(item.text).trim() && !item.imageUrl))) {
     return "Cada alternativa precisa ter texto ou imagem.";
   }
   if (!correct) return "A resposta certa precisa existir entre as alternativas.";
-
-  const missingWrongReason = alternatives.find(
-    (item) => item.key !== correctAlternative && !body.alternativeExplanations?.[item.key]?.trim(),
-  );
-  if (missingWrongReason) {
-    return `Explique por que a alternativa ${missingWrongReason.key} está errada.`;
-  }
 
   return null;
 }
@@ -476,7 +476,7 @@ export async function GET(request: Request) {
   const [items, total] = await Promise.all([
     db.question.findMany({
       where,
-      include: { vestibular: true, subject: true, topic: true, _count: { select: { reports: { where: { status: "OPEN" } } } } },
+      include: questionAdminInclude,
       orderBy: [{ reviewState: "asc" }, { createdAt: "desc" }],
       skip: (page - 1) * limit,
       take: limit,
@@ -540,18 +540,26 @@ export async function POST(request: Request) {
     const vestibularId = body.vestibularId!;
     const subjectId = body.subjectId!;
     const year = body.year!;
-    const statement = body.statement!;
-    const supportText = body.supportText ?? null;
+    const statement = sanitizeQuestionRichText(body.statement);
+    const supportText = body.supportText ? sanitizeQuestionRichText(body.supportText) : null;
     const alternatives = body.alternatives!;
     const normalizedAlternatives = alternatives.map((item) => ({
       key: item.key.trim().toUpperCase(),
-      text: item.text.trim(),
+      text: sanitizeQuestionRichText(item.text),
       imageUrl: item.imageUrl?.trim() || null,
     }));
     const correctAlternative = body.correctAlternative!.trim().toUpperCase();
-    const explanation = body.explanation!;
+    const explanation = sanitizeQuestionRichText(body.explanation);
     const videoUrl = body.videoUrl ?? null;
-    const pedagogyComment = body.pedagogyComment ?? null;
+    const pedagogyComment = body.pedagogyComment
+      ? sanitizeQuestionRichText(body.pedagogyComment)
+      : null;
+    const alternativeExplanations = Object.fromEntries(
+      Object.entries(body.alternativeExplanations ?? {}).map(([key, value]) => [
+        key.trim().toUpperCase(),
+        sanitizeQuestionRichText(value),
+      ]),
+    );
     const skill = body.skill ?? null;
     const source = body.source ?? null;
     const sourceName = body.sourceName ?? body.source ?? null;
@@ -584,7 +592,7 @@ export async function POST(request: Request) {
           statement,
           supportText,
           alternatives: JSON.stringify(normalizedAlternatives),
-          alternativeExplanations: JSON.stringify(body.alternativeExplanations ?? {}),
+          alternativeExplanations: JSON.stringify(alternativeExplanations),
           correctAlternative,
           explanation,
           videoUrl,
@@ -611,7 +619,7 @@ export async function POST(request: Request) {
         created.id,
         normalizedAlternatives,
         correctAlternative,
-        body.alternativeExplanations ?? {},
+        alternativeExplanations,
         imageItems,
         imageUrl,
       );
@@ -632,7 +640,12 @@ export async function POST(request: Request) {
       // A questão já foi salva; uma falha no histórico não deve invalidá-la.
     }
 
-    return NextResponse.json({ question });
+    const createdQuestion = await db.question.findUnique({
+      where: { id: question.id },
+      include: questionAdminInclude,
+    });
+
+    return NextResponse.json({ question: createdQuestion ?? question });
   } catch (error) {
     await deleteLocalQuestionImages(images);
     return NextResponse.json({ error: errorMessage(error) }, { status: 500 });
@@ -686,15 +699,26 @@ export async function PATCH(request: Request) {
 
   const mergedAlternatives = (body.alternatives ?? (JSON.parse(current.alternatives) as Alternative[])).map((item) => ({
     key: item.key.trim().toUpperCase(),
-    text: item.text.trim(),
+    text: sanitizeQuestionRichText(item.text),
     imageUrl: item.imageUrl?.trim() || null,
   }));
-  const mergedAlternativeExplanations =
-    body.alternativeExplanations ?? (JSON.parse(current.alternativeExplanations || "{}") as Record<string, string>);
+  const mergedAlternativeExplanations = Object.fromEntries(
+    Object.entries(
+      body.alternativeExplanations ??
+        (JSON.parse(current.alternativeExplanations || "{}") as Record<string, string>),
+    ).map(([key, value]) => [key.trim().toUpperCase(), sanitizeQuestionRichText(value)]),
+  );
   const mergedCorrectAlternative = (body.correctAlternative ?? current.correctAlternative).trim().toUpperCase();
-  const mergedStatement = body.statement ?? current.statement;
-  const mergedSupportText = body.supportText !== undefined ? body.supportText : current.supportText;
-  const mergedExplanation = body.explanation ?? current.explanation;
+  const mergedStatement = sanitizeQuestionRichText(body.statement ?? current.statement);
+  const mergedSupportText =
+    body.supportText !== undefined
+      ? body.supportText
+        ? sanitizeQuestionRichText(body.supportText)
+        : null
+      : current.supportText
+        ? sanitizeQuestionRichText(current.supportText)
+        : current.supportText;
+  const mergedExplanation = sanitizeQuestionRichText(body.explanation ?? current.explanation);
   const mergedVestibularId = body.vestibularId ?? current.vestibularId;
 
   const validation = validateQuestionPayload({
@@ -711,14 +735,6 @@ export async function PATCH(request: Request) {
   if (validation) {
     await deleteLocalQuestionImages(uploadedImages);
     return NextResponse.json({ error: validation }, { status: 400 });
-  }
-
-  if (body.status === ContentStatus.PUBLISHED && mergedExplanation.trim().length < 80) {
-    await deleteLocalQuestionImages(uploadedImages);
-    return NextResponse.json(
-      { error: "Preencha uma explicação mais detalhada antes de publicar." },
-      { status: 400 },
-    );
   }
 
   let nextImageUrl: string | null | undefined;
@@ -786,7 +802,9 @@ export async function PATCH(request: Request) {
           correctAlternative: mergedCorrectAlternative,
           explanation: mergedExplanation,
           ...(body.videoUrl !== undefined ? { videoUrl: body.videoUrl } : {}),
-          ...(body.pedagogyComment !== undefined ? { pedagogyComment: body.pedagogyComment } : {}),
+          ...(body.pedagogyComment !== undefined
+            ? { pedagogyComment: body.pedagogyComment ? sanitizeQuestionRichText(body.pedagogyComment) : null }
+            : {}),
           ...(body.skill !== undefined ? { skill: body.skill } : {}),
           ...(body.tags !== undefined ? { tags: JSON.stringify(body.tags) } : {}),
           ...(nextImageUrl !== undefined ? { imageUrl: nextImageUrl } : {}),
@@ -821,7 +839,12 @@ export async function PATCH(request: Request) {
 
     await deleteLocalQuestionImages([...oldImageUrls, ...oldAlternativeImageUrls]);
 
-    return NextResponse.json({ question });
+    const updatedQuestion = await db.question.findUnique({
+      where: { id: question.id },
+      include: questionAdminInclude,
+    });
+
+    return NextResponse.json({ question: updatedQuestion ?? question });
   } catch (error) {
     await deleteLocalQuestionImages(uploadedImages);
     return NextResponse.json({ error: errorMessage(error) }, { status: 500 });

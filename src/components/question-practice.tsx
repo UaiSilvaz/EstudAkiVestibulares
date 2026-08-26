@@ -33,12 +33,13 @@ import { useEffect, useMemo, useRef, useState, useTransition, type ReactNode } f
 import { FastLink } from "./fast-link";
 import { CelebrationBurst } from "./visual/celebration-burst";
 import { useFeedback } from "./feedback/feedback-provider";
+import { QuestionRichText } from "./question-rich-text";
 import {
-  formatQuestionText,
   questionEditionLabel,
   splitQuestionParts,
   splitSupportReference,
 } from "@/lib/question-formatting";
+import { hasRichTextMarkup, richTextToPlainText } from "@/lib/question-rich-text";
 import {
   clearQuestionFilterParams,
   questionBankHref,
@@ -306,7 +307,7 @@ export function QuestionPractice({
       if (filterDay && q.day !== filterDay) return false;
       if (filterArea && q.knowledgeArea !== filterArea) return false;
       if (filterDifficulty && q.difficulty !== filterDifficulty) return false;
-      if (term && !q.statement.toLowerCase().includes(term)) return false;
+      if (term && !richTextToPlainText(q.statement).toLowerCase().includes(term)) return false;
       return true;
     });
   }, [
@@ -781,16 +782,23 @@ export function QuestionPractice({
     ((pagination?.page ?? 1) - 1) * (pagination?.pageSize ?? questions.length) +
     activeQuestionIndex +
     1;
-  const questionParts = splitQuestionParts(
-    activeQuestion.statement,
-    activeQuestion.supportText,
-  );
+  const hasRichQuestionText =
+    hasRichTextMarkup(activeQuestion.statement) || hasRichTextMarkup(activeQuestion.supportText ?? "");
+  const questionParts = hasRichQuestionText
+    ? {
+        supportText: activeQuestion.supportText,
+        prompt: activeQuestion.statement,
+      }
+    : splitQuestionParts(
+        activeQuestion.statement,
+        activeQuestion.supportText,
+      );
   const editionLabel = questionEditionLabel({
     exam: activeQuestion.exam,
     vestibularName: activeQuestion.vestibular?.name,
     year: activeQuestion.year,
   });
-  const supportDisplay = questionParts.supportText
+  const supportDisplay = questionParts.supportText && !hasRichTextMarkup(questionParts.supportText)
     ? splitSupportReference(questionParts.supportText)
     : null;
   const normalizedQuestionImages = activeQuestion.images
@@ -1313,9 +1321,10 @@ export function QuestionPractice({
         <div className="mx-auto max-w-[780px] px-5 py-7 md:px-8 md:py-9">
           {!usesPromptFacsimile && questionParts.supportText && (
             <div className="relative">
-              <p className="whitespace-pre-wrap text-pretty text-[15px] font-normal leading-7 text-slate-800 md:text-base md:leading-8">
-                {supportDisplay?.content}
-              </p>
+              <QuestionRichText
+                value={supportDisplay?.content ?? questionParts.supportText}
+                className="text-pretty text-[15px] font-normal leading-7 text-slate-800 md:text-base md:leading-8"
+              />
               {(supportDisplay?.reference || activeQuestion.sourceCitation || activeQuestion.sourceAccessedAt) && (
                 <p className="mt-3 text-xs leading-5 text-slate-400">
                   {supportDisplay?.reference}
@@ -1376,19 +1385,18 @@ export function QuestionPractice({
 
           {usesPromptFacsimile ? (
             <p className="sr-only">
-              {questionParts.supportText} {questionParts.prompt}
+              {richTextToPlainText(`${questionParts.supportText ?? ""} ${questionParts.prompt}`)}
             </p>
           ) : (
-            <p
+            <QuestionRichText
+              value={questionParts.prompt}
               className={cn(
-                "relative whitespace-pre-wrap text-pretty text-base leading-7 text-slate-950 md:text-[17px] md:leading-8",
+                "relative text-pretty text-base leading-7 text-slate-950 md:text-[17px] md:leading-8",
                 questionParts.supportText || activeQuestion.imageUrl || activeQuestion.images.length
                   ? "mt-7 font-semibold"
                   : "font-normal",
               )}
-            >
-              {questionParts.prompt}
-            </p>
+            />
           )}
 
           {isAnnulled && (
@@ -1487,8 +1495,8 @@ export function QuestionPractice({
                   <span className={cn("w-7 shrink-0 pt-px font-extrabold", isSelected && !showResult ? "text-white" : "text-blue-700")}>
                     {alt.key})
                   </span>
-                  <span className={cn("relative flex-1 whitespace-pre-wrap leading-6", isEliminated && !showResult ? "line-through text-slate-400" : "")}>
-                    {formatQuestionText(alt.text)}
+                  <span className={cn("relative flex-1 leading-6", isEliminated && !showResult ? "line-through text-slate-400" : "")}>
+                    <QuestionRichText value={alt.text} inline />
                     {shouldShowAlternativeImage && (
                       <span className="mt-3 block overflow-hidden rounded-xl border border-current/10 bg-white/90 p-2">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1670,12 +1678,17 @@ export function QuestionPractice({
                     <p className="text-xs font-black uppercase tracking-wider text-slate-500">
                       Resolução
                     </p>
-                    <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-slate-700">
-                      {formatQuestionText(currentResult.explanation)}
-                    </p>
+                    <QuestionRichText
+                      value={currentResult.explanation}
+                      className="mt-2 text-sm leading-relaxed text-slate-700"
+                    />
                     {currentResult.alternativeExplanations[currentSelected ?? ""] && (
                       <p className="mt-3 border-l-2 border-slate-300 pl-3 text-xs font-semibold leading-5 text-slate-600">
-                        Alternativa {currentSelected}: {currentResult.alternativeExplanations[currentSelected ?? ""]}
+                        Alternativa {currentSelected}:{" "}
+                        <QuestionRichText
+                          value={currentResult.alternativeExplanations[currentSelected ?? ""]}
+                          inline
+                        />
                       </p>
                     )}
                     {currentResult.pedagogyComment && (

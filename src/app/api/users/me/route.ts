@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser, getPersistedUserId } from "@/lib/auth";
+import { deleteAvatarImageFile } from "@/lib/avatar-storage";
 import { db } from "@/lib/db";
+
+function avatarFileNameFromUrl(url: string | null | undefined) {
+  return url?.match(/^\/api\/users\/avatar\/([a-z0-9._-]+\.(?:png|jpe?g|webp))(?:[?#].*)?$/i)?.[1] ?? null;
+}
 
 export async function GET() {
   const user = await getCurrentUser();
@@ -31,6 +36,13 @@ export async function PATCH(request: Request) {
   };
 
   try {
+    const current =
+      body.avatarUrl === null
+        ? await db.user.findUnique({
+            where: { id: persistedUserId },
+            select: { avatarUrl: true },
+          })
+        : null;
     const updated = await db.user.update({
       where: { id: persistedUserId },
       data: {
@@ -55,6 +67,11 @@ export async function PATCH(request: Request) {
         targetExam: true,
       },
     });
+
+    const removedFileName = body.avatarUrl === null ? avatarFileNameFromUrl(current?.avatarUrl) : null;
+    if (removedFileName) {
+      await deleteAvatarImageFile(removedFileName);
+    }
 
     return NextResponse.json({ user: updated });
   } catch (error) {
