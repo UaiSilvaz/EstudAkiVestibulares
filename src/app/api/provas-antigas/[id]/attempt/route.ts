@@ -125,10 +125,12 @@ export async function POST(
     gainedXp > 0
       ? await db.user.findUnique({
           where: { id: persistedUserId },
-          select: { xp: true, league: true },
+          select: { xp: true, league: true, targetExam: true },
         })
       : null;
-  const newLeague = userBeforeReward ? leagueForXp(userBeforeReward.xp + gainedXp) : null;
+  const newLeague = userBeforeReward
+    ? leagueForXp(userBeforeReward.xp + gainedXp, userBeforeReward.targetExam)
+    : null;
 
   await db.$transaction(async (transaction) => {
     if (answeredLinks.length > 0) {

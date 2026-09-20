@@ -1,6 +1,8 @@
 import { AppShell } from "@/components/app-shell";
 import { PlatformLoadingState } from "@/components/loading-states";
-import { requirePersistedUser } from "@/lib/auth";
+import { getPersistedUserId, requirePersistedUser } from "@/lib/auth";
+import { educationThemeStyle } from "@/lib/education-verticals";
+import { getActivePreparationContext, type ActivePreparationContext } from "@/lib/preparations";
 import { Suspense } from "react";
 
 export default function PlatformLayout({
@@ -25,6 +27,14 @@ async function AuthenticatedPlatform({
   children: React.ReactNode;
 }) {
   const user = await userPromise;
+  const persistedUserId = await getPersistedUserId(user);
+  const preparationContext: ActivePreparationContext = persistedUserId
+    ? await getActivePreparationContext(persistedUserId)
+    : {
+        active: null,
+        preparations: [],
+        themeStyle: educationThemeStyle("vestibular"),
+      };
 
-  return <AppShell user={user}>{children}</AppShell>;
+  return <AppShell user={user} preparationContext={preparationContext}>{children}</AppShell>;
 }

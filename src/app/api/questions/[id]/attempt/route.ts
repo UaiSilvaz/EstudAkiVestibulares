@@ -190,7 +190,10 @@ export async function POST(
       ? persistedUser.streak + 1
       : 1
     : persistedUser.streak;
-  const newLeague = leagueForXp(persistedUser.xp + answerXp);
+  const newLeague = leagueForXp(
+    persistedUser.xp + answerXp,
+    persistedUser.targetExam,
+  );
   const leveledUp = newLeague !== persistedUser.league;
 
   await db.$transaction([

@@ -3,11 +3,15 @@ import {
   ActivityType,
   ContentStatus,
   Difficulty,
+  EntitlementSource,
   MaterialType,
+  PreparationLevel,
   PrismaClient,
   Role,
   VideoKind,
 } from "@prisma/client";
+import { educationVerticals } from "../src/lib/education-verticals";
+import { seedLearningCourses } from "./learning-seed";
 
 const prisma = new PrismaClient();
 
@@ -47,7 +51,7 @@ async function main() {
       role: Role.ADMIN,
       xp: 12800,
       streak: 42,
-      league: "Diamante",
+      league: "Aprovado",
       weeklyHours: 20,
       targetExam: "ENEM",
     },
@@ -63,7 +67,7 @@ async function main() {
       role: Role.TEACHER,
       xp: 8600,
       streak: 18,
-      league: "Esmeralda",
+      league: "Gênio",
       weeklyHours: 14,
       targetExam: "ENEM",
     },
@@ -71,7 +75,12 @@ async function main() {
 
   const student = await prisma.user.upsert({
     where: { email: "aluno@estudaki.com" },
-    update: {},
+    update: {
+      name: "Guilherme",
+      passwordHash,
+      role: Role.STUDENT,
+      targetExam: "ENEM",
+    },
     create: {
       name: "Guilherme",
       email: "aluno@estudaki.com",
@@ -79,7 +88,7 @@ async function main() {
       role: Role.STUDENT,
       xp: 2240,
       streak: 7,
-      league: "Prata",
+      league: "Aplicado",
       weeklyHours: 10,
       targetExam: "ENEM",
     },
@@ -104,6 +113,162 @@ async function main() {
   );
 
   const [enem, fuvest, unicamp, unesp, fatec, etec] = vestibulares;
+
+  const verticals = await Promise.all(
+    Object.entries(educationVerticals).map(([slug, vertical]) =>
+      prisma.vertical.upsert({
+        where: { slug },
+        update: {
+          name: vertical.name,
+          themeKey: vertical.theme,
+          enabled: true,
+        },
+        create: {
+          slug,
+          name: vertical.name,
+          themeKey: vertical.theme,
+          enabled: true,
+        },
+      }),
+    ),
+  );
+  const verticalBySlug = Object.fromEntries(verticals.map((vertical) => [vertical.slug, vertical]));
+  const preparationSeed = [
+    {
+      slug: "enem-2027",
+      name: "ENEM 2027",
+      verticalSlug: "vestibular",
+      examSlug: "enem",
+      isFree: true,
+      description: "Trilha completa para o ENEM com plano, questoes, redacao e simulados.",
+    },
+    {
+      slug: "fuvest-2027",
+      name: "FUVEST 2027",
+      verticalSlug: "vestibular",
+      examSlug: "fuvest",
+      isFree: false,
+      description: "Preparacao para primeira e segunda fase da FUVEST.",
+    },
+    {
+      slug: "medicina-enem",
+      name: "Medicina pelo ENEM",
+      verticalSlug: "medicina",
+      examSlug: "medicina-enem",
+      isFree: false,
+      description: "Rota de alta concorrencia com dados, revisoes e simulados.",
+    },
+    {
+      slug: "oab-1-fase",
+      name: "OAB 1a fase",
+      verticalSlug: "oab",
+      examSlug: "oab-1-fase",
+      isFree: true,
+      description: "Disciplinas juridicas, questoes e revisao objetiva para a OAB.",
+    },
+    {
+      slug: "tj-sp-escrevente",
+      name: "TJ-SP Escrevente",
+      verticalSlug: "concursos",
+      examSlug: "concursos-publicos",
+      isFree: false,
+      description: "Plano por edital para portugues, direito, informatica e raciocinio logico.",
+    },
+    {
+      slug: "policia-civil-sp",
+      name: "Policia Civil SP",
+      verticalSlug: "policial",
+      examSlug: "policia-civil",
+      isFree: false,
+      description: "Preparacao por cargo com foco em edital, questoes e evolucao.",
+    },
+    {
+      slug: "esa-2027",
+      name: "ESA 2027",
+      verticalSlug: "militar",
+      examSlug: "esa",
+      isFree: false,
+      description: "Base e aprofundamento para carreiras militares.",
+    },
+  ] as const;
+  const preparations = await Promise.all(
+    preparationSeed.map((item) => {
+      const vertical = verticalBySlug[item.verticalSlug];
+      if (!vertical) throw new Error(`Vertical nao encontrada: ${item.verticalSlug}`);
+      return prisma.preparation.upsert({
+        where: { slug: item.slug },
+        update: {
+          verticalId: vertical.id,
+          name: item.name,
+          description: item.description,
+          examSlug: item.examSlug,
+          isFree: item.isFree,
+          status: ContentStatus.PUBLISHED,
+        },
+        create: {
+          verticalId: vertical.id,
+          slug: item.slug,
+          name: item.name,
+          description: item.description,
+          examSlug: item.examSlug,
+          isFree: item.isFree,
+          status: ContentStatus.PUBLISHED,
+        },
+      });
+    }),
+  );
+  const enemPreparation = preparations.find((preparation) => preparation.slug === "enem-2027");
+  if (enemPreparation) {
+    const userPreparation = await prisma.userPreparation.upsert({
+      where: {
+        userId_preparationId: {
+          userId: student.id,
+          preparationId: enemPreparation.id,
+        },
+      },
+      update: {
+        displayName: "ENEM 2027",
+        minutesPerDay: 90,
+        studyDays: [1, 2, 3, 4, 5],
+        difficultSubjects: ["matematica", "linguagens"],
+        level: PreparationLevel.BEGINNER,
+        status: "ACTIVE",
+      },
+      create: {
+        userId: student.id,
+        preparationId: enemPreparation.id,
+        displayName: "ENEM 2027",
+        minutesPerDay: 90,
+        studyDays: [1, 2, 3, 4, 5],
+        difficultSubjects: ["matematica", "linguagens"],
+        level: PreparationLevel.BEGINNER,
+      },
+    });
+    await prisma.user.update({
+      where: { id: student.id },
+      data: { activePreparationId: enemPreparation.id },
+    });
+    await prisma.entitlement.upsert({
+      where: {
+        userId_preparationId_sourceKey: {
+          userId: student.id,
+          preparationId: enemPreparation.id,
+          sourceKey: `seed-free:${enemPreparation.slug}`,
+        },
+      },
+      update: { revokedAt: null },
+      create: {
+        userId: student.id,
+        preparationId: enemPreparation.id,
+        sourceType: EntitlementSource.PROMOTION,
+        sourceKey: `seed-free:${enemPreparation.slug}`,
+      },
+    });
+    await prisma.studyPlanTask.updateMany({
+      where: { userId: student.id, userPreparationId: null },
+      data: { userPreparationId: userPreparation.id },
+    });
+  }
 
   const subjects = await Promise.all(
     [
@@ -937,6 +1102,8 @@ async function main() {
       questionIds: JSON.stringify(questions.map((question) => question.id)),
     },
   });
+
+  await seedLearningCourses(prisma);
 
   await prisma.challenge.deleteMany({});
   await prisma.challenge.createMany({

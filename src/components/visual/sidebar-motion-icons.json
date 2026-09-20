@@ -121,6 +121,45 @@
       "options": { "duration": 500, "delay": 120, "easing": "cubic-bezier(.34,1.56,.64,1)" }
     }
   ],
+  "lessons": [
+    {
+      "selector": ".screen-main",
+      "keyframes": [
+        { "transform": "translateY(0px) scale(1)" },
+        { "transform": "translateY(-2px) scale(1.05)", "offset": 0.45 },
+        { "transform": "translateY(0px) scale(1)", "offset": 1 }
+      ],
+      "options": { "duration": 640, "easing": "cubic-bezier(.22,1,.36,1)" }
+    },
+    {
+      "selector": ".play-button",
+      "keyframes": [
+        { "transform": "scale(1) rotate(0deg)" },
+        { "transform": "scale(1.2) rotate(6deg)", "offset": 0.48 },
+        { "transform": "scale(.96) rotate(-2deg)", "offset": 0.76 },
+        { "transform": "scale(1) rotate(0deg)", "offset": 1 }
+      ],
+      "options": { "duration": 700, "delay": 50, "easing": "cubic-bezier(.34,1.56,.64,1)" }
+    },
+    {
+      "selector": ".lesson-knob",
+      "keyframes": [
+        { "transform": "scaleX(.35)" },
+        { "transform": "scaleX(1.35)", "offset": 0.58 },
+        { "transform": "scaleX(1)", "offset": 1 }
+      ],
+      "options": { "duration": 540, "delay": 120, "easing": "ease-out" }
+    },
+    {
+      "selector": ".play-pulse",
+      "keyframes": [
+        { "opacity": 0, "transform": "scale(.62)" },
+        { "opacity": 0.55, "transform": "scale(1.08)", "offset": 0.55 },
+        { "opacity": 0, "transform": "scale(1.42)", "offset": 1 }
+      ],
+      "options": { "duration": 780, "easing": "ease-out" }
+    }
+  ],
   "materials": [
     {
       "selector": ".folder-lid",

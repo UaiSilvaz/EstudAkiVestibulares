@@ -1,98 +1,124 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useEstudakiLoading } from "@/components/estudaki-loading-provider";
+import { routeLoadingMeta } from "@/lib/route-loading";
 
 const ROUTE_TRANSITION_EVENT = "estudaki:route-transition-start";
 
-function isModifiedClick(event: MouseEvent) {
-  return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0;
+function routeKey(url: URL) {
+  return `${url.pathname}?${url.searchParams.toString()}`;
 }
 
-function isSameRoute(url: URL) {
-  return url.pathname === window.location.pathname && url.search === window.location.search;
+function routeHref(url: URL) {
+  return `${url.pathname}${url.search}`;
+}
+
+function destination(href: string) {
+  try {
+    const url = new URL(href, window.location.href);
+    if (!/^https?:$/.test(url.protocol) || url.origin !== window.location.origin) return null;
+    if (routeKey(url) === routeKey(new URL(window.location.href))) return null;
+    return {
+      key: routeKey(url),
+      href: routeHref(url),
+    };
+  } catch {
+    return null;
+  }
 }
 
 function shouldTrackAnchor(anchor: HTMLAnchorElement, event: MouseEvent) {
-  if (event.defaultPrevented || isModifiedClick(event)) return false;
+  if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return false;
   if (anchor.target && anchor.target !== "_self") return false;
-  if (anchor.hasAttribute("download")) return false;
-  if (anchor.dataset.noRouteIndicator === "true") return false;
-
+  if (anchor.hasAttribute("download") || anchor.dataset.noRouteIndicator === "true") return false;
   const href = anchor.getAttribute("href");
-  if (!href || href.startsWith("#")) return false;
-
-  const url = new URL(href, window.location.href);
-  if (url.origin !== window.location.origin) return false;
-  if (isSameRoute(url)) return false;
-
-  return true;
+  return Boolean(href && !href.startsWith("#") && destination(href));
 }
 
 export function announceRouteTransition(href: string) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || !destination(href)) return;
   window.dispatchEvent(new CustomEvent(ROUTE_TRANSITION_EVENT, { detail: { href } }));
 }
 
 export function RouteTransitionIndicator() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [pending, setPending] = useState(false);
-  const timeoutRef = useRef<number | null>(null);
-  const search = useMemo(() => searchParams.toString(), [searchParams]);
-  const routeKey = useMemo(() => `${pathname}?${search}`, [pathname, search]);
-  const routeKeyRef = useRef(routeKey);
+  const currentRoute = `${pathname}?${searchParams.toString()}`;
+  const { beginLoading } = useEstudakiLoading();
+  const stopRef = useRef<(() => void) | null>(null);
+  const currentRouteRef = useRef(currentRoute);
 
   useEffect(() => {
-    function start() {
-      setPending(true);
-      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
-      timeoutRef.current = window.setTimeout(() => setPending(false), 4500);
+    let pendingTarget: string | null = null;
+    let release: (() => void) | null = null;
+    let delay: number | undefined;
+    let timeout: number | undefined;
+
+    function stop() {
+      window.clearTimeout(delay);
+      window.clearTimeout(timeout);
+      release?.();
+      release = null;
+      pendingTarget = null;
+    }
+    stopRef.current = stop;
+
+    function start(target: { key: string; href: string }) {
+      if (pendingTarget === target.key) return;
+      pendingTarget = target.key;
+      window.clearTimeout(delay);
+      window.clearTimeout(timeout);
+      if (!release) {
+        delay = window.setTimeout(() => {
+          release = beginLoading(routeLoadingMeta(target.href));
+        }, 100);
+      }
+      timeout = window.setTimeout(stop, 15000);
+    }
+
+    function onAnnouncement(event: Event) {
+      const href = (event as CustomEvent<{ href?: string }>).detail?.href;
+      const target = typeof href === "string" ? destination(href) : null;
+      if (target) start(target);
     }
 
     function onDocumentClick(event: MouseEvent) {
-      const target = event.target;
-      if (!(target instanceof Element)) return;
-      const anchor = target.closest("a[href]");
-      if (!(anchor instanceof HTMLAnchorElement)) return;
-      if (!shouldTrackAnchor(anchor, event)) return;
-      start();
+      const element = event.target;
+      if (!(element instanceof Element)) return;
+      const anchor = element.closest("a[href]");
+      if (!(anchor instanceof HTMLAnchorElement) || !shouldTrackAnchor(anchor, event)) return;
+      const target = destination(anchor.href);
+      if (target) start(target);
     }
 
-    window.addEventListener(ROUTE_TRANSITION_EVENT, start);
+    function onPopState() {
+      const url = new URL(window.location.href);
+      const target = { key: routeKey(url), href: routeHref(url) };
+      if (target.key !== currentRouteRef.current) start(target);
+    }
+
+    window.addEventListener(ROUTE_TRANSITION_EVENT, onAnnouncement);
+    window.addEventListener("popstate", onPopState);
+    window.addEventListener("pageshow", stop);
     document.addEventListener("click", onDocumentClick, true);
     return () => {
-      window.removeEventListener(ROUTE_TRANSITION_EVENT, start);
+      stop();
+      stopRef.current = null;
+      window.removeEventListener(ROUTE_TRANSITION_EVENT, onAnnouncement);
+      window.removeEventListener("popstate", onPopState);
+      window.removeEventListener("pageshow", stop);
       document.removeEventListener("click", onDocumentClick, true);
-      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
     };
-  }, []);
+  }, [beginLoading]);
 
   useEffect(() => {
-    if (routeKeyRef.current === routeKey) return;
-    routeKeyRef.current = routeKey;
-    const frame = window.requestAnimationFrame(() => {
-      setPending(false);
-      if (timeoutRef.current) {
-        window.clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-      }
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [routeKey]);
+    if (currentRouteRef.current === currentRoute) return;
+    currentRouteRef.current = currentRoute;
+    stopRef.current?.();
+  }, [currentRoute]);
 
-  return (
-    <div
-      aria-live="polite"
-      aria-atomic="true"
-      className="pointer-events-none fixed inset-x-0 top-0 z-[120] h-1"
-    >
-      <div
-        className={`h-full origin-left bg-gradient-to-r from-[#2563EB] via-[#22D3EE] to-[#F97316] shadow-[0_0_18px_rgba(37,99,235,0.38)] transition-opacity duration-150 ${
-          pending ? "estudaki-route-progress opacity-100" : "scale-x-0 opacity-0"
-        }`}
-      />
-      <span className="sr-only">{pending ? "Carregando nova pagina" : ""}</span>
-    </div>
-  );
+  return null;
 }
+

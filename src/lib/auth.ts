@@ -21,6 +21,32 @@ export {
 
 export const SESSION_COOKIE = "estudaki_user_id";
 
+let authSessionTableAvailable: boolean | null = null;
+
+function isMissingAuthSessionSchema(error: unknown) {
+  if (typeof error !== "object" || error === null || !("code" in error)) return false;
+  const code = (error as { code?: unknown }).code;
+  if (code !== "P2021") return false;
+
+  const meta = (error as { meta?: Record<string, unknown> }).meta;
+  return String(meta?.modelName ?? meta?.table ?? "").includes("AuthSession");
+}
+
+export async function hasAuthSessionTable() {
+  if (authSessionTableAvailable !== null) return authSessionTableAvailable;
+
+  try {
+    const rows = await db.$queryRaw<Array<{ exists: boolean }>>`
+      SELECT to_regclass('public."AuthSession"') IS NOT NULL AS exists
+    `;
+    authSessionTableAvailable = Boolean(rows[0]?.exists);
+  } catch {
+    authSessionTableAvailable = false;
+  }
+
+  return authSessionTableAvailable;
+}
+
 const appUserSelect = {
   id: true,
   name: true,
@@ -87,19 +113,22 @@ export const getCurrentUser = cache(async (): Promise<AppUser | null> => {
     return localUser;
   }
 
-  try {
-    const session = await db.authSession.findFirst({
-      where: {
-        tokenHash: hashAuthSessionToken(userId),
-        revokedAt: null,
-        expiresAt: { gt: new Date() },
-      },
-      select: { user: { select: appUserSelect } },
-    });
+  if (await hasAuthSessionTable()) {
+    try {
+      const session = await db.authSession.findFirst({
+        where: {
+          tokenHash: hashAuthSessionToken(userId),
+          revokedAt: null,
+          expiresAt: { gt: new Date() },
+        },
+        select: { user: { select: appUserSelect } },
+      });
 
-    if (session?.user) return session.user;
-  } catch {
-    // Allow already-issued signed user-id cookies to keep working before migrations run.
+      if (session?.user) return session.user;
+    } catch (error) {
+      if (isMissingAuthSessionSchema(error)) authSessionTableAvailable = false;
+      // Allow already-issued signed user-id cookies to keep working before migrations run.
+    }
   }
 
   try {

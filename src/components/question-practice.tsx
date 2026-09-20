@@ -31,6 +31,7 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { FastLink } from "./fast-link";
+import { announceRouteTransition } from "./route-transition-indicator";
 import { CelebrationBurst } from "./visual/celebration-burst";
 import { useFeedback } from "./feedback/feedback-provider";
 import { QuestionRichText } from "./question-rich-text";
@@ -60,6 +61,19 @@ type QuestionImage = {
   height?: number;
 };
 
+type QuestionBlock = {
+  id: string;
+  type: string;
+  content: string;
+  order: number;
+  asset: {
+    url: string;
+    altText?: string | null;
+    width?: number | null;
+    height?: number | null;
+  } | null;
+};
+
 type QuestionItem = {
   id: string;
   supportText: string | null;
@@ -73,6 +87,7 @@ type QuestionItem = {
   videoUrl: string | null;
   imageUrl: string | null;
   images: Array<QuestionImage | string>;
+  blocks?: QuestionBlock[];
   source: string | null;
   sourceName?: string | null;
   sourceUrl?: string | null;
@@ -169,6 +184,72 @@ function elementToViewportPercent(el: HTMLElement | null) {
   const x = ((rect.left + rect.width / 2) / window.innerWidth) * 100;
   const y = ((rect.top + rect.height / 2) / window.innerHeight) * 100;
   return { x, y };
+}
+
+function StructuredQuestionContent({
+  blocks,
+  sourceCitation,
+  sourceAccessedAt,
+}: {
+  blocks: QuestionBlock[];
+  sourceCitation?: string | null;
+  sourceAccessedAt?: string | null;
+}) {
+  return (
+    <div className="relative space-y-5">
+      {blocks.map((block, index) => {
+        const type = block.type.toUpperCase();
+
+        if (type === "IMAGE" && block.asset?.url) {
+          return (
+            <figure
+              key={block.id}
+              className="overflow-hidden rounded-md border border-slate-200 bg-white p-1.5 md:p-2"
+            >
+              <a
+                href={block.asset.url}
+                target="_blank"
+                rel="noreferrer"
+                className="block w-full cursor-zoom-in"
+                aria-label="Abrir imagem oficial em tamanho original"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={block.asset.url}
+                  alt={block.asset.altText || block.content || `Elemento visual ${index + 1} da questão`}
+                  className="mx-auto block h-auto max-h-[380px] w-auto max-w-full object-contain"
+                  width={block.asset.width ?? undefined}
+                  height={block.asset.height ?? undefined}
+                />
+              </a>
+            </figure>
+          );
+        }
+
+        if (!block.content.trim()) return null;
+
+        return (
+          <QuestionRichText
+            key={block.id}
+            value={block.content}
+            className={
+              type === "CREDIT"
+                ? "text-xs leading-5 text-slate-400"
+                : type === "COMMAND"
+                  ? "text-pretty text-base font-semibold leading-7 text-slate-950 md:text-[17px] md:leading-8"
+                  : "text-pretty text-[15px] font-normal leading-7 text-slate-800 md:text-base md:leading-8"
+            }
+          />
+        );
+      })}
+      {(sourceCitation || sourceAccessedAt) && (
+        <p className="text-xs leading-5 text-slate-400">
+          {sourceCitation}
+          {sourceAccessedAt ? ` Acesso em: ${sourceAccessedAt}.` : ""}
+        </p>
+      )}
+    </div>
+  );
 }
 
 async function responseError(response: Response, fallback: string) {
@@ -413,7 +494,9 @@ export function QuestionPractice({
     setMobileFilterQuery(params.toString());
     setMobileFiltersOpen(false);
     startFilterTransition(() => {
-      router.push(questionBankHref(params));
+      const href = questionBankHref(params);
+      announceRouteTransition(href);
+      router.push(href);
     });
   }
 
@@ -631,7 +714,9 @@ export function QuestionPractice({
     setMobileFilterQuery(params.toString());
     setMobileFiltersOpen(false);
     startFilterTransition(() => {
-      router.push(questionBankHref(params));
+      const href = questionBankHref(params);
+      announceRouteTransition(href);
+      router.push(href);
     });
   }
 
@@ -655,7 +740,9 @@ export function QuestionPractice({
     const params = setQuestionFilterParam(controlParams, key, value);
     setMobileFilterQuery(params.toString());
     startFilterTransition(() => {
-      router.push(questionBankHref(params));
+      const href = questionBankHref(params);
+      announceRouteTransition(href);
+      router.push(href);
     });
   }
 
@@ -663,7 +750,9 @@ export function QuestionPractice({
     const params = keepContextualVestibular(new URLSearchParams(mobileFilterParams.toString()));
     setMobileFiltersOpen(false);
     startFilterTransition(() => {
-      router.push(questionBankHref(params));
+      const href = questionBankHref(params);
+      announceRouteTransition(href);
+      router.push(href);
     });
   }
 
@@ -810,7 +899,11 @@ export function QuestionPractice({
   const promptFacsimiles = normalizedQuestionImages.filter(
     (image) => image.assetType === "PROMPT_FACSIMILE" || image.assetType === "prompt_facsimile",
   );
-  const usesPromptFacsimile = promptFacsimiles.length > 0;
+  const structuredQuestionBlocks = [...(activeQuestion.blocks ?? [])]
+    .filter((block) => block.content.trim() || block.asset?.url)
+    .sort((first, second) => first.order - second.order);
+  const hasStructuredQuestionBlocks = structuredQuestionBlocks.length > 0;
+  const usesPromptFacsimile = !hasStructuredQuestionBlocks && promptFacsimiles.length > 0;
   const legacyDisplayImages = normalizedQuestionImages.filter(
         (image) =>
           image.assetType !== "ALTERNATIVE_VISUAL" &&
@@ -1319,6 +1412,14 @@ export function QuestionPractice({
         </header>
 
         <div className="mx-auto max-w-[780px] px-5 py-7 md:px-8 md:py-9">
+          {hasStructuredQuestionBlocks ? (
+            <StructuredQuestionContent
+              blocks={structuredQuestionBlocks}
+              sourceCitation={activeQuestion.sourceCitation}
+              sourceAccessedAt={activeQuestion.sourceAccessedAt}
+            />
+          ) : (
+            <>
           {!usesPromptFacsimile && questionParts.supportText && (
             <div className="relative">
               <QuestionRichText
@@ -1397,6 +1498,9 @@ export function QuestionPractice({
                   : "font-normal",
               )}
             />
+          )}
+
+            </>
           )}
 
           {isAnnulled && (

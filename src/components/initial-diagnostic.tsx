@@ -17,6 +17,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
 import { StudyIcon, type StudyIconName } from "@/components/visual/study-icon";
 import { cn } from "@/lib/utils";
+import { announceRouteTransition } from "@/components/route-transition-indicator";
 
 type DiagnosticArea = {
   key: StudyIconName;
@@ -126,6 +127,7 @@ export function InitialDiagnostic({ areas, pendingErrors }: Props) {
         title: "Plano atualizado",
         message: "Seu cronograma ja considera seu ponto de partida.",
       });
+      announceRouteTransition("/cronograma");
       router.replace("/cronograma");
     } catch {
       notify({

@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
 import { cn } from "@/lib/utils";
 import motionData from "./sidebar-motion-icons.json";
 
 export type SidebarMotionIconName =
   | "home"
   | "plan"
+  | "lessons"
   | "questions"
   | "materials"
   | "progress"
@@ -31,15 +33,16 @@ type MotionStep = {
 const MOTION = motionData as Record<SidebarMotionIconName, MotionStep[]>;
 
 const themeMap: Record<SidebarMotionIconName, string> = {
-  home: "from-[#D9EBFF] to-[#A7D2FF]",
-  plan: "from-[#FFE4A1] to-[#FFBF56]",
-  questions: "from-[#BFF1FF] to-[#7DD6FF]",
-  materials: "from-[#E4DCFF] to-[#B39FFD]",
-  progress: "from-[#D0F6DC] to-[#96E8AE]",
-  community: "from-[#CDF7E7] to-[#95E9C6]",
-  admin: "from-[#FFE7BD] to-[#FFC46E]",
-  settings: "from-[#E6E8FF] to-[#C8CBFF]",
-  logout: "from-[#FFD9DA] to-[#FFA5AA]",
+  home: "linear-gradient(135deg, #EAF4FF 0%, #6FB3FF 100%)",
+  plan: "linear-gradient(135deg, #FFF1C2 0%, #F6A91A 100%)",
+  lessons: "linear-gradient(135deg, #FFE1E5 0%, #E8405F 100%)",
+  questions: "linear-gradient(135deg, #DCF7FF 0%, #22A7DE 100%)",
+  materials: "linear-gradient(135deg, #EEE8FF 0%, #7658D8 100%)",
+  progress: "linear-gradient(135deg, #DDF7E5 0%, #22B365 100%)",
+  community: "linear-gradient(135deg, #FFE3F0 0%, #D93682 100%)",
+  admin: "linear-gradient(135deg, #FFF0C9 0%, #D9911B 100%)",
+  settings: "linear-gradient(135deg, #ECEEFF 0%, #7278E8 100%)",
+  logout: "linear-gradient(135deg, #FFE1E4 0%, #E44F61 100%)",
 };
 
 export function SidebarMotionIcon({
@@ -83,15 +86,15 @@ export function SidebarMotionIcon({
       ref={ref}
       aria-hidden="true"
       className={cn(
-        "sidebar-motion-icon relative inline-grid shrink-0 place-items-center overflow-visible bg-gradient-to-br shadow-[0_10px_18px_rgba(31,63,112,0.11)] ring-1 ring-white/70 transition duration-200",
-        "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:bg-[linear-gradient(180deg,rgba(255,255,255,0.28),transparent_58%)]",
-        collapsed ? "h-9 w-9 rounded-[14px]" : "h-8 w-8 rounded-[13px]",
-        active && "scale-[1.04] shadow-[0_14px_24px_rgba(23,105,255,0.18)]",
-        themeMap[name],
+        "sidebar-motion-icon relative inline-grid shrink-0 place-items-center overflow-visible bg-gradient-to-br shadow-[0_13px_24px_-14px_rgba(31,63,112,0.42)] ring-1 ring-white/70 transition duration-200",
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:bg-[linear-gradient(180deg,rgba(255,255,255,0.30),transparent_58%)]",
+        collapsed ? "h-12 w-12 rounded-[18px]" : "h-10 w-10 rounded-[16px]",
+        active && "scale-[1.045] shadow-[0_18px_30px_-16px_rgba(23,105,255,0.32)]",
         className,
       )}
+      style={{ background: `var(--theme-icon-${name}, ${themeMap[name]})` } as CSSProperties}
     >
-      <IconSvg name={name} className={collapsed ? "h-7 w-7" : "h-6 w-6"} />
+      <IconSvg name={name} className={collapsed ? "h-8 w-8" : "h-7 w-7"} />
     </span>
   );
 }
@@ -151,6 +154,26 @@ function IconSvg({ name, className }: { name: SidebarMotionIconName; className: 
     );
   }
 
+  if (name === "lessons") {
+    return (
+      <svg viewBox="0 0 32 32" className={cn("overflow-visible", className)}>
+        <circle className="play-pulse" cx="16" cy="16" r="11.3" fill="#fecaca" opacity="0" />
+        <g className="screen-main">
+          <rect x="4.8" y="7" width="22.4" height="16.8" rx="5" fill="#dc2626" />
+          <rect x="7.4" y="9.7" width="17.2" height="11.3" rx="3.2" fill="#fff1f2" opacity=".95" />
+        </g>
+        <g className="play-button">
+          <circle cx="16" cy="15.5" r="5.2" fill="#ef4444" />
+          <path d="M14.7 12.8v5.4l4.7-2.7Z" fill="#ffffff" />
+        </g>
+        <g className="lesson-bar">
+          <rect x="10.2" y="25.2" width="11.6" height="2.2" rx="1.1" fill="#991b1b" />
+          <rect className="lesson-knob" x="10.2" y="25.2" width="4.8" height="2.2" rx="1.1" fill="#fb7185" />
+        </g>
+      </svg>
+    );
+  }
+
   if (name === "materials") {
     return (
       <svg viewBox="0 0 32 32" className={cn("overflow-visible", className)}>
@@ -178,16 +201,16 @@ function IconSvg({ name, className }: { name: SidebarMotionIconName; className: 
     return (
       <svg viewBox="0 0 32 32" className={cn("overflow-visible", className)}>
         <g className="person-left">
-          <circle cx="11" cy="11.2" r="4.2" fill="#2abb8c" />
-          <path d="M4.4 25.8c.8-5 3.15-7.55 6.6-7.55s5.8 2.55 6.6 7.55Z" fill="#2abb8c" />
+          <circle cx="11" cy="11.2" r="4.2" fill="#db2777" />
+          <path d="M4.4 25.8c.8-5 3.15-7.55 6.6-7.55s5.8 2.55 6.6 7.55Z" fill="#db2777" />
         </g>
         <g className="person-right">
-          <circle cx="21.8" cy="10" r="3.6" fill="#159b72" />
-          <path d="M16.5 25.6c.58-4.56 2.42-6.83 5.3-6.83 3 0 4.83 2.27 5.5 6.83Z" fill="#159b72" />
+          <circle cx="21.8" cy="10" r="3.6" fill="#be185d" />
+          <path d="M16.5 25.6c.58-4.56 2.42-6.83 5.3-6.83 3 0 4.83 2.27 5.5 6.83Z" fill="#be185d" />
         </g>
         <g className="heart-badge">
-          <circle cx="17.9" cy="15.8" r="3.25" fill="#a9efd7" />
-          <path d="M17.85 17.8c-1.85-1.12-2.55-2.2-2.55-3.14 0-.88.67-1.44 1.47-1.44.56 0 1.04.28 1.32.76.28-.48.76-.76 1.32-.76.8 0 1.47.56 1.47 1.44 0 .94-.7 2.02-2.55 3.14Z" fill="#19a778" />
+          <circle cx="17.9" cy="15.8" r="3.25" fill="#fbcfe8" />
+          <path d="M17.85 17.8c-1.85-1.12-2.55-2.2-2.55-3.14 0-.88.67-1.44 1.47-1.44.56 0 1.04.28 1.32.76.28-.48.76-.76 1.32-.76.8 0 1.47.56 1.47 1.44 0 .94-.7 2.02-2.55 3.14Z" fill="#db2777" />
         </g>
       </svg>
     );

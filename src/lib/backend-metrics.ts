@@ -408,7 +408,7 @@ export async function syncUserAchievements(user: DashboardUser) {
   const rewardXp = unlockedNow.reduce((sum, record) => sum + record.achievement.xpReward, 0);
   if (rewardXp > 0) {
     const nextXp = user.xp + rewardXp;
-    const nextLeague = leagueForXp(nextXp);
+    const nextLeague = leagueForXp(nextXp, user.targetExam);
     await db.$transaction([
       db.user.update({
         where: { id: user.id },
@@ -618,7 +618,7 @@ export async function buildDashboardPayload(user: DashboardUser) {
       ...user,
       xp: effectiveXp,
       streak: sourceUser.streak,
-      league: leagueForXp(effectiveXp),
+      league: leagueForXp(effectiveXp, sourceUser.targetExam),
       weeklyHours: sourceUser.weeklyHours,
       targetExam: sourceUser.targetExam,
       avatarUrl: sourceUser.avatarUrl,

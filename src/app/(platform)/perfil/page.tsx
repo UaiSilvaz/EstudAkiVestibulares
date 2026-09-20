@@ -1,15 +1,20 @@
 import { Lock, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { AppearanceSettings } from "@/components/appearance-settings";
 import { LeagueBadge } from "@/components/visual/league-badge";
 import { MetricCard } from "@/components/metric-card";
 import { PageHeader } from "@/components/page-header";
 import { ProfilePhotoManager } from "@/components/profile-photo-manager";
-import { requireUser } from "@/lib/auth";
+import { getPersistedUserId, requireUser } from "@/lib/auth";
+import { getActivePreparationContext } from "@/lib/preparations";
 import { leagueProgressForXp, leagueTrack } from "@/lib/gamification";
 
 export default async function PerfilPage() {
   const user = await requireUser();
+  const persistedUserId = await getPersistedUserId(user);
+  const preparationContext = persistedUserId ? await getActivePreparationContext(persistedUserId) : null;
+  const activeVertical = preparationContext?.active?.vertical.slug ?? "vestibular";
   const progress = leagueProgressForXp(user.xp);
 
   return (
@@ -20,7 +25,7 @@ export default async function PerfilPage() {
         description="Acompanhe sua liga, XP, sequencia e as proximas recompensas bloqueadas."
       />
 
-      <section className="relative overflow-hidden rounded-[32px] bg-gradient-to-br from-[#1D9BF0] via-[#18B7F7] to-[#1DD7D0] p-6 text-white shadow-[0_30px_70px_-36px_rgba(14,165,233,0.58)] md:p-8">
+      <section className="theme-focus-panel relative overflow-hidden rounded-[32px] p-6 text-white shadow-[0_30px_70px_-36px_rgba(14,165,233,0.58)] md:p-8" style={{ background: "var(--theme-gradient-stat)" }}>
         <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/20 blur-3xl" />
         <div className="absolute -bottom-16 -left-12 h-48 w-48 rounded-full bg-[#A78BFA]/24 blur-3xl" />
         <div className="relative z-10 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-center">
@@ -77,7 +82,9 @@ export default async function PerfilPage() {
 
       <ProfilePhotoManager user={user} />
 
-      <section className="space-y-4">
+      <AppearanceSettings verticalSlug={activeVertical} />
+
+      <section id="ligas" className="scroll-mt-24 space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-[11px] font-black uppercase tracking-[0.24em] text-violet-700">

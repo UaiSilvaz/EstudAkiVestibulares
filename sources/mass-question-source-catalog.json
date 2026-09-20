@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-27",
+  "target": {
+    "requestedTotalMin": 6000,
+    "requestedTotalStretch": 8000,
+    "policy": "Use official public sources first. Keep authorial practice questions separated from official exam questions."
+  },
+  "sources": [
+    {
+      "id": "enem-inep-2009-2025",
+      "group": "ENEM",
+      "institution": "INEP",
+      "sourceUrl": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos",
+      "status": "local_imported_partial_official",
+      "permissionStatus": "official_public",
+      "questionPotential": 3060,
+      "currentImportedOfficial": 2007,
+      "notes": "Local DB has ENEM 2015-2025 official questions; 2018-2025 published from the robust ZIP dataset, 2015-2017 in review."
+    },
+    {
+      "id": "fuvest-acervo-1994-2026",
+      "group": "FUVEST",
+      "institution": "FUVEST",
+      "sourceUrl": "https://www.fuvest.br/acervo-vestibular/",
+      "status": "local_imported_recent_partial",
+      "permissionStatus": "official_public",
+      "questionPotential": 2500,
+      "currentImportedOfficial": 245,
+      "notes": "Local DB has 2023-2025 first phase in review. Next best batch: first phase 2015-2022 and 2026."
+    },
+    {
+      "id": "unicamp-comvest-acervo",
+      "group": "UNICAMP",
+      "institution": "COMVEST/UNICAMP",
+      "sourceUrl": "https://www.comvest.unicamp.br/vestibulares-anteriores/",
+      "status": "local_imported_recent_partial",
+      "permissionStatus": "official_public",
+      "questionPotential": 1500,
+      "currentImportedOfficial": 138,
+      "notes": "Local DB has 2024-2025 first phase in review. Next best batch: 2018-2023 first phase."
+    },
+    {
+      "id": "unesp-vunesp-vestibular",
+      "group": "UNESP",
+      "institution": "VUNESP/UNESP",
+      "sourceUrl": "https://vestibular.unesp.br/",
+      "status": "official_found_needs_extractor",
+      "permissionStatus": "official_public",
+      "questionPotential": 1800,
+      "currentImportedOfficial": 0,
+      "notes": "VUNESP pages expose Provas e Gabaritos per process, but need a dedicated dynamic-page crawler and per-year manifest."
+    },
+    {
+      "id": "etec-centro-paula-souza",
+      "group": "ETEC",
+      "institution": "Centro Paula Souza",
+      "sourceUrl": "https://vestibulinho.etec.sp.gov.br/provas-gabaritos/",
+      "status": "official_found_needs_downloader",
+      "permissionStatus": "official_public",
+      "questionPotential": 1500,
+      "currentImportedOfficial": 0,
+      "notes": "The official page lists years and detail pages with Prova/Gabarito. Build parser for detalhe.asp pages."
+    },
+    {
+      "id": "fatec-centro-paula-souza",
+      "group": "FATEC",
+      "institution": "Centro Paula Souza",
+      "sourceUrl": "https://vestibular.fatec.sp.gov.br/provas-gabaritos/",
+      "status": "official_found_needs_downloader",
+      "permissionStatus": "official_public",
+      "questionPotential": 1200,
+      "currentImportedOfficial": 0,
+      "notes": "The official page lists recent years and proof/key pairs. Build parser for detalhe.asp pages."
+    },
+    {
+      "id": "provao-paulista-vunesp",
+      "group": "Provao Paulista",
+      "institution": "VUNESP/Secretaria da Educacao SP",
+      "sourceUrl": "https://provaopaulistaseriado.vunesp.com.br/",
+      "status": "official_found_needs_public_archive_confirmation",
+      "permissionStatus": "official_public_when_pdf_links_exist",
+      "questionPotential": 600,
+      "currentImportedOfficial": 0,
+      "notes": "Public portal found; stable proof/key archive still needs confirmation before import."
+    },
+    {
+      "id": "uerj-vestibular",
+      "group": "UERJ",
+      "institution": "UERJ",
+      "sourceUrl": "https://www.vestibular.uerj.br/?page_id=7069",
+      "status": "official_found_fetch_unstable",
+      "permissionStatus": "official_public_when_available",
+      "questionPotential": 1200,
+      "currentImportedOfficial": 0,
+      "notes": "Search result identifies official Provas e gabaritos page; fetch returned 502 during this run."
+    },
+    {
+      "id": "oab-fgv-exame-ordem",
+      "group": "OAB",
+      "institution": "FGV/OAB",
+      "sourceUrl": "https://oab.fgv.br/",
+      "status": "official_found_needs_extractor",
+      "permissionStatus": "official_public",
+      "questionPotential": 3000,
+      "currentImportedOfficial": 0,
+      "notes": "FGV OAB pages list objective cadernos and preliminary/definitive answer keys by exam. Type 1 should be canonical to avoid duplicated reordered questions."
+    },
+    {
+      "id": "public-concursos-bancas",
+      "group": "Concursos publicos",
+      "institution": "Cebraspe/FCC/FGV/VUNESP/IBFC/AOCP/Quadrix and public agencies",
+      "sourceUrl": "https://www.cebraspe.org.br/concursos/",
+      "status": "official_found_needs_scope",
+      "permissionStatus": "official_public_per_notice",
+      "questionPotential": 5000,
+      "currentImportedOfficial": 0,
+      "notes": "Use only proof/key PDFs exposed by the organizer or public agency. Exclude candidate-login pages and private banks."
+    },
+    {
+      "id": "military-exams",
+      "group": "Concursos militares",
+      "institution": "ESA/IME/ITA/Marinha/Aeronautica",
+      "sourceUrl": "https://esa.eb.mil.br/index.php/pt/concurso?catid=45&id=830%3Aprovas-anteriores&view=article",
+      "status": "official_found_needs_extractor",
+      "permissionStatus": "official_public",
+      "questionPotential": 3000,
+      "currentImportedOfficial": 0,
+      "notes": "Known official archives: ESA, IME, ITA, SSPM Escola Naval/Colegio Naval, EFOMM/CIAGA. Build one extractor per layout."
+    },
+    {
+      "id": "institutos-federais-universidades-escolas-tecnicas",
+      "group": "IFs, universidades e escolas tecnicas",
+      "institution": "Public institutions",
+      "sourceUrl": null,
+      "status": "needs_institution_list",
+      "permissionStatus": "official_public_when_pdf_links_exist",
+      "questionPotential": 4000,
+      "currentImportedOfficial": 0,
+      "notes": "Import only when the institution itself publishes proof/key PDFs or when an official repository carries them."
+    }
+  ]
+}

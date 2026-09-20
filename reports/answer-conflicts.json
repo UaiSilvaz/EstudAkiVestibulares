@@ -1,0 +1,3187 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-27T00:49:39.494Z",
+  "source": {
+    "institution": "Instituto Nacional de Estudos e Pesquisas Educacionais Anísio Teixeira — Inep",
+    "sourcePageUrl": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2024",
+    "officialUrl": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_GB_impresso_D2_CD5.pdf",
+    "path": "data/provas/enem/2024/gabarito-2-dia.pdf",
+    "sha256": "342edd1d18c0266812b9e379c7b9b2ebfcdd739857445bd03cf3c55951861297",
+    "sizeBytes": 121742,
+    "importedAt": "2026-07-18T04:17:55.946687Z",
+    "parserTrace": {
+      "pageCount": 1,
+      "identityChecks": {
+        "year": true,
+        "day": true,
+        "bookletNumber": true,
+        "bookletColor": true
+      },
+      "rawTextSha256": "394e5f8cab13a3f7b93a6ef0546635113dda8489968719598215287a1e21fffd",
+      "tableRows": [
+        {
+          "questionNumber": 91,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 226.058,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.268512,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 226.058,
+            "width": 74.368,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.268512,
+              "width": 0.12493,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 92,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.662,
+              "region": {
+                "x": 195.774,
+                "y": 238.002,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328879,
+                  "y": 0.282699,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 238.002,
+            "width": 74.52,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.282699,
+              "width": 0.125186,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 93,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 249.946,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.296886,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 249.946,
+            "width": 74.152,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.296886,
+              "width": 0.124567,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 94,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 261.89,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.311073,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 261.89,
+            "width": 74.368,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.311073,
+              "width": 0.12493,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 95,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.662,
+              "region": {
+                "x": 195.774,
+                "y": 273.833,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328879,
+                  "y": 0.32526,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 273.833,
+            "width": 74.52,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.32526,
+              "width": 0.125186,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 96,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.662,
+              "region": {
+                "x": 195.774,
+                "y": 285.777,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328879,
+                  "y": 0.339448,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 285.777,
+            "width": 74.52,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.339448,
+              "width": 0.125186,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 97,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 297.721,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.353635,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 297.721,
+            "width": 74.368,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.353635,
+              "width": 0.12493,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 98,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 309.665,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.367822,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 309.665,
+            "width": 74.368,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.367822,
+              "width": 0.12493,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 99,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.662,
+              "region": {
+                "x": 195.774,
+                "y": 321.609,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328879,
+                  "y": 0.382009,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 127.03,
+            "y": 321.609,
+            "width": 74.52,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.213396,
+              "y": 0.382009,
+              "width": 0.125186,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 100,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 333.553,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.396196,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 333.553,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.396196,
+              "width": 0.128303,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 101,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 345.497,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.410383,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 345.497,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.410383,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 102,
+          "side": "left",
+          "answers": [
+            {
+              "value": "ANULADA",
+              "x": 198.51,
+              "region": {
+                "x": 182.51,
+                "y": 357.441,
+                "width": 32,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.306597,
+                  "y": 0.42457,
+                  "width": 0.053757,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 357.441,
+            "width": 89.704,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.42457,
+              "width": 0.150693,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 103,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 369.385,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.438757,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 369.385,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.438757,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 104,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 381.329,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.452944,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 381.329,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.452944,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 105,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 393.273,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.467132,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 393.273,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.467132,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 106,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.662,
+              "region": {
+                "x": 195.774,
+                "y": 405.217,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328879,
+                  "y": 0.481319,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 405.217,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.481319,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 107,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 417.161,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.495506,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 417.161,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.495506,
+              "width": 0.128303,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 108,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 429.105,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.509693,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 429.105,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.509693,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 109,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 441.049,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.52388,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 441.049,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.52388,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 110,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 452.993,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.538067,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 452.993,
+            "width": 76.296,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.538067,
+              "width": 0.128169,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 111,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 464.937,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.552254,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.398,
+            "y": 464.937,
+            "width": 76,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210655,
+              "y": 0.552254,
+              "width": 0.127672,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 112,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.654,
+              "region": {
+                "x": 195.766,
+                "y": 476.881,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328865,
+                  "y": 0.566441,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 476.881,
+            "width": 76.44,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.566441,
+              "width": 0.128411,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 113,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.654,
+              "region": {
+                "x": 195.766,
+                "y": 488.825,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328865,
+                  "y": 0.580629,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 488.825,
+            "width": 76.44,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.580629,
+              "width": 0.128411,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 114,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 500.769,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.594816,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 500.769,
+            "width": 76.296,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.594816,
+              "width": 0.128169,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 115,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 512.713,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.609003,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 512.713,
+            "width": 76.296,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.609003,
+              "width": 0.128169,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 116,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 524.657,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.62319,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 524.657,
+            "width": 76.08,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.62319,
+              "width": 0.127806,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 117,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 536.601,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.637377,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 536.601,
+            "width": 76.296,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.637377,
+              "width": 0.128169,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 118,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 548.545,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.651564,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 548.545,
+            "width": 76.296,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.651564,
+              "width": 0.128169,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 119,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 560.489,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.665751,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 125.102,
+            "y": 560.489,
+            "width": 76.296,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.210157,
+              "y": 0.665751,
+              "width": 0.128169,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 120,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 572.433,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.679938,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 572.433,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.679938,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 121,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 584.377,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.694126,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 584.377,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.694126,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 122,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 596.321,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.708313,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 596.321,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.708313,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 123,
+          "side": "left",
+          "answers": [
+            {
+              "value": "C",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 608.265,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.7225,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 608.265,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.7225,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 124,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.662,
+              "region": {
+                "x": 195.774,
+                "y": 620.209,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328879,
+                  "y": 0.736687,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 620.209,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.736687,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 125,
+          "side": "left",
+          "answers": [
+            {
+              "value": "A",
+              "x": 198.662,
+              "region": {
+                "x": 195.774,
+                "y": 632.153,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328879,
+                  "y": 0.750874,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 632.153,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.750874,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 126,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 644.097,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.765061,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 644.097,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.765061,
+              "width": 0.128303,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 127,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 656.041,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.779248,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 656.041,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.779248,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 128,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 667.985,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.793435,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 667.985,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.793435,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 129,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 679.929,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.807623,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 679.929,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.807623,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 130,
+          "side": "left",
+          "answers": [
+            {
+              "value": "E",
+              "x": 198.514,
+              "region": {
+                "x": 195.846,
+                "y": 691.873,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.329,
+                  "y": 0.82181,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 691.873,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.82181,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 131,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 703.817,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.835997,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 703.817,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.835997,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 132,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 715.761,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.850184,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 715.761,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.850184,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 133,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 727.705,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.864371,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 727.705,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.864371,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 134,
+          "side": "left",
+          "answers": [
+            {
+              "value": "D",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 739.649,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.878558,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 739.649,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.878558,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 135,
+          "side": "left",
+          "answers": [
+            {
+              "value": "B",
+              "x": 198.51,
+              "region": {
+                "x": 195.622,
+                "y": 751.593,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.328624,
+                  "y": 0.892745,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 124.806,
+            "y": 751.593,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.20966,
+              "y": 0.892745,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 136,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 226.058,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.268512,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 226.058,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.268512,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 137,
+          "side": "right",
+          "answers": [
+            {
+              "value": "E",
+              "x": 469.084,
+              "region": {
+                "x": 466.416,
+                "y": 238.002,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783529,
+                  "y": 0.282699,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 238.002,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.282699,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 138,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 249.946,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.296886,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 249.946,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.296886,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 139,
+          "side": "right",
+          "answers": [
+            {
+              "value": "E",
+              "x": 469.084,
+              "region": {
+                "x": 466.416,
+                "y": 261.89,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783529,
+                  "y": 0.311073,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 261.89,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.311073,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 140,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 273.833,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.32526,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 273.833,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.32526,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 141,
+          "side": "right",
+          "answers": [
+            {
+              "value": "E",
+              "x": 469.084,
+              "region": {
+                "x": 466.416,
+                "y": 285.777,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783529,
+                  "y": 0.339448,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 285.777,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.339448,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 142,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 297.721,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.353635,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 297.721,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.353635,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 143,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 309.665,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.367822,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 309.665,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.367822,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 144,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 321.609,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.382009,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 321.609,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.382009,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 145,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 333.553,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.396196,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 333.553,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.396196,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 146,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 345.497,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.410383,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 345.497,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.410383,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 147,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 357.441,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.42457,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 357.441,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.42457,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 148,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 369.385,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.438757,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 369.385,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.438757,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 149,
+          "side": "right",
+          "answers": [
+            {
+              "value": "E",
+              "x": 469.084,
+              "region": {
+                "x": 466.416,
+                "y": 381.329,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783529,
+                  "y": 0.452944,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 381.329,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.452944,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 150,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 393.273,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.467132,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 393.273,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.467132,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 151,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 405.217,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.481319,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 405.217,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.481319,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 152,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 417.161,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.495506,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 417.161,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.495506,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 153,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 429.105,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.509693,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 429.105,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.509693,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 154,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 441.049,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.52388,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 441.049,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.52388,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 155,
+          "side": "right",
+          "answers": [
+            {
+              "value": "E",
+              "x": 469.084,
+              "region": {
+                "x": 466.416,
+                "y": 452.993,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783529,
+                  "y": 0.538067,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 452.993,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.538067,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 156,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 464.937,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.552254,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 464.937,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.552254,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 157,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 476.881,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.566441,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 476.881,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.566441,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 158,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 488.825,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.580629,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 488.825,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.580629,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 159,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 500.769,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.594816,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 500.769,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.594816,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 160,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 512.713,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.609003,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 512.713,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.609003,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 161,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 524.657,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.62319,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 524.657,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.62319,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 162,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 536.601,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.637377,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 536.601,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.637377,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 163,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 548.545,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.651564,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 548.545,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.651564,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 164,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 560.489,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.665751,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 560.489,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.665751,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 165,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 572.433,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.679938,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 572.433,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.679938,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 166,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 584.377,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.694126,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 584.377,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.694126,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 167,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 596.321,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.708313,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 596.321,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.708313,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 168,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 608.265,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.7225,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 608.265,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.7225,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 169,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 620.209,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.736687,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 620.209,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.736687,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 170,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 632.153,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.750874,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 632.153,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.750874,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 171,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 644.097,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.765061,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 644.097,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.765061,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 172,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 656.041,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.779248,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 656.041,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.779248,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 173,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 667.985,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.793435,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 667.985,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.793435,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 174,
+          "side": "right",
+          "answers": [
+            {
+              "value": "E",
+              "x": 469.084,
+              "region": {
+                "x": 466.416,
+                "y": 679.929,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783529,
+                  "y": 0.807623,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 679.929,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.807623,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 175,
+          "side": "right",
+          "answers": [
+            {
+              "value": "A",
+              "x": 469.232,
+              "region": {
+                "x": 466.344,
+                "y": 691.873,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783408,
+                  "y": 0.82181,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 691.873,
+            "width": 76.744,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.82181,
+              "width": 0.128922,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 176,
+          "side": "right",
+          "answers": [
+            {
+              "value": "D",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 703.817,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.835997,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 703.817,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.835997,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 177,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 715.761,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.850184,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 715.761,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.850184,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 178,
+          "side": "right",
+          "answers": [
+            {
+              "value": "B",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 727.705,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.864371,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 727.705,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.864371,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 179,
+          "side": "right",
+          "answers": [
+            {
+              "value": "C",
+              "x": 469.08,
+              "region": {
+                "x": 466.192,
+                "y": 739.649,
+                "width": 5.776,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783153,
+                  "y": 0.878558,
+                  "width": 0.009703,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 739.649,
+            "width": 76.592,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.878558,
+              "width": 0.128666,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        },
+        {
+          "questionNumber": 180,
+          "side": "right",
+          "answers": [
+            {
+              "value": "E",
+              "x": 469.084,
+              "region": {
+                "x": 466.416,
+                "y": 751.593,
+                "width": 5.336,
+                "height": 11.456,
+                "normalized": {
+                  "x": 0.783529,
+                  "y": 0.892745,
+                  "width": 0.008964,
+                  "height": 0.013607
+                }
+              }
+            }
+          ],
+          "sourceRegion": {
+            "x": 395.376,
+            "y": 751.593,
+            "width": 76.376,
+            "height": 11.456,
+            "normalized": {
+              "x": 0.66419,
+              "y": 0.892745,
+              "width": 0.128304,
+              "height": 0.013607
+            }
+          },
+          "sourcePdfPage": 1
+        }
+      ]
+    }
+  },
+  "conflicts": [
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues",
+      "officialNumber": 102,
+      "reason": "alternativa diverge do gabarito oficial"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues",
+      "officialNumber": 102,
+      "reason": "metadado embedded de gabarito diverge"
+    }
+  ]
+}

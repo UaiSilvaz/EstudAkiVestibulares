@@ -164,13 +164,14 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
   }
 
   return (
-    <section id="foto" className="relative overflow-hidden rounded-[32px] border border-blue-100/80 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)] md:p-7">
-      <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-cyan-200/30 blur-3xl" />
+    <section id="foto" className="relative overflow-hidden rounded-[32px] border border-[color:var(--theme-border)] bg-[color:var(--theme-surface)] p-6 shadow-[var(--theme-shadow)] md:p-7">
+      <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-[color:var(--theme-primary)]/14 blur-3xl" />
       <div className="relative z-10 grid gap-6 lg:grid-cols-[auto_1fr] lg:items-center">
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="group relative mx-auto flex h-36 w-36 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-[#2563EB] via-[#22D3EE] to-[#86EFAC] text-4xl font-black text-white shadow-[0_24px_42px_-26px_rgba(37,99,235,0.7)] ring-4 ring-white lg:mx-0"
+          className="group relative mx-auto flex h-36 w-36 items-center justify-center overflow-hidden rounded-full text-4xl font-black text-white shadow-[0_24px_42px_-26px_var(--theme-primary)] ring-4 ring-white lg:mx-0"
+          style={{ background: "var(--theme-gradient-sidebar)" }}
           aria-label="Alterar foto de perfil"
         >
           {preview ? (
@@ -188,13 +189,13 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
         </button>
 
         <div className="min-w-0 text-center lg:text-left">
-          <p className="text-[11px] font-black uppercase tracking-[0.24em] text-blue-700">
+          <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[color:var(--theme-primary)]">
             Foto de perfil
           </p>
-          <h2 className="mt-1 font-display text-3xl font-black text-[#0F172A]">
+          <h2 className="mt-1 font-display text-3xl font-black text-[color:var(--theme-text)]">
             Personalize seu avatar
           </h2>
-          <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-slate-500">
+          <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-[color:var(--theme-muted)]">
             Use uma imagem quadrada para melhor resultado. Aceitamos JPG, PNG e WEBP de ate 3 MB.
           </p>
 
@@ -210,7 +211,7 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-blue-100 bg-blue-50 px-5 text-sm font-black text-blue-700 transition hover:-translate-y-0.5 hover:bg-blue-100"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--theme-button-radius)] border border-[color:var(--theme-border)] bg-[color:color-mix(in_srgb,var(--theme-primary)_9%,var(--theme-surface))] px-5 text-sm font-black text-[color:var(--theme-primary)] transition hover:-translate-y-0.5"
             >
               <ImagePlus className="h-4 w-4" />
               Alterar foto
@@ -219,7 +220,7 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
               type="button"
               onClick={savePhoto}
               disabled={!file || saving}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-5 text-sm font-black text-white shadow-md transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+              className="theme-primary-cta inline-flex min-h-11 items-center justify-center gap-2 px-5 text-sm font-black shadow-md transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <UploadCloud className="h-4 w-4" />
               {saving ? "Salvando..." : "Salvar foto"}

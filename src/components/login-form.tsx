@@ -3,6 +3,7 @@
 import { ArrowRight, Lock, Mail, Sparkles, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
+import { announceRouteTransition } from "@/components/route-transition-indicator";
 
 export type FormMode = "login" | "signup";
 
@@ -79,7 +80,9 @@ export function LoginForm({
         return;
       }
 
-      router.replace(isSignup ? "/onboarding" : redirectTo ?? "/dashboard");
+      const destination = isSignup ? "/onboarding" : redirectTo ?? "/dashboard";
+      announceRouteTransition(destination);
+      router.replace(destination);
     } catch {
       setError("Não foi possível entrar agora.");
       setLoading(false);

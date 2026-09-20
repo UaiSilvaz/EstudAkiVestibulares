@@ -21,6 +21,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
+import { announceRouteTransition } from "@/components/route-transition-indicator";
 
 type Option = { id: string; name: string };
 type Topic = Option & { subjectId: string };
@@ -116,7 +117,9 @@ export function QuestionSessionSetup({
     if (area) params.set("area", area);
     if (difficulty) params.set("difficulty", difficulty);
     if (scope !== "all") params.set("scope", scope);
-    router.push(`/questions?${params.toString()}`);
+    const destination = `/questions?${params.toString()}`;
+    announceRouteTransition(destination);
+    router.push(destination);
   }
 
   return (

@@ -1,9 +1,10 @@
 "use client";
 
 import { Role } from "@prisma/client";
-import { CheckCircle2, Crown, Download, ExternalLink, Loader2, LockKeyhole, ShieldCheck, ShoppingBag, Trash2, Unlock, UserCog } from "lucide-react";
+import { CheckCircle2, Crown, Download, ExternalLink, LockKeyhole, ShieldCheck, ShoppingBag, Trash2, Unlock, UserCog } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
+import { EstudakiLoadingState } from "@/components/loading-states";
 
 type UserRow = {
   id: string;
@@ -310,9 +311,7 @@ export function UserManager() {
       </section>
 
       {loading ? (
-        <div className="flex min-h-48 items-center justify-center rounded-3xl border border-slate-100 bg-white">
-          <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
-        </div>
+        <EstudakiLoadingState label="Carregando usuários" />
       ) : loadError ? (
         <div className="rounded-3xl border border-rose-100 bg-rose-50 p-6 text-center">
           <p className="text-lg font-black text-rose-800">Nao foi possivel carregar os usuarios.</p>

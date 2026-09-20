@@ -18,6 +18,7 @@ type QuestionWithRelations = Prisma.QuestionGetPayload<{
     topic: true;
     vestibular: true;
     pedagogicalMetadata: { select: { knowledgeArea: true } };
+    blocks: { orderBy: { order: "asc" }; include: { asset: true } };
   };
 }>;
 
@@ -191,6 +192,7 @@ export default async function QuestionsPage({
             topic: true,
             vestibular: true,
             pedagogicalMetadata: { select: { knowledgeArea: true } },
+            blocks: { orderBy: { order: "asc" }, include: { asset: true } },
           },
           orderBy: [{ year: "desc" }, { createdAt: "desc" }],
           skip: (page - 1) * pageSize,

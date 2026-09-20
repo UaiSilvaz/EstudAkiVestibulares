@@ -23,33 +23,27 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
 import { StudyIcon, type StudyIconName } from "@/components/visual/study-icon";
 import { cn } from "@/lib/utils";
+import { announceRouteTransition } from "@/components/route-transition-indicator";
 import type { AppUser } from "@/lib/roles";
+import {
+  normalizeOnboardingProfile,
+  onboardingProfileKeys,
+  onboardingProfiles,
+  type OnboardingProfileKey,
+} from "@/lib/onboarding-profiles";
 
 type OnboardingState = {
+  profile: OnboardingProfileKey;
   exams: string[];
   course: string;
   targetScore: string;
   minutesPerDay: number;
   studyDays: number[];
-  difficultSubjects: StudyIconName[];
+  difficultSubjects: string[];
   examDate: string;
 };
 
-const storageKey = "estudaki:onboarding:v1";
-
-const exams = ["ENEM", "FUVEST", "UNESP", "UNICAMP", "FATEC", "ETEC", "Provao Paulista"];
-const courseSuggestions = [
-  "Medicina",
-  "Direito",
-  "Engenharia",
-  "Psicologia",
-  "Administracao",
-  "Ciencia da Computacao",
-  "Arquitetura",
-  "Enfermagem",
-  "Tecnico em Informatica",
-  "Ainda nao decidi",
-];
+const storageKey = "estudaki:onboarding:v2";
 const timeOptions = [
   { minutes: 30, label: "30 min" },
   { minutes: 60, label: "1h" },
@@ -66,16 +60,6 @@ const weekDays = [
   { value: 5, label: "Sex" },
   { value: 6, label: "Sab" },
 ];
-const subjects: Array<{ value: StudyIconName; label: string }> = [
-  { value: "matematica", label: "Matematica" },
-  { value: "linguagens", label: "Linguagens" },
-  { value: "redacao", label: "Redacao" },
-  { value: "fisica", label: "Fisica" },
-  { value: "quimica", label: "Quimica" },
-  { value: "biologia", label: "Biologia" },
-  { value: "ciencias-humanas", label: "Humanas" },
-];
-
 const journeyPreview = [
   {
     title: "Objetivo",
@@ -94,37 +78,50 @@ const journeyPreview = [
   },
 ];
 
-const initialState: OnboardingState = {
-  exams: ["ENEM"],
-  course: "",
-  targetScore: "",
-  minutesPerDay: 90,
-  studyDays: [1, 2, 3, 4, 5],
-  difficultSubjects: ["matematica"],
-  examDate: "",
-};
+function defaultStateForProfile(profileKey: OnboardingProfileKey): OnboardingState {
+  const profile = onboardingProfiles[profileKey];
+  return {
+    profile: profileKey,
+    exams: profile.defaultExams,
+    course: "",
+    targetScore: "",
+    minutesPerDay: 90,
+    studyDays: [1, 2, 3, 4, 5],
+    difficultSubjects: [profile.subjects[0]?.value ?? "matematica"],
+    examDate: "",
+  };
+}
 
-function readInitialOnboarding() {
-  if (typeof window === "undefined") return { state: initialState, step: 0 };
+function readInitialOnboarding(profileKey: OnboardingProfileKey) {
+  const fallback = defaultStateForProfile(profileKey);
+  if (typeof window === "undefined") return { state: fallback, step: 0 };
   const saved = window.localStorage.getItem(storageKey);
-  if (!saved) return { state: initialState, step: 0 };
+  if (!saved) return { state: fallback, step: 0 };
 
   try {
     const parsed = JSON.parse(saved) as Partial<OnboardingState> & { step?: number };
+    const profile = normalizeOnboardingProfile(parsed.profile ?? profileKey);
+    const base = defaultStateForProfile(profile);
     return {
-      state: { ...initialState, ...parsed },
+      state: { ...base, ...parsed, profile },
       step: typeof parsed.step === "number" ? Math.min(Math.max(parsed.step, 0), steps.length - 1) : 0,
     };
   } catch {
     window.localStorage.removeItem(storageKey);
-    return { state: initialState, step: 0 };
+    return { state: fallback, step: 0 };
   }
 }
 
-export function OnboardingFlow({ user }: { user: AppUser }) {
+export function OnboardingFlow({
+  user,
+  initialProfile = "vestibular",
+}: {
+  user: AppUser;
+  initialProfile?: OnboardingProfileKey;
+}) {
   const router = useRouter();
   const { notify } = useFeedback();
-  const [initial] = useState(() => readInitialOnboarding());
+  const [initial] = useState(() => readInitialOnboarding(initialProfile));
   const [step, setStep] = useState(initial.step);
   const [state, setState] = useState<OnboardingState>(initial.state);
   const [courseQuery, setCourseQuery] = useState("");
@@ -149,15 +146,45 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
 
   const filteredCourses = useMemo(() => {
     const query = courseQuery.trim().toLowerCase();
-    if (!query) return courseSuggestions;
-    return courseSuggestions.filter((course) => course.toLowerCase().includes(query));
-  }, [courseQuery]);
+    const suggestions = onboardingProfiles[state.profile].courseSuggestions;
+    if (!query) return suggestions;
+    return suggestions.filter((course) => course.toLowerCase().includes(query));
+  }, [courseQuery, state.profile]);
 
+  const profile = onboardingProfiles[state.profile];
   const weeklyHours = Math.max(1, Math.round((state.minutesPerDay * state.studyDays.length) / 60));
   const currentStep = steps[step];
+  const currentQuestion =
+    step === 1
+      ? profile.courseTitle
+      : step === 2
+        ? profile.targetTitle
+        : step === 5
+          ? profile.difficultTitle
+          : currentStep.question;
+  const currentHelper =
+    step === 0
+      ? profile.examHelper
+      : step === 1
+        ? profile.courseHelper
+        : step === 2
+          ? profile.targetHelper
+          : step === 5
+            ? profile.difficultHelper
+            : currentStep.helper;
+  const currentImpact =
+    step === 0
+      ? profile.examImpact
+      : step === 1
+        ? profile.courseImpact
+        : step === 2
+          ? profile.targetImpact
+          : step === 5
+            ? profile.difficultImpact
+            : currentStep.impact;
   const canAdvance = isStepValid(step, state);
   const completion = Math.round(((step + 1) / steps.length) * 100);
-  const selectedSubjects = subjects.filter((subject) => state.difficultSubjects.includes(subject.value));
+  const selectedSubjects = profile.subjects.filter((subject) => state.difficultSubjects.includes(subject.value));
   const saveStateLabel =
     saveState === "saving"
       ? "Salvando no plano..."
@@ -188,6 +215,18 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
 
   function toggleListValue<T extends string | number>(values: T[], value: T) {
     return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
+  }
+
+  function selectProfile(profileKey: OnboardingProfileKey) {
+    const next = defaultStateForProfile(profileKey);
+    markLocalSaved();
+    setCourseQuery("");
+    setState((current) => ({
+      ...next,
+      minutesPerDay: current.minutesPerDay,
+      studyDays: current.studyDays,
+      examDate: current.examDate,
+    }));
   }
 
   function next() {
@@ -221,6 +260,7 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
         title: "Plano inicial pronto",
         message: "Seu objetivo e tempo de estudo foram salvos.",
       });
+      announceRouteTransition("/diagnostico");
       router.replace("/diagnostico");
     } catch (error) {
       setSaveState("error");
@@ -248,7 +288,7 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
               Defina sua meta. O EstudAki transforma em plano.
             </h1>
             <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-slate-600">
-              Este fluxo conecta objetivo, diagnostico e cronograma para voce saber exatamente o que estudar primeiro.
+              {profile.description} Este fluxo conecta objetivo, diagnostico e cronograma para voce saber exatamente o que estudar primeiro.
             </p>
 
             <div className="mt-5 grid gap-2 sm:grid-cols-3">
@@ -294,8 +334,9 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
               />
             </div>
             <dl className="mt-4 grid gap-2 text-xs font-bold text-slate-600">
-              <SummaryLine label="Provas" value={state.exams.join(", ")} />
-              <SummaryLine label="Curso" value={state.course || "a definir"} />
+              <SummaryLine label="Preparacao" value={profile.shortTitle} />
+              <SummaryLine label={profile.examLabel} value={state.exams.join(", ")} />
+              <SummaryLine label={profile.courseLabel} value={state.course || "a definir"} />
               <SummaryLine label="Dias" value={`${state.studyDays.length} por semana`} />
             </dl>
           </aside>
@@ -375,9 +416,9 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
                   <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
                     Etapa {step + 1} de {steps.length}
                   </p>
-                  <h2 className="font-display text-2xl font-extrabold text-[#0F172A]">{currentStep.question}</h2>
+                  <h2 className="font-display text-2xl font-extrabold text-[#0F172A]">{currentQuestion}</h2>
                   <p className="mt-1 max-w-2xl text-xs font-semibold leading-5 text-slate-500">
-                    {currentStep.helper}
+                    {currentHelper}
                   </p>
                 </div>
               </div>
@@ -404,44 +445,71 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
                   Como isso muda o plano
                 </p>
                 <p className="mt-1 text-sm font-semibold leading-6 text-slate-700">
-                  {currentStep.impact}
+                  {currentImpact}
                 </p>
               </div>
             </div>
             <AnimatePresence mode="wait">
               <motion.div
-                key={step}
+                key={`${step}-${state.profile}`}
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2 }}
               >
                 {step === 0 && (
-                  <ChoiceGrid>
-                    {exams.map((exam) => (
-                      <ChoiceButton
-                        key={exam}
-                        selected={state.exams.includes(exam)}
-                        onClick={() => patch({ exams: toggleListValue(state.exams, exam) })}
-                        title={exam}
-                        detail="Prova alvo"
-                      />
-                    ))}
-                  </ChoiceGrid>
+                  <div className="space-y-5">
+                    <div>
+                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-slate-500">
+                        Tipo de preparacao
+                      </p>
+                      <ChoiceGrid compact>
+                        {onboardingProfileKeys.map((profileKey) => {
+                          const option = onboardingProfiles[profileKey];
+                          return (
+                            <ChoiceButton
+                              key={profileKey}
+                              selected={state.profile === profileKey}
+                              onClick={() => selectProfile(profileKey)}
+                              title={option.shortTitle}
+                              detail={option.description}
+                            />
+                          );
+                        })}
+                      </ChoiceGrid>
+                    </div>
+
+                    <div>
+                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-slate-500">
+                        {profile.examLabel}
+                      </p>
+                      <ChoiceGrid>
+                        {profile.exams.map((exam) => (
+                          <ChoiceButton
+                            key={exam}
+                            selected={state.exams.includes(exam)}
+                            onClick={() => patch({ exams: toggleListValue(state.exams, exam) })}
+                            title={exam}
+                            detail={profile.choiceDetail}
+                          />
+                        ))}
+                      </ChoiceGrid>
+                    </div>
+                  </div>
                 )}
 
                 {step === 1 && (
                   <div className="space-y-4">
                     <label className="relative block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-slate-500">Curso desejado</span>
+                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-slate-500">{profile.courseLabel}</span>
                       <Search className="absolute left-4 top-10 h-4 w-4 text-slate-400" />
                       <input
-                        value={state.course || courseQuery}
+                        value={state.course}
                         onChange={(event) => {
                           patch({ course: event.target.value });
                           setCourseQuery(event.target.value);
                         }}
-                        placeholder="Busque ou digite seu curso"
+                        placeholder={profile.coursePlaceholder}
                         className="ek-input ek-input-with-icon"
                       />
                     </label>
@@ -470,7 +538,7 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
                       <input
                         value={state.targetScore}
                         onChange={(event) => patch({ targetScore: event.target.value })}
-                        placeholder="Ex: 780 no ENEM, passar em Medicina, nota de corte +40"
+                        placeholder={profile.targetPlaceholder}
                         className="ek-input"
                       />
                     </label>
@@ -516,17 +584,17 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
 
                 {step === 5 && (
                   <ChoiceGrid>
-                    {subjects.map((subject) => (
+                    {profile.subjects.map((subject) => (
                       <ChoiceButton
                         key={subject.value}
                         selected={state.difficultSubjects.includes(subject.value)}
                         onClick={() =>
                           patch({
-                            difficultSubjects: toggleListValue(state.difficultSubjects, subject.value) as StudyIconName[],
+                            difficultSubjects: toggleListValue(state.difficultSubjects, subject.value),
                           })
                         }
                         title={subject.label}
-                        icon={<StudyIcon name={subject.value} size="xs" />}
+                        icon={<StudyIcon name={subject.icon as StudyIconName} size="xs" />}
                       />
                     ))}
                   </ChoiceGrid>
@@ -543,7 +611,7 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
                         Agora falta calibrar sua base por materia. Depois disso, o cronograma nasce com prioridades reais.
                       </p>
                       <dl className="mt-5 grid gap-3 sm:grid-cols-3">
-                        <Metric label="Provas" value={state.exams.join(", ")} />
+                        <Metric label={profile.examLabel} value={state.exams.join(", ")} />
                         <Metric label="Tempo" value={`${weeklyHours}h/sem`} />
                         <Metric label="Dificeis" value={String(state.difficultSubjects.length)} />
                       </dl>
@@ -561,6 +629,7 @@ export function OnboardingFlow({ user }: { user: AppUser }) {
                     <div className="rounded-[26px] border border-slate-100 bg-white p-5 shadow-sm">
                       <p className="text-[11px] font-black uppercase tracking-wider text-slate-500">Resumo</p>
                       <ul className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
+                        <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Preparacao: {profile.title}</li>
                         <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Objetivo: {state.course || "em aberto"}</li>
                         <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Meta: {state.targetScore || "ajustar depois"}</li>
                         <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> {state.studyDays.length} dias de estudo</li>

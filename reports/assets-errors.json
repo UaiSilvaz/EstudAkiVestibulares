@@ -1,0 +1,2334 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-27T00:49:39.494Z",
+  "issues": [
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q091-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q091-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q091-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q091-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q091-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q092-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q092-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q092-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q092-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q093-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q093-portugues asset 5",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q093-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q095-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q095-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q095-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q095-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q095-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q096-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q096-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q096-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q096-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q096-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q097-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q097-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q097-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q097-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q098-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q098-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q098-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q098-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q098-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q099-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q099-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q099-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q099-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q099-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q101-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q101-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q101-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q101-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q101-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q102-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q102-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q102-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q102-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q103-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q103-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q103-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q103-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q103-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q104-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q104-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q104-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q104-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q104-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q105-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q105-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q105-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q105-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q106-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q106-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q106-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q106-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q107-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q107-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q107-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q107-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q107-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q108-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q108-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q108-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q108-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q109-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q109-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q109-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q109-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q109-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q110-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q110-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q110-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q110-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q110-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q111-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q111-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q111-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q111-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q112-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q112-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q112-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q112-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q112-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q113-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q113-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q113-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q113-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q114-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q114-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q114-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q114-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q114-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q115-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q115-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q115-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q115-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q116-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q116-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q116-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q116-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q116-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q117-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q117-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q117-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q117-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q118-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q118-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q118-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q118-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q118-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q119-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q119-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q119-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q119-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q119-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q120-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q120-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q120-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q120-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q120-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q121-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q121-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q121-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q121-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q122-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q122-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues asset 14",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q122-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues asset 15",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q122-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues asset 16",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q122-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q123-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q123-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q123-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q123-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q124-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q124-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q124-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q124-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q124-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q125-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q125-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q125-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q125-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q125-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q126-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q126-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q126-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q126-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q126-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q127-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q127-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q127-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q127-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q127-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q128-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q128-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q128-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q128-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q128-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q129-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q129-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q129-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q129-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q129-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q130-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q130-portugues asset 5",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q130-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q131-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q131-portugues asset 5",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q131-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q133-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q133-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q133-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q133-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q133-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q134-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q134-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q134-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q134-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q134-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q135-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q135-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q135-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q135-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q135-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q136-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q136-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q136-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q136-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q136-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q137-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q137-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q137-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q137-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q137-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q138-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q138-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q138-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q138-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q138-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q139-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q139-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q139-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q139-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q139-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q140-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q140-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q140-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q140-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q140-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q141-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q141-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q141-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q141-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q141-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q142-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q142-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q142-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q142-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q142-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q143-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q143-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q143-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q143-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q143-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q144-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q144-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q144-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q144-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q145-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q145-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q145-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q145-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q145-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q147-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q147-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q147-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q147-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q147-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q148-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q148-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q148-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q148-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q148-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q149-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q149-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q149-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q149-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q149-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q150-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q150-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q150-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q150-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q151-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q151-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q151-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q151-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q151-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q152-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q152-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q152-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q152-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q152-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q154-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q154-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q154-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q154-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q154-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q155-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q155-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues asset 14",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q155-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues asset 15",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q155-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues asset 16",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q155-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q156-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q156-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q156-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q156-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q156-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q157-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q157-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q157-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q157-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q157-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q158-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q158-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q158-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q158-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q158-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q159-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q159-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q159-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q159-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q159-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q160-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q160-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q160-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q160-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q160-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q161-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q161-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q161-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q161-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q161-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q163-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q163-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q163-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q163-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q163-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q164-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q164-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q164-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q164-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q164-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q165-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q165-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q165-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q165-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q165-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q166-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q166-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q166-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q166-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q166-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q167-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q167-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q167-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q167-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q167-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q168-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q168-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q168-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q168-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q168-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q169-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q169-portugues asset 5",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q169-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q170-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q170-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q170-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q170-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q170-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q171-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q171-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q171-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q171-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q171-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q172-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q172-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q172-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q172-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q172-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q173-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q173-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q173-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q173-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q173-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q174-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q174-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q174-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q174-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q175-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q175-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q175-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q175-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q175-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues asset 8",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q176-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q176-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q176-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q176-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q177-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q177-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q177-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q177-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q177-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q178-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q178-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q178-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q178-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q178-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q179-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q179-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q179-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q179-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q179-portugues/alternativa-e-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues asset 9",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q180-portugues/alternativa-a-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues asset 10",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q180-portugues/alternativa-b-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues asset 11",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q180-portugues/alternativa-c-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues asset 12",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q180-portugues/alternativa-d-01.png"
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues",
+      "label": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues asset 13",
+      "reason": "imageArtifacts deve ser objeto estruturado, nao caminho cru",
+      "artifactPath": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo/assets/questoes/enem-2024-dia-2-caderno-5-amarelo-q180-portugues/alternativa-e-01.png"
+    }
+  ]
+}

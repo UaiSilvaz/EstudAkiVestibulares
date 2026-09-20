@@ -48,7 +48,9 @@ export function difficultyLabel(difficulty: string) {
   return labels[difficulty] ?? difficulty;
 }
 
-export function leagueForXp(xp: number) {
+export function leagueForXp(xp: number, objective?: string | null) {
+  // Keep compatibility with API callers that also pass the student's objective.
+  void objective;
   if (xp >= 10000) return "Diamante";
   if (xp >= 7000) return "Esmeralda";
   if (xp >= 4500) return "Platina";

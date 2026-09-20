@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
+import { EstudakiLoadingState } from "@/components/loading-states";
 import { ImageDropZone } from "@/components/admin/image-drop-zone";
 import { QuestionRichText } from "@/components/question-rich-text";
 import { richTextToPlainText } from "@/lib/question-rich-text";
@@ -680,9 +681,7 @@ export function QuestionReviewQueue({
         <>
           <div className="mt-5 space-y-2">
         {loading ? (
-          <div className="flex min-h-32 items-center justify-center">
-            <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
-          </div>
+          <EstudakiLoadingState label="Carregando questões para revisão" />
         ) : items.length === 0 ? (
           <p className="rounded-[8px] bg-slate-50 p-8 text-center text-sm font-bold text-slate-500">
             Nenhuma questão corresponde aos filtros.

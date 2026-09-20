@@ -25,6 +25,7 @@ import {
   ZoomOut,
 } from "lucide-react";
 import Link from "next/link";
+import { EstudakiLoadingState } from "@/components/loading-states";
 import type { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
 import {
   PointerEvent,
@@ -701,12 +702,7 @@ function PdfDocument({
           ))}
         </div>
       ) : (
-        <div className="grid min-h-[620px] place-items-center rounded-[26px] border border-blue-100 bg-white text-center shadow-sm">
-          <div>
-            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-blue-100 border-t-blue-600" />
-            <p className="mt-4 text-sm font-black uppercase tracking-[0.18em] text-blue-700">{status}</p>
-          </div>
-        </div>
+        <EstudakiLoadingState label={status} />
       )}
     </div>
   );

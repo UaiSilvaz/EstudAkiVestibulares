@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { hashAuthSessionToken, isLocalAuthEnabled, SESSION_COOKIE } from "@/lib/auth";
+import { hasAuthSessionTable, hashAuthSessionToken, isLocalAuthEnabled, SESSION_COOKIE } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { readSessionCookieValue } from "@/lib/session-cookie";
 
@@ -12,7 +12,8 @@ export async function POST() {
   if (
     sessionSubject &&
     sessionSubject !== "local-admin" &&
-    !sessionSubject.startsWith("local-user:")
+    !sessionSubject.startsWith("local-user:") &&
+    await hasAuthSessionTable()
   ) {
     try {
       await db.authSession.updateMany({

@@ -113,7 +113,7 @@ async function seedMaterials() {
       select: { id: true, materialId: true },
     });
 
-    const material = product
+    const material = product?.materialId
       ? await db.material.update({
           where: { id: product.materialId },
           data: {
@@ -149,6 +149,7 @@ async function seedMaterials() {
     await db.product.upsert({
       where: { slug: seed.slug },
       update: {
+        materialId: material.id,
         name: seed.title,
         description: seed.description,
         priceCents: seed.priceCents,

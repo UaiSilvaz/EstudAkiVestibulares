@@ -32,7 +32,12 @@ export default async function BibliotecaMaterialPage({
     notFound();
   }
 
-  const access = product.material.priceCents <= 0
+  const material = product.material;
+  if (!material) {
+    notFound();
+  }
+
+  const access = material.priceCents <= 0
     ? true
     : await db.userProduct.findUnique({
         where: {
@@ -47,7 +52,6 @@ export default async function BibliotecaMaterialPage({
     redirect("/materials");
   }
 
-  const material = product.material;
   const fileUrl = material.fileUrl;
 
   if (!fileUrl) {

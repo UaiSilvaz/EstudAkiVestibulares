@@ -13,12 +13,11 @@ import type { Prisma } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { ChallengeChip } from "@/components/visual/challenge-chip";
-import { ContinueCard } from "@/components/visual/continue-card";
 import { EmptyState } from "@/components/visual/empty-state";
 import { EvolutionChart } from "@/components/visual/evolution-chart";
 import { FloatingWhatsApp } from "@/components/visual/floating-whatsapp";
+import { LearningResumeCard, type LearningResumeCardProps, type ResumeTrailStep } from "@/components/learning-resume-card";
 import { ProgressRing } from "@/components/visual/progress-ring";
-import { StudyNowCard } from "@/components/study-now-card";
 import { SmartPrefetcher } from "@/components/smart-prefetcher";
 import { LeagueBadge } from "@/components/visual/league-badge";
 import { Sparkline } from "@/components/visual/sparkline";
@@ -27,9 +26,12 @@ import { StreakBadge } from "@/components/visual/streak-badge";
 import { StudyIcon, studyIconColors, studyIconNameForSubject } from "@/components/visual/study-icon";
 import { getPersistedUserId, requireUser } from "@/lib/auth";
 import { getOrCreateStudyPlan } from "@/lib/adaptive-study-plan";
+import { getVerticalTheme } from "@/config/vertical-themes";
+import { getCourseCatalog, getCourseDetail } from "@/lib/courses/learning";
+import type { CourseCardDTO, CourseDetailDTO, LearningPathNodeDTO } from "@/lib/courses/types";
 import { db } from "@/lib/db";
 import { buildDashboardInsights, ERROR_NOTEBOOK_HREF } from "@/lib/insights";
-import { getInitialStudyNowRecommendation } from "@/lib/learning/study-now";
+import { getActivePreparationContext } from "@/lib/preparations";
 import { difficultyLabel, leagueForXp, percent } from "@/lib/utils";
 
 const LEAGUE_THRESHOLDS: Array<{ name: string; min: number }> = [
@@ -161,23 +163,193 @@ function studyTaskIcon(type: string) {
   return <Target className="h-5 w-5" strokeWidth={2.4} />;
 }
 
+type DashboardContinueFallback = {
+  meta: string;
+  title: string;
+  description: string;
+  href: string;
+  icon: React.ReactNode;
+};
+
+function clampIndex(value: number, min: number, max: number) {
+  return Math.max(min, Math.min(max, value));
+}
+
+function flattenCourseNodes(course: CourseDetailDTO) {
+  return course.modules.flatMap((module) =>
+    module.nodes.map((node) => ({
+      ...node,
+      moduleTitle: module.title,
+    })),
+  );
+}
+
+function trailWindow(
+  nodes: Array<LearningPathNodeDTO & { moduleTitle: string }>,
+  currentIndex: number,
+  completed: boolean,
+): ResumeTrailStep[] {
+  if (nodes.length === 0) {
+    return ["start", "middle-a", "middle-b", "middle-c", "finish"].map((id, index) => ({
+      id,
+      label: "Etapa da trilha",
+      state: index === 0 ? "current" : "next",
+    }));
+  }
+
+  const visibleCount = Math.min(5, nodes.length);
+  const start = clampIndex(currentIndex - 2, 0, Math.max(0, nodes.length - visibleCount));
+  const visible = nodes.slice(start, start + visibleCount);
+
+  return visible.map((node, index) => {
+    const isCurrent = start + index === currentIndex;
+    const isLastVisible = index === visible.length - 1;
+    const done = node.state === "completed" || node.state === "perfect";
+    const state: ResumeTrailStep["state"] = completed && isLastVisible
+      ? "final"
+      : done || (completed && !isLastVisible)
+        ? "completed"
+        : isCurrent
+          ? "current"
+          : node.state === "locked"
+            ? "locked"
+            : "next";
+
+    return {
+      id: node.id,
+      label: node.title,
+      state,
+    };
+  });
+}
+
+function formatClockPosition(seconds: number) {
+  const safeSeconds = Math.max(0, Math.round(seconds));
+  const minutes = Math.floor(safeSeconds / 60);
+  const remainingSeconds = safeSeconds % 60;
+  return `${minutes}:${String(remainingSeconds).padStart(2, "0")}`;
+}
+
+function compactCourseTitle(title: string) {
+  return title
+    .replace(/\s+-\s+Do Zero\s+a\s+Aprovacao/i, "")
+    .replace(/\s+Do Zero\s+a\s+Aprovacao/i, "")
+    .trim();
+}
+
+function buildLearningResumeCard({
+  course,
+  recentLessonId,
+  recentPositionSeconds,
+  fallback,
+  fallbackCourse,
+}: {
+  course: CourseDetailDTO | null;
+  recentLessonId: string | null;
+  recentPositionSeconds: number;
+  fallback: DashboardContinueFallback | null;
+  fallbackCourse: CourseCardDTO | null;
+}): LearningResumeCardProps {
+  if (course) {
+    const nodes = flattenCourseNodes(course);
+    const completed = course.progressPercent >= 100 || (nodes.length > 0 && nodes.every((node) => node.state === "completed" || node.state === "perfect"));
+    const recentNode = recentLessonId ? nodes.find((node) => node.id === recentLessonId) ?? null : null;
+    const nextNode = course.nextNode ? nodes.find((node) => node.id === course.nextNode?.id) ?? course.nextNode : null;
+    const resumeNode = completed
+      ? nodes[nodes.length - 1] ?? null
+      : recentNode && recentNode.state !== "locked"
+        ? recentNode
+        : nextNode ?? nodes.find((node) => node.state === "current" || node.state === "available") ?? nodes[0] ?? null;
+    const currentIndex = resumeNode ? Math.max(0, nodes.findIndex((node) => node.id === resumeNode.id)) : 0;
+    const moduleTitle = resumeNode && "moduleTitle" in resumeNode ? resumeNode.moduleTitle : course.modules[0]?.title ?? "Modulo inicial";
+    const title = compactCourseTitle(course.title) || course.title;
+    const currentTitle = resumeNode?.title ?? "Primeira aula";
+    const timeLabel = recentPositionSeconds > 0 && recentLessonId === resumeNode?.id
+      ? `Voce parou em ${formatClockPosition(recentPositionSeconds)}`
+      : `${formatMinutes(Math.max(1, Math.round(course.totalDurationSeconds / 60)))} de conteudo`;
+
+    return {
+      eyebrow: completed ? "Trilha concluida" : course.progressPercent > 0 ? "Continue de onde parou" : "Comece sua primeira trilha",
+      title,
+      subtitle: `${moduleTitle} - ${currentTitle}`,
+      nextLabel: completed ? "Curso finalizado" : "Aula atual",
+      detailLabel: completed ? "Todas as etapas foram concluidas." : timeLabel,
+      progressPercent: completed ? 100 : course.progressPercent,
+      progressLabel: completed ? "concluido" : "da trilha",
+      href: completed ? "/cursos" : resumeNode?.href ?? `/cursos/${course.slug}`,
+      ctaLabel: completed ? "Ver proxima trilha" : course.progressPercent > 0 ? "Continuar" : "Comecar agora",
+      steps: trailWindow(nodes, currentIndex, completed),
+      icon: <BookOpen className="h-5 w-5" strokeWidth={2.35} />,
+    };
+  }
+
+  if (fallback) {
+    return {
+      eyebrow: fallback.meta,
+      title: fallback.title,
+      subtitle: fallback.description,
+      nextLabel: "Lista atual",
+      detailLabel: "Continue exatamente do ponto recomendado para hoje.",
+      progressPercent: 38,
+      progressLabel: "em andamento",
+      href: fallback.href,
+      ctaLabel: "Continuar",
+      steps: [
+        { id: "question-1", label: "Questao respondida", state: "completed" },
+        { id: "question-2", label: "Questao respondida", state: "completed" },
+        { id: "question-current", label: fallback.title, state: "current" },
+        { id: "question-next-1", label: "Proxima questao", state: "next" },
+        { id: "question-next-2", label: "Proxima questao", state: "next" },
+      ],
+      icon: fallback.icon,
+      secondaryHref: "/questions",
+      secondaryLabel: "Ver questoes",
+    };
+  }
+
+  return {
+    eyebrow: "Comece sua primeira trilha",
+    title: fallbackCourse ? compactCourseTitle(fallbackCourse.title) : "Seu plano ja esta pronto",
+    subtitle: fallbackCourse ? `${fallbackCourse.lessonCount} atividades - ${fallbackCourse.teacherName}` : "Escolha uma trilha e avance aula por aula.",
+    nextLabel: "Primeiro passo",
+    detailLabel: "A trilha fica salva para voce continuar depois.",
+    progressPercent: 0,
+    progressLabel: "concluido",
+    href: fallbackCourse ? `/cursos/${fallbackCourse.slug}` : "/cursos",
+    ctaLabel: "Comecar agora",
+    steps: [
+      { id: "start-1", label: "Primeira aula", state: "current" },
+      { id: "start-2", label: "Proxima aula", state: "next" },
+      { id: "start-3", label: "Proxima aula", state: "next" },
+      { id: "start-4", label: "Modulo seguinte", state: "next" },
+      { id: "start-5", label: "Conclusao", state: "locked" },
+    ],
+    icon: <BookOpen className="h-5 w-5" strokeWidth={2.35} />,
+  };
+}
+
 export default async function DashboardPage() {
   const user = await requireUser();
   const now = new Date();
   const persistedUserId = await getPersistedUserId(user);
+  const preparationContext = persistedUserId ? await getActivePreparationContext(persistedUserId) : null;
+  const activePreparation = preparationContext?.active ?? null;
+  const activeTheme = getVerticalTheme(activePreparation?.vertical.slug);
   const dashboardUserId = persistedUserId ?? user.id;
   const dashboardProfile = {
     name: user.name,
-    weeklyHours: user.weeklyHours ?? 0,
-    targetExam: user.targetExam ?? "ENEM",
+    weeklyHours: activePreparation
+      ? Math.max(1, Math.round((activePreparation.minutesPerDay * activePreparation.studyDays.length) / 60))
+      : user.weeklyHours ?? 0,
+    targetExam: activePreparation?.displayName ?? user.targetExam ?? "ENEM",
   };
 
   let attempts: AttemptWithQuestion[] = [];
   let questions: QuestionWithSubject[] = [];
   let activities: ActivityWithUser[] = [];
   let studyPlan: Awaited<ReturnType<typeof getOrCreateStudyPlan>> | null = null;
-  let studyNowSession: Awaited<ReturnType<typeof getInitialStudyNowRecommendation>> | null = null;
   let lastAttempt: AttemptWithQuestion | null = null;
+  let learningCourses: Awaited<ReturnType<typeof getCourseCatalog>> = [];
 
   try {
     [attempts, questions, activities, studyPlan] = await Promise.all([
@@ -199,7 +371,9 @@ export default async function DashboardPage() {
         take: 5,
         select: dashboardActivitySelect,
       }),
-      persistedUserId ? getOrCreateStudyPlan(persistedUserId).catch(() => null) : Promise.resolve(null),
+      persistedUserId
+        ? getOrCreateStudyPlan(persistedUserId, activePreparation?.userPreparationId ?? null).catch(() => null)
+        : Promise.resolve(null),
     ]);
     lastAttempt = attempts[0] ?? null;
   } catch {
@@ -213,10 +387,65 @@ export default async function DashboardPage() {
     ];
   }
 
-  studyNowSession = await getInitialStudyNowRecommendation({
-    userId: dashboardUserId,
-    profile: dashboardProfile,
-  });
+  learningCourses = await getCourseCatalog(dashboardUserId).catch(() => []);
+  const [latestCourseEvent, latestLessonProgress] = await Promise.all([
+    db.learningEvent.findFirst({
+      where: { userId: dashboardUserId, courseId: { not: null } },
+      orderBy: { createdAt: "desc" },
+      select: {
+        createdAt: true,
+        lessonId: true,
+        course: { select: { slug: true } },
+      },
+    }),
+    db.lessonProgress.findFirst({
+      where: { userId: dashboardUserId },
+      orderBy: { updatedAt: "desc" },
+      select: {
+        lessonId: true,
+        positionSeconds: true,
+        updatedAt: true,
+        lesson: {
+          select: {
+            modules: {
+              take: 1,
+              include: {
+                module: {
+                  include: {
+                    courses: {
+                      take: 1,
+                      include: { course: { select: { slug: true } } },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    }),
+  ]).catch(() => [null, null] as const);
+  const progressIsNewest = Boolean(
+    latestLessonProgress &&
+      (!latestCourseEvent || latestLessonProgress.updatedAt.getTime() >= latestCourseEvent.createdAt.getTime()),
+  );
+  const latestProgressCourseSlug = latestLessonProgress?.lesson.modules[0]?.module.courses[0]?.course.slug ?? null;
+  const resumeCourseSlug = progressIsNewest
+    ? latestProgressCourseSlug ?? latestCourseEvent?.course?.slug ?? null
+    : latestCourseEvent?.course?.slug ?? latestProgressCourseSlug ?? null;
+  const fallbackCourseSlug =
+    resumeCourseSlug ??
+    learningCourses.find((course) => course.progressPercent > 0 && course.progressPercent < 100)?.slug ??
+    learningCourses.find((course) => course.progressPercent < 100)?.slug ??
+    learningCourses[0]?.slug ??
+    null;
+  const recentLessonId = progressIsNewest
+    ? latestLessonProgress?.lessonId ?? latestCourseEvent?.lessonId ?? null
+    : latestCourseEvent?.lessonId ?? latestLessonProgress?.lessonId ?? null;
+  const recentPositionSeconds = progressIsNewest ? latestLessonProgress?.positionSeconds ?? 0 : 0;
+  const resumeCourseDetail = fallbackCourseSlug
+    ? await getCourseDetail(fallbackCourseSlug, dashboardUserId).catch(() => null)
+    : null;
 
   const insights = buildDashboardInsights({
     profile: dashboardProfile,
@@ -284,16 +513,23 @@ export default async function DashboardPage() {
             href: questionHref(recommendedQuestion.id, recommendedQuestion.vestibular?.slug),
             icon: <Target className="h-5 w-5" strokeWidth={2.4} />,
             accent: "green" as const,
-          }
-        : null;
+        }
+      : null;
+  const learningResumeCard = buildLearningResumeCard({
+    course: resumeCourseDetail,
+    recentLessonId,
+    recentPositionSeconds,
+    fallback: continueCard,
+    fallbackCourse: learningCourses[0] ?? null,
+  });
   const prefetchTargets = [
-    studyNowSession.startHref,
+    learningResumeCard.href,
     mainRecommendation.actionTarget,
     "/questions?vestibular=enem",
     ERROR_NOTEBOOK_HREF,
-    ...studyNowSession.blocks.map((block) => block.href),
     ...activePlanTasks.map((task) => normalizeStudyHref(task.actionHref)),
     "/trilhas",
+    "/cursos",
     "/cronograma",
     "/diagnostico",
     "/onboarding",
@@ -304,14 +540,16 @@ export default async function DashboardPage() {
       <SmartPrefetcher hrefs={prefetchTargets} />
 
       {/* Header compacto */}
-      <section className="relative overflow-hidden rounded-[24px] border border-white/70 bg-gradient-to-br from-white via-[#EFF6FF] to-[#ECFEFF] p-4 shadow-[0_22px_52px_-34px_rgba(14,165,233,0.35)] sm:rounded-[32px] sm:p-6 md:p-7">
+      <section className="theme-hero relative overflow-hidden rounded-[24px] border p-4 sm:rounded-[32px] sm:p-6 md:p-7">
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-16 -top-20 hidden h-56 w-56 rounded-full bg-[#22D3EE] opacity-[0.24] blur-3xl sm:block"
+          className="pointer-events-none absolute -right-16 -top-20 hidden h-56 w-56 rounded-full opacity-[0.24] blur-3xl sm:block"
+          style={{ background: "var(--theme-ambient-a)" }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -bottom-12 -left-12 hidden h-44 w-44 rounded-full bg-[#A78BFA] opacity-[0.18] blur-3xl sm:block"
+          className="pointer-events-none absolute -bottom-12 -left-12 hidden h-44 w-44 rounded-full opacity-[0.18] blur-3xl sm:block"
+          style={{ background: "var(--theme-ambient-b)" }}
         />
         <div
           aria-hidden
@@ -319,7 +557,7 @@ export default async function DashboardPage() {
         />
         <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div className="flex min-w-0 items-start gap-3 sm:items-center sm:gap-4">
-            <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-[0_18px_30px_-22px_rgba(14,165,233,0.65)] ring-1 ring-blue-100 sm:h-16 sm:w-16 sm:rounded-[24px]">
+            <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-[0_18px_30px_-22px_var(--theme-primary)] ring-1 ring-[color:var(--theme-border)] sm:h-16 sm:w-16 sm:rounded-[24px]">
               <Image
                 src="/brand/estudaki-logo.png"
                 alt="EstudAki"
@@ -328,27 +566,27 @@ export default async function DashboardPage() {
                 className="h-10 w-10 object-contain sm:h-12 sm:w-12"
                 priority
               />
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-[#FACC15] to-[#F97316] text-white shadow-md ring-2 ring-white sm:h-6 sm:w-6">
+              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-white shadow-md ring-2 ring-white sm:h-6 sm:w-6" style={{ background: "var(--theme-gradient-progress)" }}>
                 <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
               </span>
             </div>
             <div className="min-w-0">
-            <p className="text-[9px] font-black uppercase leading-4 tracking-[0.18em] text-blue-700 sm:text-[11px] sm:tracking-[0.22em]">
+            <p className="text-[9px] font-black uppercase leading-4 tracking-[0.18em] text-[color:var(--theme-primary)] sm:text-[11px] sm:tracking-[0.22em]">
               {greetingFor(now)} · {weekdayLabel(now)}
             </p>
-            <h1 className="mt-0.5 font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-[#0F172A] sm:mt-1 sm:text-3xl md:text-4xl">
-              {user.name.split(" ")[0]}, bora evoluir?
+            <h1 className="mt-0.5 font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-[color:var(--theme-text)] sm:mt-1 sm:text-3xl md:text-4xl">
+              {user.name.split(" ")[0]}, {activeTheme.copy.heroTitle}
             </h1>
-            <p className="mt-1 max-w-xl text-xs font-medium leading-5 text-slate-600 sm:text-sm">
-              Você está na liga <span className="font-extrabold text-[#0F172A]">{currentLeague}</span> com
-              {" "}<span className="font-extrabold text-[#0F172A]">{user.xp.toLocaleString("pt-BR")} XP</span>.
+            <p className="mt-1 max-w-xl text-xs font-medium leading-5 text-[color:var(--theme-muted)] sm:text-sm">
+              {activeTheme.copy.heroDescription} Você está na liga <span className="font-extrabold text-[color:var(--theme-text)]">{currentLeague}</span> com
+              {" "}<span className="font-extrabold text-[color:var(--theme-text)]">{user.xp.toLocaleString("pt-BR")} XP</span>.
               {nextLeague
                 ? ` Faltam ${(leagueProgress.to - user.xp).toLocaleString("pt-BR")} XP para a liga ${nextLeague.name}.`
                 : " Você está no topo; continue mantendo o ritmo."}
             </p>
             </div>
           </div>
-          <div className="flex w-full items-center justify-between gap-3 border-t border-blue-100/70 pt-3 sm:w-auto sm:flex-wrap sm:justify-start sm:border-0 sm:pt-0">
+          <div className="flex w-full items-center justify-between gap-3 border-t border-[color:var(--theme-border)] pt-3 sm:w-auto sm:flex-wrap sm:justify-start sm:border-0 sm:pt-0">
             <div className="flex items-center gap-2 sm:hidden">
               <StreakBadge days={user.streak} size="sm" />
               <LeagueBadge league={currentLeague} size="md" />
@@ -361,23 +599,11 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      {/* Continue de onde parou */}
-      {continueCard && (
-        <ContinueCard
-          meta={continueCard.meta}
-          title={continueCard.title}
-          description={continueCard.description}
-          href={continueCard.href}
-          icon={continueCard.icon}
-          accent={continueCard.accent}
-        />
-      )}
-
-      {studyNowSession && <StudyNowCard initialSession={studyNowSession} />}
+      <LearningResumeCard {...learningResumeCard} />
 
       <section className="grid min-w-0 gap-3 sm:gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.85fr)]">
         {/* Foco do dia */}
-        <div className="group relative min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#FF8A18] via-[#FFA51F] to-[#FFE01B] p-4 text-white shadow-[0_22px_46px_-28px_rgba(249,115,22,0.55)] sm:rounded-[28px] sm:p-6 md:min-h-[266px] md:p-7">
+        <div className="theme-focus-panel group relative min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#FF8A18] via-[#FFA51F] to-[#FFE01B] p-4 text-white shadow-[0_22px_46px_-28px_rgba(249,115,22,0.55)] sm:rounded-[28px] sm:p-6 md:min-h-[266px] md:p-7">
           <div
             aria-hidden
             className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_46%)]"
@@ -394,7 +620,7 @@ export default async function DashboardPage() {
           <div className="relative z-10 grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
             <div>
               <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/88 sm:text-[11px] sm:tracking-[0.22em]">
-                Foco de hoje
+                {activeTheme.copy.dashboardKicker}
               </p>
               <div className="mt-2 h-0.5 w-6 rounded-full bg-white/35" />
               <h2 className="mt-3 max-w-[760px] font-display text-xl font-extrabold leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)] sm:mt-4 sm:text-2xl md:text-3xl">
@@ -406,13 +632,13 @@ export default async function DashboardPage() {
               <div className="mt-4 flex flex-wrap gap-3 sm:mt-5">
                 <Link
                   href={mainRecommendation.actionTarget}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-black text-orange-600 shadow-[0_18px_32px_-22px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:bg-white/92 sm:py-3"
+                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-black text-[color:var(--theme-primary)] shadow-[0_18px_32px_-22px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:bg-white/92 sm:py-3"
                 >
-                  {mainRecommendation.actionLabel}
+                  {activeTheme.copy.primaryCta}
                   <ArrowRight className="h-4 w-4" />
                 </Link>
                 <Link href="/cronograma" className="hidden items-center justify-center rounded-full border border-white/30 bg-white/14 px-5 py-3 text-sm font-black text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20 sm:inline-flex">
-                  Ver plano do dia
+                  {activeTheme.copy.secondaryCta}
                 </Link>
               </div>
             </div>
@@ -439,7 +665,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Liga / XP */}
-        <div className="group relative hidden min-w-0 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#6B2CF5] via-[#8A42FF] to-[#A569FF] p-6 text-white shadow-[0_26px_52px_-28px_rgba(124,58,237,0.55)] sm:block md:min-h-[266px] md:p-7">
+        <div className="theme-league-panel group relative hidden min-w-0 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#6B2CF5] via-[#8A42FF] to-[#A569FF] p-6 text-white shadow-[0_26px_52px_-28px_rgba(124,58,237,0.55)] sm:block md:min-h-[266px] md:p-7">
           <div
             aria-hidden
             className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.30),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.14),transparent_46%)]"

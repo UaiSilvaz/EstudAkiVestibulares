@@ -1,0 +1,772 @@
+{
+  "schemaVersion": 1,
+  "status": "NEEDS_REVIEW",
+  "generatedAt": "2026-08-27T00:49:39.494Z",
+  "pilot": {
+    "corpusId": "enem-2024-dia-2-caderno-5-amarelo",
+    "directory": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo",
+    "year": 2024,
+    "day": 2,
+    "application": "regular",
+    "modality": "impressa",
+    "bookletNumber": 5,
+    "bookletColor": "Amarelo",
+    "officialExamUrl": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+    "officialAnswerKeyUrl": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_GB_impresso_D2_CD5.pdf",
+    "officialSourcePageUrl": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2024",
+    "generatedAt": "2026-08-27T00:49:39.494Z"
+  },
+  "checks": {
+    "expectedLogicalQuestions": 90,
+    "logicalQuestions": 90,
+    "expectedPrintedOccurrences": 90,
+    "printedOccurrences": 90,
+    "printedSequenceCorrect": true,
+    "languages": {
+      "portugues": 90
+    },
+    "alternatives": 430,
+    "allHaveFiveAlternatives": false,
+    "answerAssignments": 90,
+    "answersByLanguage": {
+      "comum": 90
+    },
+    "annulled": [
+      102
+    ],
+    "essayExpected": false,
+    "essayExtracted": false,
+    "essayTheme": null,
+    "promptVisualAssets": 88,
+    "alternativeVisualAssets": 388,
+    "assetReferences": 684,
+    "physicalAssets": 704,
+    "assetErrors": 0,
+    "orphanAssets": 20,
+    "extractionErrors": 4,
+    "ocrUsed": false
+  },
+  "requirements": {
+    "completeStatement": "failed",
+    "elementOrder": "pending_human_visual_review",
+    "allAlternatives": "failed",
+    "imageLegibility": "hash_and_dimensions_passed_pending_human_review",
+    "officialAnswerKey": "official_pdf_linked_pending_human_confirmation",
+    "numberYearDay": "automatic_check_passed",
+    "answerableInEstudAki": "not_tested_not_imported",
+    "correctionWorks": "not_tested_not_imported",
+    "mobile": "not_tested_not_imported",
+    "originalPageForAdmin": "artifact_available_app_integration_pending",
+    "noMixedQuestionContent": "automatic_header_marker_check_passed_pending_human_review"
+  },
+  "errors": [
+    "Há ocorrência sem contentHash devido a erro de extração.",
+    "enem-2024-dia-2-caderno-5-amarelo-q100-portugues: erro de extração: ['enem-2024-dia-2-caderno-5-amarelo-q100-portugues: alternativa C sem região.'].",
+    "enem-2024-dia-2-caderno-5-amarelo-q106-portugues: alternativa E sem texto e sem imagem.",
+    "enem-2024-dia-2-caderno-5-amarelo-q139-portugues: há texto de apoio/crédito depois do bloco de comando.",
+    "enem-2024-dia-2-caderno-5-amarelo-q141-portugues: há texto de apoio/crédito depois do bloco de comando.",
+    "enem-2024-dia-2-caderno-5-amarelo-q146-portugues: erro de extração: ['enem-2024-dia-2-caderno-5-amarelo-q146-portugues: alternativa C sem região.'].",
+    "enem-2024-dia-2-caderno-5-amarelo-q147-portugues: há texto de apoio/crédito depois do bloco de comando.",
+    "enem-2024-dia-2-caderno-5-amarelo-q149-portugues: há texto de apoio/crédito depois do bloco de comando.",
+    "enem-2024-dia-2-caderno-5-amarelo-q153-portugues: erro de extração: ['enem-2024-dia-2-caderno-5-amarelo-q153-portugues: alternativa C sem região.'].",
+    "enem-2024-dia-2-caderno-5-amarelo-q162-portugues: erro de extração: ['enem-2024-dia-2-caderno-5-amarelo-q162-portugues: alternativa C sem região.'].",
+    "Alternativas estruturadas: 430; esperadas 450."
+  ],
+  "warnings": [
+    "Há hashes de conteúdo repetidos; revisar possível duplicidade textual.",
+    "Há 20 mídias órfãs no diretório gerado."
+  ],
+  "knownGaps": [
+    {
+      "code": "pedagogical_classification_missing",
+      "count": 90,
+      "detail": "Disciplina, conteúdo, subconteúdo, competência, habilidade e dificuldade não foram inferidos sem fonte editorial."
+    },
+    {
+      "code": "human_visual_review_pending",
+      "count": 90,
+      "detail": "A ordem visual, a completude e a ausência de mistura precisam ser conferidas lado a lado com os fac-símiles."
+    },
+    {
+      "code": "answer_key_human_review_pending",
+      "count": 90,
+      "detail": "As respostas foram lidas deterministicamente do PDF oficial, mas ainda não receberam confirmação humana no admin."
+    },
+    {
+      "code": "app_integration_not_performed",
+      "count": 90,
+      "detail": "Nenhuma linha foi importada; fluxo de resposta, correção, página original e mobile não foram testados no EstudAki."
+    }
+  ],
+  "questionIssues": [
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q091-portugues",
+      "officialNumber": 91,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q092-portugues",
+      "officialNumber": 92,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q093-portugues",
+      "officialNumber": 93,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q094-portugues",
+      "officialNumber": 94,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q095-portugues",
+      "officialNumber": 95,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q096-portugues",
+      "officialNumber": 96,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q097-portugues",
+      "officialNumber": 97,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q098-portugues",
+      "officialNumber": 98,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q099-portugues",
+      "officialNumber": 99,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q100-portugues",
+      "officialNumber": 100,
+      "reasons": [
+        "contentHash ausente ou invalido",
+        "comando vazio",
+        "enunciado vazio",
+        "blocos estruturados ausentes",
+        "alternativas 0/5",
+        "recorte administrativo ausente",
+        "status de extracao: error"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q101-portugues",
+      "officialNumber": 101,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q102-portugues",
+      "officialNumber": 102,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q103-portugues",
+      "officialNumber": 103,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q104-portugues",
+      "officialNumber": 104,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q105-portugues",
+      "officialNumber": 105,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q106-portugues",
+      "officialNumber": 106,
+      "reasons": [
+        "alternativa A sem texto nem imagem",
+        "alternativa B sem texto nem imagem",
+        "alternativa C sem texto nem imagem",
+        "alternativa D sem texto nem imagem",
+        "alternativa E sem texto nem imagem",
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q107-portugues",
+      "officialNumber": 107,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q108-portugues",
+      "officialNumber": 108,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q109-portugues",
+      "officialNumber": 109,
+      "reasons": [
+        "alternativa A sem texto nem imagem",
+        "alternativa B sem texto nem imagem",
+        "alternativa C sem texto nem imagem",
+        "alternativa D sem texto nem imagem",
+        "alternativa E sem texto nem imagem",
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q110-portugues",
+      "officialNumber": 110,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q111-portugues",
+      "officialNumber": 111,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q112-portugues",
+      "officialNumber": 112,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q113-portugues",
+      "officialNumber": 113,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q114-portugues",
+      "officialNumber": 114,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q115-portugues",
+      "officialNumber": 115,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q116-portugues",
+      "officialNumber": 116,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q117-portugues",
+      "officialNumber": 117,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q118-portugues",
+      "officialNumber": 118,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q119-portugues",
+      "officialNumber": 119,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q120-portugues",
+      "officialNumber": 120,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q121-portugues",
+      "officialNumber": 121,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q122-portugues",
+      "officialNumber": 122,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q123-portugues",
+      "officialNumber": 123,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q124-portugues",
+      "officialNumber": 124,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q125-portugues",
+      "officialNumber": 125,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q126-portugues",
+      "officialNumber": 126,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q127-portugues",
+      "officialNumber": 127,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q128-portugues",
+      "officialNumber": 128,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q129-portugues",
+      "officialNumber": 129,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q130-portugues",
+      "officialNumber": 130,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q131-portugues",
+      "officialNumber": 131,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q132-portugues",
+      "officialNumber": 132,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q133-portugues",
+      "officialNumber": 133,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q134-portugues",
+      "officialNumber": 134,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q135-portugues",
+      "officialNumber": 135,
+      "reasons": [
+        "alternativa A sem texto nem imagem",
+        "alternativa B sem texto nem imagem",
+        "alternativa C sem texto nem imagem",
+        "alternativa D sem texto nem imagem",
+        "alternativa E sem texto nem imagem",
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q136-portugues",
+      "officialNumber": 136,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q137-portugues",
+      "officialNumber": 137,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q138-portugues",
+      "officialNumber": 138,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q139-portugues",
+      "officialNumber": 139,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q140-portugues",
+      "officialNumber": 140,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q141-portugues",
+      "officialNumber": 141,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q142-portugues",
+      "officialNumber": 142,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q143-portugues",
+      "officialNumber": 143,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q144-portugues",
+      "officialNumber": 144,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q145-portugues",
+      "officialNumber": 145,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q146-portugues",
+      "officialNumber": 146,
+      "reasons": [
+        "contentHash ausente ou invalido",
+        "comando vazio",
+        "enunciado vazio",
+        "blocos estruturados ausentes",
+        "alternativas 0/5",
+        "recorte administrativo ausente",
+        "status de extracao: error"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q147-portugues",
+      "officialNumber": 147,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q148-portugues",
+      "officialNumber": 148,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q149-portugues",
+      "officialNumber": 149,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q150-portugues",
+      "officialNumber": 150,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q151-portugues",
+      "officialNumber": 151,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q152-portugues",
+      "officialNumber": 152,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q153-portugues",
+      "officialNumber": 153,
+      "reasons": [
+        "contentHash ausente ou invalido",
+        "comando vazio",
+        "enunciado vazio",
+        "blocos estruturados ausentes",
+        "alternativas 0/5",
+        "recorte administrativo ausente",
+        "status de extracao: error"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q154-portugues",
+      "officialNumber": 154,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q155-portugues",
+      "officialNumber": 155,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q156-portugues",
+      "officialNumber": 156,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q157-portugues",
+      "officialNumber": 157,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q158-portugues",
+      "officialNumber": 158,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q159-portugues",
+      "officialNumber": 159,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q160-portugues",
+      "officialNumber": 160,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q161-portugues",
+      "officialNumber": 161,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q162-portugues",
+      "officialNumber": 162,
+      "reasons": [
+        "contentHash ausente ou invalido",
+        "comando vazio",
+        "enunciado vazio",
+        "blocos estruturados ausentes",
+        "alternativas 0/5",
+        "recorte administrativo ausente",
+        "status de extracao: error"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q163-portugues",
+      "officialNumber": 163,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q164-portugues",
+      "officialNumber": 164,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q165-portugues",
+      "officialNumber": 165,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q166-portugues",
+      "officialNumber": 166,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q167-portugues",
+      "officialNumber": 167,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q168-portugues",
+      "officialNumber": 168,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q169-portugues",
+      "officialNumber": 169,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q170-portugues",
+      "officialNumber": 170,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q171-portugues",
+      "officialNumber": 171,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q172-portugues",
+      "officialNumber": 172,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q173-portugues",
+      "officialNumber": 173,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q174-portugues",
+      "officialNumber": 174,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q175-portugues",
+      "officialNumber": 175,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q176-portugues",
+      "officialNumber": 176,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q177-portugues",
+      "officialNumber": 177,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q178-portugues",
+      "officialNumber": 178,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q179-portugues",
+      "officialNumber": 179,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    },
+    {
+      "sourceId": "enem-2024-dia-2-caderno-5-amarelo-q180-portugues",
+      "officialNumber": 180,
+      "reasons": [
+        "status de extracao: structured_pending_review"
+      ]
+    }
+  ]
+}

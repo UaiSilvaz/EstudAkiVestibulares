@@ -64,8 +64,9 @@ export function ChallengeChip({
   const pct = total > 0 ? Math.min(100, (progress / total) * 100) : 0;
   const inner = (
     <div
+      data-accent={accent}
       className={cn(
-        "group relative flex min-h-[216px] min-w-0 flex-col gap-3 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition-transform duration-150 ease-out hover:-translate-y-0.5",
+        "theme-challenge-chip group relative flex min-h-[216px] min-w-0 flex-col gap-3 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition-transform duration-150 ease-out hover:-translate-y-0.5",
         a.bg,
         done && "opacity-90",
       )}

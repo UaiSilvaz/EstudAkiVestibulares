@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import {
   createAuthSessionToken,
   createSessionCookieValue,
+  hasAuthSessionTable,
   hashAuthSessionToken,
   isLocalAuthEnabled,
   SESSION_COOKIE,
@@ -142,7 +143,7 @@ export async function POST(request: Request) {
         role: Role.ADMIN,
         xp: 12800,
         streak: 42,
-        league: "Diamante",
+        league: "Aprovado",
         weeklyHours: 20,
         targetExam: "ENEM",
       },
@@ -165,7 +166,7 @@ export async function POST(request: Request) {
         role: Role.ADMIN,
         xp: 12800,
         streak: 42,
-        league: "Diamante",
+        league: "Aprovado",
         weeklyHours: 20,
         targetExam: "ENEM",
       },
@@ -222,7 +223,7 @@ export async function POST(request: Request) {
     const localSession = user.id === "local-admin" || user.id.startsWith("local-user:");
     let sessionSubject = user.id;
 
-    if (!localSession) {
+    if (!localSession && await hasAuthSessionTable()) {
       const token = createAuthSessionToken();
       await db.authSession.create({
         data: {

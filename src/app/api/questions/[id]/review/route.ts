@@ -36,9 +36,11 @@ export async function POST(
   if (result.count > 0) {
     const userBeforeReward = await db.user.findUnique({
       where: { id: persistedUserId },
-      select: { xp: true, league: true },
+      select: { xp: true, league: true, targetExam: true },
     });
-    const nextLeague = userBeforeReward ? leagueForXp(userBeforeReward.xp + 3) : null;
+    const nextLeague = userBeforeReward
+      ? leagueForXp(userBeforeReward.xp + 3, userBeforeReward.targetExam)
+      : null;
     await db.$transaction([
       db.user.update({
         where: { id: persistedUserId },

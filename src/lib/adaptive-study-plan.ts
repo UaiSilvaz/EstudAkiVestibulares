@@ -1,10 +1,28 @@
+import type { Prisma } from "@prisma/client";
 import { db } from "./db";
 
 type PlanSettings = {
   availableDays?: number[];
   minutesPerDay?: number;
   examDate?: Date | null;
+  userPreparationId?: string | null;
 };
+
+export const studyPlanTaskSelect = {
+  id: true,
+  userId: true,
+  scheduledFor: true,
+  type: true,
+  title: true,
+  description: true,
+  durationMinutes: true,
+  subjectId: true,
+  topicId: true,
+  actionHref: true,
+  completedAt: true,
+  createdAt: true,
+  updatedAt: true,
+} satisfies Prisma.StudyPlanTaskSelect;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -18,7 +36,10 @@ function normalizedDays(days: number[] | undefined) {
 }
 
 export async function regenerateStudyPlan(userId: string, settings: PlanSettings = {}) {
-  const user = await db.user.findUniqueOrThrow({ where: { id: userId } });
+  const user = await db.user.findUniqueOrThrow({
+    where: { id: userId },
+    select: { weeklyHours: true },
+  });
   const existingPreference = await db.studyPlanPreference.findUnique({ where: { userId } });
   const availableDays = normalizedDays(
     settings.availableDays ??
@@ -129,6 +150,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
   const blockDuration = Math.max(25, Math.floor(minutesPerDay / blocksPerDay));
   const tasks: Array<{
     userId: string;
+    userPreparationId?: string;
     scheduledFor: Date;
     type: string;
     title: string;
@@ -150,6 +172,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
         const errorSubjects = new Set(pendingErrors.map((attempt) => attempt.question.subject.name));
         tasks.push({
           userId,
+          ...(settings.userPreparationId ? { userPreparationId: settings.userPreparationId } : {}),
           scheduledFor,
           type: "REVIEW",
           title: "Revisar o Caderno de Erros",
@@ -165,6 +188,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
         weakIndex += 1;
         tasks.push({
           userId,
+          ...(settings.userPreparationId ? { userPreparationId: settings.userPreparationId } : {}),
           scheduledFor,
           type: "QUESTIONS",
           title: `Praticar ${weak.name}`,
@@ -183,6 +207,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
         const coverage = Math.round((gap.answered / Math.max(1, gap.total)) * 100);
         tasks.push({
           userId,
+          ...(settings.userPreparationId ? { userPreparationId: settings.userPreparationId } : {}),
           scheduledFor,
           type: block % 2 === 0 ? "THEORY" : "FLASHCARDS",
           title: block % 2 === 0 ? `Avançar em ${gap.name}` : `Flashcards de ${gap.name}`,
@@ -203,13 +228,27 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
 
   await db.$transaction([
     db.studyPlanTask.deleteMany({
-      where: { userId, completedAt: null, scheduledFor: { gte: today } },
+      where: {
+        userId,
+        completedAt: null,
+        scheduledFor: { gte: today },
+        ...(settings.userPreparationId
+          ? { userPreparationId: settings.userPreparationId }
+          : {}),
+      },
     }),
     ...(tasks.length ? [db.studyPlanTask.createMany({ data: tasks })] : []),
   ]);
 
   const savedTasks = await db.studyPlanTask.findMany({
-    where: { userId, scheduledFor: { gte: today } },
+    select: studyPlanTaskSelect,
+    where: {
+      userId,
+      scheduledFor: { gte: today },
+      ...(settings.userPreparationId
+        ? { userPreparationId: settings.userPreparationId }
+        : {}),
+    },
     orderBy: [{ scheduledFor: "asc" }, { createdAt: "asc" }],
   });
   return {
@@ -224,17 +263,22 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
   };
 }
 
-export async function getOrCreateStudyPlan(userId: string) {
+export async function getOrCreateStudyPlan(userId: string, userPreparationId?: string | null) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const [preference, tasks] = await Promise.all([
     db.studyPlanPreference.findUnique({ where: { userId } }),
     db.studyPlanTask.findMany({
-      where: { userId, scheduledFor: { gte: today } },
+      select: studyPlanTaskSelect,
+      where: {
+        userId,
+        scheduledFor: { gte: today },
+        ...(userPreparationId ? { userPreparationId } : {}),
+      },
       orderBy: [{ scheduledFor: "asc" }, { createdAt: "asc" }],
     }),
   ]);
-  if (!preference || tasks.length === 0) return regenerateStudyPlan(userId);
+  if (!preference || tasks.length === 0) return regenerateStudyPlan(userId, { userPreparationId });
 
   const pendingErrors = await db.questionAttempt.count({
     where: { userId, correct: false, annulled: false, reviewed: false },

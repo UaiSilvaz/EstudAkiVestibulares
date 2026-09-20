@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 async function main() {
   loadEnvConfig(process.cwd());
   const confirmed = process.argv.includes("--confirm-import");
+  const allowGenericExplanation = process.argv.includes("--allow-generic-explanation");
   const files = process.argv.slice(2).filter((argument) => argument.endsWith("-valid.json"));
 
   if (!files.length) throw new Error("Informe ao menos um arquivo *-valid.json.");
@@ -15,13 +16,28 @@ async function main() {
   const questions = (
     await Promise.all(files.map(async (file) => JSON.parse(await fs.readFile(path.resolve(file), "utf8"))))
   ).flat();
+  const explanationFor = (item: Record<string, unknown>) => {
+    const existing = String(item.explicacaoInicial ?? "").trim();
+    if (existing.length >= 80) return existing;
+    if (!allowGenericExplanation) return existing;
+    const vestibular = String(item.vestibular ?? "prova oficial");
+    const ano = String(item.ano ?? "");
+    const numero = String(item.numeroQuestao ?? "");
+    const alternativa = String(item.alternativaCorreta ?? "").trim().toUpperCase();
+    return [
+      `Gabarito oficial de ${vestibular} ${ano}, questao ${numero}: alternativa ${alternativa}.`,
+      "Resolucao detalhada pendente de curadoria; o item permanece em revisao e deve ser conferido no fac-simile oficial antes da publicacao.",
+    ].join(" ");
+  };
+
   const summary = {
     arquivos: files.length,
     questoes: questions.length,
     comGabarito: questions.filter((question) => /^[A-E]$/.test(question.alternativaCorreta ?? "")).length,
     semGabarito: questions.filter((question) => !/^[A-E]$/.test(question.alternativaCorreta ?? "")).length,
-    comExplicacaoCompleta: questions.filter((question) => (question.explicacaoInicial ?? "").trim().length >= 80).length,
-    bloqueadasSemExplicacao: questions.filter((question) => (question.explicacaoInicial ?? "").trim().length < 80).length,
+    comExplicacaoCompleta: questions.filter((question) => explanationFor(question).length >= 80).length,
+    bloqueadasSemExplicacao: questions.filter((question) => explanationFor(question).length < 80).length,
+    genericExplanationEnabled: allowGenericExplanation,
   };
   console.log(JSON.stringify(summary, null, 2));
 
@@ -34,8 +50,9 @@ async function main() {
     if (
       item.status !== "pendente_revisao" ||
       !/^[A-E]$/.test(item.alternativaCorreta ?? "") ||
-      (item.explicacaoInicial ?? "").trim().length < 80
+      explanationFor(item).length < 80
     ) continue;
+    const explanation = explanationFor(item);
     const vestibularSlug = item.vestibular.toLowerCase();
     const vestibular = await prisma.vestibular.upsert({
       where: { slug: vestibularSlug },
@@ -84,7 +101,7 @@ async function main() {
         alternatives: JSON.stringify(item.alternativas),
         alternativeExplanations: "{}",
         correctAlternative: item.alternativaCorreta,
-        explanation: item.explicacaoInicial,
+        explanation,
         imageUrl: item.imagemPrincipal ? `/api/provas-antigas/${item.provaAntigaId}/imagem/${path.basename(item.imagemPrincipal)}` : null,
         tags: JSON.stringify([item.vestibular, String(item.ano), "prova-antiga"]),
         source: item.fonteUrl,
@@ -92,7 +109,13 @@ async function main() {
         sourceUrl: item.fonteUrl,
         sourceType: "OFFICIAL",
         reviewState: "PENDING_REVIEW",
-        reviewNotes: (item.observacoesImportacao ?? []).join(" ") || "Revisar extração oficial antes da publicação.",
+        reviewNotes:
+          [
+            ...(item.observacoesImportacao ?? []),
+            allowGenericExplanation && !(item.explicacaoInicial ?? "").trim()
+              ? "Resolucao detalhada nao foi inferida; explicacao generica usa apenas o gabarito oficial."
+              : null,
+          ].filter(Boolean).join(" ") || "Revisar extração oficial antes da publicação.",
         status: ContentStatus.REVIEW,
       } });
       await transaction.provaAntigaQuestao.create({ data: {

@@ -11,7 +11,6 @@ import {
   Heart,
   Image as ImageIcon,
   Link as LinkIcon,
-  Loader2,
   MessageCircle,
   MoreVertical,
   Paperclip,
@@ -29,6 +28,7 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
+import { EstudakiLoadingState } from "@/components/loading-states";
 import { cn } from "@/lib/utils";
 
 type Tab = "feed" | "chats" | "people";
@@ -174,8 +174,8 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
   ];
 
   return (
-    <div className="space-y-4">
-      <section className="relative overflow-hidden rounded-[32px] border border-white/80 bg-[linear-gradient(116deg,#ffffff_0%,#f7f5ff_46%,#ecfeff_100%)] shadow-[0_24px_60px_-36px_rgba(15,23,42,0.32)]">
+    <div className="community-workspace space-y-4">
+      <section className="community-hero relative overflow-hidden rounded-[32px] border border-white/80 bg-[linear-gradient(116deg,#ffffff_0%,#f7f5ff_46%,#ecfeff_100%)] shadow-[0_24px_60px_-36px_rgba(15,23,42,0.32)]">
         <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#2563EB_0%,#22D3EE_45%,#F97316_100%)]" aria-hidden />
         <div className="relative grid gap-6 p-5 md:p-7 xl:grid-cols-[minmax(0,1fr)_390px]">
           <div className="min-w-0">
@@ -199,11 +199,11 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                     type="button"
                     onClick={() => setTab(item.tab)}
                     className={cn(
-                      "group flex min-h-[86px] items-center gap-3 rounded-[22px] border p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98]",
+                      "community-action-card group flex min-h-[86px] items-center gap-3 rounded-[22px] border p-3 text-left shadow-sm transition hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98]",
                       item.surface,
                     )}
                   >
-                    <span className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-lg", item.tone)}>
+                    <span className={cn("community-action-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-lg", item.tone)}>
                       <Icon className="h-5 w-5" strokeWidth={2.6} />
                     </span>
                     <span className="min-w-0 flex-1">
@@ -217,7 +217,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </div>
           </div>
 
-          <aside className="relative min-h-[270px] overflow-hidden rounded-[28px] border border-blue-100 bg-white/78 p-4 shadow-[0_20px_42px_-30px_rgba(37,99,235,0.38)]">
+          <aside className="community-profile-panel relative min-h-[270px] overflow-hidden rounded-[28px] border border-blue-100 bg-white/78 p-4 shadow-[0_20px_42px_-30px_rgba(37,99,235,0.38)]">
             <div className="relative z-10 flex items-center gap-3">
               <Avatar user={currentUser} size="lg" />
               <div className="min-w-0">
@@ -236,7 +236,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
         </div>
       </section>
 
-      <nav className="sticky top-2 z-20 flex gap-2 overflow-x-auto rounded-[24px] border border-white/80 bg-white/92 p-2 shadow-sm backdrop-blur-xl">
+      <nav className="community-tabs sticky top-2 z-20 flex gap-2 overflow-x-auto rounded-[24px] border border-white/80 bg-white/92 p-2 shadow-sm backdrop-blur-xl">
         {[
           { id: "feed", label: "Feed", icon: MessageCircle },
           { id: "chats", label: "Conversas", icon: Send },
@@ -262,9 +262,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
       </nav>
 
       {loading && (
-        <div className="flex min-h-72 items-center justify-center rounded-[28px] border border-blue-100 bg-white/70">
-          <Loader2 className="h-7 w-7 animate-spin text-blue-600" />
-        </div>
+        <EstudakiLoadingState label="Carregando comunidade" />
       )}
 
       {loadError && !loading && (
@@ -276,7 +274,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
       {!loading && tab === "feed" && (
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
           <section className="space-y-4">
-            <div className="rounded-[28px] border border-blue-100 bg-white p-4 shadow-sm">
+            <div className="community-composer rounded-[28px] border border-blue-100 bg-white p-4 shadow-sm">
               <div className="flex gap-3">
                 <Avatar user={currentUser} />
                 <textarea
@@ -297,7 +295,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </div>
 
             {data.posts.map((item) => (
-              <article key={item.id} className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.24)]">
+              <article key={item.id} className="community-post-card rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.24)]">
                 <div className="flex items-center gap-3">
                   <Avatar user={item.user} />
                   <div className="min-w-0">
@@ -312,7 +310,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                   type="button"
                   onClick={() => void like(item.id)}
                   className={cn(
-                    "mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-black transition",
+                    "community-like-button mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-black transition",
                     item.liked ? "bg-rose-50 text-rose-600" : "bg-slate-50 text-slate-500 hover:bg-blue-50 hover:text-blue-700",
                   )}
                 >
@@ -324,14 +322,14 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             {!data.posts.length && <Empty text="Ainda nao ha publicacoes. Comece a conversa." />}
           </section>
 
-          <aside className="h-fit rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
+          <aside className="community-side-card h-fit rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
             <h2 className="flex items-center gap-2 text-base font-black text-slate-950">
               <Trophy className="h-5 w-5 text-amber-500" />
               Destaques ativos
             </h2>
             <div className="mt-4 space-y-3">
               {topUsers.map((user, index) => (
-                <div key={user.id} className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-2.5">
+                <div key={user.id} className="community-highlight-row flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-2.5">
                   <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-xs font-black text-blue-700 shadow-sm">{index + 1}</span>
                   <Avatar user={user} size="sm" />
                   <div className="min-w-0 flex-1">
@@ -348,14 +346,14 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
 
       {!loading && tab === "chats" && (
         <div className="grid gap-4 xl:grid-cols-[320px_minmax(0,1fr)_340px]">
-          <aside className="min-h-[620px] rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
+          <aside className="community-chat-list min-h-[620px] rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
             <div className="flex items-center justify-between gap-3">
               <h2 className="text-base font-black text-slate-950">Conversas</h2>
               <div className="flex gap-2">
-                <button type="button" onClick={() => setTab("people")} className="flex h-10 w-10 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-700">
+                <button type="button" onClick={() => setTab("people")} className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-700">
                   <Plus className="h-4 w-4" />
                 </button>
-                <button type="button" className="flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-100 bg-white text-slate-500">
+                <button type="button" className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-100 bg-white text-slate-500">
                   <Search className="h-4 w-4" />
                 </button>
               </div>
@@ -385,12 +383,12 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                     type="button"
                     onClick={() => setActiveConversationId(conversation.id)}
                     className={cn(
-                      "group flex w-full items-center gap-3 rounded-[22px] p-3 text-left transition",
+                      "community-conversation-row group flex w-full items-center gap-3 rounded-[22px] p-3 text-left transition",
                       active ? "bg-[linear-gradient(135deg,#eef2ff_0%,#e0f2fe_100%)] shadow-sm ring-1 ring-blue-100" : "hover:bg-slate-50",
                     )}
                   >
                     {conversation.isGroup ? (
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-br from-violet-500 to-blue-600 text-white shadow-md">
+                      <span className="community-chat-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-br from-violet-500 to-blue-600 text-white shadow-md">
                         <GraduationCap className="h-5 w-5" />
                       </span>
                     ) : (
@@ -415,11 +413,11 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </div>
           </aside>
 
-          <section className="flex min-h-[620px] overflow-hidden rounded-[28px] border border-slate-100 bg-white shadow-sm">
+          <section className="community-chat-window flex min-h-[620px] overflow-hidden rounded-[28px] border border-slate-100 bg-white shadow-sm">
             <div className="flex min-w-0 flex-1 flex-col">
               <header className="flex items-center justify-between gap-3 border-b border-slate-100 p-4">
                 <div className="flex min-w-0 items-center gap-3">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-br from-violet-500 to-blue-600 text-white shadow-md">
+                  <span className="community-chat-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-br from-violet-500 to-blue-600 text-white shadow-md">
                     {activeConversation?.isGroup ? <GraduationCap className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
                   </span>
                   <div className="min-w-0">
@@ -436,7 +434,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                 </div>
               </header>
 
-              <div className="thin-scrollbar flex-1 space-y-4 overflow-y-auto bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)] p-4">
+              <div className="community-message-area thin-scrollbar flex-1 space-y-4 overflow-y-auto bg-[linear-gradient(180deg,#f8fbff_0%,#ffffff_100%)] p-4">
                 {activeConversation?.messages.map((item) => {
                   const mine = item.userId === currentUserId;
                   return (
@@ -490,9 +488,9 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
           </section>
 
           <aside className="space-y-4">
-            <section className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-sm">
+            <section className="community-room-card rounded-[28px] border border-slate-100 bg-white p-5 shadow-sm">
               <div className="flex flex-col items-center text-center">
-                <span className="flex h-20 w-20 items-center justify-center rounded-[28px] bg-gradient-to-br from-violet-200 to-blue-100 text-violet-700 shadow-[0_18px_36px_-24px_rgba(79,70,229,0.5)]">
+                <span className="community-room-icon flex h-20 w-20 items-center justify-center rounded-[28px] bg-gradient-to-br from-violet-200 to-blue-100 text-violet-700 shadow-[0_18px_36px_-24px_rgba(79,70,229,0.5)]">
                   {activeConversation?.isGroup ? <GraduationCap className="h-9 w-9" /> : <MessageCircle className="h-8 w-8" />}
                 </span>
                 <h3 className="mt-3 text-lg font-black text-slate-950">{activeTitle}</h3>
@@ -532,7 +530,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
               </div>
             </section>
 
-            <section className="rounded-[28px] border border-amber-100 bg-[linear-gradient(135deg,#fff7ed_0%,#ffffff_100%)] p-5 shadow-sm">
+            <section className="community-user-card rounded-[28px] border border-amber-100 bg-[linear-gradient(135deg,#fff7ed_0%,#ffffff_100%)] p-5 shadow-sm">
               <p className="text-sm font-black text-slate-950">Seu painel</p>
               <div className="mt-3 flex items-center gap-3">
                 <Avatar user={currentUser} />
@@ -552,7 +550,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
 
       {!loading && tab === "people" && (
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
-          <section className="rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
+          <section className="community-people-card rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
             <label className="relative block">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
@@ -564,7 +562,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </label>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {data.users.map((user) => (
-                <article key={user.id} className="flex items-center gap-3 rounded-[22px] border border-slate-100 bg-slate-50/50 p-3">
+                <article key={user.id} className="community-person-card flex items-center gap-3 rounded-[22px] border border-slate-100 bg-slate-50/50 p-3">
                   <Avatar user={user} />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-black text-slate-950">{user.name}</p>
@@ -584,7 +582,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                       className="h-5 w-5 accent-blue-600"
                     />
                   ) : (
-                    <button type="button" onClick={() => void createConversation([user.id])} className="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+                    <button type="button" onClick={() => void createConversation([user.id])} className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
                       <MessageCircle className="h-4 w-4" />
                     </button>
                   )}
@@ -593,7 +591,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </div>
           </section>
 
-          <aside className="h-fit rounded-[28px] border border-violet-100 bg-violet-50/70 p-5 shadow-sm">
+          <aside className="community-group-card h-fit rounded-[28px] border border-violet-100 bg-violet-50/70 p-5 shadow-sm">
             <h2 className="flex items-center gap-2 font-black text-violet-950">
               <Users className="h-5 w-5" />
               Criar grupo
@@ -626,7 +624,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
 
 function HeroStat({ icon: Icon, label, value, tone }: { icon: typeof Trophy; label: string; value: string; tone: string }) {
   return (
-    <div className="rounded-[18px] border border-slate-100 bg-white/86 p-3 shadow-sm">
+    <div className="community-stat-card rounded-[18px] border border-slate-100 bg-white/86 p-3 shadow-sm">
       <Icon className={cn("h-4 w-4", tone)} />
       <p className="mt-2 text-[10px] font-black uppercase text-slate-400">{label}</p>
       <p className="truncate text-base font-black text-slate-950">{value}</p>
@@ -656,7 +654,7 @@ function IconButton({ label, icon: Icon }: { label: string; icon: typeof Search 
       type="button"
       aria-label={label}
       title={label}
-      className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-100 bg-white text-slate-500 shadow-sm transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"
+      className="community-icon-button flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-100 bg-white text-slate-500 shadow-sm transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"
     >
       <Icon className="h-4 w-4" />
     </button>
@@ -665,7 +663,7 @@ function IconButton({ label, icon: Icon }: { label: string; icon: typeof Search 
 
 function MiniStat({ icon: Icon, label, value, tone }: { icon: typeof Trophy; label: string; value: number; tone: string }) {
   return (
-    <div className="rounded-2xl border border-slate-100 bg-white p-3 text-center shadow-sm">
+    <div className="community-mini-stat rounded-2xl border border-slate-100 bg-white p-3 text-center shadow-sm">
       <Icon className={cn("mx-auto h-4 w-4", tone)} />
       <p className="mt-1 text-sm font-black text-slate-950">{value.toLocaleString("pt-BR")}</p>
       <p className="text-[10px] font-bold text-slate-500">{label}</p>
@@ -675,7 +673,7 @@ function MiniStat({ icon: Icon, label, value, tone }: { icon: typeof Trophy; lab
 
 function SharedItem({ icon: Icon, label, value, tone }: { icon: typeof FileText; label: string; value: number; tone: string }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-2.5">
+    <div className="community-shared-item flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-2.5">
       <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl", tone)}>
         <Icon className="h-4 w-4" />
       </span>
@@ -700,7 +698,7 @@ function Avatar({ user, size = "md", className }: { user: Pick<User, "name" | "a
     return <img src={user.avatarUrl} alt={user.name} className={cn("shrink-0 object-cover shadow-md", sizes[size], className)} />;
   }
   return (
-    <span className={cn("flex shrink-0 items-center justify-center bg-gradient-to-br from-blue-600 via-cyan-400 to-emerald-300 font-black text-white shadow-md", sizes[size], className)}>
+    <span className={cn("community-avatar flex shrink-0 items-center justify-center bg-gradient-to-br from-blue-600 via-cyan-400 to-emerald-300 font-black text-white shadow-md", sizes[size], className)}>
       {initials(user.name)}
     </span>
   );
@@ -708,7 +706,7 @@ function Avatar({ user, size = "md", className }: { user: Pick<User, "name" | "a
 
 function Empty({ text, compact = false }: { text: string; compact?: boolean }) {
   return (
-    <p className={cn("rounded-[22px] border border-dashed border-slate-200 bg-white text-center text-sm font-semibold text-slate-500", compact ? "p-5" : "p-10")}>
+    <p className={cn("community-empty rounded-[22px] border border-dashed border-slate-200 bg-white text-center text-sm font-semibold text-slate-500", compact ? "p-5" : "p-10")}>
       {text}
     </p>
   );

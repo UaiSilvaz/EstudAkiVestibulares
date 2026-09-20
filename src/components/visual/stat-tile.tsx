@@ -82,8 +82,9 @@ export function StatTile({
 
   return (
     <div
+      data-accent={accent}
       className={cn(
-        "group relative min-h-[176px] min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-left text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition duration-300 hover:-translate-y-1 hover:scale-[1.005] hover:shadow-[0_30px_56px_-30px_rgba(15,23,42,0.42)] sm:p-6",
+        "theme-stat-tile group relative min-h-[176px] min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-left text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition duration-300 hover:-translate-y-1 hover:scale-[1.005] hover:shadow-[0_30px_56px_-30px_rgba(15,23,42,0.42)] sm:p-6",
         a.bg,
         className,
       )}

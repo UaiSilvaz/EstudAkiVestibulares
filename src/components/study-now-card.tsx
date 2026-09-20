@@ -4,6 +4,7 @@ import { ArrowRight, CalendarCheck2, Clock3, Power, Zap } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { announceRouteTransition } from "@/components/route-transition-indicator";
 import type { StudyNowBlock, StudyNowSession } from "@/lib/learning/study-session-planner";
 
 type Props = {
@@ -113,6 +114,7 @@ export function StudyNowCard({ initialSession }: Props) {
     activateDailyOffensive(startedAt);
     setIsStarting(true);
     navigationTimerRef.current = setTimeout(() => {
+      announceRouteTransition(initialSession.startHref);
       router.push(initialSession.startHref);
     }, 1550);
   }

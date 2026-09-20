@@ -29,7 +29,7 @@ async function main() {
       role: Role.ADMIN,
       xp: 12800,
       streak: 42,
-      league: "Diamante",
+      league: "Aprovado",
       weeklyHours: 20,
       targetExam: "ENEM",
     },

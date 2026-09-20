@@ -3,6 +3,7 @@
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { announceRouteTransition } from "@/components/route-transition-indicator";
 
 export function LogoutButton() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export function LogoutButton() {
   async function logout() {
     setLoading(true);
     await fetch("/api/auth/logout", { method: "POST" });
+    announceRouteTransition("/login");
     router.push("/login");
     router.refresh();
   }

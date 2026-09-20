@@ -1,6 +1,8 @@
 import "server-only";
 import type {
   Question,
+  QuestionBlock,
+  QuestionImage,
   QuestionPedagogicalMetadata,
   Subject,
   Topic,
@@ -40,6 +42,14 @@ type StudentQuestionSource = Pick<
   topic: Pick<Topic, "id" | "name" | "subjectId"> | null;
   vestibular: Pick<Vestibular, "id" | "name" | "color">;
   pedagogicalMetadata?: Pick<QuestionPedagogicalMetadata, "knowledgeArea"> | null;
+  blocks?: Array<
+    Pick<QuestionBlock, "id" | "type" | "content" | "order" | "confidence"> & {
+      asset: Pick<
+        QuestionImage,
+        "url" | "altText" | "description" | "width" | "height" | "assetType" | "relation"
+      > | null;
+    }
+  >;
 };
 
 /**

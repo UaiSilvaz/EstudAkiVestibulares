@@ -2,16 +2,19 @@ import { PageHeader } from "@/components/page-header";
 import { StudyPlanDashboard } from "@/components/study-plan-dashboard";
 import { requirePersistedUser } from "@/lib/auth";
 import { getOrCreateStudyPlan } from "@/lib/adaptive-study-plan";
+import { getActivePreparationContext } from "@/lib/preparations";
 
 export default async function CronogramaPage() {
   const user = await requirePersistedUser();
-  const plan = await getOrCreateStudyPlan(user.id);
+  const preparationContext = await getActivePreparationContext(user.id);
+  const activePreparation = preparationContext.active;
+  const plan = await getOrCreateStudyPlan(user.id, activePreparation?.userPreparationId ?? null);
 
   return (
     <div className="space-y-6">
       <PageHeader
         eyebrow="Cronograma"
-        title="Plano semanal adaptativo"
+        title={`Plano semanal ${activePreparation ? `- ${activePreparation.displayName}` : "adaptativo"}`}
         description="Seu tempo, seus erros e o que ainda falta estudar organizados em blocos objetivos."
       />
       <StudyPlanDashboard
@@ -24,8 +27,10 @@ export default async function CronogramaPage() {
           userId: undefined,
         }))}
         profile={{
-          targetExam: user.targetExam,
-          weeklyHours: user.weeklyHours,
+          targetExam: activePreparation?.displayName ?? user.targetExam,
+          weeklyHours: activePreparation
+            ? Math.max(1, Math.round((activePreparation.minutesPerDay * activePreparation.studyDays.length) / 60))
+            : user.weeklyHours,
         }}
         preference={{
           availableDays: JSON.parse(plan.preference.availableDays) as number[],

@@ -193,7 +193,7 @@ async function main() {
       include: { product: { include: { material: true } } },
     });
     results.biblioteca = {
-      purchasedMaterial: license?.product.material.title ?? null,
+      purchasedMaterial: license?.product.material?.title ?? null,
     };
     results.importacao = {
       ankiCards: await db.flashcard.count({ where: { source: "ANKI_DATA" } }),

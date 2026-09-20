@@ -19,6 +19,23 @@ type StudentQuestionImage =
       relation?: string;
     };
 
+type StudentQuestionBlockSource = {
+  id: string;
+  type: string;
+  content: string;
+  order: number;
+  confidence: number;
+  asset?: {
+    url: string;
+    altText?: string | null;
+    description?: string | null;
+    width?: number | null;
+    height?: number | null;
+    assetType?: string;
+    relation?: string;
+  } | null;
+};
+
 export type StudentQuestionPayloadSource = {
   id: string;
   supportText: string | null;
@@ -49,6 +66,7 @@ export type StudentQuestionPayloadSource = {
   topic: { id: string; name: string; subjectId: string } | null;
   vestibular: { id: string; name: string; color: string };
   pedagogicalMetadata?: { knowledgeArea: string | null } | null;
+  blocks?: StudentQuestionBlockSource[];
 };
 
 /**
@@ -65,6 +83,26 @@ export function createStudentQuestionPayload(question: StudentQuestionPayloadSou
       imageUrl: hideAlternativeImages ? null : imageUrl ?? null,
     }),
   );
+  const blocks = (question.blocks ?? [])
+    .filter((block) => block.content?.trim() || block.asset?.url)
+    .sort((first, second) => first.order - second.order)
+    .map((block) => ({
+      id: block.id,
+      type: block.type,
+      content: block.content,
+      order: block.order,
+      confidence: block.confidence,
+      asset: block.asset
+        ? {
+            url: block.asset.url,
+            altText: block.asset.altText ?? block.asset.description ?? null,
+            width: block.asset.width ?? null,
+            height: block.asset.height ?? null,
+            assetType: block.asset.assetType,
+            relation: block.asset.relation,
+          }
+        : null,
+    }));
 
   return {
     id: question.id,
@@ -92,6 +130,7 @@ export function createStudentQuestionPayload(question: StudentQuestionPayloadSou
     officialVariant: question.officialVariant,
     answerSituation: question.answerSituation,
     knowledgeArea: question.pedagogicalMetadata?.knowledgeArea ?? null,
+    blocks,
     alternatives,
     subject: {
       id: question.subject.id,

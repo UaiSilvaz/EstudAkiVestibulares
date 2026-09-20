@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import {
   BookOpen,
-  Loader2,
   Plus,
   RotateCcw,
   Search,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
+import { EstudakiLoadingState } from "@/components/loading-states";
 
 type Card = {
   id: string;
@@ -46,6 +46,8 @@ export function FlashcardDeck({
   const [scope, setScope] = useState("");
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
   const [creating, setCreating] = useState(false);
   const [form, setForm] = useState({ subjectId: subjects[0]?.id ?? "", deck: "Meus flashcards", front: "", back: "", shared: false });
 
@@ -58,21 +60,32 @@ export function FlashcardDeck({
     const controller = new AbortController();
     const timeout = window.setTimeout(async () => {
       setLoading(true);
+      setLoadError(null);
       const params = new URLSearchParams();
       if (subject) params.set("subject", subject);
       if (deck) params.set("deck", deck);
       if (scope) params.set("scope", scope);
       if (search.trim()) params.set("q", search.trim());
-      const response = await fetch(`/api/flashcards?${params}`, { signal: controller.signal });
-      const data = (await response.json().catch(() => null)) as { cards?: Card[] } | null;
-      if (response.ok) setCards(data?.cards ?? []);
-      setLoading(false);
+      try {
+        const response = await fetch(`/api/flashcards?${params}`, { signal: controller.signal });
+        const data = (await response.json().catch(() => null)) as { cards?: Card[]; error?: string } | null;
+        if (!response.ok || !Array.isArray(data?.cards)) {
+          throw new Error(data?.error ?? "Não foi possível carregar seus flashcards agora.");
+        }
+        if (!controller.signal.aborted) setCards(data.cards);
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          setLoadError(error instanceof Error ? error.message : "Não foi possível carregar seus flashcards agora.");
+        }
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
     }, 220);
     return () => {
       window.clearTimeout(timeout);
       controller.abort();
     };
-  }, [deck, scope, search, subject]);
+  }, [deck, scope, search, subject, retryCount]);
 
   async function favorite(card: Card) {
     const response = await fetch(`/api/flashcards/${card.id}/favorite`, { method: "POST" });
@@ -145,7 +158,14 @@ export function FlashcardDeck({
       )}
 
       {loading ? (
-        <div className="flex min-h-64 items-center justify-center"><Loader2 className="h-7 w-7 animate-spin text-blue-600" /></div>
+        <EstudakiLoadingState label="Carregando flashcards" />
+      ) : loadError ? (
+        <div role="alert" className="rounded-[24px] border border-amber-200 bg-amber-50 p-6 text-center">
+          <p className="text-sm font-bold text-amber-800">{loadError}</p>
+          <button type="button" onClick={() => setRetryCount((current) => current + 1)} className="ek-button ek-button-primary mt-4">
+            Tentar novamente
+          </button>
+        </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {cards.map((card, index) => {
@@ -175,7 +195,7 @@ export function FlashcardDeck({
           })}
         </div>
       )}
-      {!loading && !cards.length && <p className="rounded-[24px] border border-dashed border-slate-200 bg-white p-10 text-center text-sm font-semibold text-slate-500">Nenhum flashcard encontrado para estes filtros.</p>}
+      {!loading && !loadError && !cards.length && <p className="rounded-[24px] border border-dashed border-slate-200 bg-white p-10 text-center text-sm font-semibold text-slate-500">Nenhum flashcard encontrado para estes filtros.</p>}
     </div>
   );
 }

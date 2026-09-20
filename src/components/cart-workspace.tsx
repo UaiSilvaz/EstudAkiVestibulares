@@ -13,7 +13,7 @@ type Item = {
     name: string;
     priceCents: number;
     checkoutUrl: string | null;
-    material: { title: string; category: string; subject: { name: string } | null };
+    material: { title: string; category: string; subject: { name: string } | null } | null;
   };
 };
 
@@ -118,9 +118,14 @@ function Section({ title, icon: Icon, count, children }: { title: string; icon: 
 }
 
 function CartRow({ item, busy, onMove, onRemove, wishlist = false }: { item: Item; busy: boolean; onMove: () => void; onRemove: () => void; wishlist?: boolean }) {
+  const material = item.product.material;
+  const subject = material?.subject?.name ?? "Geral";
+  const category = material?.category ?? "Preparacao";
+  const title = material?.title ?? item.product.name;
+
   return (
     <article className="flex flex-col gap-3 rounded-[22px] border border-slate-100 bg-white p-4 shadow-sm sm:flex-row sm:items-center">
-      <div className="min-w-0 flex-1"><p className="text-[10px] font-black uppercase tracking-wider text-blue-600">{item.product.material.subject?.name ?? "Geral"} · {item.product.material.category}</p><h3 className="mt-1 font-black text-slate-950">{item.product.material.title}</h3><p className="mt-1 text-sm font-bold text-orange-600">R$ {(item.product.priceCents / 100).toFixed(2).replace(".", ",")}</p></div>
+      <div className="min-w-0 flex-1"><p className="text-[10px] font-black uppercase tracking-wider text-blue-600">{subject} · {category}</p><h3 className="mt-1 font-black text-slate-950">{title}</h3><p className="mt-1 text-sm font-bold text-orange-600">R$ {(item.product.priceCents / 100).toFixed(2).replace(".", ",")}</p></div>
       <div className="flex gap-2">
         <button disabled={busy} onClick={onMove} className="flex min-h-10 items-center gap-2 rounded-xl border border-blue-100 bg-blue-50 px-3 text-xs font-black text-blue-700">{busy ? <Loader2 className="h-4 w-4 animate-spin" /> : wishlist ? <ShoppingCart className="h-4 w-4" /> : <Heart className="h-4 w-4" />}{wishlist ? "Mover ao carrinho" : "Salvar"}</button>
         <button disabled={busy} onClick={onRemove} aria-label="Remover item" className="flex h-10 w-10 items-center justify-center rounded-xl border border-rose-100 bg-rose-50 text-rose-600"><Trash2 className="h-4 w-4" /></button>

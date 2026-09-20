@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-08-27T01:18:34.283Z",
+  "totals": {
+    "total": 8990,
+    "official": 2390,
+    "authorial": 6600,
+    "published": 1480,
+    "review": 7510,
+    "target6000Reached": true,
+    "target8000Reached": true,
+    "officialGapTo6000": 3610,
+    "officialGapTo8000": 5610
+  },
+  "bySourceType": {
+    "OFFICIAL": 2390,
+    "AUTHORIAL": 6600
+  },
+  "byStatus": {
+    "PUBLISHED": 1480,
+    "REVIEW": 7510
+  },
+  "byReviewState": {
+    "APPROVED": 1480,
+    "PENDING_REVIEW": 7510
+  },
+  "byVestibular": {
+    "ENEM": {
+      "total": 3207,
+      "official": 2007,
+      "authorial": 1200,
+      "published": 1480,
+      "review": 1727
+    },
+    "ETEC": {
+      "total": 900,
+      "official": 0,
+      "authorial": 900,
+      "published": 0,
+      "review": 900
+    },
+    "FATEC": {
+      "total": 900,
+      "official": 0,
+      "authorial": 900,
+      "published": 0,
+      "review": 900
+    },
+    "FUVEST": {
+      "total": 1145,
+      "official": 245,
+      "authorial": 900,
+      "published": 0,
+      "review": 1145
+    },
+    "Provão Paulista": {
+      "total": 900,
+      "official": 0,
+      "authorial": 900,
+      "published": 0,
+      "review": 900
+    },
+    "UNESP": {
+      "total": 900,
+      "official": 0,
+      "authorial": 900,
+      "published": 0,
+      "review": 900
+    },
+    "UNICAMP": {
+      "total": 1038,
+      "official": 138,
+      "authorial": 900,
+      "published": 0,
+      "review": 1038
+    }
+  }
+}

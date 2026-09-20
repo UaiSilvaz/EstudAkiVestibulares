@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-08-27",
+  "sources": [
+    {
+      "id": "inep-enem-2024-dia-2-caderno-5-amarelo",
+      "type": "official_exam",
+      "institution": "INEP",
+      "exam": "ENEM",
+      "year": 2024,
+      "day": 2,
+      "application": "regular",
+      "modality": "impressa",
+      "bookletNumber": 5,
+      "bookletColor": "Amarelo",
+      "sourcePageUrl": "https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enem/provas-e-gabaritos/2024",
+      "examUrl": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_PV_impresso_D2_CD5.pdf",
+      "answerKeyUrl": "https://download.inep.gov.br/enem/provas_e_gabaritos/2024_GB_impresso_D2_CD5.pdf",
+      "localExamPath": "data/provas/enem/2024/prova-2-dia.pdf",
+      "localAnswerKeyPath": "data/provas/enem/2024/gabarito-2-dia.pdf",
+      "examSha256": "9707d9dae08c177dd27dcd5ac8d6ae97e6f9d45d46fb0892c84679838ff8a4ae",
+      "answerKeySha256": "342edd1d18c0266812b9e379c7b9b2ebfcdd739857445bd03cf3c55951861297",
+      "configPath": "scripts/enem/config/enem-2024-dia-2.json",
+      "corpusDirectory": "data/QUESTÕES/processamento/enem-2024-dia-2-caderno-5-amarelo",
+      "status": "needs_review"
+    }
+  ]
+}

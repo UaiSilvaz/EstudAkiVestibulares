@@ -39,9 +39,6 @@ public/questoes/**
 supabase/.temp
 supabase/.temp/
 supabase/.temp/**
-scripts/enem
-scripts/enem/
-scripts/enem/**
 scripts/import
 scripts/import/
 scripts/import/**

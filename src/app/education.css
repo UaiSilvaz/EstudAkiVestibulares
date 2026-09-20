@@ -1,0 +1,78 @@
+/* The original EstudAki identity, expressed through shared semantic tokens. */
+:root {
+  --secondary: #0891b2;
+  --accent: #ea580c;
+  --surface: #fff;
+  --border: #dbe3ec;
+  --warning: #91610d;
+}
+
+.education-shell {
+  background: var(--background);
+  color: var(--ink);
+  min-height: 100dvh;
+  --sidebar-width: 232px;
+}
+.ek-surface { background: var(--surface); border: 1px solid var(--border); box-shadow: 0 10px 32px -26px color-mix(in srgb, var(--primary) 45%, transparent); }
+.ek-primary { color: var(--primary); }
+.ek-muted { color: var(--muted); }
+.ek-accent { color: var(--accent); }
+.ek-primary-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: .6rem;
+  min-height: 44px; padding: .7rem 1.15rem; border-radius: 14px;
+  background: var(--primary); color: #fff; font-size: .875rem; font-weight: 750;
+  box-shadow: 0 8px 18px -12px var(--primary); transition: transform .16s ease, filter .16s ease;
+}
+.ek-primary-button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.ek-primary-button:disabled { transform: none; }
+.ek-secondary-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  min-height: 44px; padding: .65rem 1rem; border: 1px solid var(--border);
+  border-radius: 14px; background: var(--surface); color: var(--ink); font-size: .875rem; font-weight: 650;
+}
+.education-shell :is(a, button, input, select, textarea):focus-visible,
+.education-onboarding :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--primary); outline-offset: 3px;
+}
+.ek-section-title { font-family: var(--font-display), sans-serif; font-size: 1.1rem; font-weight: 800; line-height: 1.4; }
+.ek-eyebrow { color: var(--primary); font-size: .65rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.ek-soft { background: color-mix(in srgb, var(--primary) 6%, var(--surface)); }
+.ek-field { width: 100%; min-height: 46px; border: 1px solid var(--border); border-radius: 13px; padding: .65rem .85rem; color: var(--ink); background: var(--surface); }
+.ek-progress-track { overflow: hidden; border-radius: 999px; height: 7px; background: color-mix(in srgb, var(--primary) 10%, var(--surface)); }
+.ek-progress-track > span { display: block; height: 100%; border-radius: inherit; background: var(--primary); transition: width .35s ease; }
+.education-sidebar { position: fixed; inset: 0 auto 0 0; width: var(--sidebar-width); z-index: 40; display: flex; flex-direction: column; background: var(--surface); border-right: 1px solid var(--border); padding: 18px 12px; transition: width .18s ease; }
+.education-main { margin-left: var(--sidebar-width); transition: margin-left .18s ease; }
+.education-nav-link { display: flex; gap: 11px; align-items: center; min-height: 43px; border-radius: 13px; padding: 9px 12px; font-size: .82rem; font-weight: 650; color: var(--muted); transition: color .14s ease, background .14s ease; }
+.education-nav-link:hover { color: var(--primary); background: color-mix(in srgb, var(--primary) 5%, var(--surface)); }
+.education-nav-link[aria-current=page] { color: var(--primary); background: color-mix(in srgb, var(--primary) 9%, var(--surface)); font-weight: 800; }
+.education-nav-link svg { flex-shrink: 0; width: 19px; height: 19px; }
+.education-hero { background: radial-gradient(ellipse at 100% 0, color-mix(in srgb, var(--secondary) 13%, transparent), transparent 60%), var(--surface); }
+.education-shell[data-personality=professional] .education-hero,
+.education-shell[data-personality=institutional] .education-hero { background: var(--surface); }
+.education-shell[data-personality=clinical] .education-hero { background: linear-gradient(125deg, var(--surface), color-mix(in srgb, var(--primary) 5%, var(--surface))); }
+.education-shell[data-personality]:not([data-personality=youth]) :is(.estudaki-card, .estudaki-panel) { background: var(--surface); border-color: var(--border); box-shadow: 0 5px 20px -18px var(--ink); }
+.education-shell[data-personality]:not([data-personality=youth]) :is(.bg-blue-600, .bg-blue-700) { background-color: var(--primary); }
+.education-shell[data-personality]:not([data-personality=youth]) :is(.text-blue-600, .text-blue-700, .text-blue-800) { color: var(--primary); }
+.education-shell[data-personality]:not([data-personality=youth]) :is(.bg-blue-50, .bg-cyan-50) { background-color: color-mix(in srgb, var(--primary) 5%, var(--surface)); }
+.education-bottom-nav { display: none; }
+.education-onboarding { color: var(--ink); }
+.education-choice { min-height: 125px; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+.education-choice:hover { transform: translateY(-3px); border-color: var(--primary); box-shadow: 0 10px 25px -18px var(--primary); }
+.education-choice[aria-pressed=true] { border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); background: color-mix(in srgb, var(--primary) 5%, var(--surface)); }
+@media (min-width: 768px) and (max-width: 1199px) {
+  .education-shell { --sidebar-width: 76px !important; }
+  .education-sidebar .sidebar-expanded { display: none; }
+  .education-sidebar .education-nav-link { justify-content: center; padding: 11px; }
+}
+@media (max-width: 767px) {
+  .education-shell { --sidebar-width: 0px !important; }
+  .education-sidebar { display: none; }
+  .education-main { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
+  .education-bottom-nav { position: fixed; inset: auto 0 0; z-index: 45; display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid var(--border); background: var(--surface); padding: 7px 5px calc(7px + env(safe-area-inset-bottom)); }
+  .education-bottom-nav :is(a, button) { display: flex; min-height: 48px; gap: 4px; flex-direction: column; align-items: center; justify-content: center; border-radius: 12px; font-size: .6rem; font-weight: 750; color: var(--muted); }
+  .education-bottom-nav [aria-current=page] { background: color-mix(in srgb, var(--primary) 8%, var(--surface)); color: var(--primary); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .education-shell *, .education-onboarding * { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  .education-choice:hover, .ek-primary-button:hover { transform: none; }
+}
