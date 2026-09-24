@@ -118,7 +118,7 @@ const faqs = [
   {
     question: "A plataforma serve apenas para o ENEM?",
     answer:
-      "Não. O EstudAki também organiza conteúdos e questões para ETEC, FATEC, FUVEST, UNESP, UNICAMP e Provão Paulista.",
+      "Não. O Silva Educacional também organiza conteúdos e questões para ETEC, FATEC, FUVEST, UNESP, UNICAMP e Provão Paulista.",
   },
   {
     question: "Consigo montar uma rotina personalizada?",
@@ -205,10 +205,10 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
     <div className={`cloud-landing ${className}`}>
       <header className="cloud-pill-header" id="top">
         <nav className="cloud-pill-nav" aria-label="Navegação principal">
-          <a className="cloud-pill-brand" href="#inicio" aria-label="EstudAki - voltar ao início">
+          <a className="cloud-pill-brand" href="#inicio" aria-label="Silva Educacional - voltar ao início">
             <Image
               src="/brand/estudaki-logo.png"
-              alt="EstudAki Vestibulares"
+              alt="Silva Educacional Vestibulares"
               width={180}
               height={56}
               priority
@@ -409,7 +409,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
                 <em>Tudo organizado em um só lugar.</em>
               </h2>
               <p>
-                O EstudAki reúne as matérias mais importantes com trilhas, questões, revisões e
+                O Silva Educacional reúne as matérias mais importantes com trilhas, questões, revisões e
                 acompanhamento de desempenho.
               </p>
             </div>
@@ -437,7 +437,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           <div className="container">
             <div className="section-heading centered reveal">
               <div className="eyebrow dark">
-                <span /> O método EstudAki
+                <span /> O método Silva Educacional
               </div>
               <h2>
                 Menos dúvida sobre o que estudar.
@@ -711,7 +711,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           <div className="container final-content reveal">
             <Image
               src={asset("logo-estudaki-white.png")}
-              alt="EstudAki Vestibulares"
+              alt="Silva Educacional Vestibulares"
               width={260}
               height={84}
             />
@@ -743,7 +743,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           <div>
             <Image
               src={asset("logo-estudaki-white.png")}
-              alt="EstudAki Vestibulares"
+              alt="Silva Educacional Vestibulares"
               width={220}
               height={72}
             />
@@ -769,7 +769,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           </div>
         </div>
         <div className="container footer-bottom">
-          <span>© 2026 EstudAki Vestibulares.</span>
+          <span>© 2026 Silva Educacional Vestibulares.</span>
           <span>Feito para quem acredita no próximo passo.</span>
         </div>
       </footer>

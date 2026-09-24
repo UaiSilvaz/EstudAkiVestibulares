@@ -29,6 +29,7 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
 import { EstudakiLoadingState } from "@/components/loading-states";
+import { SilvaIllustration, type SilvaIllustrationName } from "@/components/silva-illustration";
 import { cn } from "@/lib/utils";
 
 type Tab = "feed" | "chats" | "people";
@@ -167,32 +168,32 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
   const sharedCounts = getSharedCounts(activeConversation);
 
   const quickActions = [
-    { label: "Conversa rapida", detail: "Inicie um papo", icon: MessageCircle, tab: "chats" as Tab, tone: "from-violet-600 to-blue-600", surface: "border-violet-100 bg-violet-50/80 text-violet-700" },
+    { label: "Conversa rápida", detail: "Inicie um papo", icon: MessageCircle, tab: "chats" as Tab, tone: "from-violet-600 to-blue-600", surface: "border-violet-100 bg-violet-50/80 text-violet-700" },
     { label: "Grupos ativos", detail: `${data.conversations.length} conversas`, icon: Users, tab: "chats" as Tab, tone: "from-emerald-500 to-cyan-500", surface: "border-emerald-100 bg-emerald-50/80 text-emerald-700" },
     { label: "Destaques", detail: `${data.posts.length} posts`, icon: Star, tab: "feed" as Tab, tone: "from-amber-400 to-orange-500", surface: "border-amber-100 bg-amber-50/80 text-orange-700" },
-    { label: "Pessoas", detail: "Criar grupo", icon: GraduationCap, tab: "people" as Tab, tone: "from-blue-500 to-cyan-400", surface: "border-blue-100 bg-blue-50/80 text-blue-700" },
+    { label: "Pessoas", detail: "Criar grupo", icon: GraduationCap, tab: "people" as Tab, tone: "from-blue-500 to-cyan-400", surface: "border-[var(--border)] bg-[var(--brand-soft)]/80 text-[var(--brand)]" },
   ];
 
   return (
     <div className="community-workspace space-y-4">
-      <section className="community-hero relative overflow-hidden rounded-[32px] border border-white/80 bg-[linear-gradient(116deg,#ffffff_0%,#f7f5ff_46%,#ecfeff_100%)] shadow-[0_24px_60px_-36px_rgba(15,23,42,0.32)]">
-        <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#2563EB_0%,#22D3EE_45%,#F97316_100%)]" aria-hidden />
+      <section className="community-hero relative overflow-hidden rounded-[32px] border border-white/80 bg-[linear-gradient(116deg,var(--surface),var(--brand-soft))] shadow-[0_24px_60px_-36px_rgba(15,23,42,0.32)]">
+        <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,var(--brand),var(--highlight))]" aria-hidden />
         <div className="relative grid gap-6 p-5 md:p-7 xl:grid-cols-[minmax(0,1fr)_390px]">
           <div className="min-w-0">
-            <p className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/86 px-3 py-1.5 text-[10px] font-black uppercase text-blue-700 shadow-sm">
+            <p className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)]/86 px-3 py-1.5 text-[10px] font-black uppercase text-[var(--brand)] shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-cyan-500" />
               Comunidade
             </p>
-            <h1 className="mt-4 max-w-4xl font-display text-3xl font-black leading-tight text-[#0F172A] md:text-4xl">
-              Converse com sua comunidade de estudos
+            <h1 className="mt-4 max-w-4xl font-display text-3xl font-black leading-tight text-[var(--text)] md:text-4xl">
+              Aprender é melhor em boa companhia.
             </h1>
-            <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-slate-600 md:text-base">
-              Troque ideias, tire duvidas, compartilhe materiais e evolua junto com outros estudantes.
+            <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-[var(--text-secondary)] md:text-base">
+              Troque ideias, tire dúvidas, compartilhe materiais e evolua junto com outros estudantes.
             </p>
 
             <div className="mt-5 grid gap-3 sm:grid-cols-2 2xl:grid-cols-4">
               {quickActions.map((item) => {
-                const Icon = item.icon;
+                const illustration = ({ chats: "letter", feed: "book", people: "globe" } as Record<Tab, SilvaIllustrationName>)[item.tab];
                 return (
                   <button
                     key={item.label}
@@ -204,11 +205,11 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                     )}
                   >
                     <span className={cn("community-action-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-lg", item.tone)}>
-                      <Icon className="h-5 w-5" strokeWidth={2.6} />
+                      <SilvaIllustration name={illustration} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-sm font-black text-[#0F172A]">{item.label}</span>
-                      <span className="mt-1 block truncate text-xs font-bold text-slate-500">{item.detail}</span>
+                      <span className="block truncate text-sm font-black text-[var(--text)]">{item.label}</span>
+                      <span className="mt-1 block truncate text-xs font-bold text-[var(--text-secondary)]">{item.detail}</span>
                     </span>
                     <ArrowRight className="h-4 w-4 shrink-0 opacity-70 transition group-hover:translate-x-0.5" />
                   </button>
@@ -217,18 +218,18 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </div>
           </div>
 
-          <aside className="community-profile-panel relative min-h-[270px] overflow-hidden rounded-[28px] border border-blue-100 bg-white/78 p-4 shadow-[0_20px_42px_-30px_rgba(37,99,235,0.38)]">
+          <aside className="community-profile-panel relative min-h-[270px] overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--surface)]/78 p-4 shadow-[0_20px_42px_-30px_rgba(37,99,235,0.38)]">
             <div className="relative z-10 flex items-center gap-3">
               <Avatar user={currentUser} size="lg" />
               <div className="min-w-0">
-                <p className="truncate text-sm font-black text-slate-950">{currentUser.name}</p>
-                <p className="text-xs font-bold text-blue-700">Seu ritmo na comunidade</p>
+                <p className="truncate text-sm font-black text-[var(--text)]">{currentUser.name}</p>
+                <p className="text-xs font-bold text-[var(--brand)]">Seu ritmo na comunidade</p>
               </div>
             </div>
             <div className="relative z-10 mt-4 grid grid-cols-2 gap-2">
               <HeroStat icon={Trophy} label="Seu XP" value={currentUser.xp.toLocaleString("pt-BR")} tone="text-amber-600" />
               <HeroStat icon={Flame} label="Dias seguidos" value={`${currentUser.streak}d`} tone="text-orange-600" />
-              <HeroStat icon={ShieldCheck} label="Liga" value={currentUser.league} tone="text-blue-700" />
+              <HeroStat icon={ShieldCheck} label="Liga" value={currentUser.league} tone="text-[var(--brand)]" />
               <HeroStat icon={Zap} label="Conversas" value={data.conversations.length.toLocaleString("pt-BR")} tone="text-cyan-600" />
             </div>
             <ChatIllustration />
@@ -236,7 +237,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
         </div>
       </section>
 
-      <nav className="community-tabs sticky top-2 z-20 flex gap-2 overflow-x-auto rounded-[24px] border border-white/80 bg-white/92 p-2 shadow-sm backdrop-blur-xl">
+      <nav aria-label="Áreas da comunidade" className="community-tabs sticky top-2 z-20 flex gap-2 overflow-x-auto rounded-[24px] border border-white/80 bg-[var(--surface)]/92 p-2 shadow-sm backdrop-blur-xl">
         {[
           { id: "feed", label: "Feed", icon: MessageCircle },
           { id: "chats", label: "Conversas", icon: Send },
@@ -249,9 +250,10 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
               key={item.id}
               type="button"
               onClick={() => setTab(item.id as Tab)}
+              aria-pressed={active}
               className={cn(
                 "flex min-h-10 shrink-0 items-center gap-2 rounded-2xl px-4 text-xs font-black transition",
-                active ? "bg-blue-600 text-white shadow-[0_14px_24px_-14px_rgba(37,99,235,0.72)]" : "text-slate-500 hover:bg-blue-50 hover:text-blue-700",
+                active ? "bg-[var(--brand-button)] text-white shadow-[0_14px_24px_-14px_rgba(37,99,235,0.72)]" : "text-[var(--text-secondary)] hover:bg-[var(--brand-soft)] hover:text-[var(--brand)]",
               )}
             >
               <Icon className="h-4 w-4" />
@@ -274,7 +276,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
       {!loading && tab === "feed" && (
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
           <section className="space-y-4">
-            <div className="community-composer rounded-[28px] border border-blue-100 bg-white p-4 shadow-sm">
+            <div className="community-composer rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm">
               <div className="flex gap-3">
                 <Avatar user={currentUser} />
                 <textarea
@@ -283,7 +285,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                   rows={3}
                   maxLength={1200}
                   placeholder="Compartilhe uma duvida, conquista ou dica de estudo..."
-                  className="min-h-[104px] w-full resize-none rounded-2xl border border-slate-200 bg-slate-50/70 p-4 text-sm font-semibold text-slate-700 outline-none transition focus:border-blue-300 focus:bg-white focus:ring-4 focus:ring-blue-100"
+                  className="min-h-[104px] w-full resize-none rounded-2xl border border-[var(--border)] bg-[var(--surface-secondary)]/70 p-4 text-sm font-semibold text-[var(--text)] outline-none transition focus:border-[var(--brand)] focus:bg-[var(--surface)] focus:ring-4 focus:ring-[var(--brand-soft)]"
                 />
               </div>
               <div className="mt-3 flex items-center justify-between gap-3">
@@ -295,23 +297,23 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </div>
 
             {data.posts.map((item) => (
-              <article key={item.id} className="community-post-card rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.24)]">
+              <article key={item.id} className="community-post-card rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.24)]">
                 <div className="flex items-center gap-3">
                   <Avatar user={item.user} />
                   <div className="min-w-0">
-                    <p className="truncate font-black text-slate-950">{item.user.name}</p>
-                    <p className="text-xs font-bold text-blue-600">
+                    <p className="truncate font-black text-[var(--text)]">{item.user.name}</p>
+                    <p className="text-xs font-bold text-[var(--brand)]">
                       {item.user.league} · {formatDateTime(item.createdAt)}
                     </p>
                   </div>
                 </div>
-                <p className="mt-4 whitespace-pre-wrap text-sm font-medium leading-6 text-slate-700">{item.content}</p>
+                <p className="mt-4 whitespace-pre-wrap text-sm font-medium leading-6 text-[var(--text)]">{item.content}</p>
                 <button
                   type="button"
                   onClick={() => void like(item.id)}
                   className={cn(
                     "community-like-button mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-black transition",
-                    item.liked ? "bg-rose-50 text-rose-600" : "bg-slate-50 text-slate-500 hover:bg-blue-50 hover:text-blue-700",
+                    item.liked ? "bg-rose-50 text-rose-600" : "bg-[var(--surface-secondary)] text-[var(--text-secondary)] hover:bg-[var(--brand-soft)] hover:text-[var(--brand)]",
                   )}
                 >
                   <Heart className="h-4 w-4" fill={item.liked ? "currentColor" : "none"} />
@@ -322,23 +324,23 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             {!data.posts.length && <Empty text="Ainda nao ha publicacoes. Comece a conversa." />}
           </section>
 
-          <aside className="community-side-card h-fit rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
-            <h2 className="flex items-center gap-2 text-base font-black text-slate-950">
+          <aside className="community-side-card h-fit rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm">
+            <h2 className="flex items-center gap-2 text-base font-black text-[var(--text)]">
               <Trophy className="h-5 w-5 text-amber-500" />
               Destaques ativos
             </h2>
             <div className="mt-4 space-y-3">
               {topUsers.map((user, index) => (
-                <div key={user.id} className="community-highlight-row flex items-center gap-3 rounded-2xl border border-slate-100 bg-slate-50/70 p-2.5">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white text-xs font-black text-blue-700 shadow-sm">{index + 1}</span>
+                <div key={user.id} className="community-highlight-row flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface-secondary)]/70 p-2.5">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--surface)] text-xs font-black text-[var(--brand)] shadow-sm">{index + 1}</span>
                   <Avatar user={user} size="sm" />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-black text-slate-950">{user.name}</p>
+                    <p className="truncate text-sm font-black text-[var(--text)]">{user.name}</p>
                     <p className="text-xs font-bold text-orange-600">{(user.xp ?? 0).toLocaleString("pt-BR")} XP</p>
                   </div>
                 </div>
               ))}
-              {!topUsers.length && <p className="text-sm font-semibold text-slate-500">Sem destaques por enquanto.</p>}
+              {!topUsers.length && <p className="text-sm font-semibold text-[var(--text-secondary)]">Sem destaques por enquanto.</p>}
             </div>
           </aside>
         </div>
@@ -346,14 +348,14 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
 
       {!loading && tab === "chats" && (
         <div className="grid gap-4 xl:grid-cols-[320px_minmax(0,1fr)_340px]">
-          <aside className="community-chat-list min-h-[620px] rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
+          <aside className="community-chat-list min-h-[620px] rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm">
             <div className="flex items-center justify-between gap-3">
-              <h2 className="text-base font-black text-slate-950">Conversas</h2>
+              <h2 className="text-base font-black text-[var(--text)]">Conversas</h2>
               <div className="flex gap-2">
-                <button type="button" onClick={() => setTab("people")} className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl border border-blue-100 bg-blue-50 text-blue-700">
+                <button type="button" onClick={() => setTab("people")} className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--brand-soft)] text-[var(--brand)]">
                   <Plus className="h-4 w-4" />
                 </button>
-                <button type="button" className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl border border-slate-100 bg-white text-slate-500">
+                <button type="button" className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)]">
                   <Search className="h-4 w-4" />
                 </button>
               </div>
@@ -384,7 +386,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                     onClick={() => setActiveConversationId(conversation.id)}
                     className={cn(
                       "community-conversation-row group flex w-full items-center gap-3 rounded-[22px] p-3 text-left transition",
-                      active ? "bg-[linear-gradient(135deg,#eef2ff_0%,#e0f2fe_100%)] shadow-sm ring-1 ring-blue-100" : "hover:bg-slate-50",
+                      active ? "bg-[linear-gradient(135deg,#eef2ff_0%,#e0f2fe_100%)] shadow-sm ring-1 ring-[var(--brand-soft)]" : "hover:bg-[var(--surface-secondary)]",
                     )}
                   >
                     {conversation.isGroup ? (
@@ -396,13 +398,13 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                     )}
                     <span className="min-w-0 flex-1">
                       <span className="flex items-center justify-between gap-2">
-                        <span className="truncate text-sm font-black text-slate-950">{title}</span>
+                        <span className="truncate text-sm font-black text-[var(--text)]">{title}</span>
                         <span className="text-[10px] font-bold text-slate-400">{lastMessage ? formatTime(lastMessage.createdAt) : ""}</span>
                       </span>
-                      <span className="mt-1 block truncate text-xs font-semibold text-slate-500">{lastMessage?.content ?? "Sem mensagens ainda"}</span>
+                      <span className="mt-1 block truncate text-xs font-semibold text-[var(--text-secondary)]">{lastMessage?.content ?? "Sem mensagens ainda"}</span>
                     </span>
                     {index < 3 && (
-                      <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-blue-600 px-1 text-[10px] font-black text-white">
+                      <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--brand-button)] px-1 text-[10px] font-black text-white">
                         {3 - index}
                       </span>
                     )}
@@ -413,16 +415,16 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </div>
           </aside>
 
-          <section className="community-chat-window flex min-h-[620px] overflow-hidden rounded-[28px] border border-slate-100 bg-white shadow-sm">
+          <section className="community-chat-window flex min-h-[620px] overflow-hidden rounded-[28px] border border-[var(--border)] bg-[var(--surface)] shadow-sm">
             <div className="flex min-w-0 flex-1 flex-col">
-              <header className="flex items-center justify-between gap-3 border-b border-slate-100 p-4">
+              <header className="flex items-center justify-between gap-3 border-b border-[var(--border)] p-4">
                 <div className="flex min-w-0 items-center gap-3">
                   <span className="community-chat-icon flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-gradient-to-br from-violet-500 to-blue-600 text-white shadow-md">
                     {activeConversation?.isGroup ? <GraduationCap className="h-5 w-5" /> : <MessageCircle className="h-5 w-5" />}
                   </span>
                   <div className="min-w-0">
-                    <h2 className="truncate text-base font-black text-slate-950">{activeTitle}</h2>
-                    <p className="text-xs font-bold text-slate-500">
+                    <h2 className="truncate text-base font-black text-[var(--text)]">{activeTitle}</h2>
+                    <p className="text-xs font-bold text-[var(--text-secondary)]">
                       {activeMembers.length ? `${activeMembers.length} participante${activeMembers.length > 1 ? "s" : ""}` : "Selecione uma conversa"}
                     </p>
                   </div>
@@ -444,13 +446,13 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                         className={cn(
                           "max-w-[82%] rounded-[22px] px-4 py-3 text-sm shadow-sm",
                           mine
-                            ? "rounded-br-md bg-[linear-gradient(135deg,#dbeafe_0%,#bfdbfe_100%)] text-slate-900"
-                            : "rounded-bl-md border border-slate-100 bg-white text-slate-700",
+                            ? "rounded-br-md bg-[linear-gradient(135deg,#dbeafe_0%,#bfdbfe_100%)] text-[var(--text)]"
+                            : "rounded-bl-md border border-[var(--border)] bg-[var(--surface)] text-[var(--text)]",
                         )}
                       >
-                        {!mine && <p className="mb-1 text-xs font-black text-blue-700">{item.user.name}</p>}
+                        {!mine && <p className="mb-1 text-xs font-black text-[var(--brand)]">{item.user.name}</p>}
                         <p className="whitespace-pre-wrap font-semibold leading-5">{item.content}</p>
-                        <p className={cn("mt-1 flex items-center justify-end gap-1 text-[10px] font-bold", mine ? "text-blue-600" : "text-slate-400")}>
+                        <p className={cn("mt-1 flex items-center justify-end gap-1 text-[10px] font-bold", mine ? "text-[var(--brand)]" : "text-slate-400")}>
                           {formatTime(item.createdAt)}
                           {mine && <CheckCheck className="h-3.5 w-3.5" />}
                         </p>
@@ -466,7 +468,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                   event.preventDefault();
                   void sendMessage();
                 }}
-                className="flex items-center gap-2 border-t border-slate-100 p-3"
+                className="flex items-center gap-2 border-t border-[var(--border)] p-3"
               >
                 <IconButton label="Anexar" icon={Paperclip} />
                 <input
@@ -479,7 +481,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                 <button
                   type="submit"
                   disabled={!activeConversation || !message.trim()}
-                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-[0_14px_24px_-14px_rgba(37,99,235,0.75)] transition hover:bg-blue-700 active:scale-95"
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[var(--brand-button)] text-white shadow-[0_14px_24px_-14px_rgba(37,99,235,0.75)] transition hover:bg-[var(--brand-dark)] active:scale-95"
                 >
                   <Send className="h-4 w-4" />
                 </button>
@@ -488,25 +490,25 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
           </section>
 
           <aside className="space-y-4">
-            <section className="community-room-card rounded-[28px] border border-slate-100 bg-white p-5 shadow-sm">
+            <section className="community-room-card rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-sm">
               <div className="flex flex-col items-center text-center">
                 <span className="community-room-icon flex h-20 w-20 items-center justify-center rounded-[28px] bg-gradient-to-br from-violet-200 to-blue-100 text-violet-700 shadow-[0_18px_36px_-24px_rgba(79,70,229,0.5)]">
                   {activeConversation?.isGroup ? <GraduationCap className="h-9 w-9" /> : <MessageCircle className="h-8 w-8" />}
                 </span>
-                <h3 className="mt-3 text-lg font-black text-slate-950">{activeTitle}</h3>
-                <p className="mt-1 max-w-[240px] text-sm font-semibold leading-5 text-slate-500">
+                <h3 className="mt-3 text-lg font-black text-[var(--text)]">{activeTitle}</h3>
+                <p className="mt-1 max-w-[240px] text-sm font-semibold leading-5 text-[var(--text-secondary)]">
                   Espaco para trocar dicas, materiais e duvidas com quem estuda no mesmo ritmo.
                 </p>
               </div>
 
               <div className="mt-4">
-                <p className="text-sm font-black text-slate-700">{activeMembers.length} participantes</p>
+                <p className="text-sm font-black text-[var(--text)]">{activeMembers.length} participantes</p>
                 <div className="mt-2 flex -space-x-2">
                   {activeMembers.slice(0, 5).map((user) => (
                     <Avatar key={user.id} user={user} size="sm" className="ring-2 ring-white" />
                   ))}
                   {activeMembers.length > 5 && (
-                    <span className="flex h-9 min-w-9 items-center justify-center rounded-xl bg-slate-100 px-2 text-xs font-black text-slate-500 ring-2 ring-white">
+                    <span className="flex h-9 min-w-9 items-center justify-center rounded-xl bg-[var(--surface-secondary)] px-2 text-xs font-black text-[var(--text-secondary)] ring-2 ring-white">
                       +{activeMembers.length - 5}
                     </span>
                   )}
@@ -514,28 +516,28 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
               </div>
 
               <div className="mt-5 grid grid-cols-3 gap-2">
-                <MiniStat icon={Folder} label="Mensagens" value={sharedCounts.messages} tone="text-blue-600" />
+                <MiniStat icon={Folder} label="Mensagens" value={sharedCounts.messages} tone="text-[var(--brand)]" />
                 <MiniStat icon={LinkIcon} label="Links" value={sharedCounts.links} tone="text-violet-600" />
                 <MiniStat icon={BookOpen} label="Materiais" value={sharedCounts.materials} tone="text-orange-600" />
               </div>
 
-              <div className="mt-5 border-t border-slate-100 pt-4">
-                <p className="text-sm font-black text-slate-700">Conteudos compartilhados</p>
+              <div className="mt-5 border-t border-[var(--border)] pt-4">
+                <p className="text-sm font-black text-[var(--text)]">Conteudos compartilhados</p>
                 <div className="mt-3 space-y-2">
                   <SharedItem icon={FileText} label="PDFs e resumos" value={sharedCounts.materials} tone="bg-rose-50 text-rose-600" />
                   <SharedItem icon={LinkIcon} label="Links uteis" value={sharedCounts.links} tone="bg-violet-50 text-violet-600" />
-                  <SharedItem icon={MessageCircle} label="Duvidas" value={sharedCounts.questions} tone="bg-blue-50 text-blue-600" />
+                  <SharedItem icon={MessageCircle} label="Duvidas" value={sharedCounts.questions} tone="bg-[var(--brand-soft)] text-[var(--brand)]" />
                   <SharedItem icon={ImageIcon} label="Imagens" value={sharedCounts.images} tone="bg-emerald-50 text-emerald-600" />
                 </div>
               </div>
             </section>
 
             <section className="community-user-card rounded-[28px] border border-amber-100 bg-[linear-gradient(135deg,#fff7ed_0%,#ffffff_100%)] p-5 shadow-sm">
-              <p className="text-sm font-black text-slate-950">Seu painel</p>
+              <p className="text-sm font-black text-[var(--text)]">Seu painel</p>
               <div className="mt-3 flex items-center gap-3">
                 <Avatar user={currentUser} />
                 <div className="min-w-0">
-                  <p className="truncate text-sm font-black text-slate-950">{currentUser.name}</p>
+                  <p className="truncate text-sm font-black text-[var(--text)]">{currentUser.name}</p>
                   <p className="text-xs font-bold text-orange-600">{currentUser.league}</p>
                 </div>
               </div>
@@ -550,7 +552,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
 
       {!loading && tab === "people" && (
         <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_360px]">
-          <section className="community-people-card rounded-[28px] border border-slate-100 bg-white p-4 shadow-sm">
+          <section className="community-people-card rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-4 shadow-sm">
             <label className="relative block">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
@@ -562,11 +564,11 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
             </label>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {data.users.map((user) => (
-                <article key={user.id} className="community-person-card flex items-center gap-3 rounded-[22px] border border-slate-100 bg-slate-50/50 p-3">
+                <article key={user.id} className="community-person-card flex items-center gap-3 rounded-[22px] border border-[var(--border)] bg-[var(--surface-secondary)]/50 p-3">
                   <Avatar user={user} />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-black text-slate-950">{user.name}</p>
-                    <p className="text-xs font-bold text-blue-600">
+                    <p className="truncate text-sm font-black text-[var(--text)]">{user.name}</p>
+                    <p className="text-xs font-bold text-[var(--brand)]">
                       {user.league} · {(user.xp ?? 0).toLocaleString("pt-BR")} XP
                     </p>
                   </div>
@@ -582,7 +584,7 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
                       className="h-5 w-5 accent-blue-600"
                     />
                   ) : (
-                    <button type="button" onClick={() => void createConversation([user.id])} className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-blue-700">
+                    <button type="button" onClick={() => void createConversation([user.id])} className="community-square-button flex h-10 w-10 items-center justify-center rounded-2xl bg-[var(--brand-soft)] text-[var(--brand)]">
                       <MessageCircle className="h-4 w-4" />
                     </button>
                   )}
@@ -624,10 +626,10 @@ export function CommunityWorkspace({ currentUser }: { currentUser: CurrentUser }
 
 function HeroStat({ icon: Icon, label, value, tone }: { icon: typeof Trophy; label: string; value: string; tone: string }) {
   return (
-    <div className="community-stat-card rounded-[18px] border border-slate-100 bg-white/86 p-3 shadow-sm">
+    <div className="community-stat-card rounded-[18px] border border-[var(--border)] bg-[var(--surface)]/86 p-3 shadow-sm">
       <Icon className={cn("h-4 w-4", tone)} />
       <p className="mt-2 text-[10px] font-black uppercase text-slate-400">{label}</p>
-      <p className="truncate text-base font-black text-slate-950">{value}</p>
+      <p className="truncate text-base font-black text-[var(--text)]">{value}</p>
     </div>
   );
 }
@@ -636,11 +638,11 @@ function ChatIllustration() {
   return (
     <div className="pointer-events-none absolute bottom-3 right-3 hidden h-32 w-44 sm:block" aria-hidden>
       <span className="absolute bottom-0 right-0 h-20 w-28 rounded-[22px] bg-gradient-to-br from-blue-500 to-cyan-400 shadow-[0_18px_28px_-18px_rgba(37,99,235,0.8)]" />
-      <span className="absolute bottom-6 right-8 h-3 w-14 rounded-full bg-white/70" />
-      <span className="absolute bottom-11 right-8 h-3 w-20 rounded-full bg-white/50" />
+      <span className="absolute bottom-6 right-8 h-3 w-14 rounded-full bg-[var(--surface)]/70" />
+      <span className="absolute bottom-11 right-8 h-3 w-20 rounded-full bg-[var(--surface)]/50" />
       <span className="absolute bottom-20 right-12 h-16 w-28 rounded-[22px] bg-gradient-to-br from-violet-500 to-indigo-500 shadow-[0_18px_28px_-18px_rgba(79,70,229,0.8)]" />
-      <span className="absolute bottom-[106px] right-[72px] h-2.5 w-16 rounded-full bg-white/70" />
-      <span className="absolute bottom-[106px] right-5 h-2.5 w-10 rounded-full bg-white/60" />
+      <span className="absolute bottom-[106px] right-[72px] h-2.5 w-16 rounded-full bg-[var(--surface)]/70" />
+      <span className="absolute bottom-[106px] right-5 h-2.5 w-10 rounded-full bg-[var(--surface)]/60" />
       <span className="absolute bottom-12 left-0 flex h-14 w-14 items-center justify-center rounded-[20px] bg-gradient-to-br from-blue-500 to-cyan-400 text-white shadow-[0_16px_26px_-16px_rgba(37,99,235,0.8)]">
         <Users className="h-6 w-6" />
       </span>
@@ -654,7 +656,7 @@ function IconButton({ label, icon: Icon }: { label: string; icon: typeof Search 
       type="button"
       aria-label={label}
       title={label}
-      className="community-icon-button flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-slate-100 bg-white text-slate-500 shadow-sm transition hover:border-blue-100 hover:bg-blue-50 hover:text-blue-700"
+      className="community-icon-button flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] shadow-sm transition hover:border-[var(--border)] hover:bg-[var(--brand-soft)] hover:text-[var(--brand)]"
     >
       <Icon className="h-4 w-4" />
     </button>
@@ -663,23 +665,23 @@ function IconButton({ label, icon: Icon }: { label: string; icon: typeof Search 
 
 function MiniStat({ icon: Icon, label, value, tone }: { icon: typeof Trophy; label: string; value: number; tone: string }) {
   return (
-    <div className="community-mini-stat rounded-2xl border border-slate-100 bg-white p-3 text-center shadow-sm">
+    <div className="community-mini-stat rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3 text-center shadow-sm">
       <Icon className={cn("mx-auto h-4 w-4", tone)} />
-      <p className="mt-1 text-sm font-black text-slate-950">{value.toLocaleString("pt-BR")}</p>
-      <p className="text-[10px] font-bold text-slate-500">{label}</p>
+      <p className="mt-1 text-sm font-black text-[var(--text)]">{value.toLocaleString("pt-BR")}</p>
+      <p className="text-[10px] font-bold text-[var(--text-secondary)]">{label}</p>
     </div>
   );
 }
 
 function SharedItem({ icon: Icon, label, value, tone }: { icon: typeof FileText; label: string; value: number; tone: string }) {
   return (
-    <div className="community-shared-item flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-2.5">
+    <div className="community-shared-item flex items-center gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2.5">
       <span className={cn("flex h-10 w-10 items-center justify-center rounded-xl", tone)}>
         <Icon className="h-4 w-4" />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-black text-slate-950">{label}</p>
-        <p className="text-xs font-semibold text-slate-500">{value.toLocaleString("pt-BR")} itens</p>
+        <p className="truncate text-sm font-black text-[var(--text)]">{label}</p>
+        <p className="text-xs font-semibold text-[var(--text-secondary)]">{value.toLocaleString("pt-BR")} itens</p>
       </div>
       <ArrowRight className="h-4 w-4 text-slate-300" />
     </div>
@@ -706,7 +708,7 @@ function Avatar({ user, size = "md", className }: { user: Pick<User, "name" | "a
 
 function Empty({ text, compact = false }: { text: string; compact?: boolean }) {
   return (
-    <p className={cn("community-empty rounded-[22px] border border-dashed border-slate-200 bg-white text-center text-sm font-semibold text-slate-500", compact ? "p-5" : "p-10")}>
+    <p className={cn("community-empty rounded-[22px] border border-dashed border-[var(--border)] bg-[var(--surface)] text-center text-sm font-semibold text-[var(--text-secondary)]", compact ? "p-5" : "p-10")}>
       {text}
     </p>
   );

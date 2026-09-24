@@ -147,7 +147,7 @@ export function EssayWorkspace({
                   ))}
                 </optgroup>
               )}
-              <optgroup label="Temas de treino EstudAki">
+              <optgroup label="Temas de treino Silva Educacional">
                 {themes.map((item, index) => <option key={item} value={`practice:${index}`}>{item}</option>)}
               </optgroup>
             </select>

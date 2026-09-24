@@ -390,6 +390,6 @@ export function buildDashboardInsights(input: {
       `${profile.name}, seu foco hoje é ${targetSubject}. ` +
       (weakestTopic
         ? `O assunto que mais trava sua evolução agora é ${weakestTopic.name}.`
-        : "Comece por uma lista diagnóstica para o EstudAki entender seus pontos fracos."),
+        : "Comece por uma lista diagnóstica para identificar os conteúdos que merecem mais atenção."),
   };
 }

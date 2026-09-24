@@ -198,7 +198,7 @@ export function JornadaHomeClient({ worlds, courses }: { worlds: World[]; course
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.24em] text-blue-700 shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-orange-500" />
-              Jornada EstudAki
+              Jornada Silva Educacional
             </p>
             <h1 className="mt-3 font-display text-3xl font-black leading-tight text-[#0F172A] md:text-5xl">
               Trilhas organizadas para estudar sem se perder.

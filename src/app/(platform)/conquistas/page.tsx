@@ -118,7 +118,7 @@ export default async function ConquistasPage() {
       <PageHeader
         eyebrow="Conquistas"
         title="Colecao de progresso"
-        highlight="EstudAki"
+        highlight="Silva Educacional"
         description="Uma selecao beta com 20 emblemas para acompanhar os primeiros marcos de estudo, revisao, questoes e constancia."
         action={
           <Link

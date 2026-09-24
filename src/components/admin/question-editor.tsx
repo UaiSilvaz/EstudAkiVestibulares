@@ -43,7 +43,7 @@ const defaultForm = () => ({
   videoUrl: "",
   pedagogyComment: "",
   tags: "",
-  source: "EstudAki",
+  source: "Silva Educacional",
   sourceUrl: "",
   sourceCitation: "",
   sourceAccessedAt: "",

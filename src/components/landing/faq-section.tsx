@@ -11,7 +11,7 @@ const FAQ = [
       "Você entra na plataforma, escolhe o vestibular e a matéria, e tem acesso imediato a simulados cronometrados, cadernos digitais, mapas mentais e estatísticas de desempenho por tópico.",
   },
   {
-    pergunta: "Posso usar o EstudAki no celular?",
+    pergunta: "Posso usar o Silva Educacional no celular?",
     resposta:
       "Sim. A plataforma é responsiva e funciona em qualquer dispositivo — celular, tablet e desktop — com a mesma experiência.",
   },

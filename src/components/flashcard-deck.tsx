@@ -186,7 +186,7 @@ export function FlashcardDeck({
                     <div className="ek-flip-face ek-flip-back flex h-full w-full flex-col rounded-[26px] border p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.22)]" style={{ background: `linear-gradient(135deg, ${color}18, #DBEAFE)`, borderColor: `${color}40` }}>
                       <span className="w-fit rounded-full bg-slate-950 px-3 py-1 text-[10px] font-black text-white">Resposta</span>
                       <p className="mt-5 line-clamp-7 text-base font-bold leading-7 text-slate-800">{card.back}</p>
-                      <span className="mt-auto flex items-center gap-2 text-xs font-bold text-slate-500"><BookOpen className="h-4 w-4" /> {card.owner?.name ?? "Acervo EstudAki"}</span>
+                      <span className="mt-auto flex items-center gap-2 text-xs font-bold text-slate-500"><BookOpen className="h-4 w-4" /> {card.owner?.name ?? "Acervo Silva Educacional"}</span>
                     </div>
                   </div>
                 </button>

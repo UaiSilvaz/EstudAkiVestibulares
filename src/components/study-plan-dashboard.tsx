@@ -193,18 +193,18 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
 
   return (
     <div className="space-y-5">
-      <section className="relative overflow-hidden rounded-[28px] border border-white/80 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.26)] sm:p-6">
+      <section className="relative overflow-hidden rounded-[28px] border border-white/80 bg-[var(--surface)] p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.26)] sm:p-6">
         <div aria-hidden className="pointer-events-none absolute -right-12 -top-14 h-44 w-44 rounded-full bg-blue-200/30 blur-3xl" />
         <div className="relative z-10 flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="min-w-0">
-            <p className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
+            <p className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.22em] text-[var(--brand)]">
               <Compass className="h-4 w-4" />
               Plano conectado
             </p>
-            <h2 className="mt-1 font-display text-2xl font-extrabold text-[#0F172A]">
+            <h2 className="mt-1 font-display text-2xl font-extrabold text-[var(--text)]">
               Do onboarding ao bloco de estudo
             </h2>
-            <p className="mt-1 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
+            <p className="mt-1 max-w-2xl text-sm font-semibold leading-6 text-[var(--text-secondary)]">
               Este cronograma combina sua meta, sua base inicial e o tempo que voce disse ter disponivel.
             </p>
           </div>
@@ -213,21 +213,21 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
               <Link
                 key={item.title}
                 href={item.href}
-                className="group rounded-[22px] border border-slate-100 bg-slate-50/80 p-3 transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/60"
+                className="group rounded-[22px] border border-[var(--border)] bg-[var(--surface-secondary)]/80 p-3 transition hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--brand-soft)]/60"
               >
                 <div className="flex items-center gap-2">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-blue-700 shadow-sm">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-[var(--surface)] text-[var(--brand)] shadow-sm">
                     <item.icon className="h-4 w-4" />
                   </span>
                   <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
                     Passo {index + 1}
                   </span>
                 </div>
-                <p className="mt-3 text-xs font-black uppercase tracking-wider text-blue-700">{item.title}</p>
-                <p className="mt-1 line-clamp-2 min-h-9 text-sm font-extrabold leading-5 text-[#0F172A]">
+                <p className="mt-3 text-xs font-black uppercase tracking-wider text-[var(--brand)]">{item.title}</p>
+                <p className="mt-1 line-clamp-2 min-h-9 text-sm font-extrabold leading-5 text-[var(--text)]">
                   {item.value}
                 </p>
-                <p className="mt-1 text-xs font-semibold text-slate-500">{item.detail}</p>
+                <p className="mt-1 text-xs font-semibold text-[var(--text-secondary)]">{item.detail}</p>
               </Link>
             ))}
           </div>
@@ -235,7 +235,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
       </section>
 
       <section className="grid gap-4 lg:grid-cols-[1fr_1.35fr]">
-        <div className="rounded-[28px] border border-blue-100 bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-400 p-6 text-white shadow-[0_24px_55px_-30px_rgba(37,99,235,0.7)]">
+        <div className="rounded-[28px] border border-[var(--border)] bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-400 p-6 text-white shadow-[0_24px_55px_-30px_rgba(37,99,235,0.7)]">
           <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/75">
             Plano adaptativo
           </p>
@@ -246,7 +246,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
             </div>
             <Target className="h-14 w-14 text-white/35" />
           </div>
-          <div className="mt-5 h-3 overflow-hidden rounded-full bg-white/20">
+          <div className="mt-5 h-3 overflow-hidden rounded-full bg-[var(--surface)]/20">
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${completion}%` }}
@@ -257,7 +257,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
             <Metric label="Tempo semanal" value={`${Math.round(diagnostics.weeklyMinutes / 60)}h`} />
             <Metric label="Erros pendentes" value={String(diagnostics.pendingErrors)} />
           </div>
-          <div className="mt-4 rounded-2xl border border-white/24 bg-white/16 p-3 backdrop-blur">
+          <div className="mt-4 rounded-2xl border border-white/24 bg-[var(--surface)]/16 p-3 backdrop-blur">
             <p className="text-[10px] font-black uppercase tracking-wider text-white/70">Base do plano</p>
             <p className="mt-1 text-sm font-black leading-5 text-white">
               {profile?.targetExam ?? "ENEM"} · {selectedDaysLabel || "dias a definir"} · {minutes} min/dia
@@ -266,7 +266,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
           {diagnostics.pendingErrors > 0 && (
             <Link
               href="/questions?vestibular=enem&mode=errors"
-              className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white text-sm font-black text-blue-700 shadow-sm transition hover:-translate-y-0.5"
+              className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-[var(--surface)] text-sm font-black text-[var(--brand)] shadow-sm transition hover:-translate-y-0.5"
             >
               <BookOpenCheck className="h-4 w-4" />
               Abrir Caderno de Erros
@@ -275,27 +275,27 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
           <div className="mt-3 grid grid-cols-2 gap-2">
             <Link
               href="/onboarding"
-              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-white/12 px-3 text-xs font-black uppercase tracking-wider text-white transition hover:bg-white/20"
+              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-[var(--surface)]/12 px-3 text-xs font-black uppercase tracking-wider text-white transition hover:bg-[var(--surface)]/20"
             >
               Rever objetivo
             </Link>
             <Link
               href="/diagnostico"
-              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-white/12 px-3 text-xs font-black uppercase tracking-wider text-white transition hover:bg-white/20"
+              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-[var(--surface)]/12 px-3 text-xs font-black uppercase tracking-wider text-white transition hover:bg-[var(--surface)]/20"
             >
               Diagnostico
             </Link>
           </div>
         </div>
 
-        <div className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.32)] sm:p-6">
+        <div className="rounded-[28px] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.32)] sm:p-6">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-50 text-orange-600">
               <Settings2 className="h-5 w-5" />
             </span>
             <div>
-              <h2 className="font-display text-xl font-black text-slate-950">Seu tempo disponível</h2>
-              <p className="text-xs font-semibold text-slate-500">Altere e regenere o plano em segundos.</p>
+              <h2 className="font-display text-xl font-black text-[var(--text)]">Seu tempo disponível</h2>
+              <p className="text-xs font-semibold text-[var(--text-secondary)]">Altere e regenere o plano em segundos.</p>
             </div>
           </div>
           <div className="mt-5 grid gap-3 rounded-[22px] border border-orange-100 bg-orange-50/70 p-3 sm:grid-cols-3">
@@ -304,7 +304,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
             <SmallPlanMetric label="Semana" value={`${weeklyHours}h`} />
           </div>
           <div className="mt-5">
-            <p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-500">
+            <p className="mb-2 text-xs font-black uppercase tracking-wider text-[var(--text-secondary)]">
               Dias de estudo
             </p>
             <div className="grid grid-cols-7 gap-1.5">
@@ -323,8 +323,8 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                     }
                     className={`min-h-10 rounded-xl text-xs font-black transition ${
                       selected
-                        ? "bg-blue-600 text-white shadow-sm"
-                        : "border border-slate-200 bg-white text-slate-500 hover:border-blue-300"
+                        ? "bg-[var(--brand-button)] text-white shadow-sm"
+                        : "border border-[var(--border)] bg-[var(--surface)] text-[var(--text-secondary)] hover:border-[var(--brand)]"
                     }`}
                   >
                     {day.label}
@@ -335,7 +335,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <label>
-              <span className="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-500">
+              <span className="mb-1.5 block text-xs font-black uppercase tracking-wider text-[var(--text-secondary)]">
                 Minutos por dia
               </span>
               <input
@@ -349,7 +349,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
               />
             </label>
             <label>
-              <span className="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-500">
+              <span className="mb-1.5 block text-xs font-black uppercase tracking-wider text-[var(--text-secondary)]">
                 Data da prova
               </span>
               <input
@@ -379,13 +379,13 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
 
           return (
           <div key={date}>
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-slate-100 bg-white px-4 py-3 shadow-sm">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-[var(--border)] bg-[var(--surface)] px-4 py-3 shadow-sm">
               <div className="flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-blue-600" />
-              <h2 className="text-sm font-black capitalize text-slate-700">{date}</h2>
+              <CalendarDays className="h-4 w-4 text-[var(--brand)]" />
+              <h2 className="text-sm font-black capitalize text-[var(--text)]">{date}</h2>
               </div>
-              <div className="flex flex-wrap items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-500">
-                <span className="rounded-full bg-blue-50 px-2.5 py-1 text-blue-700">{dayTasks.length} bloco(s)</span>
+              <div className="flex flex-wrap items-center gap-2 text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)]">
+                <span className="rounded-full bg-[var(--brand-soft)] px-2.5 py-1 text-[var(--brand)]">{dayTasks.length} bloco(s)</span>
                 <span className="rounded-full bg-orange-50 px-2.5 py-1 text-orange-700">{dayMinutes} min</span>
                 <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700">
                   {dayCompleted}/{dayTasks.length} concluidos
@@ -402,7 +402,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                     className={`flex items-start gap-3 rounded-[22px] border p-4 shadow-sm transition ${
                       completed
                         ? "border-emerald-200 bg-emerald-50/70"
-                        : "border-slate-100 bg-white"
+                        : "border-[var(--border)] bg-[var(--surface)]"
                     }`}
                   >
                     <button
@@ -412,14 +412,14 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                       className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border transition ${
                         completed
                           ? "border-emerald-500 bg-emerald-500 text-white"
-                          : "border-slate-200 bg-white text-slate-300 hover:border-blue-400 hover:text-blue-600"
+                          : "border-[var(--border)] bg-[var(--surface)] text-slate-300 hover:border-blue-400 hover:text-[var(--brand)]"
                       }`}
                     >
                       <Check className="h-4 w-4" />
                     </button>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-blue-50 px-2 py-1 text-[9px] font-black uppercase tracking-wider text-blue-700">
+                        <span className="rounded-full bg-[var(--brand-soft)] px-2 py-1 text-[9px] font-black uppercase tracking-wider text-[var(--brand)]">
                           {taskTypeLabel(task.type)}
                         </span>
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-400">
@@ -432,14 +432,14 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                           </span>
                         ) : null}
                       </div>
-                      <h3 className={`mt-2 font-black ${completed ? "text-emerald-800 line-through" : "text-slate-950"}`}>
+                      <h3 className={`mt-2 font-black ${completed ? "text-emerald-800 line-through" : "text-[var(--text)]"}`}>
                         {task.title}
                       </h3>
-                      <p className="mt-1 text-xs font-medium leading-5 text-slate-500">{task.description}</p>
+                      <p className="mt-1 text-xs font-medium leading-5 text-[var(--text-secondary)]">{task.description}</p>
                       {!completed && (
                         <Link
                           href={task.actionHref}
-                          className="mt-3 inline-flex items-center gap-1 text-xs font-black text-blue-700 hover:text-blue-900"
+                          className="mt-3 inline-flex items-center gap-1 text-xs font-black text-[var(--brand)] hover:text-blue-900"
                         >
                           Comecar agora
                           <ArrowRight className="h-3.5 w-3.5" />
@@ -460,7 +460,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white/20 bg-white/15 p-3 backdrop-blur">
+    <div className="rounded-2xl border border-white/20 bg-[var(--surface)]/15 p-3 backdrop-blur">
       <p className="text-[9px] font-black uppercase tracking-wider text-white/70">{label}</p>
       <p className="mt-1 text-xl font-black">{value}</p>
     </div>
@@ -469,9 +469,9 @@ function Metric({ label, value }: { label: string; value: string }) {
 
 function SmallPlanMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl bg-white px-3 py-2">
+    <div className="rounded-2xl bg-[var(--surface)] px-3 py-2">
       <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-      <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">{value}</p>
+      <p className="mt-1 font-display text-xl font-extrabold text-[var(--text)]">{value}</p>
     </div>
   );
 }

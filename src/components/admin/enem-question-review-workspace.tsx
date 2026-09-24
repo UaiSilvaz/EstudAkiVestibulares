@@ -179,7 +179,7 @@ const checklist = [
   ["imagesLegible", "Imagens legíveis e sem recorte indevido"],
   ["officialAnswerVerified", "Gabarito conferido no PDF oficial"],
   ["numberYearDayVerified", "Número, ano, dia e caderno conferidos"],
-  ["studentAnswerFlowVerified", "Resposta e correção funcionam no EstudAki"],
+  ["studentAnswerFlowVerified", "Resposta e correção funcionam no Silva Educacional"],
   ["mobileVerified", "Prévia mobile adequada"],
   ["originalPageVerified", "Página original consultada"],
   ["noMixedContent", "Nenhum conteúdo de outra questão misturado"],

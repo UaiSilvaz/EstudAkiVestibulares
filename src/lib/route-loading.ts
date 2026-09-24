@@ -6,7 +6,7 @@ export type RouteLoadingMeta = {
 };
 
 const defaultMeta: RouteLoadingMeta = {
-  label: "Abrindo EstudAki",
+  label: "Abrindo Silva Educacional",
   from: "#2563EB",
   to: "#22D3EE",
   accent: "#FACC15",

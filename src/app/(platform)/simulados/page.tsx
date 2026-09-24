@@ -31,7 +31,7 @@ export default async function SimuladosPage() {
         const label = attempt?.submittedAt ? "Ver entrega" : state === "OPEN" ? "Iniciar agora" : state === "SCHEDULED" ? "Ver detalhes" : "Encerrado";
         return <article key={exam.id} className="estudaki-card rounded-[30px] p-6" style={{ borderTop: `4px solid ${exam.color}` }}>
           <div className="flex items-center justify-between gap-2"><span className="rounded-full px-3 py-1 text-xs font-black text-white" style={{ background: exam.vestibular.color }}>{exam.vestibular.name}</span><Status state={state} submitted={Boolean(attempt?.submittedAt)} /></div>
-          <h2 className="mt-5 text-2xl font-black text-slate-950">{exam.title}</h2><p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{exam.description || "Simulado em PDF preparado pela equipe EstudAki."}</p>
+          <h2 className="mt-5 text-2xl font-black text-slate-950">{exam.title}</h2><p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{exam.description || "Simulado em PDF preparado pela equipe Silva Educacional."}</p>
           <div className="mt-5 grid grid-cols-2 gap-3"><Mini label="Questões" value={String(exam.questionCount ?? "--")} /><Mini label="Tempo" value={`${exam.durationMinutes ?? "--"} min`} /></div>
           <div className="mt-4 rounded-2xl bg-slate-50 p-3 text-xs font-bold text-slate-600"><p>Abre: {formatDate(exam.startsAt) ?? "imediatamente"}</p><p className="mt-1">Encerra: {formatDate(exam.endsAt) ?? "sem prazo"}</p>{attempt?.score != null && <p className="mt-1 text-emerald-700">Nota: {attempt.score.toFixed(1)}%</p>}</div>
           <Link href={`/simulados/${exam.id}`} className="estudaki-button estudaki-button-primary mt-5 w-full"><PlayCircle className="h-4 w-4" />{label}</Link>

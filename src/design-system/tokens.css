@@ -1,0 +1,130 @@
+:root {
+  --bg: #f6f8fb;
+  --surface: #fff;
+  --surface-secondary: #f1f4f8;
+  --text: #101828;
+  --text-secondary: #667085;
+  --border: #e4e7ec;
+  --brand: #1367e8;
+  --brand-button: #1367e8;
+  --brand-dark: #0d47a1;
+  --brand-soft: #eaf2ff;
+  --institutional: #122039;
+  --success: #087f5b;
+  --danger: #d92d20;
+  --radius-sm: 8px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+}
+
+body { background: var(--bg); }
+.silva-brand { display: inline-flex; flex-direction: column; width: 132px; color: var(--text); align-items: center; line-height: 1; }
+.silva-wordmark { font-family: var(--font-signature), "Segoe Script", cursive; font-size: 47px; letter-spacing: -2px; }
+.silva-brand-caption { font-size: 8px; letter-spacing: 3.3px; font-weight: 500; margin: 8px 0 0 4px; }
+.silva-brand-color .silva-wordmark { background: linear-gradient(105deg, #0063ff, #00aabb 58%, #4ccc21); background-clip: text; color: transparent; }
+.silva-brand-compact { width: 40px; }
+.silva-brand-compact .silva-wordmark { font-size: 38px; }
+.silva-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--brand); }
+.silva-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 26px; box-shadow: 0 4px 6px -4px #12203908, 0 16px 38px -28px #12203930; }
+.silva-title { font-family: var(--font-display), sans-serif; color: var(--text); font-size: clamp(28px, 3vw, 38px); font-weight: 800; letter-spacing: -.045em; line-height: 1.25; }
+.silva-muted { color: var(--text-secondary); }
+.silva-button, .silva-button-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 18px; border-radius: 8px; font-size: 14px; font-weight: 600; transition: background 180ms, transform 180ms; }
+.silva-button { background: var(--brand-button); color: white; border: 1px solid transparent; }
+.silva-button:hover { background: var(--brand-dark); }
+.silva-button-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+.silva-button-secondary:hover { background: var(--surface-secondary); }
+.silva-button:active, .silva-button-secondary:active { transform: scale(.98); }
+.silva-link { color: var(--brand); font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0; white-space: nowrap; }
+.silva-progress { height: 6px; border-radius: 8px; overflow: hidden; background: var(--surface-secondary); }
+.silva-progress > span { display: block; height: 100%; background: var(--brand); border-radius: inherit; transition: width 220ms; }
+.silva-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.silva-section-heading h2 { font-family: var(--font-display), sans-serif; font-size: 19px; font-weight: 700; letter-spacing: -.03em; }
+.silva-icon { width: 50px; height: 50px; display: inline-flex; align-items: center; justify-content: center; background: var(--brand-soft); color: var(--brand); border-radius: 15px; flex-shrink: 0; box-shadow: inset 0 1px 0 #ffffff50, 0 5px 12px -7px color-mix(in srgb, var(--brand) 30%, transparent); }
+.silva-icon svg { width: 23px; height: 23px; stroke-width: 2.3; }
+.silva-platform { background: var(--bg); color: var(--text); min-height: 100vh; transition: background-color 220ms, color 220ms; }
+.silva-platform::before, .silva-platform::after { display: none !important; }
+.silva-sidebar { position: fixed; inset: 0 auto 0 0; z-index: 45; width: 248px; display: flex; flex-direction: column; padding: 28px 18px 16px; background: var(--surface); border-right: 1px solid var(--border); }
+.silva-sidebar-brand { display: flex; justify-content: center; padding-bottom: 27px; }
+.silva-sidebar nav { flex: 1; min-height: 0; overflow-y: auto; }
+.silva-nav-label { margin: 24px 12px 8px; font-size: 10px; font-weight: 600; letter-spacing: .14em; color: var(--text-secondary); }
+.silva-nav-item { display: flex; align-items: center; gap: 12px; min-height: 43px; margin: 3px 0; padding: 9px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; color: var(--text-secondary); transition: background-color 180ms, color 180ms; }
+.silva-nav-item svg { width: 20px; height: 20px; stroke-width: 2.2; flex-shrink: 0; }
+.silva-nav-item:hover { background: var(--surface-secondary); color: var(--text); }
+.silva-nav-item[aria-current=page] { background: var(--brand-soft); color: var(--brand); font-weight: 700; box-shadow: inset 3px 0 0 var(--brand); }
+.silva-sidebar-footer { border-top: 1px solid var(--border); padding-top: 12px; margin-top: 14px; }
+.silva-sidebar-footer button { border: 0; background: transparent; color: var(--text-secondary); justify-content: flex-start; font-weight: 500; border-radius: 8px; }
+.silva-topbar { position: sticky; top: 0; z-index: 35; margin-left: 248px; height: 78px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 0 40px; }
+.silva-main { margin-left: 248px; padding: 34px 40px 56px; max-width: 1700px; }
+.silva-account { display: flex; align-items: center; gap: 10px; }
+.silva-icon-button { height: 38px; width: 38px; display: inline-flex; align-items: center; justify-content: center; border-radius: 8px; color: var(--text-secondary); }
+.silva-icon-button:hover { background: var(--surface-secondary); }
+.silva-avatar { display: inline-flex; width: 35px; height: 35px; align-items: center; justify-content: center; border-radius: 50%; background: var(--brand-soft); color: var(--brand); font-weight: 600; font-size: 12px; overflow: hidden; }
+.silva-search { position: relative; width: min(440px, 100%); }
+.silva-search-field { display: flex; align-items: center; gap: 12px; color: var(--text-secondary); }
+.silva-search input { min-width: 0; width: 100%; background: transparent; font-size: 13px; outline: none; padding: 12px 0; color: var(--text); }
+.silva-search input::placeholder { color: var(--text-secondary); }
+.silva-popover { position: absolute; z-index: 60; top: calc(100% + 8px); left: 0; width: max(100%, 270px); max-width: calc(100vw - 32px); padding: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; box-shadow: 0 12px 36px #10182814; }
+.silva-switcher { position: relative; margin-bottom: 6px; }
+.silva-switcher-trigger { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 62px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 10px; text-align: left; background: var(--surface); }
+.silva-switcher-trigger .silva-icon { width: 32px; height: 32px; }
+.silva-switcher-trigger strong { font-size: 12px; font-weight: 600; }
+.silva-switcher-trigger small { display: block; color: var(--text-secondary); font-size: 10px; margin-bottom: 3px; }
+.silva-switcher-option { width: 100%; display: flex; gap: 10px; align-items: center; text-align: left; padding: 12px; border-radius: 8px; font-size: 13px; }
+.silva-switcher-option:hover, .silva-switcher-option[aria-pressed=true] { background: var(--brand-soft); color: var(--brand); }
+.silva-dashboard { display: grid; gap: 28px; max-width: 1260px; margin: auto; }
+.silva-dashboard-header { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.silva-dashboard-header p { font-size: 14px; margin-top: 10px; }
+.silva-dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(270px, 1fr); gap: 22px; }
+.silva-resume { position: relative; overflow: hidden; border-color: transparent; display: flex; flex-direction: column; gap: 26px; min-height: 310px; padding: 32px; color: white; background: linear-gradient(115deg, var(--brand-dark), color-mix(in srgb, var(--brand-button) 80%, #122039)); box-shadow: 0 18px 34px -23px var(--brand-button); }
+.silva-resume::after { content: ""; position: absolute; right: -120px; top: -100px; width: 410px; height: 410px; border: 55px solid #ffffff08; box-shadow: 0 0 0 40px #ffffff04, 0 0 0 80px #ffffff03; border-radius: 50%; pointer-events: none; }
+.silva-resume .silva-eyebrow { color: #ffffffc9; }
+.silva-resume .silva-muted { color: #ffffffbd; }
+.silva-resume .silva-button { background: white; color: var(--brand-dark); font-weight: 800; box-shadow: 0 8px 18px #00000012; }
+.silva-resume .silva-button:hover { background: #ffffffdf; transform: translateY(-2px); }
+.silva-resume .silva-progress { background: #ffffff25; height: 8px; }
+.silva-resume .silva-progress > span { background: #fff; }
+.silva-resume > * { position: relative; z-index: 1; }
+.silva-resume h2 { font-family: var(--font-display); font-size: 30px; font-weight: 800; letter-spacing: -.04em; max-width: 90%; }
+.silva-resume-bottom { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-top: auto; }
+.silva-resume-progress { flex: 1; max-width: 350px; }
+.silva-plan-row { display: flex; align-items: center; gap: 14px; padding: 15px 0; border-bottom: 1px solid var(--border); }
+.silva-plan-row:last-child { border: 0; padding-bottom: 0; }
+.silva-plan-row:hover strong { color: var(--brand); }
+.silva-task-check { width: 23px; height: 23px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--brand); flex-shrink: 0; }
+.silva-task-check[data-completed=true] { background: var(--brand-soft); border-color: transparent; }
+.silva-metrics { display: grid; grid-template-columns: repeat(4, 1fr); padding: 24px 0; }
+.silva-metrics > div { padding: 0 24px; border-right: 1px solid var(--border); }
+.silva-metrics > div:last-child { border: 0; }
+.silva-metrics strong { font-family: var(--font-display); display: block; font-size: 29px; letter-spacing: -.045em; font-weight: 700; margin: 8px 0; }
+.silva-resource-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.silva-resource { display: flex; align-items: center; gap: 16px; transition: transform 180ms, border-color 180ms; }
+.silva-resource:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--brand) 40%, var(--border)); box-shadow: 0 18px 35px -25px color-mix(in srgb, var(--brand) 40%, transparent); }
+.silva-resource strong { font-size: 14px; font-weight: 600; }
+.silva-resource p { font-size: 12px; margin-top: 5px; color: var(--text-secondary); }
+.silva-mobile-menu { display: none; }
+.silva-backdrop { display: none; }
+.silva-platform :is(a, button, input, select, textarea):focus-visible, .silva-landing :is(a, button):focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+@media (min-width: 1700px) { .silva-main { margin-right: auto; } }
+@media (max-width: 1100px) { .silva-main { padding: 28px 24px; } .silva-topbar { padding: 0 24px; } .silva-dashboard-grid { grid-template-columns: 1fr; } }
+@media (max-width: 1023px) {
+  .silva-sidebar { transform: translateX(-100%); visibility: hidden; transition: transform 180ms, visibility 180ms; width: 270px; }
+  .silva-sidebar[data-open=true] { transform: translateX(0); visibility: visible; }
+  .silva-backdrop { display: block; position: fixed; inset: 0; background: #10182866; z-index: 44; }
+  .silva-mobile-menu { display: inline-flex; }
+  .silva-main, .silva-topbar { margin-left: 0; }
+  .silva-topbar { height: 68px; }
+}
+@media (max-width: 640px) {
+  .silva-main { padding: 24px 16px 40px; } .silva-topbar { padding: 0 12px; gap: 8px; }
+  .silva-account-name, .silva-desktop-only { display: none; }
+  .silva-card { padding: 20px; }
+  .silva-dashboard-header { align-items: start; } .silva-dashboard { gap: 22px; }
+  .silva-resume-bottom { flex-direction: column; align-items: stretch; } .silva-resume-progress { max-width: none; }
+  .silva-resource-grid { grid-template-columns: 1fr; }
+  .silva-metrics { grid-template-columns: 1fr 1fr; gap: 24px 0; padding: 22px 0; }
+  .silva-metrics > div { padding: 0 18px; } .silva-metrics > div:nth-child(2) { border: 0; }
+  .silva-search input { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .silva-platform *, .silva-landing *, .silva-login * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}

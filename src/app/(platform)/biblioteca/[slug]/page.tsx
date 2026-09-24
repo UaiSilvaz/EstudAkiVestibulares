@@ -75,7 +75,7 @@ export default async function BibliotecaMaterialPage({
         color: "#2563EB",
         official: false,
         vestibular: {
-          name: material.subject?.name ?? "EstudAki",
+          name: material.subject?.name ?? "Silva Educacional",
           slug: "biblioteca",
           color: "#2563EB",
         },

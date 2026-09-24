@@ -44,7 +44,7 @@ export default async function AdminPage() {
     <div>
       <PageHeader
         eyebrow="Admin & docentes"
-        title="Gestao educacional EstudAki"
+        title="Gestao educacional Silva Educacional"
         description="Área administrativa restrita. Cadastre questões, provas antigas e materiais, além de acompanhar a operação."
       />
 

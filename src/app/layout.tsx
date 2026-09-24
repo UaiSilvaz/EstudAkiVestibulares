@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Geist_Mono, Manrope } from "next/font/google";
 import { Suspense } from "react";
 import { EstudakiLoadingProvider } from "@/components/estudaki-loading-provider";
 import { EstudakiLoadingState } from "@/components/loading-states";
@@ -7,8 +7,12 @@ import { RouteTransitionIndicator } from "@/components/route-transition-indicato
 import "./globals.css";
 import "./education.css";
 import "@/components/landing/estudaki-intro.css";
+import "@/design-system/tokens.css";
+import "@/design-system/public.css";
+import "@/design-system/details.css";
+import "@/design-system/workspace.css";
 
-const geistSans = Geist({
+const geistSans = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
@@ -18,20 +22,20 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const display = Plus_Jakarta_Sans({
+
+const display = Manrope({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
 });
 
 export const metadata: Metadata = {
-  title: "EstudAki | Seu próximo passo começa aqui",
+  title: { default: "Silva Educacional | Seu próximo passo começa aqui", template: "%s | Silva Educacional" },
   description:
     "Sua preparação para vestibulares, Medicina, OAB e concursos: um plano de estudos, aulas, questões e progresso no mesmo lugar.",
   icons: {
-    icon: "/brand/estudaki-tab.png",
-    shortcut: "/brand/estudaki-tab.png",
-    apple: "/brand/estudaki-tab.png",
+    icon: "/brand/silva-icon.svg",
+    shortcut: "/brand/silva-icon.svg",
   },
 };
 

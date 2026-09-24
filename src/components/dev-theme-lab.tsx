@@ -28,7 +28,7 @@ export function DevThemeLab() {
               &
             </span>
             <div>
-              <p className="font-display text-lg font-black">EstudAki</p>
+              <p className="font-display text-lg font-black">Silva Educacional</p>
               <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[color:var(--theme-muted)]">{theme.shortName}</p>
             </div>
           </div>

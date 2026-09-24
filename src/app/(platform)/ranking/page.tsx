@@ -161,7 +161,7 @@ export default async function RankingPage() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Ranking"
-        title="Leaderboard EstudAki"
+        title="Leaderboard Silva Educacional"
         description="Podio, foto de perfil, liga atual e XP com microanimacoes no hover para deixar a disputa com cara de jogo."
       />
 

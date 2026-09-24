@@ -509,7 +509,7 @@ export function RankingLeaderboard({
                   Classificacao geral
                 </p>
                 <h2 className="font-display text-xl font-black text-[#0F172A]">
-                  Top 20 do EstudAki
+                  Top 20 do Silva Educacional
                 </h2>
               </div>
             </div>

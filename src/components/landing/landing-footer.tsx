@@ -11,7 +11,7 @@ export function LandingFooter() {
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-5">
           <LogoEstudAki size="sm" />
           <p className="text-xs font-semibold text-slate-500">
-            © {new Date().getFullYear()} EstudAki Vestibulares.
+            © {new Date().getFullYear()} Silva Educacional Vestibulares.
           </p>
         </div>
 

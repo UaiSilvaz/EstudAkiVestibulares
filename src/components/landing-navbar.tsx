@@ -29,7 +29,7 @@ export function LandingNavbar() {
     <PillNav
       items={NAV_ITEMS}
       logo="/brand/estudaki-logo.png"
-      logoAlt="EstudAki"
+      logoAlt="Silva Educacional"
       baseColor="#FFFFFF"
       pillColor="#2563EB"
       hoveredPillTextColor="#06245C"

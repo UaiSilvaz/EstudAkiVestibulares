@@ -55,7 +55,7 @@ export default async function AdminConquistasPage() {
       <PageHeader
         eyebrow="Gamificacao"
         title="Administrar conquistas"
-        description="Catalogo oficial de 500 conquistas EstudAki, com categorias, raridades, requisitos e recompensas."
+        description="Catalogo oficial de 500 conquistas Silva Educacional, com categorias, raridades, requisitos e recompensas."
         action={
           <Link href="/conquistas" className="ek-button ek-button-primary">
             <Sparkles className="h-4 w-4" />

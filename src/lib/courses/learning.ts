@@ -290,9 +290,12 @@ function courseCard(course: CourseLearningRow, owned: boolean, progressPercent: 
   };
 }
 
-export async function getCourseCatalog(userId: string | null): Promise<CourseCardDTO[]> {
+export async function getCourseCatalog(userId: string | null, preparationId?: string): Promise<CourseCardDTO[]> {
   const courses = await db.course.findMany({
-    where: { OR: [{ published: true }, { status: ContentStatus.PUBLISHED }] },
+    where: {
+      OR: [{ published: true }, { status: ContentStatus.PUBLISHED }],
+      ...(preparationId ? { preparations: { some: { preparationId } } } : {}),
+    },
     include: courseLearningInclude(userId),
     orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
   });

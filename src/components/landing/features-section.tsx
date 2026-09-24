@@ -123,7 +123,7 @@ export function FeaturesSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           align="center"
-          eyebrow="Por que o EstudAki"
+          eyebrow="Por que o Silva Educacional"
           title={
             <>
               Tudo o que você precisa para{" "}

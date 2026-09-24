@@ -40,7 +40,7 @@ export function PlatformSection() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           align="center"
-          eyebrow="Por dentro do EstudAki"
+          eyebrow="Por dentro do Silva Educacional"
           title={
             <>
               Uma plataforma{" "}

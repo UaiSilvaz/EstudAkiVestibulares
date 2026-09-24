@@ -234,7 +234,7 @@ export function OnboardingFlow({
       notify({
         tone: "warning",
         title: "Complete esta etapa",
-        message: "Escolha uma opcao para o EstudAki montar seu plano com contexto.",
+        message: "Escolha uma opcao para o Silva Educacional montar seu plano com contexto.",
       });
       return;
     }
@@ -276,18 +276,18 @@ export function OnboardingFlow({
 
   return (
     <div className="mx-auto max-w-6xl space-y-5">
-      <section className="relative overflow-hidden rounded-[30px] border border-white/80 bg-white p-5 shadow-[0_24px_56px_-34px_rgba(37,99,235,0.32)] md:p-7">
+      <section className="relative overflow-hidden rounded-[30px] border border-white/80 bg-[var(--surface)] p-5 shadow-[0_24px_56px_-34px_rgba(37,99,235,0.32)] md:p-7">
         <div aria-hidden className="pointer-events-none absolute -right-14 -top-16 h-48 w-48 rounded-full bg-blue-200/35 blur-3xl" />
         <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-16 h-44 w-44 rounded-full bg-orange-200/30 blur-3xl" />
         <div className="relative z-10 grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
           <div className="min-w-0">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
+            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-[var(--brand)]">
               Bem-vindo, {user.name.split(" ")[0]}
             </p>
-            <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight text-[#0F172A] md:text-4xl">
-              Defina sua meta. O EstudAki transforma em plano.
+            <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight text-[var(--text)] md:text-4xl">
+              Defina sua meta. O Silva Educacional transforma em plano.
             </h1>
-            <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-slate-600">
+            <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-[var(--text-secondary)]">
               {profile.description} Este fluxo conecta objetivo, diagnostico e cronograma para voce saber exatamente o que estudar primeiro.
             </p>
 
@@ -298,18 +298,18 @@ export function OnboardingFlow({
                   className={cn(
                     "flex min-h-20 items-center gap-3 rounded-[22px] border p-3",
                     index === 0
-                      ? "border-blue-200 bg-blue-50 text-blue-800"
-                      : "border-slate-100 bg-slate-50/80 text-slate-600",
+                      ? "border-[var(--border)] bg-[var(--brand-soft)] text-blue-800"
+                      : "border-[var(--border)] bg-[var(--surface-secondary)]/80 text-[var(--text-secondary)]",
                   )}
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[var(--surface)] shadow-sm">
                     <item.icon className="h-5 w-5" />
                   </span>
                   <span className="min-w-0">
                     <span className="block text-[10px] font-black uppercase tracking-wider opacity-70">
                       Passo {index + 1}
                     </span>
-                    <span className="block text-sm font-black text-[#0F172A]">{item.title}</span>
+                    <span className="block text-sm font-black text-[var(--text)]">{item.title}</span>
                     <span className="block text-xs font-bold opacity-75">{item.detail}</span>
                   </span>
                 </div>
@@ -317,13 +317,13 @@ export function OnboardingFlow({
             </div>
           </div>
 
-          <aside className="rounded-[26px] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4">
+          <aside className="rounded-[26px] border border-[var(--border)] bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-wider text-blue-700">Plano semanal</p>
-                <p className="mt-1 font-display text-4xl font-extrabold text-[#0F172A]">{weeklyHours}h</p>
+                <p className="text-[10px] font-black uppercase tracking-wider text-[var(--brand)]">Plano semanal</p>
+                <p className="mt-1 font-display text-4xl font-extrabold text-[var(--text)]">{weeklyHours}h</p>
               </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--brand-button)] text-white shadow-sm">
                 <CalendarDays className="h-6 w-6" />
               </div>
             </div>
@@ -333,7 +333,7 @@ export function OnboardingFlow({
                 style={{ width: `${completion}%` }}
               />
             </div>
-            <dl className="mt-4 grid gap-2 text-xs font-bold text-slate-600">
+            <dl className="mt-4 grid gap-2 text-xs font-bold text-[var(--text-secondary)]">
               <SummaryLine label="Preparacao" value={profile.shortTitle} />
               <SummaryLine label={profile.examLabel} value={state.exams.join(", ")} />
               <SummaryLine label={profile.courseLabel} value={state.course || "a definir"} />
@@ -344,15 +344,15 @@ export function OnboardingFlow({
       </section>
 
       <section className="grid gap-5 lg:grid-cols-[250px_minmax(0,1fr)]">
-        <aside className="self-start rounded-[26px] border border-white/80 bg-white p-4 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.26)]">
-          <div className="mb-4 rounded-[22px] border border-blue-100 bg-blue-50/70 p-3">
+        <aside className="self-start rounded-[26px] border border-white/80 bg-[var(--surface)] p-4 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.26)]">
+          <div className="mb-4 rounded-[22px] border border-[var(--border)] bg-[var(--brand-soft)]/70 p-3">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-blue-700">
+              <p className="text-[10px] font-black uppercase tracking-wider text-[var(--brand)]">
                 Progresso
               </p>
-              <p className="font-display text-xl font-extrabold text-[#0F172A]">{completion}%</p>
+              <p className="font-display text-xl font-extrabold text-[var(--text)]">{completion}%</p>
             </div>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-white">
+            <div className="mt-2 h-2 overflow-hidden rounded-full bg-[var(--surface)]">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE] transition-all"
                 style={{ width: `${completion}%` }}
@@ -370,14 +370,14 @@ export function OnboardingFlow({
                     onClick={() => goToStep(index)}
                     className={cn(
                       "flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-bold transition",
-                      active && "bg-blue-600 text-white shadow-[0_14px_28px_-18px_rgba(37,99,235,0.85)]",
+                      active && "bg-[var(--brand-button)] text-white shadow-[0_14px_28px_-18px_rgba(37,99,235,0.85)]",
                       done && !active && "bg-emerald-50 text-emerald-700",
-                      !active && !done && "text-slate-500 hover:bg-slate-50",
+                      !active && !done && "text-[var(--text-secondary)] hover:bg-[var(--surface-secondary)]",
                     )}
                   >
                     <span className={cn(
                       "flex h-7 w-7 shrink-0 items-center justify-center rounded-xl text-xs font-black",
-                      active ? "bg-white/22 text-white" : done ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-400",
+                      active ? "bg-[var(--surface)]/22 text-white" : done ? "bg-emerald-500 text-white" : "bg-[var(--surface-secondary)] text-slate-400",
                     )}>
                       {done ? <Check className="h-3.5 w-3.5" /> : index + 1}
                     </span>
@@ -387,43 +387,43 @@ export function OnboardingFlow({
               );
             })}
           </ol>
-          <div className="mt-4 rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-500">
+          <div className="mt-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-secondary)] px-3 py-2 text-xs font-bold text-[var(--text-secondary)]">
             {saveStateLabel}
           </div>
-          <div className="mt-4 space-y-2 border-t border-slate-100 pt-4">
+          <div className="mt-4 space-y-2 border-t border-[var(--border)] pt-4">
             <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
               Isso ja vira plano
             </p>
-            <div className="flex items-start gap-2 text-xs font-semibold leading-5 text-slate-600">
+            <div className="flex items-start gap-2 text-xs font-semibold leading-5 text-[var(--text-secondary)]">
               <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
               Preferencias ficam salvas para recalcular seu cronograma depois.
             </div>
-            <div className="flex items-start gap-2 text-xs font-semibold leading-5 text-slate-600">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
+            <div className="flex items-start gap-2 text-xs font-semibold leading-5 text-[var(--text-secondary)]">
+              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand)]" />
               Materias dificeis entram como prioridade no diagnostico.
             </div>
           </div>
         </aside>
 
-        <main className="overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_26px_60px_-34px_rgba(15,23,42,0.34)]">
-          <div className="border-b border-slate-100 bg-gradient-to-r from-blue-50 via-white to-orange-50 px-5 py-5 md:px-7">
+        <main className="overflow-hidden rounded-[30px] border border-white/80 bg-[var(--surface)] shadow-[0_26px_60px_-34px_rgba(15,23,42,0.34)]">
+          <div className="border-b border-[var(--border)] bg-gradient-to-r from-blue-50 via-white to-orange-50 px-5 py-5 md:px-7">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm">
+                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--brand-button)] text-white shadow-sm">
                   <currentStep.icon className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
+                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[var(--brand)]">
                     Etapa {step + 1} de {steps.length}
                   </p>
-                  <h2 className="font-display text-2xl font-extrabold text-[#0F172A]">{currentQuestion}</h2>
-                  <p className="mt-1 max-w-2xl text-xs font-semibold leading-5 text-slate-500">
+                  <h2 className="font-display text-2xl font-extrabold text-[var(--text)]">{currentQuestion}</h2>
+                  <p className="mt-1 max-w-2xl text-xs font-semibold leading-5 text-[var(--text-secondary)]">
                     {currentHelper}
                   </p>
                 </div>
               </div>
               <div className="min-w-36">
-                <div className="mb-1 flex items-center justify-between text-[10px] font-black uppercase tracking-wider text-blue-700">
+                <div className="mb-1 flex items-center justify-between text-[10px] font-black uppercase tracking-wider text-[var(--brand)]">
                   <span>Avanco</span>
                   <span>{completion}%</span>
                 </div>
@@ -444,7 +444,7 @@ export function OnboardingFlow({
                 <p className="text-xs font-black uppercase tracking-wider text-amber-700">
                   Como isso muda o plano
                 </p>
-                <p className="mt-1 text-sm font-semibold leading-6 text-slate-700">
+                <p className="mt-1 text-sm font-semibold leading-6 text-[var(--text)]">
                   {currentImpact}
                 </p>
               </div>
@@ -460,7 +460,7 @@ export function OnboardingFlow({
                 {step === 0 && (
                   <div className="space-y-5">
                     <div>
-                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-slate-500">
+                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-[var(--text-secondary)]">
                         Tipo de preparacao
                       </p>
                       <ChoiceGrid compact>
@@ -480,7 +480,7 @@ export function OnboardingFlow({
                     </div>
 
                     <div>
-                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-slate-500">
+                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-[var(--text-secondary)]">
                         {profile.examLabel}
                       </p>
                       <ChoiceGrid>
@@ -501,7 +501,7 @@ export function OnboardingFlow({
                 {step === 1 && (
                   <div className="space-y-4">
                     <label className="relative block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-slate-500">{profile.courseLabel}</span>
+                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-[var(--text-secondary)]">{profile.courseLabel}</span>
                       <Search className="absolute left-4 top-10 h-4 w-4 text-slate-400" />
                       <input
                         value={state.course}
@@ -532,7 +532,7 @@ export function OnboardingFlow({
                 {step === 2 && (
                   <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_260px]">
                     <label className="block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-slate-500">
+                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-[var(--text-secondary)]">
                         Nota/meta
                       </span>
                       <input
@@ -544,8 +544,8 @@ export function OnboardingFlow({
                     </label>
                     <div className="rounded-[24px] border border-amber-100 bg-amber-50 p-4">
                       <Target className="h-6 w-6 text-amber-600" />
-                      <p className="mt-3 text-sm font-black text-[#0F172A]">Meta clara melhora prioridade.</p>
-                      <p className="mt-1 text-xs font-semibold leading-5 text-slate-600">
+                      <p className="mt-3 text-sm font-black text-[var(--text)]">Meta clara melhora prioridade.</p>
+                      <p className="mt-1 text-xs font-semibold leading-5 text-[var(--text-secondary)]">
                         Se ainda nao souber a nota, escreva o objetivo em palavras.
                       </p>
                     </div>
@@ -602,12 +602,12 @@ export function OnboardingFlow({
 
                 {step === 6 && (
                   <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
-                    <div className="rounded-[26px] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-5">
-                      <Sparkles className="h-8 w-8 text-blue-700" />
-                      <h3 className="mt-4 font-display text-3xl font-extrabold text-[#0F172A]">
+                    <div className="rounded-[26px] border border-[var(--border)] bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-5">
+                      <Sparkles className="h-8 w-8 text-[var(--brand)]" />
+                      <h3 className="mt-4 font-display text-3xl font-extrabold text-[var(--text)]">
                         Primeiro plano quase pronto
                       </h3>
-                      <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">
+                      <p className="mt-2 text-sm font-semibold leading-6 text-[var(--text-secondary)]">
                         Agora falta calibrar sua base por materia. Depois disso, o cronograma nasce com prioridades reais.
                       </p>
                       <dl className="mt-5 grid gap-3 sm:grid-cols-3">
@@ -617,8 +617,8 @@ export function OnboardingFlow({
                       </dl>
                       <div className="mt-5 grid gap-3 sm:grid-cols-3">
                         {["Objetivo salvo", "Diagnostico guiado", "Plano gerado"].map((label, index) => (
-                          <div key={label} className="flex items-center gap-2 text-xs font-black text-slate-700">
-                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white">
+                          <div key={label} className="flex items-center gap-2 text-xs font-black text-[var(--text)]">
+                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-button)] text-white">
                               {index + 1}
                             </span>
                             {label}
@@ -626,9 +626,9 @@ export function OnboardingFlow({
                         ))}
                       </div>
                     </div>
-                    <div className="rounded-[26px] border border-slate-100 bg-white p-5 shadow-sm">
-                      <p className="text-[11px] font-black uppercase tracking-wider text-slate-500">Resumo</p>
-                      <ul className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
+                    <div className="rounded-[26px] border border-[var(--border)] bg-[var(--surface)] p-5 shadow-sm">
+                      <p className="text-[11px] font-black uppercase tracking-wider text-[var(--text-secondary)]">Resumo</p>
+                      <ul className="mt-4 space-y-3 text-sm font-semibold text-[var(--text-secondary)]">
                         <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Preparacao: {profile.title}</li>
                         <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Objetivo: {state.course || "em aberto"}</li>
                         <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Meta: {state.targetScore || "ajustar depois"}</li>
@@ -642,12 +642,12 @@ export function OnboardingFlow({
             </AnimatePresence>
           </div>
 
-          <div className="flex flex-col-reverse gap-3 border-t border-slate-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7">
+          <div className="flex flex-col-reverse gap-3 border-t border-[var(--border)] px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7">
             <button
               type="button"
               disabled={step === 0 || saving}
               onClick={() => goToStep(step - 1)}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-600 transition hover:border-blue-200 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-black text-[var(--text-secondary)] transition hover:border-[var(--border)] hover:text-[var(--brand)] disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ArrowLeft className="h-4 w-4" />
               Voltar
@@ -778,17 +778,17 @@ function ChoiceButton({
       className={cn(
         "relative flex min-h-[104px] items-center gap-3 rounded-[22px] border p-4 text-left transition active:scale-[0.99]",
         selected
-          ? "border-blue-500 bg-gradient-to-br from-blue-50 via-white to-cyan-50 text-blue-800 shadow-[0_18px_32px_-24px_rgba(37,99,235,0.6)] ring-2 ring-blue-100"
-          : "border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/30 hover:shadow-sm",
+          ? "border-blue-500 bg-gradient-to-br from-blue-50 via-white to-cyan-50 text-blue-800 shadow-[0_18px_32px_-24px_rgba(37,99,235,0.6)] ring-2 ring-[var(--brand-soft)]"
+          : "border-[var(--border)] bg-[var(--surface)] text-[var(--text)] hover:-translate-y-0.5 hover:border-[var(--border)] hover:bg-[var(--brand-soft)]/30 hover:shadow-sm",
       )}
     >
       {icon ? <span className="shrink-0">{icon}</span> : null}
       <span className="min-w-0">
-        <span className="block text-base font-black text-[#0F172A]">{title}</span>
-        {detail ? <span className="mt-1 block text-xs font-bold text-slate-500">{detail}</span> : null}
+        <span className="block text-base font-black text-[var(--text)]">{title}</span>
+        {detail ? <span className="mt-1 block text-xs font-bold text-[var(--text-secondary)]">{detail}</span> : null}
       </span>
       {selected ? (
-        <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white">
+        <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-[var(--brand-button)] text-white">
           <Check className="h-3.5 w-3.5" />
         </span>
       ) : null}
@@ -798,18 +798,18 @@ function ChoiceButton({
 
 function SummaryLine({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-white/75 px-3 py-2">
+    <div className="flex items-center justify-between gap-3 rounded-2xl bg-[var(--surface)]/75 px-3 py-2">
       <dt className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</dt>
-      <dd className="truncate text-right font-black text-[#0F172A]">{value}</dd>
+      <dd className="truncate text-right font-black text-[var(--text)]">{value}</dd>
     </div>
   );
 }
 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-2xl border border-white bg-white/70 p-3">
+    <div className="rounded-2xl border border-white bg-[var(--surface)]/70 p-3">
       <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-      <p className="mt-1 line-clamp-2 text-sm font-black text-[#0F172A]">{value}</p>
+      <p className="mt-1 line-clamp-2 text-sm font-black text-[var(--text)]">{value}</p>
     </div>
   );
 }

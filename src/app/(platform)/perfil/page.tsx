@@ -21,7 +21,7 @@ export default async function PerfilPage() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Perfil"
-        title="Seu jogador EstudAki"
+        title="Seu perfil"
         description="Acompanhe sua liga, XP, sequencia e as proximas recompensas bloqueadas."
       />
 

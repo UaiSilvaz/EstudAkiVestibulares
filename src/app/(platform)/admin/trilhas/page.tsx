@@ -24,7 +24,7 @@ export default async function AdminTrilhasPage() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Banco administravel"
-        title="Jornada EstudAki"
+        title="Jornada Silva Educacional"
         description="Painel inicial para revisar trilhas, cursos, aulas, atividades, fontes e status editorial do novo modulo educacional."
         action={
           <Link href="/trilhas" className="ek-button ek-button-primary">

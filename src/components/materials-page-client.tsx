@@ -33,7 +33,7 @@ const details: Record<string, {
     oldPrice: 4000,
     cover: "/materials/covers/enem-exatas-natureza.jpg",
     badges: ["ENEM", "2.000 questões", "2 cadernos"],
-    tag: "Produto principal EstudAki",
+    tag: "Produto principal Silva Educacional",
     bullets: [
       "1.000 questões de Exatas e Natureza",
       "1.000 questões de Linguagens e Humanas",
@@ -79,13 +79,13 @@ function itemDetails(material: MaterialPageItem) {
     oldPrice: material.priceCents + 1000,
     cover: material.product?.coverUrl ?? "/materials/covers/enem-exatas-natureza.jpg",
     badges: [material.category ?? "PDF"],
-    tag: "Material EstudAki",
+    tag: "Material Silva Educacional",
     bullets: ["Material digital em PDF", "Acesso liberado pelo administrador", "Compra direcionada pelo WhatsApp"],
   };
 }
 
 function whatsappPurchaseHref(material: MaterialPageItem) {
-  const text = `Olá, quero comprar ${material.title} no EstudAki.`;
+  const text = `Olá, quero comprar ${material.title} no Silva Educacional.`;
   return material.product?.checkoutUrl ?? material.purchaseUrl ?? `https://wa.me/5517997172045?text=${encodeURIComponent(text)}`;
 }
 

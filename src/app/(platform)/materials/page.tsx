@@ -38,7 +38,7 @@ export default async function MaterialsPage() {
       <PageHeader
         eyebrow="Materiais"
         title="Cadernos e PDFs premium"
-        description="Cadernos EstudAki em PDF, compra pelo WhatsApp e acesso liberado pelo administrador."
+        description="Cadernos Silva Educacional em PDF, compra pelo WhatsApp e acesso liberado pelo administrador."
       />
 
       <MaterialsPageClient

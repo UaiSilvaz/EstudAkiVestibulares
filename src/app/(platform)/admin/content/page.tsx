@@ -20,7 +20,7 @@ export default async function AdminContentPage() {
       <PageHeader
         eyebrow="Conteúdos"
         title="Materiais e biblioteca"
-        description="Publique materiais com capa, checkout Hotmart e PDF protegido no EstudAki."
+        description="Publique materiais com capa, checkout Hotmart e PDF protegido no Silva Educacional."
       />
       <ContentManager
         subjects={subjects.map((item) => ({ id: item.id, name: item.name }))}

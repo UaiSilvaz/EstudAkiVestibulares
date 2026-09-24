@@ -1,0 +1,34 @@
+import { cn } from "@/lib/utils";
+
+// Static, code-native illustrations adapted from the supplied Silva V5 reference.
+const illustrations = {
+  folder: <><path className="folder-top" d="M18 34h22c3 0 5-2 7-5l4-7h18c8 0 13 5 13 13v9H18V34Z" fill="#F7A600"/><path d="M14 43h86c7 0 11 5 11 11l-7 42c-1 8-7 13-15 13H23c-8 0-14-5-15-13L1 56c-1-7 4-13 13-13Z" fill="#EDC35A"/><rect x="16" y="45" width="86" height="4" rx="2" fill="#F8D98A" opacity=".8"/></>,
+  compass: <><rect x="55" y="6" width="10" height="18" rx="2" fill="#B9BDC2"/><circle cx="60" cy="39" r="20" fill="#3F4A5A"/><circle cx="60" cy="39" r="12" fill="#B9BDC2"/><path className="comp-l" d="M52 56 37 104" stroke="#1694D2" strokeWidth="10" strokeLinecap="round"/><path className="comp-r" d="M68 56 83 104" stroke="#1694D2" strokeWidth="10" strokeLinecap="round"/><path d="M40 101v10" stroke="#415063" strokeWidth="6" strokeLinecap="round"/><path d="M80 101v10" stroke="#415063" strokeWidth="6" strokeLinecap="round"/></>,
+  cradle: <><rect x="8" y="26" width="104" height="8" rx="4" fill="#626E7D"/><rect x="12" y="26" width="7" height="78" rx="3" fill="#626E7D"/><rect x="101" y="26" width="7" height="78" rx="3" fill="#626E7D"/><path d="M31 34 40 59" stroke="#3F4A5A" strokeWidth="2.5"/><path d="M49 34 49 59" stroke="#3F4A5A" strokeWidth="2.5"/><path d="M67 34 67 59" stroke="#3F4A5A" strokeWidth="2.5"/><path d="M86 34 103 56" stroke="#3F4A5A" strokeWidth="2.5"/><circle className="ball-l" cx="40" cy="68" r="11" fill="#C9CACE"/><circle cx="49" cy="68" r="11" fill="#C9CACE"/><circle cx="67" cy="68" r="11" fill="#C9CACE"/><circle className="ball-r" cx="99" cy="66" r="11" fill="#C9CACE"/><circle cx="36" cy="64" r="3" fill="#E3E4E7"/><circle cx="45" cy="64" r="3" fill="#E3E4E7"/><circle cx="63" cy="64" r="3" fill="#E3E4E7"/><circle cx="95" cy="62" r="3" fill="#E3E4E7"/></>,
+  clock: <><circle cx="60" cy="60" r="38" fill="#445264"/><circle cx="53" cy="53" r="26" fill="#F3F4F6"/><circle cx="60" cy="35" r="3" fill="#A9AFB7"/><circle cx="38" cy="60" r="3" fill="#A9AFB7"/><circle cx="82" cy="60" r="3" fill="#A9AFB7"/><circle cx="60" cy="82" r="3" fill="#A9AFB7"/><path className="clock-h" d="M60 60V43" stroke="#3C4959" strokeWidth="6" strokeLinecap="round"/><path className="clock-m" d="M60 60h13" stroke="#3C4959" strokeWidth="6" strokeLinecap="round"/><path d="M60 60 48 72" stroke="#F57984" strokeWidth="3.5" strokeLinecap="round"/></>,
+  pencil: <><g transform="rotate(-45 60 60)"><rect className="pencil-body" x="22" y="44" width="60" height="18" rx="9" fill="#F7A600"/><rect x="22" y="44" width="12" height="18" rx="9" fill="#F47E86"/><rect x="34" y="44" width="6" height="18" fill="#697687"/><rect x="40" y="44" width="4" height="18" fill="#566273"/><path className="pencil-tip" d="M82 44h16c6 0 11 4 13 9l-13 9H82V44Z" fill="#E6CFA6"/><path d="M105 56c0 5-3 8-8 8h-5V48h5c5 0 8 3 8 8Z" fill="#314154"/></g></>,
+  calculator: <><rect x="18" y="20" width="84" height="82" rx="9" fill="#BBC0C7"/><rect x="18" y="20" width="84" height="20" rx="9" fill="#6A7684"/><rect x="29" y="34" width="62" height="16" rx="2" fill="#334255"/><g fill="#EFF1F3"><rect x="35" y="37" width="6" height="10" rx="1"/><rect x="44" y="37" width="6" height="10" rx="1"/><rect x="53" y="37" width="6" height="10" rx="1"/><rect x="62" y="37" width="6" height="10" rx="1"/><rect x="71" y="37" width="6" height="10" rx="1"/><rect x="80" y="37" width="6" height="10" rx="1"/></g><rect className="calc-display" x="78" y="8" width="14" height="16" rx="2" fill="#DBDCDD"/><g><rect className="key" x="24" y="59" width="16" height="12" rx="3" fill="#475466"/><rect className="key" x="48" y="59" width="16" height="12" rx="3" fill="#6D7887"/><rect className="key" x="72" y="59" width="16" height="12" rx="3" fill="#CC6B73"/><rect className="key" x="24" y="76" width="16" height="12" rx="3" fill="#475466"/><rect className="key" x="48" y="76" width="16" height="12" rx="3" fill="#6D7887"/><rect className="key" x="72" y="76" width="16" height="12" rx="3" fill="#475466"/></g></>,
+  flask: <><path d="M46 24h28v14l18 35a11 11 0 0 1-10 16H38A11 11 0 0 1 28 73l18-35V24Z" fill="#E8ECF4"/><path d="M39 63h42l7 13a8 8 0 0 1-7 12H39a8 8 0 0 1-7-12l7-13Z" fill="#7A58F3"/><circle className="bubble2" cx="63" cy="55" r="4" fill="#F2F6FE"/><circle className="bubble2" cx="73" cy="66" r="3" fill="#C7D9FF"/><rect x="50" y="18" width="20" height="8" rx="3" fill="#A7B1C2"/></>,
+  dna: <><path className="dna-l" d="M45 26c0 10 12 12 12 22s-12 12-12 22 12 12 12 22" stroke="#49CF86" strokeWidth="7" strokeLinecap="round"/><path className="dna-r" d="M75 26c0 10-12 12-12 22s12 12 12 22-12 12-12 22" stroke="#97F0AA" strokeWidth="7" strokeLinecap="round"/><path d="M49 34h22M49 48h22M49 62h22M49 76h22" stroke="#5FCA8B" strokeWidth="5" strokeLinecap="round"/></>,
+  globe: <><circle cx="60" cy="60" r="33" fill="#4F9FD5"/><path d="M42 46c8-9 19-10 27-5 5 3 9 8 14 10-6 4-9 7-9 12-7 1-12 0-18 7-5-4-8-9-16-11-3-5-2-9 2-13Z" fill="#88D98E"/><path d="M54 78c6-7 15-10 24-7 4 5 3 9-1 13-8 5-16 7-23 3Z" fill="#88D98E"/><path className="gl-line" d="M27 60h66M60 27c-9 8-14 20-14 33s5 25 14 33M60 27c9 8 14 20 14 33s-5 25-14 33" stroke="#EAF6FF" strokeWidth="3" opacity=".8"/></>,
+  book: <><path className="book-cover" d="M29 28h52c6 0 11 5 11 11v47c-6-4-12-5-20-5H29V28Z" fill="#8B62D8"/><path d="M29 28h8v53h-8c-6 0-11 5-11 11V39c0-6 5-11 11-11Z" fill="#6F53C7"/><path d="M39 43h38M39 52h28M39 61h35" stroke="#F0EAFF" strokeWidth="4" strokeLinecap="round"/><path className="paper" d="M65 18h19l7 7v17H65c-4 0-7-3-7-7V25c0-4 3-7 7-7Z" fill="#F2F3F4"/><path d="M84 18v7h7" fill="#DCDDDF"/></>,
+  letter: <><rect x="24" y="33" width="72" height="46" rx="8" fill="#F3F5F8"/><path className="letter-mid" d="m24 41 36 22 36-22" fill="#E6E9EF"/><path d="m24 41 36 22 36-22" stroke="#AAB2BF" strokeWidth="3" strokeLinejoin="round"/><rect x="31" y="50" width="58" height="22" rx="6" fill="#E49639"/><path d="M46 64V50M39 50h14M39 57h11" stroke="#fff" strokeWidth="4" strokeLinecap="round"/></>,
+};
+
+export type SilvaIllustrationName = keyof typeof illustrations;
+export function SilvaIllustration({ name, className }: { name: SilvaIllustrationName; className?: string }) {
+  return <svg className={cn("silva-illustration", className)} viewBox="0 0 120 120" fill="none" aria-hidden="true" focusable="false">{illustrations[name]}</svg>;
+}
+
+export function subjectIllustration(name: string): SilvaIllustrationName {
+  const key = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  if (/matemat|algebra|raciocinio/.test(key)) return "calculator";
+  if (/geometr/.test(key)) return "compass";
+  if (/fisica/.test(key)) return "cradle";
+  if (/quimica/.test(key)) return "flask";
+  if (/biolog|medic|saude/.test(key)) return "dna";
+  if (/geogra|humana|historia/.test(key)) return "globe";
+  if (/redacao|escrita/.test(key)) return "pencil";
+  if (/portugues|lingua|ingles/.test(key)) return "letter";
+  return "book";
+}

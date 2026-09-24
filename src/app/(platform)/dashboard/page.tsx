@@ -1,47 +1,19 @@
-import {
-  ArrowRight,
-  BookOpen,
-  CheckCircle2,
-  Clock3,
-  Flame,
-  Sparkles,
-  Target,
-  Trophy,
-  Zap,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChartNoAxesCombined, Flame, GraduationCap, BookOpen, CalendarDays, Check, CheckCircle2, ChevronRight, Clock3, Play, Sparkles, Target } from "lucide-react";
+import type { CSSProperties } from "react";
+import { SilvaIllustration, subjectIllustration } from "@/components/silva-illustration";
 import type { Prisma } from "@prisma/client";
-import Image from "next/image";
 import Link from "next/link";
-import { ChallengeChip } from "@/components/visual/challenge-chip";
-import { EmptyState } from "@/components/visual/empty-state";
-import { EvolutionChart } from "@/components/visual/evolution-chart";
-import { FloatingWhatsApp } from "@/components/visual/floating-whatsapp";
-import { LearningResumeCard, type LearningResumeCardProps, type ResumeTrailStep } from "@/components/learning-resume-card";
-import { ProgressRing } from "@/components/visual/progress-ring";
+import { type LearningResumeCardProps, type ResumeTrailStep } from "@/components/learning-resume-card";
 import { SmartPrefetcher } from "@/components/smart-prefetcher";
-import { LeagueBadge } from "@/components/visual/league-badge";
-import { Sparkline } from "@/components/visual/sparkline";
-import { StatTile } from "@/components/visual/stat-tile";
-import { StreakBadge } from "@/components/visual/streak-badge";
-import { StudyIcon, studyIconColors, studyIconNameForSubject } from "@/components/visual/study-icon";
 import { getPersistedUserId, requireUser } from "@/lib/auth";
 import { getOrCreateStudyPlan } from "@/lib/adaptive-study-plan";
-import { getVerticalTheme } from "@/config/vertical-themes";
 import { getCourseCatalog, getCourseDetail } from "@/lib/courses/learning";
 import type { CourseCardDTO, CourseDetailDTO, LearningPathNodeDTO } from "@/lib/courses/types";
 import { db } from "@/lib/db";
 import { buildDashboardInsights, ERROR_NOTEBOOK_HREF } from "@/lib/insights";
 import { getActivePreparationContext } from "@/lib/preparations";
-import { difficultyLabel, leagueForXp, percent } from "@/lib/utils";
+import { difficultyLabel } from "@/lib/utils";
 
-const LEAGUE_THRESHOLDS: Array<{ name: string; min: number }> = [
-  { name: "Bronze", min: 0 },
-  { name: "Prata", min: 1000 },
-  { name: "Ouro", min: 2500 },
-  { name: "Platina", min: 4500 },
-  { name: "Esmeralda", min: 7000 },
-  { name: "Diamante", min: 10000 },
-];
 
 const dashboardSubjectSelect = {
   id: true,
@@ -81,39 +53,16 @@ const dashboardQuestionPoolSelect = {
   vestibular: { select: { slug: true } },
 } satisfies Prisma.QuestionSelect;
 
-const dashboardActivitySelect = {
-  id: true,
-  message: true,
-  xp: true,
-  createdAt: true,
-} satisfies Prisma.ActivitySelect;
 
 type AttemptWithQuestion = Prisma.QuestionAttemptGetPayload<{
   select: typeof dashboardAttemptSelect;
 }>;
 type QuestionWithSubject = Prisma.QuestionGetPayload<{ select: typeof dashboardQuestionPoolSelect }>;
-type ActivityWithUser = Prisma.ActivityGetPayload<{
-  select: typeof dashboardActivitySelect;
-}>;
-function getNextLeague(xp: number) {
-  return LEAGUE_THRESHOLDS.find((l) => xp < l.min) ?? null;
-}
-
-function getLeagueProgress(xp: number) {
-  const idx = LEAGUE_THRESHOLDS.findIndex((l) => l.name === leagueForXp(xp));
-  const current = LEAGUE_THRESHOLDS[idx];
-  const next = LEAGUE_THRESHOLDS[idx + 1] ?? null;
-  if (!next) return { from: current.min, to: current.min, current: 100, nextName: null };
-  const range = next.min - current.min;
-  const within = Math.max(0, xp - current.min);
-  return { from: current.min, to: next.min, current: (within / range) * 100, nextName: next.name };
-}
-
 function greetingFor(date: Date) {
-  const h = date.getHours();
-  if (h < 12) return "Bom estudo";
-  if (h < 18) return "Boa tarde de foco";
-  return "Boa noite de evolução";
+  const h = Number(new Intl.DateTimeFormat("pt-BR", { hour: "numeric", hourCycle: "h23", timeZone: "America/Sao_Paulo" }).format(date));
+  if (h < 12) return "Bom dia";
+  if (h < 18) return "Boa tarde";
+  return "Boa noite";
 }
 
 function weekdayLabel(date: Date) {
@@ -129,7 +78,7 @@ function isSameCalendarDay(value: Date, date: Date) {
 }
 
 function normalizeStudyHref(href: string) {
-  if (!href || href === "/questions") return "/questions?vestibular=enem";
+  if (!href) return "/questions";
   if (href === "/questions?mode=errors") return ERROR_NOTEBOOK_HREF;
   return href;
 }
@@ -261,23 +210,23 @@ function buildLearningResumeCard({
         ? recentNode
         : nextNode ?? nodes.find((node) => node.state === "current" || node.state === "available") ?? nodes[0] ?? null;
     const currentIndex = resumeNode ? Math.max(0, nodes.findIndex((node) => node.id === resumeNode.id)) : 0;
-    const moduleTitle = resumeNode && "moduleTitle" in resumeNode ? resumeNode.moduleTitle : course.modules[0]?.title ?? "Modulo inicial";
+    const moduleTitle = resumeNode && "moduleTitle" in resumeNode ? resumeNode.moduleTitle : course.modules[0]?.title ?? "Módulo inicial";
     const title = compactCourseTitle(course.title) || course.title;
     const currentTitle = resumeNode?.title ?? "Primeira aula";
     const timeLabel = recentPositionSeconds > 0 && recentLessonId === resumeNode?.id
-      ? `Voce parou em ${formatClockPosition(recentPositionSeconds)}`
-      : `${formatMinutes(Math.max(1, Math.round(course.totalDurationSeconds / 60)))} de conteudo`;
+      ? `Você parou em ${formatClockPosition(recentPositionSeconds)}`
+      : `${formatMinutes(Math.max(1, Math.round(course.totalDurationSeconds / 60)))} de conteúdo`;
 
     return {
-      eyebrow: completed ? "Trilha concluida" : course.progressPercent > 0 ? "Continue de onde parou" : "Comece sua primeira trilha",
+      eyebrow: completed ? "Trilha concluída" : course.progressPercent > 0 ? "Continue de onde parou" : "Comece sua primeira trilha",
       title,
       subtitle: `${moduleTitle} - ${currentTitle}`,
       nextLabel: completed ? "Curso finalizado" : "Aula atual",
-      detailLabel: completed ? "Todas as etapas foram concluidas." : timeLabel,
+      detailLabel: completed ? "Todas as etapas foram concluídas." : timeLabel,
       progressPercent: completed ? 100 : course.progressPercent,
-      progressLabel: completed ? "concluido" : "da trilha",
+      progressLabel: completed ? "concluído" : "da trilha",
       href: completed ? "/cursos" : resumeNode?.href ?? `/cursos/${course.slug}`,
-      ctaLabel: completed ? "Ver proxima trilha" : course.progressPercent > 0 ? "Continuar" : "Comecar agora",
+      ctaLabel: completed ? "Ver próxima trilha" : course.progressPercent > 0 ? "Continuar" : "Começar agora",
       steps: trailWindow(nodes, currentIndex, completed),
       icon: <BookOpen className="h-5 w-5" strokeWidth={2.35} />,
     };
@@ -290,7 +239,7 @@ function buildLearningResumeCard({
       subtitle: fallback.description,
       nextLabel: "Lista atual",
       detailLabel: "Continue exatamente do ponto recomendado para hoje.",
-      progressPercent: 38,
+      progressPercent: 0,
       progressLabel: "em andamento",
       href: fallback.href,
       ctaLabel: "Continuar",
@@ -303,20 +252,20 @@ function buildLearningResumeCard({
       ],
       icon: fallback.icon,
       secondaryHref: "/questions",
-      secondaryLabel: "Ver questoes",
+      secondaryLabel: "Ver questões",
     };
   }
 
   return {
     eyebrow: "Comece sua primeira trilha",
-    title: fallbackCourse ? compactCourseTitle(fallbackCourse.title) : "Seu plano ja esta pronto",
+    title: fallbackCourse ? compactCourseTitle(fallbackCourse.title) : "Seu próximo passo começa aqui",
     subtitle: fallbackCourse ? `${fallbackCourse.lessonCount} atividades - ${fallbackCourse.teacherName}` : "Escolha uma trilha e avance aula por aula.",
     nextLabel: "Primeiro passo",
     detailLabel: "A trilha fica salva para voce continuar depois.",
     progressPercent: 0,
-    progressLabel: "concluido",
+    progressLabel: "concluído",
     href: fallbackCourse ? `/cursos/${fallbackCourse.slug}` : "/cursos",
-    ctaLabel: "Comecar agora",
+    ctaLabel: "Começar agora",
     steps: [
       { id: "start-1", label: "Primeira aula", state: "current" },
       { id: "start-2", label: "Proxima aula", state: "next" },
@@ -334,7 +283,6 @@ export default async function DashboardPage() {
   const persistedUserId = await getPersistedUserId(user);
   const preparationContext = persistedUserId ? await getActivePreparationContext(persistedUserId) : null;
   const activePreparation = preparationContext?.active ?? null;
-  const activeTheme = getVerticalTheme(activePreparation?.vertical.slug);
   const dashboardUserId = persistedUserId ?? user.id;
   const dashboardProfile = {
     name: user.name,
@@ -346,48 +294,32 @@ export default async function DashboardPage() {
 
   let attempts: AttemptWithQuestion[] = [];
   let questions: QuestionWithSubject[] = [];
-  let activities: ActivityWithUser[] = [];
   let studyPlan: Awaited<ReturnType<typeof getOrCreateStudyPlan>> | null = null;
   let lastAttempt: AttemptWithQuestion | null = null;
   let learningCourses: Awaited<ReturnType<typeof getCourseCatalog>> = [];
 
   try {
-    [attempts, questions, activities, studyPlan] = await Promise.all([
+    [attempts, questions, studyPlan] = await Promise.all([
       db.questionAttempt.findMany({
-        where: { userId: dashboardUserId, annulled: false },
+        where: { userId: dashboardUserId, annulled: false, ...(activePreparation?.examSlug ? { question: { vestibular: { slug: activePreparation.examSlug } } } : {}) },
         orderBy: { createdAt: "desc" },
         take: 240,
         select: dashboardAttemptSelect,
       }),
       db.question.findMany({
-        where: { status: "PUBLISHED", answerSituation: { not: "ANNULLED" } },
+        where: { status: "PUBLISHED", answerSituation: { not: "ANNULLED" }, ...(activePreparation?.examSlug ? { vestibular: { slug: activePreparation.examSlug } } : {}) },
         select: dashboardQuestionPoolSelect,
         orderBy: { createdAt: "desc" },
         take: 120,
-      }),
-      db.activity.findMany({
-        where: { OR: [{ userId: dashboardUserId }, { userId: null }] },
-        orderBy: { createdAt: "desc" },
-        take: 5,
-        select: dashboardActivitySelect,
       }),
       persistedUserId
         ? getOrCreateStudyPlan(persistedUserId, activePreparation?.userPreparationId ?? null).catch(() => null)
         : Promise.resolve(null),
     ]);
     lastAttempt = attempts[0] ?? null;
-  } catch {
-    activities = [
-      {
-        id: "local-welcome",
-        message: "Ambiente local iniciado com acesso liberado.",
-        xp: 120,
-        createdAt: now,
-      },
-    ];
-  }
+  } catch { /* Show the empty state when study data is unavailable. */ }
 
-  learningCourses = await getCourseCatalog(dashboardUserId).catch(() => []);
+  learningCourses = await getCourseCatalog(dashboardUserId, activePreparation?.id).catch(() => []);
   const [latestCourseEvent, latestLessonProgress] = await Promise.all([
     db.learningEvent.findFirst({
       where: { userId: dashboardUserId, courseId: { not: null } },
@@ -434,7 +366,7 @@ export default async function DashboardPage() {
     ? latestProgressCourseSlug ?? latestCourseEvent?.course?.slug ?? null
     : latestCourseEvent?.course?.slug ?? latestProgressCourseSlug ?? null;
   const fallbackCourseSlug =
-    resumeCourseSlug ??
+    (learningCourses.some((course) => course.slug === resumeCourseSlug) ? resumeCourseSlug : null) ??
     learningCourses.find((course) => course.progressPercent > 0 && course.progressPercent < 100)?.slug ??
     learningCourses.find((course) => course.progressPercent < 100)?.slug ??
     learningCourses[0]?.slug ??
@@ -454,753 +386,117 @@ export default async function DashboardPage() {
   });
 
   const mainRecommendation = insights.recommendations[0];
-  const currentLeague = leagueForXp(user.xp);
-  const leagueProgress = getLeagueProgress(user.xp);
-  const nextLeague = getNextLeague(user.xp);
-  const accuracySeries = insights.dailyBuckets.map((b) => b.accuracy || 0);
-  const trendText = insights.trendScore > 0 ? `+${insights.trendScore}%` : `${insights.trendScore}%`;
-  const trendPositive = insights.trendScore >= 0;
-  const dailyProgress = Math.round(insights.dailyGoalCompletionRate);
-  const errorBookDone = insights.pendingErrors + insights.reviewedErrors;
-  const errorBookProgress = insights.reviewedErrors;
-  const errorBookTotal = Math.max(1, errorBookDone);
   const allPlanTasks = studyPlan?.tasks ?? [];
   const todayPlanTasks = allPlanTasks.filter((task) => isSameCalendarDay(task.scheduledFor, now));
-  const planScopeTasks = todayPlanTasks.length ? todayPlanTasks : allPlanTasks.slice(0, 4);
-  const activePlanTasks = planScopeTasks.filter((task) => !task.completedAt).slice(0, 4);
-  const firstPlanTask = activePlanTasks[0] ?? null;
-  const planTotalMinutes = planScopeTasks.reduce((sum, task) => sum + task.durationMinutes, 0);
-  const planCompletedCount = planScopeTasks.filter((task) => task.completedAt).length;
-  const planProgress = planScopeTasks.length
-    ? Math.round((planCompletedCount / planScopeTasks.length) * 100)
-    : dailyProgress;
-  const errorBookHint = errorBookDone
-    ? `${insights.reviewedErrors} revisados de ${errorBookDone}`
-    : "Nenhum erro pendente";
-  const focusMessage = firstPlanTask
-    ? `${insights.message} Primeiro bloco salvo: ${firstPlanTask.title}.`
-    : insights.message;
-  const recommendedQuestion = insights.automaticList[0] ?? null;
-  const continueCard = firstPlanTask
-    ? {
-        meta: "Continue de onde parou",
-        title: firstPlanTask.title,
-        description: `${studyTaskTypeLabel(firstPlanTask.type)} · ${formatMinutes(firstPlanTask.durationMinutes)} · ${firstPlanTask.description}`,
-        href: normalizeStudyHref(firstPlanTask.actionHref),
-        icon: studyTaskIcon(firstPlanTask.type),
-        accent: "green" as const,
-      }
-    : lastAttempt
-      ? {
-          meta: "Continue de onde parou",
-          title: lastAttempt.question.statement.replace(/\s+/g, " ").slice(0, 110),
-          description: `${lastAttempt.question.vestibular?.name ?? "Questão"} · ${lastAttempt.question.subject?.name ?? "Geral"}`,
-          href: questionHref(lastAttempt.question.id, lastAttempt.question.vestibular?.slug),
-          icon: lastAttempt.correct ? (
-            <CheckCircle2 className="h-5 w-5" strokeWidth={2.4} />
-          ) : (
-            <Sparkles className="h-5 w-5" strokeWidth={2.4} />
-          ),
-          accent: lastAttempt.correct ? ("green" as const) : ("orange" as const),
-        }
-      : recommendedQuestion
-        ? {
-            meta: "Plano inicial",
-            title: recommendedQuestion.topic?.name
-              ? `Resolver ${recommendedQuestion.topic.name}`
-              : `Resolver ${recommendedQuestion.subject.name}`,
-            description: `${recommendedQuestion.subject.name} · ${difficultyLabel(recommendedQuestion.difficulty)}`,
-            href: questionHref(recommendedQuestion.id, recommendedQuestion.vestibular?.slug),
-            icon: <Target className="h-5 w-5" strokeWidth={2.4} />,
-            accent: "green" as const,
-        }
-      : null;
-  const learningResumeCard = buildLearningResumeCard({
-    course: resumeCourseDetail,
-    recentLessonId,
-    recentPositionSeconds,
-    fallback: continueCard,
-    fallbackCourse: learningCourses[0] ?? null,
-  });
-  const prefetchTargets = [
-    learningResumeCard.href,
-    mainRecommendation.actionTarget,
-    "/questions?vestibular=enem",
-    ERROR_NOTEBOOK_HREF,
-    ...activePlanTasks.map((task) => normalizeStudyHref(task.actionHref)),
-    "/trilhas",
-    "/cursos",
-    "/cronograma",
-    "/diagnostico",
-    "/onboarding",
-  ];
+  const planScopeTasks = todayPlanTasks.length ? todayPlanTasks : allPlanTasks.slice(0, 5);
+  const completedCount = planScopeTasks.filter((task) => task.completedAt).length;
+  const firstPlanTask = planScopeTasks.find((task) => !task.completedAt);
+  const fallback = firstPlanTask ? {
+    meta: "Seu próximo bloco", title: firstPlanTask.title,
+    description: firstPlanTask.description, href: normalizeStudyHref(firstPlanTask.actionHref),
+    icon: studyTaskIcon(firstPlanTask.type),
+  } : lastAttempt ? {
+    meta: "Retome sua prática", title: lastAttempt.question.subject?.name ?? "Questões",
+    description: lastAttempt.question.topic?.name ?? difficultyLabel(lastAttempt.question.difficulty),
+    href: questionHref(lastAttempt.question.id, lastAttempt.question.vestibular?.slug),
+    icon: <Target />,
+  } : null;
+  const resume = buildLearningResumeCard({ course: resumeCourseDetail, recentLessonId, recentPositionSeconds, fallback, fallbackCourse: learningCourses[0] ?? null });
+  const examDate = activePreparation?.examDate ? new Date(activePreparation.examDate) : null;
+  const daysUntilExam = examDate && Number.isFinite(examDate.getTime()) ? Math.ceil((examDate.getTime() - now.getTime()) / 86400000) : null;
+  const progress = Math.max(0, Math.min(100, resume.progressPercent));
+  const planMinutes = planScopeTasks.reduce((sum, task) => sum + task.durationMinutes, 0);
+  const target = activePreparation?.displayName ?? user.targetExam ?? "seu objetivo";
 
-  return (
-    <div className="mx-auto w-full min-w-0 space-y-3 overflow-x-clip sm:space-y-6">
-      <SmartPrefetcher hrefs={prefetchTargets} />
+  const continuingCourses = learningCourses.filter((course) => course.progressPercent > 0 && course.progressPercent < 100).slice(0, 3);
+  const weeklyTotal = insights.dailyBuckets.reduce((sum, day) => sum + day.attempts, 0);
+  const weeklyMax = Math.max(1, ...insights.dailyBuckets.map((day) => day.attempts));
+  const goalPercent = Math.min(100, Math.round(insights.completedToday / Math.max(1, insights.dailyGoal.questions) * 100));
 
-      {/* Header compacto */}
-      <section className="theme-hero relative overflow-hidden rounded-[24px] border p-4 sm:rounded-[32px] sm:p-6 md:p-7">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-16 -top-20 hidden h-56 w-56 rounded-full opacity-[0.24] blur-3xl sm:block"
-          style={{ background: "var(--theme-ambient-a)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-12 -left-12 hidden h-44 w-44 rounded-full opacity-[0.18] blur-3xl sm:block"
-          style={{ background: "var(--theme-ambient-b)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent"
-        />
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
-          <div className="flex min-w-0 items-start gap-3 sm:items-center sm:gap-4">
-            <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-[0_18px_30px_-22px_var(--theme-primary)] ring-1 ring-[color:var(--theme-border)] sm:h-16 sm:w-16 sm:rounded-[24px]">
-              <Image
-                src="/brand/estudaki-logo.png"
-                alt="EstudAki"
-                width={132}
-                height={132}
-                className="h-10 w-10 object-contain sm:h-12 sm:w-12"
-                priority
-              />
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-white shadow-md ring-2 ring-white sm:h-6 sm:w-6" style={{ background: "var(--theme-gradient-progress)" }}>
-                <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-              </span>
-            </div>
-            <div className="min-w-0">
-            <p className="text-[9px] font-black uppercase leading-4 tracking-[0.18em] text-[color:var(--theme-primary)] sm:text-[11px] sm:tracking-[0.22em]">
-              {greetingFor(now)} · {weekdayLabel(now)}
-            </p>
-            <h1 className="mt-0.5 font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-[color:var(--theme-text)] sm:mt-1 sm:text-3xl md:text-4xl">
-              {user.name.split(" ")[0]}, {activeTheme.copy.heroTitle}
-            </h1>
-            <p className="mt-1 max-w-xl text-xs font-medium leading-5 text-[color:var(--theme-muted)] sm:text-sm">
-              {activeTheme.copy.heroDescription} Você está na liga <span className="font-extrabold text-[color:var(--theme-text)]">{currentLeague}</span> com
-              {" "}<span className="font-extrabold text-[color:var(--theme-text)]">{user.xp.toLocaleString("pt-BR")} XP</span>.
-              {nextLeague
-                ? ` Faltam ${(leagueProgress.to - user.xp).toLocaleString("pt-BR")} XP para a liga ${nextLeague.name}.`
-                : " Você está no topo; continue mantendo o ritmo."}
-            </p>
-            </div>
-          </div>
-          <div className="flex w-full items-center justify-between gap-3 border-t border-[color:var(--theme-border)] pt-3 sm:w-auto sm:flex-wrap sm:justify-start sm:border-0 sm:pt-0">
-            <div className="flex items-center gap-2 sm:hidden">
-              <StreakBadge days={user.streak} size="sm" />
-              <LeagueBadge league={currentLeague} size="md" />
-            </div>
-            <div className="hidden items-center gap-3 sm:flex">
-            <StreakBadge days={user.streak} size="lg" />
-            <LeagueBadge league={currentLeague} size="lg" />
-            </div>
-          </div>
+  return <div className="silva-dashboard silva-workspace-home">
+    <SmartPrefetcher hrefs={[resume.href, "/cronograma", "/praticar"]} />
+    <header className="silva-dashboard-header">
+      <div><p className="silva-eyebrow">SEU ESPAÇO DE APRENDIZADO</p><h1 className="silva-title">{greetingFor(now)}, {user.name.split(" ")[0]}.</h1><p className="silva-muted">Um novo passo na sua preparação para {target}.</p></div>
+      <Link href="/cronograma" className="silva-button-secondary"><CalendarDays size={17} />Meu plano<ArrowRight size={15} /></Link>
+    </header>
+
+    <div className="silva-overview-grid">
+      <section className="silva-journey">
+        <div className="silva-journey-copy">
+          <span className="silva-glass-label"><span />{resume.eyebrow}</span>
+          <h2>{resume.title}</h2>
+          <p>{resume.subtitle}</p>
+          <Link href={resume.href} className="silva-button"><Play size={16} fill="currentColor" />{resume.ctaLabel}<ArrowRight size={17} /></Link>
+          <div className="silva-journey-meta"><span><Clock3 size={14} />{resume.detailLabel}</span>{resumeCourseDetail && <span><CheckCircle2 size={14} />{Math.round(progress)}% concluído</span>}</div>
+        </div>
+        <div className="silva-route-card">
+          <div className="silva-route-heading"><span><Sparkles size={17} />{todayPlanTasks.length ? "Sua rota de hoje" : "Seu próximo caminho"}</span><span className="silva-route-count">{planScopeTasks.length ? `${completedCount}/${planScopeTasks.length}` : "01"}</span></div>
+          <ol>
+            {planScopeTasks.length ? planScopeTasks.slice(0, 4).map((task, index) => <li key={task.id} data-done={Boolean(task.completedAt)}><span className="silva-route-marker">{task.completedAt ? <Check size={13} /> : String(index + 1).padStart(2, "0")}</span><Link href={normalizeStudyHref(task.actionHref)}><strong>{task.title}</strong><small>{studyTaskTypeLabel(task.type)} · {task.durationMinutes} min</small></Link></li>) : [{ title: "Defina seu objetivo", detail: "Uma preparação com a sua cara", href: "/onboarding" }, { title: "Explore as disciplinas", detail: "Construa uma base sólida", href: "/estudar" }, { title: "Coloque em prática", detail: "Aprenda com cada resposta", href: "/questions" }].map((step, index) => <li key={step.href}><span className="silva-route-marker">0{index + 1}</span><Link href={step.href}><strong>{step.title}</strong><small>{step.detail}</small></Link></li>)}
+          </ol>
+          <Link href="/cronograma" className="silva-route-footer">Um passo de cada vez. Você consegue.<ArrowRight size={14} /></Link>
         </div>
       </section>
 
-      <LearningResumeCard {...learningResumeCard} />
-
-      <section className="grid min-w-0 gap-3 sm:gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.85fr)]">
-        {/* Foco do dia */}
-        <div className="theme-focus-panel group relative min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#FF8A18] via-[#FFA51F] to-[#FFE01B] p-4 text-white shadow-[0_22px_46px_-28px_rgba(249,115,22,0.55)] sm:rounded-[28px] sm:p-6 md:min-h-[266px] md:p-7">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_46%)]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-white/20 blur-sm"
-          />
-          <Target
-            aria-hidden
-            className="pointer-events-none absolute -right-7 bottom-3 h-28 w-28 rotate-[-9deg] text-white/18 transition duration-300 group-hover:scale-105 sm:h-44 sm:w-44 sm:text-white/22"
-            strokeWidth={1.8}
-          />
-          <div className="relative z-10 grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/88 sm:text-[11px] sm:tracking-[0.22em]">
-                {activeTheme.copy.dashboardKicker}
-              </p>
-              <div className="mt-2 h-0.5 w-6 rounded-full bg-white/35" />
-              <h2 className="mt-3 max-w-[760px] font-display text-xl font-extrabold leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)] sm:mt-4 sm:text-2xl md:text-3xl">
-                {mainRecommendation.title}
-              </h2>
-              <p className="mt-2 hidden max-w-xl text-sm font-semibold leading-6 text-white/84 sm:block">
-                {focusMessage}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3 sm:mt-5">
-                <Link
-                  href={mainRecommendation.actionTarget}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-black text-[color:var(--theme-primary)] shadow-[0_18px_32px_-22px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:bg-white/92 sm:py-3"
-                >
-                  {activeTheme.copy.primaryCta}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link href="/cronograma" className="hidden items-center justify-center rounded-full border border-white/30 bg-white/14 px-5 py-3 text-sm font-black text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20 sm:inline-flex">
-                  {activeTheme.copy.secondaryCta}
-                </Link>
-              </div>
-            </div>
-            <div className="hidden flex-col items-center justify-center rounded-[24px] border border-white/24 bg-white/16 p-5 shadow-[0_12px_30px_-16px_rgba(15,23,42,0.35)] backdrop-blur md:flex">
-              <ProgressRing
-                value={dailyProgress}
-                size={140}
-                strokeWidth={12}
-                gradientFrom="#FFFFFF"
-                gradientTo="#FDE68A"
-                label={
-                  <span className="font-display text-3xl font-extrabold text-white">
-                    {insights.completedToday}
-                    <span className="text-base font-black text-white">/{insights.dailyGoal.questions}</span>
-                  </span>
-                }
-                caption={<span className="text-white">Meta hoje</span>}
-              />
-              <p className="mt-3 text-xs font-bold uppercase tracking-wider text-white/82">
-                {dailyProgress}% concluído
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Liga / XP */}
-        <div className="theme-league-panel group relative hidden min-w-0 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#6B2CF5] via-[#8A42FF] to-[#A569FF] p-6 text-white shadow-[0_26px_52px_-28px_rgba(124,58,237,0.55)] sm:block md:min-h-[266px] md:p-7">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.30),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.14),transparent_46%)]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-white/18 blur-sm"
-          />
-          <Trophy
-            aria-hidden
-            className="pointer-events-none absolute -right-7 bottom-3 h-40 w-40 rotate-[-9deg] text-white/26 transition duration-300 group-hover:scale-105"
-            strokeWidth={1.8}
-          />
-          <div className="relative z-10">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/82">
-              Sua liga
-            </p>
-            <div className="mt-2 h-0.5 w-6 rounded-full bg-white/35" />
-            <div className="mt-1 flex items-end justify-between gap-3">
-              <h2 className="mt-3 font-display text-3xl font-extrabold text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">
-                {currentLeague}
-              </h2>
-              {nextLeague && (
-                <p className="rounded-full border border-white/30 bg-white/18 px-3 py-1 text-xs font-black uppercase tracking-wider text-white backdrop-blur">
-                  Prox. {nextLeague.name}
-                </p>
-              )}
-            </div>
-            <p className="mt-2 max-w-[70%] text-sm font-semibold text-white/84">
-              {user.xp.toLocaleString("pt-BR")} XP {nextLeague ? `de ${leagueProgress.to.toLocaleString("pt-BR")}` : "(máximo)"}
-            </p>
-            <div className="mt-5 h-2.5 max-w-[75%] overflow-hidden rounded-full bg-white/24">
-              <div
-                className="h-full rounded-full bg-white/88 transition-all"
-                style={{ width: `${Math.min(100, leagueProgress.current)}%` }}
-              />
-            </div>
-            <div className="mt-5 grid max-w-full grid-cols-3 gap-2 text-center text-xs xl:max-w-[88%]">
-              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
-                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">Sequência</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.streak}d</p>
-              </div>
-              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
-                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">XP</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.xp}</p>
-              </div>
-              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
-                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">Horas</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.weeklyHours ?? 0}/sem</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats strip gamificado */}
-      <section className="grid min-w-0 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatTile
-          label="Meta de hoje"
-          value={
-            <span>
-              {insights.completedToday}
-              <span className="text-base font-black text-white">/{insights.dailyGoal.questions}</span>
-            </span>
-          }
-          hint={`${dailyProgress}% concluído · ${insights.dailyGoal.reviews} revisões`}
-          icon={<Target className="h-5 w-5" strokeWidth={2.4} />}
-          ghostIcon={<Target className="h-24 w-24" strokeWidth={2.05} />}
-          accent="cyan"
-          progress={dailyProgress}
-        />
-        <StatTile
-          label="Sequência"
-          value={`${user.streak}d`}
-          hint="Mantenha a constância"
-          icon={<Flame className="h-5 w-5" strokeWidth={2.4} />}
-          ghostIcon={<Flame className="h-24 w-24" strokeWidth={2.05} />}
-          accent="purple"
-        />
-        <StatTile
-          label="Acerto ponderado"
-          value={percent(insights.weightedAccuracyRate)}
-          hint={`${insights.correctToday} acertos hoje`}
-          icon={<Zap className="h-5 w-5" strokeWidth={2.4} />}
-          ghostIcon={<Zap className="h-24 w-24" strokeWidth={2.05} />}
-          accent="green"
-          delta={{
-            value: trendText,
-            suffix: "7d",
-            positive: trendPositive,
-          }}
-        />
-        <StatTile
-          label="Caderno de erros"
-          value={String(insights.pendingErrors)}
-          hint={errorBookHint}
-          icon={<BookOpen className="h-5 w-5" strokeWidth={2.4} />}
-          ghostIcon={<BookOpen className="h-24 w-24" strokeWidth={2.05} />}
-          accent="pink"
-          progress={errorBookDone ? (errorBookProgress / errorBookTotal) * 100 : 100}
-        />
-      </section>
-
-      <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(280px,0.72fr)_minmax(0,1.28fr)]">
-        <div className="relative overflow-hidden rounded-[26px] border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-26px_rgba(15,23,42,0.16)]">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#22C55E] opacity-[0.12] blur-3xl"
-          />
-          <div className="relative z-10 flex items-start justify-between gap-4">
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-emerald-700">
-                Plano do dia
-              </p>
-              <h2 className="mt-1 font-display text-2xl font-extrabold text-[#0F172A]">
-                Blocos calculados
-              </h2>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">
-                O cronograma cruza seus erros, cobertura e tempo disponível para decidir o próximo passo.
-              </p>
-            </div>
-            <div className="relative shrink-0">
-              <div className="flex h-16 w-16 items-center justify-center rounded-[24px] bg-gradient-to-br from-[#22C55E] to-[#22D3EE] text-white shadow-[0_16px_30px_-20px_rgba(34,197,94,0.72)]">
-                <Target className="h-8 w-8" strokeWidth={2.35} />
-              </div>
-              <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FF8A18] to-[#FACC15] text-white shadow-[0_10px_20px_-12px_rgba(249,115,22,0.8)] ring-2 ring-white">
-                <Flame className="h-4 w-4" strokeWidth={2.5} />
-              </span>
-            </div>
-          </div>
-          <div className="relative z-10 mt-5 grid grid-cols-3 gap-2 text-center">
-            <div className="rounded-2xl bg-slate-50 px-2 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Blocos</p>
-              <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">{planScopeTasks.length}</p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 px-2 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Tempo</p>
-              <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">
-                {planTotalMinutes ? formatMinutes(planTotalMinutes) : "0min"}
-              </p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 px-2 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Erros</p>
-              <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">{insights.pendingErrors}</p>
-            </div>
-          </div>
-          <div className="relative z-10 mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-[#22C55E] to-[#22D3EE] transition-all"
-              style={{ width: `${Math.max(0, Math.min(100, planProgress))}%` }}
-            />
-          </div>
-          <p className="relative z-10 mt-2 text-xs font-bold text-slate-500">
-            {planCompletedCount} de {planScopeTasks.length || 0} bloco(s) concluído(s)
-          </p>
-          <Link
-            href="/cronograma"
-            className="relative z-10 mt-4 inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#22C55E] to-[#22D3EE] px-4 text-sm font-black text-white shadow-[0_14px_28px_-18px_rgba(34,197,94,0.7)] transition hover:-translate-y-0.5"
-          >
-            Abrir cronograma
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <div className="rounded-[26px] border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-26px_rgba(15,23,42,0.16)]">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-                Plano adaptativo
-              </p>
-              <h2 className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">
-                O que fazer agora
-              </h2>
-            </div>
-            <Link href="/cronograma" className="hidden rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-[11px] font-black uppercase tracking-wider text-blue-700 sm:inline-flex">
-              Ver plano
-            </Link>
-          </div>
-          <div className="grid gap-2">
-            {activePlanTasks.length === 0 ? (
-              <EmptyState
-                title={planScopeTasks.length ? "Plano de hoje concluído" : "Cronograma pronto para montar"}
-                description={
-                  planScopeTasks.length
-                    ? "Você já concluiu os blocos previstos. Revise o caderno ou gere uma nova semana."
-                    : "Complete o onboarding ou gere o cronograma para o EstudAki criar blocos com base nos seus dados."
-                }
-                accent="green"
-              />
-            ) : (
-              activePlanTasks.map((task, index) => {
-                const isReview = task.type.toLowerCase().includes("review") || task.type.toLowerCase().includes("error");
-                const isQuestion = task.type.toLowerCase().includes("question");
-                const tone = isReview
-                  ? "border-emerald-100 bg-gradient-to-br from-[#ECFDF5] to-white text-emerald-700"
-                  : isQuestion
-                    ? "border-orange-100 bg-gradient-to-br from-[#FFF7ED] to-white text-orange-700"
-                    : "border-blue-100 bg-gradient-to-br from-[#EFF6FF] to-white text-blue-700";
-
-                return (
-                  <Link
-                    key={task.id}
-                    href={normalizeStudyHref(task.actionHref)}
-                    className={`group relative flex items-center gap-4 overflow-hidden rounded-[20px] border p-3.5 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_-28px_rgba(15,23,42,0.35)] ${tone}`}
-                  >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/82 shadow-sm ring-1 ring-white">
-                      {studyTaskIcon(task.type)}
-                    </span>
-                    <div className="relative z-10 min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-[10px] font-black uppercase tracking-wider">
-                          Passo {index + 1} · {studyTaskTypeLabel(task.type)}
-                        </p>
-                        <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-black text-slate-500">
-                          {formatMinutes(task.durationMinutes)}
-                        </span>
-                      </div>
-                      <p className="mt-1 truncate text-sm font-extrabold text-[#0F172A]">{task.title}</p>
-                      <p className="mt-0.5 line-clamp-1 text-xs font-semibold text-slate-500">
-                        {task.description}
-                      </p>
-                    </div>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-1 group-hover:text-blue-600" />
-                  </Link>
-                );
-              })
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Desafios / Próximo nível */}
-      <section>
-        <div className="mb-3 flex items-end justify-between gap-3">
-          <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-violet-700">
-              Próximas metas
-            </p>
-            <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
-              Desafios que aproximam você da próxima liga
-            </h2>
-          </div>
-        </div>
-        <div className="grid min-w-0 gap-3 md:grid-cols-3">
-          <ChallengeChip
-            title="Subir de liga"
-            description={
-              nextLeague
-                ? `Acumule XP para chegar à liga ${nextLeague.name}.`
-                : "Você atingiu a liga máxima. Mantenha o ritmo."
-            }
-            progress={user.xp - leagueProgress.from}
-            total={Math.max(1, leagueProgress.to - leagueProgress.from)}
-            icon={<Trophy className="h-4 w-4" strokeWidth={2.4} />}
-            accent="yellow"
-            reward={nextLeague ? nextLeague.name : "Top"}
-            ctaLabel="Praticar questões"
-            ctaHref="/questions?vestibular=enem"
-            done={!nextLeague}
-          />
-          <ChallengeChip
-            title="Zerar o caderno de erros"
-            description="Revise todos os erros abertos para destravar novos assuntos."
-            progress={insights.reviewedErrors}
-            total={errorBookTotal}
-            icon={<CheckCircle2 className="h-4 w-4" strokeWidth={2.4} />}
-            accent="green"
-            reward={`+${errorBookTotal * 10} XP`}
-            ctaLabel="Revisar caderno"
-            ctaHref={ERROR_NOTEBOOK_HREF}
-            done={insights.pendingErrors === 0}
-          />
-          <ChallengeChip
-            title="Cumprir a meta diária"
-            description={`Resolva ${insights.dailyGoal.questions} questões e faça ${insights.dailyGoal.reviews} revisões hoje.`}
-            progress={insights.completedToday}
-            total={insights.dailyGoal.questions}
-            icon={<Target className="h-4 w-4" strokeWidth={2.4} />}
-            accent="blue"
-            reward={`+${insights.dailyGoal.questions * 12} XP`}
-            ctaLabel="Começar lista"
-            ctaHref={mainRecommendation.actionTarget}
-            done={insights.completedToday >= insights.dailyGoal.questions}
-          />
-        </div>
-      </section>
-
-      {/* Evolução + atividades */}
-      <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.85fr)]">
-        <div className="relative overflow-hidden rounded-[28px] border border-blue-100/60 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#60A5FA] opacity-20 blur-3xl"
-          />
-          <div className="relative z-10">
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-                  Evolução
-                </p>
-                <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
-                  Desempenho dos últimos 7 dias
-                </h2>
-              </div>
-              <div className="flex items-center gap-2 rounded-full border border-emerald-100 bg-gradient-to-r from-[#ECFDF5] to-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wider text-emerald-700">
-                <Zap className="h-3.5 w-3.5" />
-                {trendText} na semana
-              </div>
-            </div>
-            <EvolutionChart
-              data={insights.dailyBuckets.map((b) => b.accuracy || b.completion)}
-              labels={insights.dailyBuckets.map((b) => b.label)}
-            />
-            <div className="mt-5 grid grid-cols-3 gap-3">
-              {[
-                { label: "Acertos hoje", value: String(insights.correctToday), color: "#22C55E" },
-                { label: "Tempo médio", value: formatSeconds(insights.averageTimeSeconds), color: "#2563EB" },
-                { label: "Pendências", value: String(insights.pendingErrors), color: "#FACC15" },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="rounded-2xl border border-slate-100 bg-gradient-to-br from-white to-slate-50 p-3.5"
-                >
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">
-                    {stat.label}
-                  </p>
-                  <div className="mt-1 flex items-end justify-between gap-2">
-                    <p className="font-display text-xl font-extrabold text-[#0F172A]">{stat.value}</p>
-                    <Sparkline data={accuracySeries} color={stat.color} width={56} height={22} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Atividades recentes */}
-        <div className="relative overflow-hidden rounded-[28px] border border-yellow-200/40 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#FACC15] opacity-20 blur-3xl"
-          />
-          <div className="relative z-10">
-            <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FACC15] via-[#FDE047] to-[#F97316] text-white shadow-md">
-                <Clock3 className="h-5 w-5" />
-              </div>
-              <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
-                Atividades recentes
-              </h2>
-            </div>
-            {activities.length === 0 ? (
-              <p className="rounded-2xl border border-slate-100 bg-slate-50 p-4 text-sm font-semibold text-slate-500">
-                Nenhuma atividade ainda. Que tal começar agora?
-              </p>
-            ) : (
-              <ul className="space-y-2.5">
-                {activities.map((activity) => (
-                  <li
-                    key={activity.id}
-                    className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-3.5"
-                  >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-                      <CheckCircle2 className="h-4 w-4" />
-                    </div>
-                    <p className="flex-1 text-sm font-semibold text-slate-700">{activity.message}</p>
-                    {activity.xp > 0 && (
-                      <span className="rounded-full bg-gradient-to-r from-[#FACC15] to-[#F97316] px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white">
-                        +{activity.xp} XP
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Ações rápidas + questões recomendadas */}
-      <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]">
-        <div className="rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
-          <div className="mb-5 flex items-center justify-between gap-4">
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-                Lista inteligente
-              </p>
-              <h2 className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">
-                Questões recomendadas
-              </h2>
-            </div>
-            <Link
-              href="/questions?vestibular=enem"
-              className="rounded-full border border-blue-200 bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wider text-blue-700 hover:border-blue-300"
-            >
-              Ver tudo
-            </Link>
-          </div>
-
-          {insights.automaticList.length === 0 ? (
-            <EmptyState
-              title="Nenhuma questão disponível"
-              description="Sua lista inteligente aparecerá após você resolver as primeiras questões."
-              accent="blue"
-            />
-          ) : (
-            <div className="space-y-2.5">
-              {insights.automaticList.slice(0, 5).map((question, index) => {
-                const iconName = studyIconNameForSubject(question.subject.name);
-                const colors = studyIconColors(iconName);
-
-                return (
-                  <Link
-                    key={question.id}
-                    href={questionHref(question.id, question.vestibular?.slug)}
-                    className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                    style={{ borderColor: `${colors.primary}18` }}
-                  >
-                    <div className="relative shrink-0">
-                      <StudyIcon name={iconName} size="sm" />
-                      <span
-                        className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[9px] font-black text-white ring-2 ring-white"
-                        style={{ background: colors.primary }}
-                      >
-                        {index + 1}
-                      </span>
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-extrabold text-[#0F172A]">
-                        {question.topic?.name ?? question.subject.name}
-                      </p>
-                      <p className="mt-0.5 text-xs font-semibold text-slate-500">
-                        {question.subject.name} - {difficultyLabel(question.difficulty)}
-                      </p>
-                    </div>
-                    <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1 group-hover:text-blue-600" />
-                  </Link>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-4">
-          <div className="rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-              Atalhos rápidos
-            </p>
-            <h2 className="mt-1 font-display text-lg font-extrabold text-[#0F172A]">
-              Continue com 1 clique
-            </h2>
-            <div className="mt-4 grid grid-cols-2 gap-2.5">
-              <Link href={mainRecommendation.actionTarget} className="group relative overflow-hidden rounded-2xl border border-blue-100 bg-gradient-to-br from-[#EFF6FF] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
-                  <StudyIcon name="matematica" variant="ghost" size="lg" />
-                </span>
-                <StudyIcon name="matematica" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Praticar</p>
-                <p className="text-[11px] font-semibold text-slate-500">Lista inteligente</p>
-              </Link>
-              <Link href={ERROR_NOTEBOOK_HREF} className="group relative overflow-hidden rounded-2xl border border-emerald-100 bg-gradient-to-br from-[#ECFDF5] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
-                  <StudyIcon name="redacao" variant="ghost" size="lg" />
-                </span>
-                <StudyIcon name="redacao" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Caderno</p>
-                <p className="text-[11px] font-semibold text-slate-500">Revisar erros</p>
-              </Link>
-              <Link href="/biblioteca" className="group relative overflow-hidden rounded-2xl border border-pink-100 bg-gradient-to-br from-[#FDF2F8] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
-                  <StudyIcon name="linguagens" variant="ghost" size="lg" />
-                </span>
-                <StudyIcon name="linguagens" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Biblioteca</p>
-                <p className="text-[11px] font-semibold text-slate-500">Materiais liberados</p>
-              </Link>
-              <Link href="/cronograma" className="group relative overflow-hidden rounded-2xl border border-violet-100 bg-gradient-to-br from-[#F5F3FF] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
-                  <StudyIcon name="ciencias-humanas" variant="ghost" size="lg" />
-                </span>
-                <StudyIcon name="ciencias-humanas" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Plano</p>
-                <p className="text-[11px] font-semibold text-slate-500">Semana de foco</p>
-              </Link>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-[28px] border border-pink-200/40 bg-gradient-to-br from-[#FDF2F8] via-white to-[#FCE7F3] p-6 shadow-[0_18px_40px_-22px_rgba(251,113,133,0.30)]">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#FB7185] opacity-25 blur-3xl"
-            />
-            <div className="relative z-10">
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-pink-600">
-                Biblioteca para você
-              </p>
-              <h2 className="font-display text-lg font-extrabold text-[#0F172A]">
-                Materiais e PDFs liberados
-              </h2>
-              <div className="mt-3 space-y-2">
-                <p className="rounded-2xl border border-pink-100 bg-white/80 p-3 text-sm text-slate-600">
-                  Acesse a biblioteca, continue a leitura e baixe seus materiais aprovados com o acesso liberado.
-                </p>
-                <Link
-                  href="/biblioteca"
-                  className="group flex items-center gap-3 rounded-2xl border border-pink-100/80 bg-white p-3 transition hover:border-pink-200 hover:shadow-md"
-                >
-                  <StudyIcon name="linguagens" size="xs" />
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-extrabold text-[#0F172A]">Abrir biblioteca</p>
-                    <p className="line-clamp-1 text-[11px] text-slate-500">Capas, progresso e leitura salva</p>
-                  </div>
-                  <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <FloatingWhatsApp variant="platform" />
+      <aside className="silva-card silva-exam-card">
+        <div className="silva-card-kicker"><span className="silva-mini-icon"><GraduationCap size={19} /></span><span>SUA PRÓXIMA CONQUISTA</span></div>
+        <h2>{target}</h2>
+        <p>{daysUntilExam !== null && daysUntilExam >= 0 ? `Prova em ${examDate!.toLocaleDateString("pt-BR", { day: "2-digit", month: "long", timeZone: "UTC" })}. Cada dia é uma oportunidade.` : "Um objetivo claro transforma pequenos passos em grandes conquistas."}</p>
+        <div className="silva-exam-stats"><div><strong>{daysUntilExam !== null && daysUntilExam >= 0 ? daysUntilExam : "—"}</strong><span>dias até a prova</span></div><div><strong>{activePreparation ? formatMinutes(activePreparation.minutesPerDay) : "—"}</strong><span>por dia</span></div><div><strong>{activePreparation?.studyDays.length ?? "—"}</strong><span>dias / semana</span></div></div>
+        <div className="silva-exam-target"><span><span className="silva-live-dot" />Preparação no seu ritmo</span><ArrowUpRight size={15} /></div>
+        <Link href="/onboarding" className="silva-button-secondary">Ajustar minha preparação<ArrowRight size={15} /></Link>
+      </aside>
     </div>
-  );
+
+    <div className="silva-daily-grid">
+      <section className="silva-card silva-focus-card">
+        <div className="silva-section-heading"><h2><Flame size={20} />Seu foco de hoje</h2><span className="silva-chip">{weekdayLabel(now)}</span></div>
+        <div className="silva-focus-summary"><div><span className="silva-small-label">QUESTÕES RESPONDIDAS</span><strong>{insights.completedToday}<small> / {insights.dailyGoal.questions}</small></strong><p>Passo a passo, a sua meta fica mais perto.</p></div><div className="silva-goal-ring" style={{ "--goal-progress": `${goalPercent}%` } as CSSProperties} role="img" aria-label={`${goalPercent}% da meta diária de questões`}><span><strong>{goalPercent}%</strong><small>da meta</small></span></div></div>
+        <div className="silva-focus-advice"><Sparkles size={17} /><div><strong>{mainRecommendation.title}</strong><p>{mainRecommendation.reason}</p></div></div>
+        <Link href={mainRecommendation.actionTarget} className="silva-focus-action">Começar meu foco<ArrowRight size={16} /></Link>
+      </section>
+
+      <section className="silva-card silva-today-card">
+        <div className="silva-section-heading"><h2>{todayPlanTasks.length ? "Plano de hoje" : "Próximas atividades"}</h2><Link href="/cronograma" className="silva-link" aria-label="Ver plano completo"><ArrowUpRight size={20} /></Link></div>
+        <p className="silva-muted text-xs mb-3">{planScopeTasks.length ? `${completedCount} de ${planScopeTasks.length} concluídas · ${formatMinutes(planMinutes)} de estudo` : "Seu tempo, organizado para você."}</p>
+        {planScopeTasks.length ? planScopeTasks.slice(0, 3).map((task, index) => <Link key={task.id} href={normalizeStudyHref(task.actionHref)} className="silva-plan-row"><span className="silva-task-check" data-completed={Boolean(task.completedAt)}>{task.completedAt ? <Check size={13} /> : index + 1}</span><span className="min-w-0 flex-1"><strong className="block text-sm font-bold">{task.title}</strong><span className="mt-1 block text-xs silva-muted">{studyTaskTypeLabel(task.type)} · {task.durationMinutes} min</span></span><ChevronRight size={15} className="silva-muted" /></Link>) : <div className="silva-plan-empty"><SilvaIllustration name="compass" /><div><strong>Encontre sua direção</strong><p>Conte qual é sua prova e quanto tempo você tem para estudar.</p></div></div>}
+        <Link href={planScopeTasks.length ? "/cronograma" : "/onboarding"} className="silva-subtle-action">{planScopeTasks.length ? "Abrir meu plano completo" : "Montar meu plano"}<ArrowRight size={14} /></Link>
+      </section>
+
+      <section className="silva-card silva-quick-card">
+        <div className="silva-section-heading"><h2>Vamos praticar?</h2><Target size={20} className="silva-muted" /></div>
+        <p className="silva-muted text-xs mb-4">O conhecimento cresce quando você pratica.</p>
+        <div className="silva-quick-grid">{[{ href: "/questions", icon: "folder" as const, title: "Questões", label: "Treine o que aprendeu" }, { href: "/simulados", icon: "clock" as const, title: "Simulados", label: "Prepare-se para a prova" }, { href: "/redacao", icon: "pencil" as const, title: "Redação", label: "Dê voz às suas ideias" }, { href: "/flashcards", icon: "letter" as const, title: "Flashcards", label: "Revise e memorize" }].map((item) => <Link key={item.href} href={item.href} className="silva-quick-tile"><SilvaIllustration name={item.icon} /><strong>{item.title}</strong><span>{item.label}</span><ArrowUpRight size={13} /></Link>)}</div>
+      </section>
+    </div>
+
+    <section className="silva-card silva-continue-section">
+      <div className="silva-section-heading"><div><h2>Continue de onde parou</h2><p className="silva-muted text-xs mt-1">Seu próximo aprendizado está logo aqui.</p></div><Link href="/estudar" className="silva-link">Ver disciplinas<ArrowRight size={15} /></Link></div>
+      <div className="silva-continue-grid">{continuingCourses.length ? continuingCourses.map((course) => <Link href={`/cursos/${course.slug}`} key={course.id} className="silva-continue-card"><span className="silva-continue-art"><SilvaIllustration name={subjectIllustration(course.category + " " + course.title)} /></span><div><span className="silva-small-label">{course.category}</span><h3>{course.title}</h3><p>{course.lessonCount} aulas · {Math.round(course.progressPercent)}% concluído</p><div className="silva-progress"><span style={{ width: Math.min(100, Math.max(0, course.progressPercent)) + "%" }} /></div></div><span className="silva-play-button"><Play size={14} fill="currentColor" /></span></Link>) : [{ href: "/cursos", icon: "book" as const, title: "Encontre sua próxima aula", label: "Cursos para a sua preparação" }, { href: "/estudar", icon: "calculator" as const, title: "Explore as disciplinas", label: "Aprenda no seu próprio ritmo" }, { href: "/biblioteca", icon: "folder" as const, title: "Vá além da aula", label: "Materiais para aprofundar" }].map((item) => <Link key={item.href} href={item.href} className="silva-continue-card"><span className="silva-continue-art"><SilvaIllustration name={item.icon} /></span><div><h3>{item.title}</h3><p>{item.label}</p><span className="silva-link">Explorar<ArrowRight size={13} /></span></div></Link>)}</div>
+    </section>
+
+    <div className="silva-insights-grid">
+      <section className="silva-card"><div className="silva-section-heading"><h2>Seu desempenho</h2><span className="silva-mini-icon"><ChartNoAxesCombined size={18} /></span></div><p className="silva-muted text-xs">Acertos por disciplina · até 240 respostas recentes</p>
+        {insights.subjectPerformance.length ? <div className="silva-subject-bars">{insights.subjectPerformance.slice(0, 4).map((subject) => <div key={subject.id}><div><strong>{subject.name}</strong><span>{subject.accuracy}%</span></div><div className="silva-progress"><span style={{ width: subject.accuracy + "%" }} /></div></div>)}</div> : <div className="silva-insight-empty"><SilvaIllustration name="calculator" /><p>Responda suas primeiras questões para descobrir seus pontos fortes.</p></div>}
+        <Link href="/performance" className="silva-subtle-action">Acompanhar minha evolução<ArrowRight size={14} /></Link>
+      </section>
+      <section className="silva-card silva-review-card"><div className="silva-section-heading"><h2>Aprenda com os erros</h2><span className="silva-mini-icon"><BookOpen size={18} /></span></div><p className="silva-muted text-xs">Uma nova chance de entender e seguir em frente.</p>
+        <div className="silva-review-total"><strong>{insights.pendingErrors}</strong><span>{insights.pendingErrors === 1 ? "questão para revisar" : "questões para revisar"}</span><SilvaIllustration name="book" /></div>
+        {insights.urgentTopics.slice(0, 2).map((topic) => <Link href={ERROR_NOTEBOOK_HREF} className="silva-review-topic" key={topic.id}><span /><strong>{topic.name}</strong><ChevronRight size={14} /></Link>)}
+        {!insights.pendingErrors && <p className="silva-muted text-xs leading-6">Quando uma resposta precisar de atenção, você poderá retomá-la aqui.</p>}
+        <Link href={ERROR_NOTEBOOK_HREF} className="silva-subtle-action">Abrir caderno de erros<ArrowRight size={14} /></Link>
+      </section>
+      <section className="silva-card silva-rhythm-card"><div className="silva-section-heading"><h2>Seu ritmo na semana</h2><span className="silva-chip"><Flame size={13} />{user.streak} dias</span></div><p className="silva-muted text-xs"><strong className="text-[var(--text)]">{weeklyTotal} questões</strong> respondidas nos últimos 7 dias</p>
+        <div className="silva-week-chart" role="img" aria-label={insights.dailyBuckets.map((day) => `${day.label}: ${day.attempts} questões`).join("; ")}>{insights.dailyBuckets.map((day, index) => <div className="silva-day-column" key={index} data-today={index === 6}><span>{day.attempts}</span><div><i style={{ height: `${day.attempts / weeklyMax * 100}%` }} /></div><strong>{day.label}</strong></div>)}</div>
+        <div className="silva-chart-caption"><span className="silva-live-dot" />Cada sessão conta para a sua evolução.</div>
+      </section>
+    </div>
+  </div>;
 }
 
-function formatSeconds(value: number) {
-  const minutes = Math.floor(value / 60);
-  const seconds = value % 60;
-  return `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
-
-function formatMinutes(value: number) {
-  const hours = Math.floor(value / 60);
-  const minutes = value % 60;
-  if (hours <= 0) return `${minutes}min`;
-  if (minutes === 0) return `${hours}h`;
-  return `${hours}h${String(minutes).padStart(2, "0")}`;
+function formatMinutes(minutes: number) {
+  if (minutes < 60) return minutes + " min";
+  const hours = Math.floor(minutes / 60);
+  const rest = minutes % 60;
+  return rest ? hours + "h" + String(rest).padStart(2, "0") : hours + "h";
 }

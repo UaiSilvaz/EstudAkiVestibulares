@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { CloudLandingPage } from "@/components/landing/cloud-landing-page";
+import { SilvaLanding } from "@/components/landing/silva-landing";
 import { getCurrentUser } from "@/lib/auth";
-import "@/components/landing/cloud-landing.css";
 
 export const metadata: Metadata = {
-  title: "EstudAki Vestibulares | Sua aprovação começa aqui",
+  title: "Estude para o que realmente importa",
   description:
-    "Plano de estudos, questões, simulados, redação e acompanhamento inteligente para ENEM, ETEC, FATEC e vestibulares.",
+    "Silva Educacional: uma plataforma, diferentes caminhos. Prepare-se para ENEM, vestibulares, Medicina, OAB, concursos e carreiras policiais.",
 };
 
 export default async function LandingPage() {
   const user = await getCurrentUser();
   if (user) redirect("/dashboard");
 
-  return <CloudLandingPage />;
+  return <SilvaLanding />;
 }

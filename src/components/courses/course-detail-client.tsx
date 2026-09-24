@@ -29,12 +29,12 @@ export function CourseDetailClient({ course, devResetEnabled }: Props) {
 
   return (
     <div className="space-y-6">
-      <FastLink href="/cursos" className="inline-flex h-10 items-center gap-2 rounded-full border border-blue-100 bg-white px-4 text-sm font-black text-blue-700 shadow-sm transition hover:bg-blue-50">
+      <FastLink href="/cursos" className="inline-flex h-10 items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-4 text-sm font-black text-[var(--brand)] shadow-sm transition hover:bg-[var(--brand-soft)]">
         <ArrowLeft className="h-4 w-4" />
         Cursos
       </FastLink>
 
-      <section className="overflow-hidden rounded-[34px] border border-white/70 bg-white shadow-[0_30px_76px_-50px_rgba(15,23,42,0.45)]">
+      <section className="overflow-hidden rounded-[34px] border border-white/70 bg-[var(--surface)] shadow-[0_30px_76px_-50px_rgba(15,23,42,0.45)]">
         <div className="grid lg:grid-cols-[1.1fr_0.9fr]">
           <div className="relative min-h-[380px] overflow-hidden bg-gradient-to-br from-blue-700 via-cyan-500 to-emerald-400 p-6 text-white sm:p-8">
             {course.coverImage ? (
@@ -44,18 +44,18 @@ export function CourseDetailClient({ course, devResetEnabled }: Props) {
             )}
             <div className="relative z-10 flex min-h-[320px] flex-col justify-between">
               <div>
-                <p className="inline-flex rounded-full bg-white/18 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] ring-1 ring-white/25">{course.category} - {course.level}</p>
+                <p className="inline-flex rounded-full bg-[var(--surface)]/18 px-3 py-1.5 text-[10px] font-black uppercase tracking-[0.18em] ring-1 ring-white/25">{course.category} - {course.level}</p>
                 <h1 className="mt-5 max-w-3xl font-display text-4xl font-black leading-tight sm:text-5xl">{course.title}</h1>
                 <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-white/86">{course.description}</p>
               </div>
               <div className="flex flex-wrap gap-3">
                 {course.hasAccess && course.nextNode ? (
-                  <FastLink href={course.nextNode.href} className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-5 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-0.5">
+                  <FastLink href={course.nextNode.href} className="inline-flex h-12 items-center gap-2 rounded-full bg-[var(--surface)] px-5 text-sm font-black text-[var(--brand)] shadow-xl transition hover:-translate-y-0.5">
                     <BookOpenCheck className="h-4 w-4" />
                     Continuar estudando
                   </FastLink>
                 ) : (
-                  <button type="button" onClick={() => setCheckoutOpen(true)} className="inline-flex h-12 items-center gap-2 rounded-full bg-white px-5 text-sm font-black text-blue-700 shadow-xl transition hover:-translate-y-0.5">
+                  <button type="button" onClick={() => setCheckoutOpen(true)} className="inline-flex h-12 items-center gap-2 rounded-full bg-[var(--surface)] px-5 text-sm font-black text-[var(--brand)] shadow-xl transition hover:-translate-y-0.5">
                     Comprar curso
                   </button>
                 )}
@@ -74,24 +74,24 @@ export function CourseDetailClient({ course, devResetEnabled }: Props) {
               <Stat icon={<Clock3 className="h-5 w-5" />} label="Carga" value={formatCourseDuration(course.totalDurationSeconds)} tone="emerald" />
               <Stat icon={<Zap className="h-5 w-5" />} label="Progresso" value={`${course.progressPercent}%`} tone="cyan" />
             </div>
-            <div className="rounded-[24px] border border-slate-100 bg-slate-50 p-4">
+            <div className="rounded-[24px] border border-[var(--border)] bg-[var(--surface-secondary)] p-4">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.16em] text-slate-500">Acesso</p>
-                  <p className="mt-1 text-2xl font-black text-slate-950">{course.hasAccess ? "Liberado" : formatCoursePrice(course.priceCents)}</p>
+                  <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--text-secondary)]">Acesso</p>
+                  <p className="mt-1 text-2xl font-black text-[var(--text)]">{course.hasAccess ? "Liberado" : formatCoursePrice(course.priceCents)}</p>
                 </div>
                 <Trophy className="h-9 w-9 text-amber-500" />
               </div>
-              <div className="mt-4 h-3 rounded-full bg-white">
+              <div className="mt-4 h-3 rounded-full bg-[var(--surface)]">
                 <div className="h-full rounded-full bg-gradient-to-r from-blue-600 via-cyan-400 to-emerald-400" style={{ width: `${course.progressPercent}%` }} />
               </div>
-              <p className="mt-2 text-xs font-bold text-slate-500">{course.completedLessons} de {course.totalLessons} atividades concluidas</p>
+              <p className="mt-2 text-xs font-bold text-[var(--text-secondary)]">{course.completedLessons} de {course.totalLessons} atividades concluidas</p>
             </div>
-            <div className="rounded-[24px] border border-slate-100 bg-white p-4">
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-blue-700">Incluido</p>
+            <div className="rounded-[24px] border border-[var(--border)] bg-[var(--surface)] p-4">
+              <p className="text-[10px] font-black uppercase tracking-[0.16em] text-[var(--brand)]">Incluido</p>
               <div className="mt-3 grid gap-2">
                 {(course.benefits.length ? course.benefits : ["Videoaulas", "Questoes guiadas", "Checkpoints", "Certificado simulado"]).map((benefit) => (
-                  <p key={benefit} className="flex items-center gap-2 text-sm font-bold text-slate-700">
+                  <p key={benefit} className="flex items-center gap-2 text-sm font-bold text-[var(--text)]">
                     <CheckCircle2 className="h-4 w-4 text-emerald-600" />
                     {benefit}
                   </p>
@@ -117,15 +117,15 @@ export function CourseDetailClient({ course, devResetEnabled }: Props) {
 function Stat({ icon, label, value, tone }: { icon: React.ReactNode; label: string; value: string; tone: "amber" | "blue" | "emerald" | "cyan" }) {
   const tones = {
     amber: "bg-amber-50 text-amber-600",
-    blue: "bg-blue-50 text-blue-700",
+    blue: "bg-[var(--brand-soft)] text-[var(--brand)]",
     emerald: "bg-emerald-50 text-emerald-700",
     cyan: "bg-cyan-50 text-cyan-700",
   };
   return (
-    <div className="rounded-[22px] border border-slate-100 bg-white p-4">
+    <div className="rounded-[22px] border border-[var(--border)] bg-[var(--surface)] p-4">
       <div className={`flex h-10 w-10 items-center justify-center rounded-2xl ${tones[tone]}`}>{icon}</div>
       <p className="mt-3 text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">{label}</p>
-      <p className="mt-1 text-lg font-black text-slate-950">{value}</p>
+      <p className="mt-1 text-lg font-black text-[var(--text)]">{value}</p>
     </div>
   );
 }

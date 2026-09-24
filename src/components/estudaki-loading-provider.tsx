@@ -19,7 +19,7 @@ type LoadingContextValue = {
 
 const LoadingContext = createContext<LoadingContextValue | null>(null);
 const defaultMeta: RouteLoadingMeta = {
-  label: "Carregando EstudAki",
+  label: "Carregando Silva Educacional",
   from: "#2563EB",
   to: "#22D3EE",
   accent: "#FACC15",
@@ -97,4 +97,3 @@ export function EstudakiLoadingState({ label = defaultMeta.label }: { label?: st
 
   return <span className="sr-only" role="status">{label}</span>;
 }
-

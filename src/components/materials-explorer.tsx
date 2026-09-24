@@ -40,7 +40,7 @@ function formatPrice(cents: number) {
 }
 
 function whatsappPurchaseHref(material: MaterialItem) {
-  const text = `Ola, quero comprar o material ${material.title} no EstudAki.`;
+  const text = `Ola, quero comprar o material ${material.title} no Silva Educacional.`;
   return `https://wa.me/5517997172045?text=${encodeURIComponent(text)}`;
 }
 
