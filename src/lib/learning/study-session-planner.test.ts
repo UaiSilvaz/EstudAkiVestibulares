@@ -7,21 +7,21 @@ const priority: LearningPriority = {
   key: "topic-probability",
   level: "topic",
   subjectId: "subject-math",
-  subjectName: "Matematica",
+  subjectName: "Matemática",
   subjectColor: "#2563EB",
   subjectSlug: "matematica",
   topicId: "topic-probability",
   topicName: "Probabilidade",
   masteryScore: 34,
   masteryStatus: "attention",
-  masteryStatusLabel: "Precisa de atencao",
+  masteryStatusLabel: "Precisa de atenção",
   priorityScore: 86,
   pendingErrors: 2,
   reviewedErrors: 1,
   questionCount: 20,
   answeredQuestions: 6,
   lastTouchedAt: "2026-08-01T12:00:00.000Z",
-  reasons: ["2 erro(s) pendente(s) de revisao.", "Dominio pedagogico estimado em 34%."],
+  reasons: ["2 erro(s) pendente(s) de revisão.", "Domínio pedagógico estimado em 34%."],
 };
 
 test("study-now session fits the selected available time", () => {
@@ -41,4 +41,12 @@ test("available time snaps to supported quick modes", () => {
   assert.equal(normalizeAvailableMinutes(42, 8), 30);
   assert.equal(normalizeAvailableMinutes(105, 8), 120);
   assert.equal(normalizeAvailableMinutes("default", 12), 60);
+});
+
+test("theory blocks lead to real courses after retiring Journey", () => {
+  for (const priorities of [[priority], []]) {
+    const session = buildStudyNowSession({ availableMinutes: 60, priorities });
+    assert.equal(session.blocks.find(block => block.type === "THEORY")?.href, "/cursos");
+    assert.ok(session.blocks.every(block => !block.href.startsWith("/trilhas")));
+  }
 });

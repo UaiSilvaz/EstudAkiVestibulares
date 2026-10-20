@@ -1,0 +1,5 @@
+.onboarding-page { background-image: radial-gradient(ellipse at 10% 0, #ffedd580, transparent 42%), radial-gradient(ellipse at 95% 90%, #fff0df80, transparent 48%); }
+.welcome-input { width: 100%; min-height: 48px; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; padding: 10px 14px; color: #0f172a; font-size: 14px; outline: none; transition: border-color .15s, box-shadow .15s; }
+.welcome-input:focus { border-color: #ea580c; box-shadow: 0 0 0 3px #ffedd5; }
+.onboarding-page button:focus-visible { outline: 2px solid #ea580c; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .onboarding-page *, .onboarding-page *::before, .onboarding-page *::after { animation: none !important; transition: none !important; } }

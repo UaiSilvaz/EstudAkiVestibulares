@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Download, Library, Lock, Search, ShoppingBag, Sparkles, Tag, Unlock } from "lucide-react";
 import { useMemo, useState } from "react";
 import { EmptyState } from "@/components/visual/empty-state";
+import { ProductPurchaseButton } from "@/components/product-purchase-button";
 import { cn } from "@/lib/utils";
 
 type MaterialItem = {
@@ -40,7 +41,7 @@ function formatPrice(cents: number) {
 }
 
 function whatsappPurchaseHref(material: MaterialItem) {
-  const text = `Ola, quero comprar o material ${material.title} no EstudAki.`;
+  const text = `Ola, quero comprar o material ${material.title} no Norte Preparatórios.`;
   return `https://wa.me/5517997172045?text=${encodeURIComponent(text)}`;
 }
 
@@ -85,36 +86,36 @@ export function MaterialsExplorer({ materials, cover, renderCard }: MaterialsExp
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="grid gap-3 sm:grid-cols-3"
       >
-        <div className="rounded-3xl border border-blue-100 bg-gradient-to-br from-[#EFF6FF] to-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
+        <div className="rounded-3xl border border-blue-100    p-5 shadow-sm professional-neutral">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2563EB] to-[#22D3EE] text-white shadow-md">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
               <Library className="h-4.5 w-4.5" strokeWidth={2.4} />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-wider text-blue-700">Acervo</p>
-              <p className="font-display text-2xl font-extrabold text-[#0F172A]">{materials.length} materiais</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-blue-700">Acervo</p>
+              <p className="font-display text-2xl font-bold text-[#0F172A]">{materials.length} materiais</p>
             </div>
           </div>
         </div>
-        <div className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-[#ECFDF5] to-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
+        <div className="rounded-3xl border border-emerald-100    p-5 shadow-sm professional-neutral">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#22C55E] to-[#86EFAC] text-white shadow-md">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
               <Unlock className="h-4.5 w-4.5" strokeWidth={2.4} />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-wider text-emerald-700">Acesso livre</p>
-              <p className="font-display text-2xl font-extrabold text-[#0F172A]">{totalFree} grátis</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700">Acesso livre</p>
+              <p className="font-display text-2xl font-bold text-[#0F172A]">{totalFree} grátis</p>
             </div>
           </div>
         </div>
-        <div className="rounded-3xl border border-amber-100 bg-gradient-to-br from-[#FEFCE8] to-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
+        <div className="rounded-3xl border border-amber-100    p-5 shadow-sm professional-neutral">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FACC15] to-[#F97316] text-white shadow-md">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
               <Lock className="h-4.5 w-4.5" strokeWidth={2.4} />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-wider text-amber-700">Premium</p>
-              <p className="font-display text-2xl font-extrabold text-[#0F172A]">{totalPaid} pagos</p>
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-amber-700">Premium</p>
+              <p className="font-display text-2xl font-bold text-[#0F172A]">{totalPaid} pagos</p>
             </div>
           </div>
         </div>
@@ -125,7 +126,7 @@ export function MaterialsExplorer({ materials, cover, renderCard }: MaterialsExp
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
-        className="rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]"
+        className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm"
       >
         <div className="grid gap-3 md:grid-cols-[1fr_auto_auto_auto] md:items-end">
           <div className="relative">
@@ -174,14 +175,14 @@ export function MaterialsExplorer({ materials, cover, renderCard }: MaterialsExp
                   type="button"
                   onClick={() => setPriceFilter(opt.value as typeof priceFilter)}
                   className={cn(
-                    "rounded-full border px-3 py-2 text-xs font-black transition-all",
+                    "rounded-full border px-3 py-2 text-xs font-semibold transition-all",
                     active
-                      ? "border-transparent text-white shadow-[0_8px_18px_-8px_rgba(37,99,235,0.5)]"
+                      ? "border-transparent text-white shadow-sm"
                       : "border-slate-200 bg-white text-slate-600 hover:border-slate-300",
                   )}
                   style={
                     active
-                      ? { background: "linear-gradient(135deg, #2563EB 0%, #22D3EE 100%)" }
+                      ? { background: "var(--theme-surface)" }
                       : undefined
                   }
                 >
@@ -249,7 +250,7 @@ export function MaterialCardContent({
         ) : (
           <Unlock className="h-3.5 w-3.5 text-emerald-500" />
         )}
-        <span className="text-[10px] uppercase tracking-[0.18em] text-blue-600">
+        <span className="text-[10px] uppercase tracking-wide text-blue-600">
           {material.type ?? "Material"}
         </span>
         <span className="text-slate-300">·</span>
@@ -260,7 +261,7 @@ export function MaterialCardContent({
         {material.description}
       </p>
 
-      <div className="mt-3 flex items-center gap-2 text-xs font-black uppercase tracking-wider">
+      <div className="mt-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider">
         <Sparkles className="h-3 w-3 text-amber-500" />
         <span className="bg-gradient-to-r from-[#FACC15] via-[#F97316] to-[#FB7185] bg-clip-text text-transparent">
           {price}
@@ -277,6 +278,8 @@ export function MaterialCardContent({
           <Download className="h-4 w-4" />
           {contactText}
         </a>
+      ) : isPaid && material.product ? (
+        <ProductPurchaseButton productId={material.product.id} title={material.title} priceCents={material.priceCents} className="estudaki-button estudaki-button-primary mt-3 w-full max-w-[320px]" />
       ) : isPaid ? (
         <a
           href={checkoutHref}
@@ -308,7 +311,7 @@ export function MaterialCardContent({
         </button>
       )}
 
-      <div className="mt-2 flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-slate-400">
+      <div className="mt-2 flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
         <Tag className="h-3 w-3" />
         {material.subject?.name ?? "Geral"}
       </div>

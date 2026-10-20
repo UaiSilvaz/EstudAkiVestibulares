@@ -1,16 +1,8 @@
 "use client";
 
+import { Target } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import {
-  ClipboardList,
-  Compass,
-  Library,
-  LineChart,
-  type LucideIcon,
-  ShieldCheck,
-  Target,
-  Timer,
-} from "lucide-react";
+import { ClipboardList, Compass, Library, LineChart, type LucideIcon, ShieldCheck, Timer } from "lucide-react";
 import { EKButton } from "../visual/ek-button";
 import {
   FadeUp,
@@ -96,7 +88,7 @@ const features: Feature[] = [
   },
   {
     title: "Biblioteca privada",
-    text: "Compra direta, capa visivel e PDF liberado por licenca.",
+    text: "Compra direta, capa visível e PDF liberado por licença.",
     icon: Library,
     badge: "Materiais",
     gradient: "from-[#6B2CF5] via-[#8A42FF] to-[#C4B5FD]",
@@ -109,7 +101,7 @@ export function FeaturesSection() {
   return (
     <section
       id="plataforma"
-      className="relative overflow-hidden bg-gradient-to-b from-white via-[#F7FAFF] to-white py-24"
+      className="relative overflow-hidden     py-24 professional-neutral"
     >
       <motion.div
         aria-hidden
@@ -123,7 +115,7 @@ export function FeaturesSection() {
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           align="center"
-          eyebrow="Por que o EstudAki"
+          eyebrow="Por que o Norte Preparatórios"
           title={
             <>
               Tudo o que você precisa para{" "}
@@ -176,13 +168,13 @@ export function FeaturesSection() {
                       >
                         <Icon className="h-7 w-7" strokeWidth={2.2} />
                       </GlowIcon>
-                      <span className="rounded-full border border-slate-200/80 bg-white/80 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-slate-500 backdrop-blur">
+                      <span className="rounded-full border border-slate-200/80 bg-white/80 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500 backdrop-blur">
                         {feature.badge}
                       </span>
                     </div>
                     <h3
                       className={cn(
-                        "font-display font-extrabold text-[#061A40]",
+                        "font-display font-bold text-[#061A40]",
                         feature.size === "lg" ? "text-3xl" : "text-xl",
                       )}
                     >

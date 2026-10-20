@@ -15,7 +15,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string; fileName: string }> },
 ) {
   if (!(await getCurrentUser())) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   const { id, fileName } = await params;
@@ -36,6 +36,6 @@ export async function GET(
       headers: { "Content-Type": "image/png", "Cache-Control": "private, max-age=3600" },
     });
   } catch {
-    return NextResponse.json({ error: "Imagem nao encontrada." }, { status: 404 });
+    return NextResponse.json({ error: "Imagem não encontrada." }, { status: 404 });
   }
 }

@@ -1,17 +1,17 @@
 "use client";
 
-import Link, { type LinkProps } from "next/link";
+import Link, { useLinkStatus, type LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 import {
   useCallback,
   useEffect,
   useState,
   type AnchorHTMLAttributes,
-  type MouseEvent,
   type ReactNode,
 } from "react";
 import { cn } from "@/lib/utils";
-import { announceRouteTransition } from "@/components/route-transition-indicator";
+import { useEstudakiLoading } from "@/components/estudaki-loading-provider";
+import { routeLoadingMeta } from "@/lib/route-loading";
 
 type FastLinkProps = LinkProps &
   Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps | "href"> & {
@@ -30,14 +30,19 @@ function canPrefetch(href: string) {
   return href.startsWith("/") && !href.startsWith("//") && !href.includes("#");
 }
 
-function isPlainLeftClick(event: MouseEvent<HTMLAnchorElement>) {
-  return (
-    event.button === 0 &&
-    !event.metaKey &&
-    !event.ctrlKey &&
-    !event.shiftKey &&
-    !event.altKey
-  );
+function LinkPendingState({ href, onChange }: { href: string; onChange: (pending: boolean) => void }) {
+  const { pending } = useLinkStatus();
+  const { beginLoading } = useEstudakiLoading();
+  useEffect(() => {
+    let active = true;
+    queueMicrotask(() => { if (active) onChange(pending); });
+    const url = new URL(href, window.location.href);
+    const changesRoute = url.origin === window.location.origin &&
+      `${url.pathname}${url.search}` !== `${window.location.pathname}${window.location.search}`;
+    const release = pending && changesRoute ? beginLoading(routeLoadingMeta(href), 2) : undefined;
+    return () => { active = false; release?.(); };
+  }, [pending, href, onChange, beginLoading]);
+  return null;
 }
 
 export function FastLink({
@@ -57,17 +62,10 @@ export function FastLink({
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const hrefString = hrefToString(href);
-  const localPendingEnabled = Boolean(pendingClassName || pendingLabel);
 
   const warmRoute = useCallback(() => {
     if (prefetch !== false && canPrefetch(hrefString)) router.prefetch(hrefString);
   }, [hrefString, prefetch, router]);
-
-  useEffect(() => {
-    if (!pending) return;
-    const timeout = window.setTimeout(() => setPending(false), 900);
-    return () => window.clearTimeout(timeout);
-  }, [pending]);
 
   return (
     <Link
@@ -89,20 +87,9 @@ export function FastLink({
         warmRoute();
         onFocus?.(event);
       }}
-      onClick={(event) => {
-        onClick?.(event);
-        if (
-          !event.defaultPrevented &&
-          isPlainLeftClick(event) &&
-          target !== "_blank" &&
-          canPrefetch(hrefString) &&
-          hrefString !== `${window.location.pathname}${window.location.search}`
-        ) {
-          announceRouteTransition(hrefString);
-          if (localPendingEnabled) setPending(true);
-        }
-      }}
+      onClick={onClick}
     >
+      <LinkPendingState href={hrefString} onChange={setPending} />
       {pending && pendingLabel ? pendingLabel : children}
     </Link>
   );

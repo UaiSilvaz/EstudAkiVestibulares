@@ -2,6 +2,7 @@ import { MaterialsPageClient } from "@/components/materials-page-client";
 import { PageHeader } from "@/components/page-header";
 import { requirePersistedUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { courseMaterialAccess } from "@/lib/freemium-access";
 import { ensureEstudakiMaterials } from "@/lib/materials-bootstrap";
 import type { Prisma } from "@prisma/client";
 
@@ -23,12 +24,13 @@ export default async function MaterialsPage() {
         orderBy: { createdAt: "desc" },
       }),
       db.userProduct.findMany({
-        where: { userId: user.id },
+        where: { userId: user.id, revokedAt: null },
         select: { productId: true },
       }),
     ]);
     materials = materialList;
     ownedProductIds = new Set(licenses.map((item) => item.productId));
+    await Promise.all(materialList.map(async material => { if (material.product && await courseMaterialAccess(user.id, material.id, material.fileUrl)) ownedProductIds.add(material.product.id); }));
   } catch {
     materials = [];
   }
@@ -38,7 +40,7 @@ export default async function MaterialsPage() {
       <PageHeader
         eyebrow="Materiais"
         title="Cadernos e PDFs premium"
-        description="Cadernos EstudAki em PDF, compra pelo WhatsApp e acesso liberado pelo administrador."
+        description="Cadernos Norte Preparatórios em PDF, checkout seguro e acesso após a confirmação do pagamento."
       />
 
       <MaterialsPageClient
@@ -51,7 +53,7 @@ export default async function MaterialsPage() {
           priceCents: material.priceCents,
           purchaseUrl: material.purchaseUrl,
           fileUrl: material.fileUrl,
-          owned: material.product ? ownedProductIds.has(material.product.id) : material.priceCents <= 0,
+          owned: user.role === "ADMIN" || (material.product ? ownedProductIds.has(material.product.id) : material.priceCents <= 0),
           product: material.product
             ? {
                 id: material.product.id,

@@ -4,7 +4,7 @@ import { resetCourseDemo } from "@/lib/courses/learning";
 
 export async function POST(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   try {
     const { id } = await params;
     const result = await resetCourseDemo(id, user);

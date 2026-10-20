@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Role } from "@prisma/client";
 import { getCurrentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { courseMaterialAccess } from "@/lib/freemium-access";
 import { readMaterialPdf } from "@/lib/material-file-storage";
 
 export async function GET(_request: Request, { params }: { params: Promise<{ fileName: string }> }) {
@@ -11,7 +12,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ fil
 
   const { fileName } = await params;
   if (!/^[a-z0-9-]+\.(pdf)$/i.test(fileName)) {
-    return NextResponse.json({ error: "Arquivo invalido." }, { status: 400 });
+    return NextResponse.json({ error: "Arquivo inválido." }, { status: 400 });
   }
 
   const url = `/api/materials/files/${fileName}`;
@@ -41,7 +42,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ fil
         })
       : null;
 
-    if (!license) {
+    if ((!license || license.revokedAt) && !await courseMaterialAccess(user.id, material.id, material.fileUrl)) {
       return NextResponse.json({ error: "Você precisa comprar este material." }, { status: 403 });
     }
   }

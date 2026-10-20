@@ -36,12 +36,12 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   const persistedUserId = await getPersistedUserId(user);
   if (!persistedUserId) {
-    return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 409 });
+    return NextResponse.json({ error: "Usuário não encontrado." }, { status: 409 });
   }
 
   const formData = await request.formData();
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
   const detectedType = detectImageContentType(bytes);
 
   if (!detectedType || !ALLOWED_TYPES.has(detectedType)) {
-    return NextResponse.json({ error: "Arquivo de imagem invalido." }, { status: 400 });
+    return NextResponse.json({ error: "Arquivo de imagem inválido." }, { status: 400 });
   }
 
   const current = await db.user.findUnique({
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
     await deleteAvatarImageFile(fileName);
     console.error("Falha ao salvar avatar", error);
     return NextResponse.json(
-      { error: "Nao foi possivel salvar a foto agora." },
+      { error: "Não foi possível salvar a foto agora." },
       { status: 503 },
     );
   }

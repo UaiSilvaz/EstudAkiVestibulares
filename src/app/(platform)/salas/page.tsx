@@ -1,4 +1,5 @@
-import { MessageSquareText, Timer, UsersRound, Video } from "lucide-react";
+import { UsersRound, Video } from "@/components/visual/aicon-icons";
+import { MessageSquareText, Timer } from "lucide-react";
 import { FastLink } from "@/components/fast-link";
 import { PlatformHubPage } from "@/components/platform-hub-page";
 import { db } from "@/lib/db";
@@ -23,40 +24,40 @@ export default async function SalasPage() {
     <PlatformHubPage
       eyebrow="Salas de estudo"
       title="Estude junto sem perder o foco"
-      description="Central de grupos, comunidade e sessoes compartilhadas ligadas a sua preparacao."
+      description="Central de grupos, comunidade e sessões compartilhadas ligadas a sua preparação."
       actions={[
         {
           title: "Comunidade",
-          description: "Converse com outros estudantes e tire duvidas.",
+          description: "Converse com outros estudantes e tire dúvidas.",
           href: "/community",
           icon: MessageSquareText,
           tone: "teal",
         },
         {
           title: "Cronograma",
-          description: "Combine uma sessao com a tarefa do dia.",
+          description: "Combine uma sessão com a tarefa do dia.",
           href: "/cronograma",
           icon: Timer,
           tone: "orange",
         },
         {
-          title: "Questoes em grupo",
-          description: "Use o banco de questoes para treinos coletivos.",
+          title: "Questões em grupo",
+          description: "Use o banco de questões para treinos coletivos.",
           href: "/questions?vestibular=enem",
           icon: UsersRound,
           tone: "blue",
         },
         {
-          title: "Videos",
-          description: "Acesse aulas e revisoes em video.",
+          title: "Vídeos",
+          description: "Acesse aulas e revisões em vídeo.",
           href: "/videos",
           icon: Video,
           tone: "violet",
         },
       ]}
     >
-      <section className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.28)] sm:p-6">
-        <h2 className="font-display text-xl font-black text-slate-950">Salas publicas</h2>
+      <section className="rounded-[18px] border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
+        <h2 className="font-display text-xl font-semibold text-slate-950">Salas públicas</h2>
         <div className="mt-4 grid gap-3 lg:grid-cols-2">
           {rooms.map((room) => (
             <FastLink
@@ -64,18 +65,18 @@ export default async function SalasPage() {
               href="/community"
               className="rounded-2xl border border-slate-100 bg-slate-50 p-4 transition hover:border-cyan-200 hover:bg-cyan-50"
             >
-              <p className="font-black text-slate-950">{room.name}</p>
+              <p className="font-semibold text-slate-950">{room.name}</p>
               <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
                 {room.description || "Sala de foco para estudar em comunidade."}
               </p>
-              <p className="mt-3 text-xs font-black uppercase tracking-[0.12em] text-cyan-700">
+              <p className="mt-3 text-xs font-semibold uppercase tracking-[0.12em] text-cyan-700">
                 {room._count.members} membros - {room._count.messages} mensagens
               </p>
             </FastLink>
           ))}
           {rooms.length === 0 && (
             <div className="rounded-2xl bg-slate-50 p-4 text-sm font-semibold leading-6 text-slate-600">
-              Nenhuma sala publica ativa para esta preparacao ainda. A comunidade ja esta pronta para voce combinar a primeira sessao.
+              Nenhuma sala pública ativa para esta preparação ainda. A comunidade já está pronta para você combinar a primeira sessão.
             </div>
           )}
         </div>

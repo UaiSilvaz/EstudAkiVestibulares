@@ -79,7 +79,7 @@ export const objectiveOptions: ObjectiveOption[] = [
     vertical: "Vestibulares",
     title: "Vestibulares - Medicina",
     subtitle: "Fuvest, Unicamp, Unesp e ENEM",
-    examDateLabel: "Rota de alta concorrencia",
+    examDateLabel: "Rota de alta concorrência",
     progress: 54,
     href: "/preparacao",
     icon: GraduationCap,
@@ -107,8 +107,8 @@ export const objectiveOptions: ObjectiveOption[] = [
   {
     id: "pc-sp",
     vertical: "Policial",
-    title: "Policia Civil SP",
-    subtitle: "Delegado, investigador e escrivao",
+    title: "Polícia Civil SP",
+    subtitle: "Delegado, investigador e escrivão",
     examDateLabel: "Edital monitorado",
     progress: 34,
     href: "/cronograma",
@@ -121,7 +121,7 @@ export const objectiveOptions: ObjectiveOption[] = [
     subtitle: "Matemática, Português e História",
     examDateLabel: "Rota inicial criada",
     progress: 29,
-    href: "/trilhas",
+    href: "/cursos",
     icon: ShieldCheck,
   },
 ];
@@ -221,9 +221,9 @@ export const platformCourses: PlatformCourse[] = [
   },
   {
     slug: "policia-civil-portugues-direito",
-    title: "Policia Civil: Portugues, Direito e Atualidades",
+    title: "Polícia Civil: Português, Direito e Atualidades",
     vertical: "Policial",
-    objective: "Policia Civil SP",
+    objective: "Polícia Civil SP",
     discipline: "Conhecimentos gerais",
     teacher: "Prof. Diego Martins",
     level: "Intermediário",
@@ -232,7 +232,7 @@ export const platformCourses: PlatformCourse[] = [
     progress: 18,
     coverTone: "navy",
     summary:
-      "Rota por cargo com portugues, direito constitucional, administrativo, penal e simulados por banca.",
+      "Rota por cargo com português, direito constitucional, administrativo, penal e simulados por banca.",
   },
   {
     slug: "esa-matematica-fundamentos",
@@ -339,13 +339,13 @@ export const verticalPositioning = [
   {
     title: "Concursos",
     description:
-      "Tribunais, fiscal, administrativo, bancario, saude e carreiras publicas.",
+      "Tribunais, fiscal, administrativo, bancário, saúde e carreiras públicas.",
     icon: Banknote,
   },
   {
     title: "Policial",
     description:
-      "Policia Civil, PM, guarda municipal, delegado, investigador e escrivao.",
+      "Polícia Civil, PM, guarda municipal, delegado, investigador e escrivão.",
     icon: ShieldCheck,
   },
   {

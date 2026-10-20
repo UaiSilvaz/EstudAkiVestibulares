@@ -1,21 +1,7 @@
 "use client";
 
-import {
-  AlertTriangle,
-  ArrowLeft,
-  CheckCircle2,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  Eye,
-  Loader2,
-  Plus,
-  Save,
-  Search,
-  SlidersHorizontal,
-  Trash2,
-  Video,
-} from "lucide-react";
+import { Video } from "@/components/visual/aicon-icons";
+import { AlertTriangle, ArrowLeft, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Eye, Loader2, Plus, Save, Search, SlidersHorizontal, Trash2 } from "lucide-react";
 import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
 import { EstudakiLoadingState } from "@/components/loading-states";
@@ -477,11 +463,11 @@ export function QuestionReviewQueue({
   }
 
   return (
-    <section className="mb-6 rounded-[8px] border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.12)] md:p-6">
+    <section className="mb-6 rounded-[8px] border border-slate-100 bg-white p-5 shadow-sm md:p-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-orange-600">Banco administrável</p>
-          <h2 className="font-display text-2xl font-black text-[#0F172A]">Questões cadastradas</h2>
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-orange-600">Banco administrável</p>
+          <h2 className="font-display text-2xl font-semibold text-[#0F172A]">Questões cadastradas</h2>
           <p className="mt-1 text-sm font-semibold text-slate-500">
             {selectedVestibular && filters.year
               ? `${total.toLocaleString("pt-BR")} questão(ões) em ${selectedVestibular.name} ${filters.year}.`
@@ -490,7 +476,7 @@ export function QuestionReviewQueue({
         </div>
         {message && (
           <span
-            className={`rounded-full px-3 py-1.5 text-xs font-black ${
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
               message.type === "success" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"
             }`}
           >
@@ -523,11 +509,11 @@ export function QuestionReviewQueue({
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={vestibular.logo} alt={vestibular.name} className="h-full w-full object-contain p-2" />
                   ) : (
-                    <span className="text-sm font-black text-blue-700">{initials}</span>
+                    <span className="text-sm font-semibold text-blue-700">{initials}</span>
                   )}
                 </span>
                 <span className="min-w-0">
-                  <span className="block truncate text-base font-black text-slate-950">{vestibular.name}</span>
+                  <span className="block truncate text-base font-semibold text-slate-950">{vestibular.name}</span>
                   <span className="mt-1 block text-xs font-bold text-slate-500">
                     {count.toLocaleString("pt-BR")} questões em {years.length} ano(s)
                   </span>
@@ -546,7 +532,7 @@ export function QuestionReviewQueue({
               Voltar aos vestibulares
             </button>
             <div className="text-right">
-              <p className="text-[10px] font-black uppercase tracking-wider text-blue-600">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-blue-600">
                 {selectedVestibular.name}
               </p>
               <p className="text-sm font-bold text-slate-600">Selecione o ano para abrir as questões.</p>
@@ -560,7 +546,7 @@ export function QuestionReviewQueue({
                 onClick={() => selectYear(item.year)}
                 className="rounded-[8px] border border-slate-200 bg-white px-4 py-3 text-left shadow-sm transition hover:border-blue-300 hover:shadow-md active:scale-[0.99]"
               >
-                <span className="block text-lg font-black text-slate-950">{item.year}</span>
+                <span className="block text-lg font-semibold text-slate-950">{item.year}</span>
                 <span className="text-xs font-bold text-slate-500">{item.count.toLocaleString("pt-BR")} questões</span>
               </button>
             ))}
@@ -582,9 +568,9 @@ export function QuestionReviewQueue({
 
       {selectedVestibular && (
         <details className="mt-5 rounded-[8px] border border-slate-200 bg-slate-50/60 p-3">
-          <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-black text-slate-700">
+          <summary className="flex cursor-pointer list-none items-center gap-2 text-sm font-semibold text-slate-700">
             <SlidersHorizontal className="h-4 w-4 text-blue-600" />
-            Buscar questoes e filtros
+            Buscar questões e filtros
             <ChevronDown className="ml-auto h-4 w-4 text-slate-400" />
           </summary>
           <div className="mt-4 grid gap-2 md:grid-cols-2 xl:grid-cols-5">
@@ -709,13 +695,13 @@ export function QuestionReviewQueue({
                     {item.reviewState === "HAS_ERROR" ? <AlertTriangle className="h-4 w-4" /> : <CheckCircle2 className="h-4 w-4" />}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[10px] font-black uppercase tracking-wider text-blue-600">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-blue-600">
                       {item.vestibular.name} - {item.year} - {item.subject.name} - {item.topic?.name ?? "Sem conteúdo"}
                     </p>
                     <p className="mt-1 line-clamp-2 text-sm font-bold text-slate-700">{richTextToPlainText(item.statement)}</p>
                   </div>
                   <div className="hidden text-right md:block">
-                    <p className="text-xs font-black text-slate-600">{item.status}</p>
+                    <p className="text-xs font-semibold text-slate-600">{item.status}</p>
                     <p className="text-[10px] font-bold text-slate-400">{item._count.reports} denuncia(s)</p>
                   </div>
                   <ChevronDown className={`h-4 w-4 text-slate-400 transition ${open ? "rotate-180" : ""}`} />
@@ -770,8 +756,8 @@ export function QuestionReviewQueue({
 
                       <div className="rounded-[8px] border border-slate-200 bg-white p-3">
                         <div className="mb-3 flex items-center justify-between gap-3">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">Alternativas</span>
-                          <button type="button" onClick={() => addAlternative(item)} className="inline-flex items-center gap-1.5 rounded-[8px] border border-blue-200 bg-blue-50 px-2.5 py-1.5 text-xs font-black text-blue-700">
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Alternativas</span>
+                          <button type="button" onClick={() => addAlternative(item)} className="inline-flex items-center gap-1.5 rounded-[8px] border border-blue-200 bg-blue-50 px-2.5 py-1.5 text-xs font-semibold text-blue-700">
                             <Plus className="h-3.5 w-3.5" />
                             Adicionar
                           </button>
@@ -781,7 +767,7 @@ export function QuestionReviewQueue({
                             <div key={alternative.key} className={`rounded-[8px] border p-3 ${item.correctAlternative === alternative.key ? "border-emerald-200 bg-emerald-50/60" : "border-slate-200 bg-white"}`}>
                               <div className="flex items-center gap-2">
                                 <input type="radio" name={`correct-${item.id}`} checked={item.correctAlternative === alternative.key} onChange={() => updateLocal(item.id, { correctAlternative: alternative.key })} />
-                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-slate-200 text-xs font-black text-slate-700">{alternative.key}</span>
+                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] bg-slate-200 text-xs font-semibold text-slate-700">{alternative.key}</span>
                                 <input className="ek-input w-full" value={alternative.text} onChange={(event) => updateAlternativeText(item, alternative.key, event.target.value)} />
                                 {alternatives.length > 2 && (
                                   <button type="button" onClick={() => removeAlternative(item, alternative.key)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] text-slate-400 hover:bg-rose-50 hover:text-rose-600" aria-label={`Remover alternativa ${alternative.key}`}>
@@ -830,7 +816,7 @@ export function QuestionReviewQueue({
                         <EditArea label="Comentário pedagógico" value={item.pedagogyComment ?? ""} onChange={(value) => updateLocal(item.id, { pedagogyComment: value })} />
                       </div>
 
-                      <EditField label="Resolucao em video">
+                      <EditField label="Resolução em vídeo">
                         <input
                           className="ek-input w-full"
                           placeholder="URL do YouTube, Vimeo ou aula hospedada"
@@ -864,7 +850,7 @@ export function QuestionReviewQueue({
                       </div>
 
                       <div className="rounded-[8px] border border-slate-200 bg-white p-3">
-                        <span className="mb-2 block text-[10px] font-black uppercase tracking-wider text-slate-500">
+                        <span className="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                           Imagens do enunciado
                         </span>
                         <ImageDropZone
@@ -887,7 +873,7 @@ export function QuestionReviewQueue({
                               setRemoveImages((current) => ({ ...current, [item.id]: true }));
                               setImageFiles((current) => ({ ...current, [item.id]: [] }));
                             }}
-                            className="mt-3 inline-flex items-center justify-center gap-2 rounded-[8px] border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-black text-rose-700"
+                            className="mt-3 inline-flex items-center justify-center gap-2 rounded-[8px] border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-700"
                           >
                             <Trash2 className="h-4 w-4" />
                             Remover todas
@@ -921,7 +907,7 @@ export function QuestionReviewQueue({
           <ChevronLeft className="h-4 w-4" />
           Anterior
         </button>
-        <span className="text-xs font-black text-slate-500">
+        <span className="text-xs font-semibold text-slate-500">
           Página {page} de {pages}
         </span>
         <button type="button" disabled={page >= pages} onClick={() => setPage((current) => Math.min(pages, current + 1))} className="ek-button ek-button-ghost">
@@ -939,14 +925,14 @@ function QuestionPreview({ item, imagePreviews }: { item: QuestionItem; imagePre
   const alternatives = alternativesOf(item);
 
   return (
-    <aside className="h-fit rounded-[8px] border border-blue-100 bg-white p-4 shadow-[0_18px_40px_-30px_rgba(37,99,235,0.35)]">
+    <aside className="h-fit rounded-[8px] border border-blue-100 bg-white p-4 shadow-sm">
       <div className="mb-3 flex items-center gap-2">
         <span className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-blue-50 text-blue-600">
           <Eye className="h-4 w-4" />
         </span>
         <div>
-          <p className="text-[10px] font-black uppercase tracking-wider text-blue-600">Previa</p>
-          <p className="text-sm font-black text-slate-900">{item.vestibular?.name ?? "Questão"} - {item.year}</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-blue-600">Previa</p>
+          <p className="text-sm font-semibold text-slate-900">{item.vestibular?.name ?? "Questão"} - {item.year}</p>
         </div>
       </div>
       {item.supportText && (
@@ -972,7 +958,7 @@ function QuestionPreview({ item, imagePreviews }: { item: QuestionItem; imagePre
       <div className="mt-4 space-y-2">
         {alternatives.map((alternative) => (
           <div key={alternative.key} className={`flex gap-2 rounded-[8px] border p-2 text-xs font-semibold ${alternative.key === item.correctAlternative ? "border-emerald-200 bg-emerald-50 text-emerald-900" : "border-slate-200 text-slate-700"}`}>
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[10px] font-black">{alternative.key}</span>
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-white text-[10px] font-semibold">{alternative.key}</span>
             <span className="flex-1">
               <QuestionRichText value={alternative.text} inline />
               {alternative.imageUrl && (
@@ -986,7 +972,7 @@ function QuestionPreview({ item, imagePreviews }: { item: QuestionItem; imagePre
         ))}
       </div>
       <div className="mt-4 rounded-[8px] bg-slate-50 p-3">
-        <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Resolução</p>
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Resolução</p>
         <QuestionRichText value={item.explanation} className="mt-1 line-clamp-6 text-xs font-semibold leading-5 text-slate-600" />
       </div>
       {item.videoUrl && (
@@ -994,10 +980,10 @@ function QuestionPreview({ item, imagePreviews }: { item: QuestionItem; imagePre
           href={item.videoUrl}
           target="_blank"
           rel="noreferrer"
-          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[8px] border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-black text-blue-700 transition hover:bg-blue-100"
+          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-[8px] border border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 transition hover:bg-blue-100"
         >
           <Video className="h-4 w-4" />
-          Abrir resolucao em video
+          Abrir resolução em vídeo
         </a>
       )}
       {(item.sourceCitation || item.sourceAccessedAt) && (
@@ -1036,7 +1022,7 @@ function FilterSelect({
 function EditField({ label, children }: { label: string; children: ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-[10px] font-black uppercase tracking-wider text-slate-500">{label}</span>
+      <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">{label}</span>
       {children}
     </label>
   );
@@ -1045,7 +1031,7 @@ function EditField({ label, children }: { label: string; children: ReactNode }) 
 function EditArea({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-[10px] font-black uppercase tracking-wider text-slate-500">{label}</span>
+      <span className="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">{label}</span>
       <textarea className="ek-input min-h-28 w-full" value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
   );

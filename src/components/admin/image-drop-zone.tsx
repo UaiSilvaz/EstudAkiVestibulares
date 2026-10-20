@@ -162,7 +162,7 @@ export function ImageDropZone({
         />
         <div className="flex items-center justify-center gap-2 text-blue-700">
           {processing ? <Loader2 className="h-5 w-5 animate-spin" /> : <ImagePlus className="h-5 w-5" />}
-          <span className="text-sm font-black">{label}</span>
+          <span className="text-sm font-semibold">{label}</span>
         </div>
         <p className="mt-1 text-xs font-semibold text-slate-500">
           {description ?? "Clique nesta área e cole com Ctrl+V, ou arraste uma imagem."}
@@ -173,7 +173,7 @@ export function ImageDropZone({
             event.stopPropagation();
             inputRef.current?.click();
           }}
-          className="mt-2 rounded-lg border border-blue-200 bg-white px-2.5 py-1 text-[11px] font-black text-blue-700"
+          className="mt-2 rounded-lg border border-blue-200 bg-white px-2.5 py-1 text-[11px] font-semibold text-blue-700"
         >
           Selecionar arquivo
         </button>

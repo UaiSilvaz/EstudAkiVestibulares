@@ -11,7 +11,7 @@ const FAQ = [
       "Você entra na plataforma, escolhe o vestibular e a matéria, e tem acesso imediato a simulados cronometrados, cadernos digitais, mapas mentais e estatísticas de desempenho por tópico.",
   },
   {
-    pergunta: "Posso usar o EstudAki no celular?",
+    pergunta: "Posso usar o Norte Preparatórios no celular?",
     resposta:
       "Sim. A plataforma é responsiva e funciona em qualquer dispositivo — celular, tablet e desktop — com a mesma experiência.",
   },
@@ -21,19 +21,19 @@ const FAQ = [
       "Sim. Cada simulado é montado com o mesmo número de questões, tempo e áreas dos vestibulares oficiais (ENEM, FUVEST, UNICAMP, ETEC, FATEC, UERJ, Provão Paulista).",
   },
   {
-    pergunta: "Posso cancelar a qualquer momento?",
+    pergunta: "Preciso de assinatura para acessar um curso?",
     resposta:
-      "Pode. Não temos fidelidade. Você cancela quando quiser direto no painel, sem burocracia.",
+      "Não. A conta é gratuita e cada curso ou preparatório é comprado individualmente. O Norte Preparatórios+ é um plano futuro e não é obrigatório para acessar os cursos comprados.",
   },
   {
     pergunta: "Quantas questões estão disponíveis?",
     resposta:
-      "São mais de 18 mil questões comentadas, organizadas por vestibular, matéria, tema e nível de dificuldade. O banco é atualizado semanalmente.",
+      "A conta gratuita inclui uma seleção demonstrativa de até 20 questões publicadas e revisadas. Cursos adquiridos liberam seus exercícios vinculados. O catálogo cresce conforme a equipe publica novos conteúdos.",
   },
   {
     pergunta: "Tem plano gratuito?",
     resposta:
-      "Tem. No plano gratuito você tem acesso a 200 questões por matéria, 1 simulado diagnóstico por mês e estatísticas básicas — o suficiente para começar a estudar hoje.",
+      "Sim. Criar conta e entrar é grátis. Você pode usar o plano de estudos básico, acompanhar progresso e experimentar questões e simulados demonstrativos.",
   },
   {
     pergunta: "Como funciona o sistema de evolução?",
@@ -56,10 +56,10 @@ export function FaqSection() {
     >
       <div className="relative mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center sm:mb-16">
-          <p className="mb-3 text-[11px] font-extrabold uppercase tracking-[0.3em] text-[#145CFF]">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-[#145CFF]">
             Dúvidas frequentes
           </p>
-          <h2 className="font-display text-4xl font-extrabold leading-tight text-[#0F172A] sm:text-5xl">
+          <h2 className="font-display text-4xl font-bold leading-tight text-[#0F172A] sm:text-5xl">
             Perguntas{" "}
             <span className="ek-text-gradient-soft">frequentes</span>
           </h2>
@@ -75,7 +75,7 @@ export function FaqSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.5, delay: i * 0.04 }}
-                className="overflow-hidden rounded-2xl border border-white/60 bg-white/85 shadow-[0_18px_40px_-22px_rgba(6,36,92,0.18)] backdrop-blur-md"
+                className="overflow-hidden rounded-2xl border border-white/60 bg-white/85 shadow-sm backdrop-blur-md"
               >
                 <button
                   type="button"
@@ -83,10 +83,10 @@ export function FaqSection() {
                   className="flex w-full items-center gap-4 p-5 text-left transition hover:bg-[#F4F8FF]"
                   aria-expanded={isOpen}
                 >
-                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#145CFF] to-[#28D7FF] text-white">
+                  <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl    text-[color:var(--theme-text)] professional-neutral">
                     <CircleHelp className="h-4 w-4" />
                   </div>
-                  <span className="flex-1 font-display text-base font-extrabold text-[#0F172A]">
+                  <span className="flex-1 font-display text-base font-bold text-[#0F172A]">
                     {item.pergunta}
                   </span>
                   <motion.div

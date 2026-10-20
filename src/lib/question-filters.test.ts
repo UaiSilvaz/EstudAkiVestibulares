@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { buildPublishedQuestionWhere, parseQuestionFilters } from "./question-filters";
 
-test("normaliza dia, area e alias de conteudo sem perder filtros existentes", () => {
+test("normaliza dia, Área e alias de conteúdo sem perder filtros existentes", () => {
   const filters = parseQuestionFilters({
     vestibular: "enem",
     subject: "subject-1",
@@ -28,7 +28,7 @@ test("normaliza dia, area e alias de conteudo sem perder filtros existentes", ()
   });
 });
 
-test("monta filtro publicado por dia e metadado pedagogico sem campos de gabarito", () => {
+test("monta filtro publicado por dia e metadado pedagógico sem campos de gabarito", () => {
   const where = buildPublishedQuestionWhere(
     parseQuestionFilters({ day: "dia-2", area: "CH", topic: "topic-2" }),
     "enem-id",
@@ -51,7 +51,7 @@ test("monta filtro publicado por dia e metadado pedagogico sem campos de gabarit
   assert.equal(JSON.stringify(where).includes("correctAlternative"), false);
 });
 
-test("mantem filtros acumulados e aceita Quimica quando ENEM usa Natureza ampla", () => {
+test("mantém filtros acumulados e aceita Química quando ENEM usa Natureza ampla", () => {
   const where = buildPublishedQuestionWhere(
     parseQuestionFilters({ subject: "subject-quimica", year: "2025", difficulty: "MEDIUM" }),
     "enem-id",
@@ -65,7 +65,7 @@ test("mantem filtros acumulados e aceita Quimica quando ENEM usa Natureza ampla"
   assert.equal(serialized.includes("MEDIUM"), true);
 });
 
-test("ignora ano e dificuldade invalidos", () => {
+test("ignora ano e dificuldade inválidos", () => {
   const filters = parseQuestionFilters({ year: "zero", difficulty: "IMPOSSIBLE" });
   assert.equal(filters.year, undefined);
   assert.equal(filters.difficulty, undefined);

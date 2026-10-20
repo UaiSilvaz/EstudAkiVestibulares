@@ -1,6 +1,5 @@
-import { JornadaReviewClient } from "@/components/jornada/jornada-client";
-import { jornadaCourses } from "@/lib/jornada-curriculum";
+import { redirect } from "next/navigation";
 
-export default function RevisoesPage() {
-  return <JornadaReviewClient courses={jornadaCourses} />;
+export default function RetiredJourneyPage() {
+  redirect("/caderno-de-erros");
 }

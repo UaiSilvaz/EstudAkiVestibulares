@@ -1,7 +1,9 @@
 "use client";
 
+import { BookOpenCheck, ShoppingCart } from "@/components/visual/aicon-icons";
 import Image from "next/image";
-import { BookOpenCheck, Check, Crown, Download, MessageCircle, ShoppingCart, Star, Zap } from "lucide-react";
+import { ProductPurchaseButton } from "@/components/product-purchase-button";
+import { Check, Crown, Download, MessageCircle, Star, Zap } from "lucide-react";
 
 type MaterialPageItem = {
   id: string;
@@ -31,9 +33,9 @@ const details: Record<string, {
 }> = {
   "kit-enem-estudaki": {
     oldPrice: 4000,
-    cover: "/materials/covers/enem-exatas-natureza.jpg",
+    cover: "/assets/norte-design/06_Capas_Digitais/kit-enem.svg",
     badges: ["ENEM", "2.000 questões", "2 cadernos"],
-    tag: "Produto principal EstudAki",
+    tag: "Produto principal Norte Preparatórios",
     bullets: [
       "1.000 questões de Exatas e Natureza",
       "1.000 questões de Linguagens e Humanas",
@@ -42,28 +44,28 @@ const details: Record<string, {
   },
   "enem-exatas-natureza": {
     oldPrice: 2900,
-    cover: "/materials/covers/enem-exatas-natureza.jpg",
+    cover: "/assets/norte-design/06_Capas_Digitais/enem-exatas-natureza.svg",
     badges: ["ENEM", "Exatas", "Natureza"],
     tag: "1000 questões",
     bullets: ["Química, Física, Biologia e Matemática", "Últimos 10 anos", "Questões estratégicas em PDF"],
   },
   "enem-humanas-linguagens": {
     oldPrice: 2900,
-    cover: "/materials/covers/enem-humanas-linguagens.jpg",
+    cover: "/assets/norte-design/06_Capas_Digitais/enem-humanas-linguagens.svg",
     badges: ["ENEM", "Humanas", "Linguagens"],
     tag: "1000 questões",
     bullets: ["Interpretação, Linguagens e Ciências Humanas", "Foco no ENEM", "Seleção estratégica em PDF"],
   },
   "formula-aprovacao-etec": {
     oldPrice: 2900,
-    cover: "/materials/covers/formula-aprovacao-etec.jpg",
-    badges: ["ETEC", "Vestibulinho", "WhatsApp"],
+    cover: "/assets/norte-design/06_Capas_Digitais/formula-aprovacao-etec.svg",
+    badges: ["ETEC", "Vestibulinho", "PDF"],
     tag: "À venda",
     bullets: ["Conteúdo essencial do vestibulinho", "Provas oficiais e checklist de estudo", "Atendimento e entrega digital"],
   },
   "super-pack-etec": {
     oldPrice: 2900,
-    cover: "/materials/covers/super-pack-etec.png",
+    cover: "/assets/norte-design/06_Capas_Digitais/super-pack-etec.svg",
     badges: ["ETEC", "250 questões", "Completo"],
     tag: "Lançamento",
     bullets: ["250 questões comentadas passo a passo", "Cobre Matemática, Linguagens, Natureza e Humanas", "PDF digital enviado após a compra"],
@@ -77,15 +79,15 @@ function formatPrice(cents: number) {
 function itemDetails(material: MaterialPageItem) {
   return details[material.product?.slug ?? ""] ?? {
     oldPrice: material.priceCents + 1000,
-    cover: material.product?.coverUrl ?? "/materials/covers/enem-exatas-natureza.jpg",
+    cover: material.product?.coverUrl ?? "/assets/norte-design/06_Capas_Digitais/enem-exatas-natureza.svg",
     badges: [material.category ?? "PDF"],
-    tag: "Material EstudAki",
-    bullets: ["Material digital em PDF", "Acesso liberado pelo administrador", "Compra direcionada pelo WhatsApp"],
+    tag: "Material Norte Preparatórios",
+    bullets: ["Material digital em PDF", "Acesso após confirmação do pagamento", "Disponível na sua biblioteca"],
   };
 }
 
 function whatsappPurchaseHref(material: MaterialPageItem) {
-  const text = `Olá, quero comprar ${material.title} no EstudAki.`;
+  const text = `Olá, quero comprar ${material.title} no Norte Preparatórios.`;
   return material.product?.checkoutUrl ?? material.purchaseUrl ?? `https://wa.me/5517997172045?text=${encodeURIComponent(text)}`;
 }
 
@@ -116,15 +118,15 @@ function KitHero({ material }: { material: MaterialPageItem }) {
   const owned = Boolean(material.owned);
 
   return (
-    <section className="overflow-hidden rounded-lg border border-blue-300 bg-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.35)]">
+    <section className="overflow-hidden rounded-lg border border-blue-300 bg-white shadow-sm">
       <div className="grid lg:grid-cols-[0.9fr_1.1fr]">
         <div className="relative min-h-[360px] bg-[#EEF5FF] p-5 sm:p-8">
           <div className="relative z-10 flex items-center justify-between gap-3">
-            <span className="inline-flex items-center gap-2 rounded-lg bg-orange-500 px-4 py-2 text-sm font-black uppercase text-white shadow-lg">
+            <span className="inline-flex items-center gap-2 rounded-lg bg-orange-500 px-4 py-2 text-sm font-semibold uppercase text-white shadow-lg">
               <Crown className="h-5 w-5" />
               Melhor oferta
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-yellow-400 px-4 py-2 text-sm font-black text-slate-950">
+            <span className="inline-flex items-center gap-2 rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-slate-950">
               <BookOpenCheck className="h-5 w-5" />
               2.000 questões
             </span>
@@ -132,7 +134,7 @@ function KitHero({ material }: { material: MaterialPageItem }) {
 
           <div className="relative mx-auto mt-8 flex max-w-[520px] justify-center">
             <Image
-              src="/materials/covers/enem-humanas-linguagens.jpg"
+              src="/assets/norte-design/06_Capas_Digitais/enem-humanas-linguagens.svg"
               alt="Caderno ENEM Linguagens e Humanas"
               width={360}
               height={520}
@@ -140,7 +142,7 @@ function KitHero({ material }: { material: MaterialPageItem }) {
               priority
             />
             <Image
-              src="/materials/covers/enem-exatas-natureza.jpg"
+              src="/assets/norte-design/06_Capas_Digitais/enem-exatas-natureza.svg"
               alt="Caderno ENEM Exatas e Natureza"
               width={360}
               height={520}
@@ -149,25 +151,25 @@ function KitHero({ material }: { material: MaterialPageItem }) {
             />
           </div>
 
-          <span className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-2xl bg-[#061744] px-4 py-3 text-sm font-black uppercase text-yellow-300">
+          <span className="absolute bottom-5 left-5 inline-flex items-center gap-2 rounded-2xl bg-[#061744] px-4 py-3 text-sm font-semibold uppercase text-yellow-300">
             <BookOpenCheck className="h-5 w-5" />
             2 cadernos em PDF
           </span>
         </div>
 
         <div className="p-6 sm:p-10">
-          <span className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-black uppercase text-white">
+          <span className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold uppercase text-white">
             <Star className="h-4 w-4" />
             {info.tag}
           </span>
           <div className="mt-5 flex flex-wrap gap-2">
             {info.badges.map((badge) => (
-              <span key={badge} className="rounded-lg bg-blue-50 px-3 py-1 text-sm font-black text-blue-700">
+              <span key={badge} className="rounded-lg bg-blue-50 px-3 py-1 text-sm font-semibold text-blue-700">
                 {badge}
               </span>
             ))}
           </div>
-          <h2 className="mt-5 font-display text-4xl font-black leading-tight text-[#071842] sm:text-5xl">
+          <h2 className="mt-5 font-display text-4xl font-semibold leading-tight text-[#071842] sm:text-5xl">
             {material.title}
           </h2>
           <p className="mt-4 max-w-2xl text-lg font-semibold leading-relaxed text-slate-600">
@@ -175,7 +177,7 @@ function KitHero({ material }: { material: MaterialPageItem }) {
           </p>
           <ul className="mt-6 space-y-3">
             {info.bullets.map((bullet) => (
-              <li key={bullet} className="flex items-center gap-3 text-base font-black text-[#071842]">
+              <li key={bullet} className="flex items-center gap-3 text-base font-semibold text-[#071842]">
                 <Check className="h-5 w-5 text-emerald-500" />
                 {bullet}
               </li>
@@ -186,22 +188,24 @@ function KitHero({ material }: { material: MaterialPageItem }) {
 
           {owned ? (
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <a href={readHref(material)} className="flex min-h-14 items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 text-base font-black text-white">
+              <a href={readHref(material)} className="flex min-h-14 items-center justify-center gap-2 rounded-lg bg-blue-600 px-5 text-base font-semibold text-white">
                 <BookOpenCheck className="h-5 w-5" />
                 Abrir na biblioteca
               </a>
-              <a href={material.fileUrl ? `${material.fileUrl}?download=1` : readHref(material)} className="flex min-h-14 items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-5 text-base font-black text-blue-700">
+              <a href={material.fileUrl ? `${material.fileUrl}?download=1` : readHref(material)} className="flex min-h-14 items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-5 text-base font-semibold text-blue-700">
                 <Download className="h-5 w-5" />
                 Baixar PDF
               </a>
             </div>
+          ) : material.product ? (
+            <ProductPurchaseButton productId={material.product.id} title={material.title} priceCents={material.priceCents} className="mt-4 flex min-h-14 w-full items-center justify-center gap-2 rounded-lg bg-orange-500 px-5 text-base font-semibold text-white hover:bg-orange-600" />
           ) : (
             <>
-              <a href={purchase} target="_blank" rel="noreferrer" className="mt-4 flex min-h-14 items-center justify-center gap-2 rounded-lg bg-orange-500 px-5 text-lg font-black text-white shadow-lg hover:bg-orange-600">
+              <a href={purchase} target="_blank" rel="noreferrer" className="mt-4 flex min-h-14 items-center justify-center gap-2 rounded-lg bg-orange-500 px-5 text-lg font-semibold text-white shadow-lg hover:bg-orange-600">
                 <MessageCircle className="h-6 w-6" />
                 Comprar Kit ENEM agora
               </a>
-              <button type="button" className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-5 text-base font-black text-blue-700">
+              <button type="button" className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-5 text-base font-semibold text-blue-700">
                 <ShoppingCart className="h-5 w-5" />
                 Adicionar ao carrinho
               </button>
@@ -219,9 +223,9 @@ function MaterialSaleCard({ material }: { material: MaterialPageItem }) {
   const purchase = whatsappPurchaseHref(material);
 
   return (
-    <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-[0_18px_40px_-28px_rgba(15,23,42,0.30)]">
+    <article className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
       <div className="relative flex min-h-[360px] items-center justify-center bg-[#EEF5FF] p-6">
-        <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-lg bg-orange-500 px-3 py-2 text-xs font-black uppercase text-white shadow-lg">
+        <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-lg bg-orange-500 px-3 py-2 text-xs font-semibold uppercase text-white shadow-lg">
           <Zap className="h-4 w-4" />
           {info.tag}
         </span>
@@ -237,12 +241,12 @@ function MaterialSaleCard({ material }: { material: MaterialPageItem }) {
       <div className="p-5">
         <div className="flex flex-wrap gap-2">
           {info.badges.map((badge) => (
-            <span key={badge} className="rounded-md bg-blue-50 px-2 py-1 text-[11px] font-black text-blue-700">
+            <span key={badge} className="rounded-md bg-blue-50 px-2 py-1 text-[11px] font-semibold text-blue-700">
               {badge}
             </span>
           ))}
         </div>
-        <h3 className="mt-3 font-display text-2xl font-black leading-tight text-[#071842]">
+        <h3 className="mt-3 font-display text-2xl font-semibold leading-tight text-[#071842]">
           {material.title}
         </h3>
         <p className="mt-2 text-sm font-semibold leading-relaxed text-slate-600">
@@ -261,22 +265,24 @@ function MaterialSaleCard({ material }: { material: MaterialPageItem }) {
 
         {owned ? (
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
-            <a href={readHref(material)} className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-black text-white">
+            <a href={readHref(material)} className="flex min-h-12 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white">
               <BookOpenCheck className="h-4 w-4" />
               Abrir
             </a>
-            <a href={material.fileUrl ? `${material.fileUrl}?download=1` : readHref(material)} className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 text-sm font-black text-blue-700">
+            <a href={material.fileUrl ? `${material.fileUrl}?download=1` : readHref(material)} className="flex min-h-12 items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 text-sm font-semibold text-blue-700">
               <Download className="h-4 w-4" />
               Baixar
             </a>
           </div>
+        ) : material.product ? (
+          <ProductPurchaseButton productId={material.product.id} title={material.title} priceCents={material.priceCents} className="mt-3 flex min-h-12 w-full items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 text-sm font-semibold text-white hover:bg-orange-600" />
         ) : (
           <>
-            <a href={purchase} target="_blank" rel="noreferrer" className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 text-sm font-black text-white hover:bg-orange-600">
+            <a href={purchase} target="_blank" rel="noreferrer" className="mt-3 flex min-h-12 items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 text-sm font-semibold text-white hover:bg-orange-600">
               <MessageCircle className="h-5 w-5" />
               Comprar agora pelo WhatsApp
             </a>
-            <button type="button" className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 text-sm font-black text-blue-700">
+            <button type="button" className="mt-2 flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-blue-200 bg-blue-50 px-4 text-sm font-semibold text-blue-700">
               <ShoppingCart className="h-4 w-4" />
               Adicionar ao carrinho
             </button>
@@ -290,9 +296,9 @@ function MaterialSaleCard({ material }: { material: MaterialPageItem }) {
 function PriceBox({ oldPrice, price, compact = false }: { oldPrice: number; price: number; compact?: boolean }) {
   return (
     <div className={`mt-6 flex items-center justify-center gap-3 rounded-lg border border-dashed border-orange-300 bg-orange-50 px-4 ${compact ? "py-3" : "py-4"}`}>
-      <span className="text-sm font-black text-slate-500 line-through">{formatPrice(oldPrice)}</span>
-      <span className={`${compact ? "text-3xl" : "text-4xl"} font-black text-orange-600`}>{formatPrice(price)}</span>
-      <span className="rounded-full bg-emerald-500 px-3 py-1 text-[11px] font-black uppercase text-white">Oferta</span>
+      <span className="text-sm font-semibold text-slate-500 line-through">{formatPrice(oldPrice)}</span>
+      <span className={`${compact ? "text-3xl" : "text-4xl"} font-semibold text-orange-600`}>{formatPrice(price)}</span>
+      <span className="rounded-full bg-emerald-500 px-3 py-1 text-[11px] font-semibold uppercase text-white">Oferta</span>
     </div>
   );
 }

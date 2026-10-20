@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
 import { Suspense } from "react";
 import { EstudakiLoadingProvider } from "@/components/estudaki-loading-provider";
 import { EstudakiLoadingState } from "@/components/loading-states";
-import { RouteTransitionIndicator } from "@/components/route-transition-indicator";
 import "./globals.css";
 import "./education.css";
 import "@/components/landing/estudaki-intro.css";
+import "./professional.css";
 
-const geistSans = Geist({
+const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
@@ -18,20 +18,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const display = Plus_Jakarta_Sans({
-  variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
 export const metadata: Metadata = {
-  title: "EstudAki | Seu próximo passo começa aqui",
+  title: "Norte Preparatórios | Seu futuro tem direção",
   description:
     "Sua preparação para vestibulares, Medicina, OAB e concursos: um plano de estudos, aulas, questões e progresso no mesmo lugar.",
   icons: {
-    icon: "/brand/estudaki-tab.png",
-    shortcut: "/brand/estudaki-tab.png",
-    apple: "/brand/estudaki-tab.png",
+    icon: "/assets/norte-design/03_App_Favicon/norte_icone_32x32.png",
+    shortcut: "/assets/norte-design/03_App_Favicon/norte_icone_32x32.png",
+    apple: "/assets/norte-design/03_App_Favicon/norte_icone_256x256.png",
   },
 };
 
@@ -44,13 +38,10 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} ${display.variable} h-full antialiased`}
+      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans">
+      <body className="estudaki-product min-h-full flex flex-col font-sans">
         <EstudakiLoadingProvider>
-          <Suspense fallback={null}>
-            <RouteTransitionIndicator />
-          </Suspense>
           <Suspense fallback={<EstudakiLoadingState />}>
             {children}
           </Suspense>

@@ -9,7 +9,7 @@ import { db } from "@/lib/db";
 export async function GET() {
   const user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   const userId = await getPersistedUserId(user);
@@ -23,12 +23,12 @@ export async function GET() {
 export async function POST() {
   const user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   const userId = await getPersistedUserId(user);
   if (!userId) {
-    return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 409 });
+    return NextResponse.json({ error: "Usuário não encontrado." }, { status: 409 });
   }
 
   await ensureEducationCatalog();

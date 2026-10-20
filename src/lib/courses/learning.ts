@@ -1,5 +1,4 @@
 import {
-  ActivityType,
   ContentStatus,
   EntitlementSource,
   LessonCommentKind,
@@ -11,7 +10,11 @@ import {
 } from "@prisma/client";
 import { getPersistedUserId, type AppUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { leagueForXp, parseJson } from "@/lib/utils";
+import { courseEntitlement } from "@/lib/freemium-access";
+import { accessibleCourseWhere } from "@/lib/freemium";
+import { paymentsConfigured } from "@/lib/official-offers";
+import { awardStudyXp, lockStudentProgress, syncStudyStreak } from "@/lib/study-xp";
+import { parseJson } from "@/lib/utils";
 import type {
   CourseCardDTO,
   CourseDetailDTO,
@@ -35,6 +38,7 @@ const courseLearningInclude = (userId: string | null) =>
         module: {
           include: {
             lessons: {
+              where: { lesson: { status: ContentStatus.PUBLISHED } },
               orderBy: { position: "asc" },
               include: {
                 lesson: {
@@ -129,12 +133,14 @@ function jsonObject(value: Prisma.JsonValue): Record<string, unknown> {
 }
 
 function firstProduct(course: Pick<CourseLearningRow, "products">) {
-  return course.products[0]?.product ?? null;
+  const products = course.products.map(link => link.product).filter(product => product.status === "PUBLISHED");
+  return products.find(product => product.slug.startsWith("official-course-")) ?? products[0] ?? null;
 }
 
 function formatStatusLabel(course: Pick<CourseLearningRow, "isFree" | "priceCents">, owned: boolean) {
-  if (course.isFree || course.priceCents === 0) return "GRATUITO" as const;
+  if (course.isFree) return "GRATUITO" as const;
   if (owned) return "COMPRADO" as const;
+  if (course.priceCents <= 0) return "EM BREVE" as const;
   return `R$ ${(course.priceCents / 100).toFixed(2).replace(".", ",")}`;
 }
 
@@ -150,21 +156,11 @@ function flattenLessons(course: CourseLearningRow): FlatLesson[] {
 }
 
 async function activeEntitlement(userId: string | null, courseId: string) {
-  if (!userId) return null;
-  const now = new Date();
-  return db.entitlement.findFirst({
-    where: {
-      userId,
-      courseId,
-      revokedAt: null,
-      OR: [{ expiresAt: null }, { expiresAt: { gt: now } }],
-    },
-    select: { id: true },
-  });
+  return courseEntitlement(userId, courseId);
 }
 
 function courseAccess(course: CourseLearningRow, entitlement: { id: string } | null) {
-  return course.isFree || course.priceCents === 0 || Boolean(entitlement);
+  return course.isFree || Boolean(entitlement);
 }
 
 function completedFromProgress(progress: Array<{ completed: boolean; completedAt: Date | null }> | undefined) {
@@ -195,7 +191,7 @@ function nodeState({
   return "available";
 }
 
-function buildModules(course: CourseLearningRow, hasAccess: boolean): LearningPathModuleDTO[] {
+function buildModules(course: CourseLearningRow, hasAccess: boolean, administrator = false): LearningPathModuleDTO[] {
   const flat = flattenLessons(course);
   const firstIncompleteIndex = flat.findIndex((item) => !completedFromProgress(item.moduleLesson.lesson.progress));
   const currentIndex = firstIncompleteIndex === -1 ? flat.length - 1 : firstIncompleteIndex;
@@ -210,6 +206,7 @@ function buildModules(course: CourseLearningRow, hasAccess: boolean): LearningPa
       const preview = lesson.isFree || lesson.isFreePreview || course.isFree;
       const purchaseLocked = !hasAccess && !preview;
       const sequenceLocked =
+        !administrator &&
         !purchaseLocked &&
         hasAccess &&
         course.navigationMode === "SEQUENTIAL" &&
@@ -268,6 +265,7 @@ function buildModules(course: CourseLearningRow, hasAccess: boolean): LearningPa
 
 function courseCard(course: CourseLearningRow, owned: boolean, progressPercent: number): CourseCardDTO {
   const lessonCount = course.modules.reduce((sum, courseModule) => sum + courseModule.module.lessons.length, 0);
+  const product = firstProduct(course);
   return {
     id: course.id,
     slug: course.slug,
@@ -275,11 +273,12 @@ function courseCard(course: CourseLearningRow, owned: boolean, progressPercent: 
     shortDescription: course.shortDescription || course.description,
     category: course.category,
     level: course.level,
-    teacherName: course.teacher?.name ?? "Equipe EstudAki",
+    teacherName: course.teacher?.name ?? (typeof jsonObject(course.visualTheme).catalogTeacherName === "string" ? String(jsonObject(course.visualTheme).catalogTeacherName) : "Equipe Norte Preparatórios"),
     thumbnail: course.thumbnail ?? course.coverUrl,
     coverImage: course.coverImage ?? course.coverUrl,
     priceCents: course.priceCents,
     isFree: course.isFree,
+    canPurchase: !course.isFree && lessonCount > 0 && paymentsConfigured() && Boolean(product && product.priceCents === course.priceCents && course.priceCents >= 100 && (process.env.PAYMENT_PROVIDER === "hotmart" ? product.checkoutUrl : product.abacateProductId)),
     featured: course.featured,
     rating: course.rating,
     studentsCount: course.studentsCount,
@@ -291,29 +290,22 @@ function courseCard(course: CourseLearningRow, owned: boolean, progressPercent: 
 }
 
 export async function getCourseCatalog(userId: string | null): Promise<CourseCardDTO[]> {
+  const administrator = Boolean(userId && (await db.user.findUnique({ where: { id: userId }, select: { role: true } }))?.role === Role.ADMIN);
   const courses = await db.course.findMany({
     where: { OR: [{ published: true }, { status: ContentStatus.PUBLISHED }] },
     include: courseLearningInclude(userId),
     orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
   });
   const entitlements = userId
-    ? await db.entitlement.findMany({
-        where: {
-          userId,
-          courseId: { in: courses.map((course) => course.id) },
-          revokedAt: null,
-          OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
-        },
-        select: { courseId: true },
-      })
+    ? await db.course.findMany({ where: { AND: [{ id: { in: courses.map(course => course.id) } }, accessibleCourseWhere(userId)] }, select: { id: true } })
     : [];
-  const ownedCourseIds = new Set(entitlements.flatMap((item) => (item.courseId ? [item.courseId] : [])));
+  const ownedCourseIds = new Set(entitlements.map(item => item.id));
 
   return courses.map((course) => {
-    const modules = buildModules(course, courseAccess(course, ownedCourseIds.has(course.id) ? { id: course.id } : null));
+    const modules = buildModules(course, administrator || courseAccess(course, ownedCourseIds.has(course.id) ? { id: course.id } : null), administrator);
     const allNodes = modules.flatMap((module) => module.nodes);
     const completed = allNodes.filter((node) => node.state === "completed" || node.state === "perfect").length;
-    return courseCard(course, ownedCourseIds.has(course.id) || course.isFree, allNodes.length ? Math.round((completed / allNodes.length) * 100) : 0);
+    return courseCard(course, administrator || ownedCourseIds.has(course.id) || course.isFree, allNodes.length ? Math.round((completed / allNodes.length) * 100) : 0);
   });
 }
 
@@ -324,9 +316,13 @@ export async function getCourseDetail(slug: string, userId: string | null): Prom
   });
   if (!course || (!course.published && course.status !== ContentStatus.PUBLISHED)) return null;
 
-  const entitlement = await activeEntitlement(userId, course.id);
-  const hasAccess = courseAccess(course, entitlement);
-  const modules = buildModules(course, hasAccess);
+  const [entitlement, accessUser] = await Promise.all([
+    activeEntitlement(userId, course.id),
+    userId ? db.user.findUnique({ where: { id: userId }, select: { role: true } }) : null,
+  ]);
+  const administrator = accessUser?.role === Role.ADMIN;
+  const hasAccess = administrator || courseAccess(course, entitlement);
+  const modules = buildModules(course, hasAccess, administrator);
   const allNodes = modules.flatMap((module) => module.nodes);
   const completedLessons = allNodes.filter((node) => node.state === "completed" || node.state === "perfect").length;
   const attempts = userId
@@ -386,12 +382,12 @@ async function recordEvent(input: {
 
 export async function purchaseCourseDemo(courseId: string, user: AppUser) {
   const userId = await getLearningUserId(user);
-  if (!userId) throw new Error("Usuario nao encontrado.");
+  if (!userId) throw new Error("Usuário não encontrado.");
 
   const course = await findCourseById(courseId);
   if (!course) throw new Error("Curso indisponivel.");
   const product = firstProduct(course);
-  if (!product) throw new Error("Produto do curso nao encontrado.");
+  if (!product) throw new Error("Produto do curso não encontrado.");
 
   const purchase = await db.purchase.upsert({
     where: { hotmartTransaction: `demo:${userId}:${course.id}` },
@@ -443,9 +439,9 @@ export async function purchaseCourseDemo(courseId: string, user: AppUser) {
 }
 
 export async function resetCourseDemo(courseId: string, user: AppUser) {
-  if (!isDevelopment()) throw new Error("Reset demo disponivel apenas em desenvolvimento.");
+  if (!isDevelopment()) throw new Error("Reset demo disponível apenas em desenvolvimento.");
   const userId = await getLearningUserId(user);
-  if (!userId) throw new Error("Usuario nao encontrado.");
+  if (!userId) throw new Error("Usuário não encontrado.");
   const course = await findCourseById(courseId);
   if (!course) throw new Error("Curso indisponivel.");
   const lessonIds = (
@@ -504,6 +500,7 @@ export async function getLessonPage(courseSlug: string, lessonId: string, userId
       content: accessDenied ? null : lesson.content,
       type: lesson.type,
       videoUrl: accessDenied ? null : lesson.videoUrl,
+      thumbnailUrl: accessDenied ? null : lesson.thumbnailUrl,
       videoProvider: lesson.videoProvider,
       durationSeconds: lesson.durationSeconds,
       xpReward: lesson.xpReward,
@@ -511,11 +508,11 @@ export async function getLessonPage(courseSlug: string, lessonId: string, userId
       resources: accessDenied ? [] : jsonArray<LessonResource>(lesson.resources, []),
       outcomes: accessDenied ? [] : jsonArray<string>(lesson.outcomes, []),
       progress: {
-        positionSeconds: lesson.progress[0]?.positionSeconds ?? 0,
-        watchedSeconds: lesson.progress[0]?.watchedSeconds ?? 0,
-        percentage: Math.round(lesson.progress[0]?.percentage ?? 0),
+        positionSeconds: lesson.progress?.[0]?.positionSeconds ?? 0,
+        watchedSeconds: lesson.progress?.[0]?.watchedSeconds ?? 0,
+        percentage: Math.round(lesson.progress?.[0]?.percentage ?? 0),
         completed: completedFromProgress(lesson.progress),
-        stars: lesson.progress[0]?.stars ?? 0,
+        stars: lesson.progress?.[0]?.stars ?? 0,
       },
       liked: Boolean(lesson.likes?.[0]),
       likesCount: lesson._count.likes,
@@ -553,7 +550,7 @@ function serializeLessonQuestion(item: LessonQuestionRow): LessonQuestionDTO {
     text: alternative.text,
   }));
   const fallbackAlternatives = parseJson<Array<{ key: string; text: string }>>(item.question.alternatives, []);
-  const lastAttempt = item.attempts[0] ?? null;
+  const lastAttempt = item.attempts?.[0] ?? null;
 
   return {
     id: item.id,
@@ -594,121 +591,64 @@ async function lessonWithCourse(lessonId: string) {
 
 export async function assertLessonAccess(lessonId: string, userId: string | null) {
   const lesson = await lessonWithCourse(lessonId);
-  const course = lesson?.modules[0]?.module.courses[0]?.course;
-  if (!lesson || !course) throw new Error("Aula nao encontrada.");
-  const detail = await getCourseDetail(course.slug, userId);
-  const node = detail?.modules.flatMap((module) => module.nodes).find((item) => item.id === lessonId);
-  if (!detail || !node) throw new Error("Curso nao encontrado.");
-  if (node.state === "locked") {
-    const error = new Error(node.lockedReason === "purchase" ? "Aula exclusiva deste curso." : "Conclua a atividade anterior para desbloquear.");
-    error.name = node.lockedReason ?? "locked";
-    throw error;
+  if (!lesson || lesson.status !== ContentStatus.PUBLISHED) throw new Error("Aula não encontrada.");
+  const courses = lesson.modules.flatMap((item) => item.module.courses.map((link) => link.course));
+  let lockedReason: string | null = null;
+  for (const course of courses) {
+    const detail = await getCourseDetail(course.slug, userId);
+    const node = detail?.modules.flatMap((module) => module.nodes).find((item) => item.id === lessonId);
+    if (!detail || !node) continue;
+    if (node.state !== "locked") return { lesson, course, detail, node };
+    lockedReason = node.lockedReason ?? "locked";
   }
-  return { lesson, course, detail, node };
+  const error = new Error(lockedReason === "purchase" ? "Aula exclusiva deste curso." : "Aula indisponível ou atividade anterior pendente.");
+  error.name = lockedReason ?? "locked";
+  throw error;
 }
 
-function saoPauloDayKey(date: Date) {
-  return new Date(date.getTime() - 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
-}
 
-async function awardXp(userId: string, xp: number, message: string) {
-  if (xp <= 0) return;
-  const user = await db.user.findUnique({
-    where: { id: userId },
-    select: { xp: true, league: true, streak: true, targetExam: true },
-  });
-  if (!user) return;
-  const now = new Date();
-  const todayKey = saoPauloDayKey(now);
-  const previousActivity = await db.activity.findFirst({
-    where: { userId },
-    orderBy: { createdAt: "desc" },
-    select: { createdAt: true },
-  });
-  const previousDayKey = previousActivity ? saoPauloDayKey(previousActivity.createdAt) : null;
-  const yesterdayKey = saoPauloDayKey(new Date(now.getTime() - 24 * 60 * 60 * 1000));
-  const streakUpdated = previousDayKey !== todayKey;
-  const nextStreak = streakUpdated ? (previousDayKey === yesterdayKey ? user.streak + 1 : 1) : user.streak;
-  const nextLeague = leagueForXp(user.xp + xp, user.targetExam);
-
-  await db.$transaction([
-    db.user.update({
-      where: { id: userId },
-      data: {
-        xp: { increment: xp },
-        ...(streakUpdated ? { streak: nextStreak } : {}),
-        ...(nextLeague !== user.league ? { league: nextLeague } : {}),
-      },
-    }),
-    db.activity.create({
-      data: { userId, type: ActivityType.XP, message, xp },
-    }),
-  ]);
+async function assertCourseEnrollment(courseId: string | null, userId: string) {
+  if (!courseId) return;
+  const accessUser = await db.user.findUnique({ where: { id: userId }, select: { role: true } });
+  const course = await db.course.findUnique({ where: { id: courseId }, select: { status: true, isFree: true, priceCents: true } });
+  if (!course || course.status !== ContentStatus.PUBLISHED || (accessUser?.role !== Role.ADMIN && !course.isFree && !await activeEntitlement(userId, courseId))) throw new Error("Curso indisponível.");
 }
 
 export async function saveLessonProgress(lessonId: string, userId: string, input: { positionSeconds: number; watchedSeconds: number; percentage: number }) {
   const { lesson, course } = await assertLessonAccess(lessonId, userId);
-  const percentage = Math.max(0, Math.min(100, Math.round(input.percentage)));
-  const existing = await db.lessonProgress.findUnique({ where: { userId_lessonId: { userId, lessonId } } });
-  const shouldComplete = percentage >= 90 && !existing?.completed;
-  const stars = percentage >= 90 ? 3 : percentage >= 70 ? 2 : percentage >= 50 ? 1 : 0;
-  const progress = await db.lessonProgress.upsert({
-    where: { userId_lessonId: { userId, lessonId } },
-    update: {
+  return db.$transaction(async tx => {
+    await lockStudentProgress(tx, userId);
+    const existing = await tx.lessonProgress.findUnique({ where: { userId_lessonId: { userId, lessonId } } });
+    const percentage = Math.max(existing?.percentage ?? 0, Math.max(0, Math.min(100, Math.round(input.percentage))));
+    const shouldComplete = percentage >= 90 && !existing?.completed;
+    const xpAwarded = shouldComplete ? await awardStudyXp(tx, userId, "lesson:" + lessonId, lesson.xpReward, "Aula concluída: " + lesson.title) : 0;
+    const data = {
       positionSeconds: Math.max(0, Math.round(input.positionSeconds)),
-      watchedSeconds: Math.max(existing?.watchedSeconds ?? 0, Math.round(input.watchedSeconds)),
-      percentage: Math.max(existing?.percentage ?? 0, percentage),
-      ...(shouldComplete ? { completed: true, completedAt: new Date(), stars, xpAwarded: lesson.xpReward } : {}),
-    },
-    create: {
-      userId,
-      lessonId,
-      positionSeconds: Math.max(0, Math.round(input.positionSeconds)),
-      watchedSeconds: Math.max(0, Math.round(input.watchedSeconds)),
-      percentage,
-      completed: shouldComplete,
-      completedAt: shouldComplete ? new Date() : null,
-      stars,
-      xpAwarded: shouldComplete ? lesson.xpReward : 0,
-    },
+      watchedSeconds: Math.max(existing?.watchedSeconds ?? 0, Math.round(input.watchedSeconds)), percentage,
+      completed: Boolean(existing?.completed || shouldComplete), completedAt: existing?.completedAt ?? (shouldComplete ? new Date() : null),
+      stars: Math.max(existing?.stars ?? 0, percentage >= 90 ? 3 : percentage >= 70 ? 2 : percentage >= 50 ? 1 : 0),
+      xpAwarded: (existing?.xpAwarded ?? 0) + xpAwarded,
+    };
+    const progress = await tx.lessonProgress.upsert({ where: { userId_lessonId: { userId, lessonId } }, update: data, create: { userId, lessonId, ...data } });
+    await tx.learningEvent.create({ data: { userId, courseId: course.id, lessonId, type: shouldComplete ? LearningEventType.LESSON_COMPLETED : LearningEventType.PAUSE, metadata: { percentage, positionSeconds: input.positionSeconds } } });
+    if (shouldComplete) await syncStudyStreak(tx, userId);
+    return progress;
   });
-  await recordEvent({
-    userId,
-    courseId: course.id,
-    lessonId,
-    type: shouldComplete ? LearningEventType.LESSON_COMPLETED : LearningEventType.PAUSE,
-    metadata: { percentage, positionSeconds: input.positionSeconds },
-  });
-  if (shouldComplete) await awardXp(userId, lesson.xpReward, `Aula concluida: ${lesson.title}.`);
-  return progress;
 }
 
 export async function completeLesson(lessonId: string, userId: string) {
   const { lesson, course } = await assertLessonAccess(lessonId, userId);
-  const existing = await db.lessonProgress.findUnique({ where: { userId_lessonId: { userId, lessonId } } });
-  const alreadyCompleted = Boolean(existing?.completed || existing?.completedAt);
-  const progress = await db.lessonProgress.upsert({
-    where: { userId_lessonId: { userId, lessonId } },
-    update: {
-      completed: true,
-      completedAt: existing?.completedAt ?? new Date(),
-      percentage: Math.max(existing?.percentage ?? 0, 100),
-      stars: Math.max(existing?.stars ?? 0, 3),
-      xpAwarded: Math.max(existing?.xpAwarded ?? 0, lesson.xpReward),
-    },
-    create: {
-      userId,
-      lessonId,
-      completed: true,
-      completedAt: new Date(),
-      percentage: 100,
-      stars: 3,
-      xpAwarded: lesson.xpReward,
-    },
+  return db.$transaction(async tx => {
+    await lockStudentProgress(tx, userId);
+    const existing = await tx.lessonProgress.findUnique({ where: { userId_lessonId: { userId, lessonId } } });
+    const gained = !existing?.completed ? await awardStudyXp(tx, userId, "lesson:" + lessonId, lesson.xpReward, "Aula concluída: " + lesson.title) : 0;
+    const data = { completed: true, completedAt: existing?.completedAt ?? new Date(), percentage: 100,
+      stars: Math.max(existing?.stars ?? 0, 3), xpAwarded: (existing?.xpAwarded ?? 0) + gained };
+    const progress = await tx.lessonProgress.upsert({ where: { userId_lessonId: { userId, lessonId } }, update: data, create: { userId, lessonId, ...data } });
+    if (!existing?.completed) await tx.learningEvent.create({ data: { userId, courseId: course.id, lessonId, type: LearningEventType.LESSON_COMPLETED } });
+    await syncStudyStreak(tx, userId);
+    return progress;
   });
-  if (!alreadyCompleted) await awardXp(userId, lesson.xpReward, `Aula concluida: ${lesson.title}.`);
-  await recordEvent({ userId, courseId: course.id, lessonId, type: LearningEventType.LESSON_COMPLETED });
-  return progress;
 }
 
 export async function toggleLessonLike(lessonId: string, userId: string) {
@@ -850,7 +790,7 @@ export async function createLessonDoubt(lessonId: string, userId: string, input:
         parentId: question.id,
         kind: LessonCommentKind.ANSWER,
         positionSeconds: input.positionSeconds ?? null,
-        body: "Entendi sua duvida. Nesta parte, foque em identificar a relacao entre os dados do enunciado antes de aplicar a formula. Se quiser, marque o timestamp e refaca a questao guiada logo abaixo.",
+        body: "Entendi sua dúvida. Nesta parte, foque em identificar a relação entre os dados do enunciado antes de aplicar a fórmula. Se quiser, marque o timestamp e refaça a questão guiada logo abaixo.",
         helpful: true,
       },
     });
@@ -861,7 +801,7 @@ export async function createLessonDoubt(lessonId: string, userId: string, input:
 
 export async function updateLessonComment(commentId: string, userId: string, body: string) {
   const comment = await db.lessonComment.findFirst({ where: { id: commentId, userId } });
-  if (!comment) throw new Error("Comentario nao encontrado.");
+  if (!comment) throw new Error("Comentario não encontrado.");
   return db.lessonComment.update({
     where: { id: comment.id },
     data: { body: body.trim().slice(0, 1600), editedAt: new Date() },
@@ -870,19 +810,19 @@ export async function updateLessonComment(commentId: string, userId: string, bod
 
 export async function deleteLessonComment(commentId: string, userId: string) {
   const comment = await db.lessonComment.findFirst({ where: { id: commentId, userId } });
-  if (!comment) throw new Error("Comentario nao encontrado.");
+  if (!comment) throw new Error("Comentario não encontrado.");
   return db.lessonComment.update({ where: { id: comment.id }, data: { deletedAt: new Date() } });
 }
 
 export async function reportLessonComment(commentId: string, userId: string) {
   const comment = await db.lessonComment.findFirst({ where: { id: commentId } });
-  if (!comment || comment.userId === userId) throw new Error("Comentario nao encontrado.");
+  if (!comment || comment.userId === userId) throw new Error("Comentario não encontrado.");
   return db.lessonComment.update({ where: { id: comment.id }, data: { reportedAt: new Date() } });
 }
 
 export async function toggleLessonCommentLike(commentId: string, userId: string) {
   const comment = await db.lessonComment.findUnique({ where: { id: commentId }, select: { lessonId: true } });
-  if (!comment) throw new Error("Comentario nao encontrado.");
+  if (!comment) throw new Error("Comentario não encontrado.");
   await assertLessonAccess(comment.lessonId, userId);
   const existing = await db.lessonCommentLike.findUnique({ where: { userId_commentId: { userId, commentId } } });
   if (existing) await db.lessonCommentLike.delete({ where: { id: existing.id } });
@@ -896,27 +836,20 @@ export async function answerLessonQuestion(lessonId: string, userId: string, inp
     where: { lessonId, questionId: input.questionId },
     include: { question: true },
   });
-  if (!link) throw new Error("Questao nao vinculada a esta aula.");
+  if (!link) throw new Error("Questão não vinculada a esta aula.");
   const selected = input.selectedAlternative.trim().toUpperCase();
   if (!/^[A-E]$/.test(selected)) throw new Error("Alternativa invalida.");
   const correct = link.question.correctAlternative === selected;
-  const previousCorrect = await db.lessonQuestionAttempt.findFirst({
-    where: { userId, lessonQuestionId: link.id, correct: true },
-    select: { id: true },
+  if (link.question.answerSituation === "ANNULLED") throw new Error("Questão anulada.");
+  const { attempt, xpAwarded } = await db.$transaction(async tx => {
+    await lockStudentProgress(tx, userId);
+    const previous = await tx.questionAttempt.findFirst({ where: { userId, questionId: link.questionId, annulled: false } });
+    const xpAwarded = !previous ? await awardStudyXp(tx, userId, "question:" + link.questionId, correct ? link.xpReward : 5, "Resposta em aula: " + lesson.title) : 0;
+    const attempt = await tx.lessonQuestionAttempt.create({ data: { userId, lessonId, lessonQuestionId: link.id, questionId: link.questionId, selectedAlternative: selected, correct, xpAwarded } });
+    await tx.questionAttempt.create({ data: { userId, questionId: link.questionId, selectedAlternative: selected, correct, errorType: correct ? null : "concept_gap" } });
+    await syncStudyStreak(tx, userId);
+    return { attempt, xpAwarded };
   });
-  const xpAwarded = correct && !previousCorrect ? link.xpReward : 0;
-  const attempt = await db.lessonQuestionAttempt.create({
-    data: {
-      userId,
-      lessonId,
-      lessonQuestionId: link.id,
-      questionId: link.questionId,
-      selectedAlternative: selected,
-      correct,
-      xpAwarded,
-    },
-  });
-  if (xpAwarded > 0) await awardXp(userId, xpAwarded, `Questao correta em ${lesson.title}.`);
   await recordEvent({
     userId,
     courseId: course.id,
@@ -948,15 +881,20 @@ export async function answerLessonQuestion(lessonId: string, userId: string, inp
 
 export async function claimReward(rewardId: string, userId: string) {
   const reward = await db.reward.findUnique({ where: { id: rewardId }, include: { lesson: true } });
-  if (!reward) throw new Error("Recompensa nao encontrada.");
+  if (!reward) throw new Error("Recompensa não encontrada.");
   if (reward.lessonId) await assertLessonAccess(reward.lessonId, userId);
-  const existing = await db.userReward.findUnique({ where: { userId_rewardId: { userId, rewardId } } });
-  if (existing) return { claimed: false, xpAwarded: 0, reward };
-  await db.userReward.create({ data: { userId, rewardId } });
-  await awardXp(userId, reward.xpReward, `Recompensa liberada: ${reward.title}.`);
+  await assertCourseEnrollment(reward.courseId, userId);
+  const gained = await db.$transaction(async tx => {
+    await lockStudentProgress(tx, userId);
+    const existing = await tx.userReward.findUnique({ where: { userId_rewardId: { userId, rewardId } } });
+    if (existing) return null;
+    await tx.userReward.create({ data: { userId, rewardId } });
+    return awardStudyXp(tx, userId, "reward:" + rewardId, reward.xpReward, "Recompensa liberada: " + reward.title);
+  });
+  if (gained === null) return { claimed: false, xpAwarded: 0, reward };
   if (reward.lessonId) await completeLesson(reward.lessonId, userId);
   await recordEvent({ userId, courseId: reward.courseId, lessonId: reward.lessonId, type: LearningEventType.REWARD_CLAIMED });
-  return { claimed: true, xpAwarded: reward.xpReward, reward };
+  return { claimed: true, xpAwarded: gained, reward };
 }
 
 export async function finishSimulation(simulationId: string, userId: string, input: { responses: Record<string, string>; timeSeconds: number }) {
@@ -964,36 +902,34 @@ export async function finishSimulation(simulationId: string, userId: string, inp
     where: { id: simulationId },
     include: { lesson: true },
   });
-  if (!simulation) throw new Error("Simulado nao encontrado.");
+  if (!simulation) throw new Error("Simulado não encontrado.");
   if (simulation.lessonId) await assertLessonAccess(simulation.lessonId, userId);
+  await assertCourseEnrollment(simulation.courseId, userId);
   const questionIds = jsonArray<string>(simulation.questionIds, []);
   const questions = await db.question.findMany({
-    where: { id: { in: questionIds } },
+    where: { id: { in: questionIds }, status: "PUBLISHED", answerSituation: { not: "ANNULLED" } },
     select: { id: true, correctAlternative: true },
   });
   const correctCount = questions.filter((question) => input.responses[question.id] === question.correctAlternative).length;
   const totalQuestions = Math.max(1, questions.length);
   const score = Math.round((correctCount / totalQuestions) * 100);
   const passed = score >= simulation.passingScore;
-  const previousPassed = await db.simulationAttempt.findFirst({
-    where: { userId, simulationId, passed: true },
-    select: { id: true },
+  if (!questions.length) throw new Error("Este simulado ainda não possui questões publicadas.");
+  const { attempt, xpAwarded } = await db.$transaction(async tx => {
+    await lockStudentProgress(tx, userId);
+    const previous = await tx.simulationAttempt.findFirst({ where: { userId, simulationId, passed: true } });
+    const xpAwarded = passed && !previous ? await awardStudyXp(tx, userId, "simulation:" + simulationId, simulation.xpReward, "Simulado concluído: " + simulation.title) : 0;
+    const attempt = await tx.simulationAttempt.create({ data: { userId, simulationId, responses: input.responses, correctCount,
+      totalQuestions: questions.length, score, timeSeconds: Math.max(0, Math.min(86400, Math.round(input.timeSeconds))), passed, xpAwarded } });
+    for (const question of questions) {
+      const answer = input.responses[question.id];
+      if (!answer || !/^[A-E]$/.test(answer)) continue;
+      await tx.questionAttempt.create({ data: { userId, questionId: question.id, selectedAlternative: answer, correct: answer === question.correctAlternative,
+        errorType: answer === question.correctAlternative ? null : "simulation", timeSpentSeconds: Math.floor(Math.max(0, Math.min(86400, input.timeSeconds)) / questions.length) } });
+    }
+    await syncStudyStreak(tx, userId);
+    return { attempt, xpAwarded };
   });
-  const xpAwarded = passed && !previousPassed ? simulation.xpReward : 0;
-  const attempt = await db.simulationAttempt.create({
-    data: {
-      userId,
-      simulationId,
-      responses: input.responses,
-      correctCount,
-      totalQuestions: questions.length,
-      score,
-      timeSeconds: Math.max(0, Math.round(input.timeSeconds)),
-      passed,
-      xpAwarded,
-    },
-  });
-  if (xpAwarded > 0) await awardXp(userId, xpAwarded, `${simulation.title} concluido.`);
   if (passed && simulation.lessonId) await completeLesson(simulation.lessonId, userId);
   await recordEvent({
     userId,
@@ -1027,9 +963,10 @@ export async function getFavoriteLessons(userId: string) {
       lessonId: favorite.lessonId,
       title: favorite.lesson.title,
       description: favorite.lesson.description,
+      thumbnailUrl: favorite.lesson.thumbnailUrl,
       type: favorite.lesson.type,
       durationSeconds: favorite.lesson.durationSeconds,
-      courseTitle: course?.title ?? "Curso EstudAki",
+      courseTitle: course?.title ?? "Curso Norte Preparatórios",
       href: course ? `/cursos/${course.slug}/aula/${favorite.lessonId}` : "/cursos",
       progressPercent: Math.round(favorite.lesson.progress[0]?.percentage ?? 0),
     };

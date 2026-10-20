@@ -1,17 +1,7 @@
 "use client";
 
-import {
-  AlertTriangle,
-  Award,
-  Check,
-  CheckCircle2,
-  CircleAlert,
-  Info,
-  Loader2,
-  Sparkles,
-  X,
-  XCircle,
-} from "lucide-react";
+import { Award } from "@/components/visual/aicon-icons";
+import { AlertTriangle, Check, CheckCircle2, CircleAlert, Info, Loader2, Sparkles, X, XCircle } from "lucide-react";
 import dynamic from "next/dynamic";
 import {
   createContext,
@@ -107,7 +97,7 @@ const AchievementIcon = dynamic(
   () => import("@/components/achievements/achievement-icon").then((mod) => mod.AchievementIcon),
   {
     loading: () => (
-      <span className="inline-flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-400 text-white shadow-lg">
+      <span className="inline-flex h-24 w-24 items-center justify-center rounded-2xl    text-white shadow-lg professional-action">
         <Award className="h-10 w-10" />
       </span>
     ),
@@ -146,7 +136,7 @@ const toneStyles: Record<
   achievement: {
     border: "border-violet-200",
     icon: "bg-violet-600 text-white",
-    accent: "bg-gradient-to-r from-violet-600 to-orange-400",
+    accent: "   professional-neutral",
     label: "Conquista",
   },
 };
@@ -275,7 +265,7 @@ function FeedbackToast({
 
   return (
     <section
-      className={`pointer-events-auto relative overflow-hidden rounded-[22px] border ${style.border} bg-white/96 p-3.5 shadow-[0_22px_55px_-26px_rgba(15,23,42,0.42)] backdrop-blur-xl animate-[estudaki-fast-sheet_140ms_ease-out]`}
+      className={`pointer-events-auto relative overflow-hidden rounded-[18px] border ${style.border} bg-white/96 p-3.5 shadow-sm backdrop-blur-xl animate-[estudaki-fast-sheet_140ms_ease-out]`}
       role={toast.tone === "error" ? "alert" : "status"}
     >
       <span className={`absolute inset-y-0 left-0 w-1 ${style.accent}`} />
@@ -286,10 +276,10 @@ function FeedbackToast({
           <ToneIcon tone={toast.tone} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-black uppercase tracking-[0.14em] text-slate-400">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-400">
             {style.label}
           </p>
-          <h3 className="mt-0.5 text-sm font-black text-slate-950">{toast.title}</h3>
+          <h3 className="mt-0.5 text-sm font-semibold text-slate-950">{toast.title}</h3>
           {toast.message && (
             <p className="mt-1 text-xs font-medium leading-5 text-slate-600">{toast.message}</p>
           )}
@@ -298,7 +288,7 @@ function FeedbackToast({
               type="button"
               disabled={actionBusy}
               onClick={() => void runAction()}
-              className="mt-2.5 inline-flex min-h-9 items-center gap-2 rounded-xl bg-slate-950 px-3 text-xs font-black text-white transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:cursor-wait disabled:opacity-70"
+              className="mt-2.5 inline-flex min-h-9 items-center gap-2 rounded-xl bg-slate-950 px-3 text-xs font-semibold text-white transition hover:-translate-y-0.5 hover:bg-blue-700 disabled:cursor-wait disabled:opacity-70"
             >
               {actionBusy && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
               {toast.action.label}
@@ -349,9 +339,9 @@ function AchievementModal({
         >
           <Confetti key={achievement.id} />
           <section
-            className="relative w-full max-w-md overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_40px_110px_-38px_rgba(37,99,235,0.72)] animate-[estudaki-fast-sheet_140ms_ease-out]"
+            className="relative w-full max-w-md overflow-hidden rounded-[18px] border border-white/80 bg-white shadow-sm animate-[estudaki-fast-sheet_140ms_ease-out]"
           >
-            <div className="h-2 bg-gradient-to-r from-blue-600 via-cyan-400 to-orange-400" />
+            <div className="h-2     professional-neutral" />
             <button
               type="button"
               onClick={isLeague ? onContinue : onClose}
@@ -361,8 +351,8 @@ function AchievementModal({
               <X className="h-4 w-4" />
             </button>
 
-            <div className="bg-[linear-gradient(135deg,#eff6ff_0%,#ffffff_45%,#fff7ed_100%)] px-6 pb-7 pt-8 text-center sm:px-8">
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
+            <div className=" px-6 pb-7 pt-8 text-center sm:px-8 professional-neutral">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-700">
                 Nova conquista
               </p>
               <div className="mx-auto mt-5 flex h-28 w-28 items-center justify-center animate-[estudaki-fast-pop_160ms_ease-out]">
@@ -382,13 +372,13 @@ function AchievementModal({
                 )}
               </div>
               {achievement.badge && (
-                <p className="mt-5 text-xs font-black uppercase tracking-wider text-orange-600">
+                <p className="mt-5 text-xs font-semibold uppercase tracking-wider text-orange-600">
                   {achievement.badge}
                 </p>
               )}
               <h2
                 id="achievement-title"
-                className="mt-2 font-display text-3xl font-black text-slate-950"
+                className="mt-2 font-display text-3xl font-semibold text-slate-950"
               >
                 {achievement.title}
               </h2>
@@ -396,7 +386,7 @@ function AchievementModal({
                 {achievement.message}
               </p>
               {Boolean(achievement.xp) && (
-                <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-black text-amber-700">
+                <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
                   <Sparkles className="h-4 w-4" />
                   +{achievement.xp} XP
                 </span>
@@ -404,7 +394,7 @@ function AchievementModal({
               <button
                 type="button"
                 onClick={onContinue}
-                className="mt-7 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-5 text-sm font-black text-white shadow-[0_18px_34px_-18px_rgba(37,99,235,0.82)] transition hover:-translate-y-0.5 hover:shadow-lg"
+                className="mt-7 flex min-h-12 w-full items-center justify-center gap-2 rounded-2xl    px-5 text-sm font-semibold text-[color:var(--theme-text)] shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg professional-neutral"
               >
                 <Check className="h-4 w-4" />
                 {achievement.actionLabel ?? "Continuar"}
@@ -494,13 +484,13 @@ function FeedbackDialog({
           aria-modal="true"
         >
           <section
-            className="w-full max-w-md overflow-hidden rounded-[26px] border border-white bg-white shadow-[0_30px_90px_-35px_rgba(15,23,42,0.75)] animate-[estudaki-fast-sheet_140ms_ease-out]"
+            className="w-full max-w-md overflow-hidden rounded-[18px] border border-white bg-white shadow-sm animate-[estudaki-fast-sheet_140ms_ease-out]"
           >
             <div
               className={`h-1.5 ${
                 dialog.input.tone === "danger"
-                  ? "bg-gradient-to-r from-rose-500 to-orange-400"
-                  : "bg-gradient-to-r from-blue-600 to-cyan-400"
+                  ? "   professional-neutral"
+                  : "   professional-neutral"
               }`}
             />
             <div className="p-5 sm:p-6">
@@ -517,7 +507,7 @@ function FeedbackDialog({
                   <Info className="h-5 w-5" />
                 )}
               </span>
-              <h2 className="mt-4 text-xl font-black text-slate-950">{dialog.input.title}</h2>
+              <h2 className="mt-4 text-xl font-semibold text-slate-950">{dialog.input.title}</h2>
               <p className="mt-2 text-sm font-medium leading-6 text-slate-600">
                 {dialog.input.message}
               </p>
@@ -535,7 +525,7 @@ function FeedbackDialog({
                 <button
                   type="button"
                   onClick={cancel}
-                  className="min-h-11 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-600 transition hover:bg-slate-50"
+                  className="min-h-11 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
                 >
                   {dialog.input.cancelLabel ?? "Cancelar"}
                 </button>
@@ -543,10 +533,10 @@ function FeedbackDialog({
                   type="button"
                   onClick={accept}
                   disabled={dialog.kind === "prompt" && dialog.input.required && !value.trim()}
-                  className={`min-h-11 rounded-2xl px-4 text-sm font-black text-white shadow-sm transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 ${
+                  className={`min-h-11 rounded-2xl px-4 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 ${
                     dialog.input.tone === "danger"
-                      ? "bg-gradient-to-r from-rose-600 to-orange-500"
-                      : "bg-gradient-to-r from-blue-600 to-cyan-500"
+                      ? "   professional-neutral"
+                      : "   professional-neutral"
                   }`}
                 >
                   {dialog.input.confirmLabel ?? "Confirmar"}

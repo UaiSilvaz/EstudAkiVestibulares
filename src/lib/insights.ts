@@ -25,6 +25,8 @@ type StudyProfile = {
   name: string;
   weeklyHours: number;
   targetExam: string;
+  examDate?: Date | null;
+  studyDays?: number[];
 };
 
 export function calculateAccuracyRate(attempts: Array<{ correct: boolean; annulled?: boolean }>) {
@@ -113,13 +115,13 @@ export function calculateStudyHealthScore(input: {
   return { score: rounded, label: "alto desempenho" };
 }
 
-function buildDailyBuckets(attempts: InsightAttempt[], dailyGoal: number) {
-  const now = new Date();
+function buildDailyBuckets(attempts: InsightAttempt[], dailyGoal: number, now: Date) {
   const labels = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"];
   const dayMs = 24 * 60 * 60 * 1000;
 
   return Array.from({ length: 7 }, (_, index) => {
-    const date = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const shifted = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+    const date = new Date(Date.UTC(shifted.getUTCFullYear(), shifted.getUTCMonth(), shifted.getUTCDate(), 3));
     date.setTime(date.getTime() - (6 - index) * dayMs);
     const nextDate = new Date(date.getTime() + dayMs);
     const inDay = attempts.filter((attempt) => {
@@ -130,7 +132,8 @@ function buildDailyBuckets(attempts: InsightAttempt[], dailyGoal: number) {
     const accuracy = inDay.length ? Math.round((correct / inDay.length) * 100) : 0;
     const completion = Math.min(100, Math.round((inDay.length / Math.max(1, dailyGoal)) * 100));
     return {
-      label: labels[date.getDay()],
+      label: labels[new Date(date.getTime() - 3 * 60 * 60 * 1000).getUTCDay()],
+      dayOfWeek: new Date(date.getTime() - 3 * 60 * 60 * 1000).getUTCDay(),
       attempts: inDay.length,
       correct,
       accuracy,
@@ -222,7 +225,7 @@ function mainErrorType(attempts: InsightAttempt[]) {
     counts.set(attempt.errorType!, (counts.get(attempt.errorType!) ?? 0) + 1);
   });
 
-  return Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "sem padrao";
+  return Array.from(counts.entries()).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "sem padrão";
 }
 
 export function generateAutomaticQuestionList(
@@ -261,20 +264,23 @@ export function buildDashboardInsights(input: {
   profile: StudyProfile;
   attempts: InsightAttempt[];
   questions: InsightQuestion[];
+  now?: Date;
 }) {
   const { profile, questions } = input;
+  const now = input.now ?? new Date();
   const attempts = input.attempts.filter((attempt) => !attempt.annulled);
   const accuracyRate = calculateAccuracyRate(attempts);
   const weightedAccuracyRate = calculateWeightedAccuracyRate(attempts);
   const errors = attempts.filter((attempt) => !attempt.correct);
   const reviewedErrors = errors.filter((attempt) => attempt.reviewed).length;
   const pendingErrors = errors.length - reviewedErrors;
-  const dailyGoal = calculateDailyGoal(profile.weeklyHours);
-  const today = new Date().toDateString();
-  const completedToday = attempts.filter((attempt) => attempt.createdAt.toDateString() === today).length;
-  const correctToday = attempts.filter((attempt) => attempt.createdAt.toDateString() === today && attempt.correct).length;
-  const studyDays = new Set(attempts.map((attempt) => attempt.createdAt.toDateString())).size;
-  const dailyBuckets = buildDailyBuckets(attempts, dailyGoal.questions);
+  const daysUntilExam = profile.examDate ? Math.max(0, Math.ceil((profile.examDate.getTime() - now.getTime()) / 86400000)) : 120;
+  const dailyGoal = calculateDailyGoal(profile.weeklyHours, daysUntilExam);
+  const dayKey = (date: Date) => new Date(date.getTime() - 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const today = dayKey(now);
+  const completedToday = attempts.filter((attempt) => dayKey(attempt.createdAt) === today).length;
+  const correctToday = attempts.filter((attempt) => dayKey(attempt.createdAt) === today && attempt.correct).length;
+  const dailyBuckets = buildDailyBuckets(attempts, dailyGoal.questions, now);
   const subjectPerformance = groupPerformance(attempts, "subject");
   const topicPerformance = groupPerformance(attempts, "topic");
   const weakestTopic = [...topicPerformance].sort((a, b) => b.errorRate - a.errorRate)[0];
@@ -286,7 +292,9 @@ export function buildDashboardInsights(input: {
   const trendScore = calculateTrendScore(dailyBuckets);
   const reviewCompletionRate = calculateReviewCompletionRate(reviewedErrors, pendingErrors);
   const dailyGoalCompletionRate = calculateDailyGoalCompletionRate(completedToday, dailyGoal.questions);
-  const consistencyScore = calculateConsistencyScore(Math.min(7, studyDays || 1));
+  const scheduledDays = profile.studyDays?.length ? profile.studyDays : [0, 1, 2, 3, 4, 5, 6];
+  const activeDays = dailyBuckets.filter(bucket => bucket.attempts > 0 && scheduledDays.includes(bucket.dayOfWeek)).length;
+  const consistencyScore = Math.min(100, activeDays / scheduledDays.length * 100);
 
   const studyHealthScore = calculateStudyHealthScore({
     accuracyRate,
@@ -295,6 +303,7 @@ export function buildDashboardInsights(input: {
     reviewCompletionRate,
     dailyGoalCompletionRate,
   });
+  if (!attempts.length) { studyHealthScore.score = 0; studyHealthScore.label = "sem histórico"; }
 
   const fallbackQuestion = questions[0] ?? null;
   const targetName =
@@ -379,7 +388,7 @@ export function buildDashboardInsights(input: {
     trendScore,
     dailyBuckets,
     readinessLabel:
-      studyHealthScore.score >= 80
+      !attempts.length ? "sem histórico" : studyHealthScore.score >= 80
         ? "pronto para subir nível"
         : studyHealthScore.score >= 60
           ? "em evolução"
@@ -390,6 +399,6 @@ export function buildDashboardInsights(input: {
       `${profile.name}, seu foco hoje é ${targetSubject}. ` +
       (weakestTopic
         ? `O assunto que mais trava sua evolução agora é ${weakestTopic.name}.`
-        : "Comece por uma lista diagnóstica para o EstudAki entender seus pontos fracos."),
+        : "Comece por uma lista diagnóstica para o Norte Preparatórios entender seus pontos fracos."),
   };
 }

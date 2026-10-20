@@ -29,28 +29,6 @@ type Props = {
   children?: React.ReactNode;
 };
 
-const actionTone: Record<Tone, string> = {
-  blue: "border-blue-100 bg-blue-50/70 text-blue-700 hover:border-blue-200 hover:bg-blue-100/80",
-  green: "border-emerald-100 bg-emerald-50/70 text-emerald-700 hover:border-emerald-200 hover:bg-emerald-100/80",
-  orange: "border-orange-100 bg-orange-50/70 text-orange-700 hover:border-orange-200 hover:bg-orange-100/80",
-  violet: "border-violet-100 bg-violet-50/70 text-violet-700 hover:border-violet-200 hover:bg-violet-100/80",
-  teal: "border-cyan-100 bg-cyan-50/70 text-cyan-700 hover:border-cyan-200 hover:bg-cyan-100/80",
-  slate: "border-slate-200 bg-slate-50/80 text-slate-700 hover:border-slate-300 hover:bg-slate-100",
-  rose: "border-rose-100 bg-rose-50/70 text-rose-700 hover:border-rose-200 hover:bg-rose-100/80",
-  amber: "border-amber-100 bg-amber-50/70 text-amber-700 hover:border-amber-200 hover:bg-amber-100/80",
-};
-
-const iconTone: Record<Tone, string> = {
-  blue: "bg-blue-600 text-white shadow-blue-200",
-  green: "bg-emerald-600 text-white shadow-emerald-200",
-  orange: "bg-orange-600 text-white shadow-orange-200",
-  violet: "bg-violet-600 text-white shadow-violet-200",
-  teal: "bg-cyan-600 text-white shadow-cyan-200",
-  slate: "bg-slate-800 text-white shadow-slate-200",
-  rose: "bg-rose-600 text-white shadow-rose-200",
-  amber: "bg-amber-500 text-white shadow-amber-200",
-};
-
 export function PlatformHubPage({
   eyebrow,
   title,
@@ -69,14 +47,14 @@ export function PlatformHubPage({
             <div
               key={`${stat.label}-${stat.value}`}
               className={cn(
-                "rounded-[24px] border bg-white p-4 shadow-[0_18px_42px_-34px_rgba(15,23,42,0.35)]",
-                actionTone[stat.tone],
+                "rounded-[18px] border bg-white p-4 shadow-sm",
+                "border-[color:var(--theme-border)] text-[color:var(--theme-muted)]",
               )}
             >
-              <p className="text-[10px] font-black uppercase tracking-[0.16em] opacity-75">
+              <p className="text-[10px] font-semibold uppercase tracking-wide opacity-75">
                 {stat.label}
               </p>
-              <p className="mt-2 text-2xl font-black text-slate-950">{stat.value}</p>
+              <p className="mt-2 text-2xl font-semibold text-slate-950">{stat.value}</p>
             </div>
           ))}
         </section>
@@ -90,26 +68,26 @@ export function PlatformHubPage({
               key={action.href}
               href={action.href}
               className={cn(
-                "group flex min-h-[178px] flex-col justify-between rounded-[28px] border p-5 shadow-[0_22px_50px_-36px_rgba(15,23,42,0.4)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_50px_-32px_rgba(15,23,42,0.35)]",
-                actionTone[action.tone],
+                "professional-hub-card group flex min-h-[176px] flex-col gap-4 justify-between rounded-[18px] border p-5 shadow-sm transition-colors duration-150",
+                "border-[color:var(--theme-border)] bg-[color:var(--theme-surface)] text-[color:var(--theme-primary)] hover:border-[color:var(--theme-primary)]",
               )}
             >
               <span
                 className={cn(
-                  "flex h-11 w-11 items-center justify-center rounded-2xl shadow-lg",
-                  iconTone[action.tone],
+                  "professional-hub-icon flex h-12 w-12 items-center justify-center rounded-xl border border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)]",
+                  "text-[color:var(--theme-muted)]",
                 )}
               >
-                <Icon className="h-5 w-5" />
+                <Icon aria-hidden="true" className="h-8 w-8" />
               </span>
               <span>
-                <span className="block text-lg font-black text-slate-950">{action.title}</span>
-                <span className="mt-2 block text-sm font-semibold leading-6 text-slate-600">
+                <span className="block text-base font-semibold text-[color:var(--theme-text)]">{action.title}</span>
+                <span className="mt-2 block text-sm font-normal leading-6 text-[color:var(--theme-muted)]">
                   {action.description}
                 </span>
               </span>
-              <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.12em]">
-                Abrir <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em]">
+                Abrir <ArrowRight className="h-4 w-4 transition-transform duration-150 group-hover:translate-x-0.5" />
               </span>
             </FastLink>
           );
@@ -129,8 +107,8 @@ export function ChecklistPanel({
   items: string[];
 }) {
   return (
-    <section className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.28)] sm:p-6">
-      <h2 className="font-display text-xl font-black text-slate-950">{title}</h2>
+    <section className="rounded-[18px] border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
+      <h2 className="font-display text-xl font-semibold text-slate-950">{title}</h2>
       <div className="mt-4 grid gap-3 md:grid-cols-2">
         {items.map((item) => (
           <div key={item} className="flex items-start gap-3 rounded-2xl bg-slate-50 p-4">

@@ -10,6 +10,22 @@ const question = {
   topic: { id: "topic-1", name: "Álgebra" },
 };
 
+test("new accounts have zero consistency and no invented performance", () => {
+  const insights = buildDashboardInsights({ profile: { name: "Aluno", weeklyHours: 8, targetExam: "ENEM" }, attempts: [], questions: [question] });
+  assert.equal(insights.consistencyScore, 0);
+  assert.equal(insights.studyHealthScore.score, 0);
+  assert.equal(insights.readinessLabel, "sem histórico");
+  assert.equal(insights.dailyBuckets.reduce((sum, bucket) => sum + bucket.attempts, 0), 0);
+});
+test("daily metrics use Sao Paulo dates across midnight and respect planned days", () => {
+  const attempts = [{ correct: false, errorType: "concept_gap", reviewed: false, timeSpentSeconds: 30, createdAt: new Date("2026-10-03T02:30:00Z"), question }];
+  const insights = buildDashboardInsights({ now: new Date("2026-10-03T02:45:00Z"), profile: { name: "Aluno", weeklyHours: 8, targetExam: "ENEM", studyDays: [5] }, attempts, questions: [question] });
+  assert.equal(insights.completedToday, 1);
+  assert.equal(insights.dailyBuckets.at(-1)?.label, "Sex");
+  assert.equal(insights.dailyBuckets.at(-1)?.accuracy, 0);
+  assert.equal(insights.consistencyScore, 100);
+});
+
 test("annulled attempts do not enter accuracy or dashboard performance", () => {
   const createdAt = new Date();
   const insights = buildDashboardInsights({

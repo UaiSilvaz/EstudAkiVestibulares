@@ -29,7 +29,7 @@ export default async function ExamsPage() {
       <PageHeader
         eyebrow="Provas antigas"
         title="Acervo de vestibulares"
-        description="ENEM, ETEC, FATEC, FUVEST, UNICAMP e UNESP com PDFs, gabaritos, respostas esperadas e editor de anotacoes."
+        description="ENEM, ETEC, FATEC, FUVEST, UNICAMP e UNESP com PDFs, gabaritos, respostas esperadas e editor de anotações."
         action={
           canManage ? (
             <Link href="/admin/exams" className="estudaki-button estudaki-button-primary">

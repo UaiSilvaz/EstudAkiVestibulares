@@ -4,6 +4,7 @@ import { db } from "./db";
 import { buildDashboardInsights, calculateDailyGoal } from "./insights";
 import type { AppUser } from "./roles";
 import { leagueForXp } from "./utils";
+import { awardStudyXp, lockStudentProgress, reconcileStudyXp, syncStudyStreak } from "./study-xp";
 
 type DashboardUser = Pick<
   AppUser,
@@ -58,7 +59,7 @@ async function ensureAchievementCatalog() {
 }
 
 export async function getDashboardSource(user: DashboardUser) {
-  const [attempts, questions, activities, studySessions, challenges] = await Promise.all([
+  const [attempts, questions, activities, studySessions, challenges, learningProfile] = await Promise.all([
     db.questionAttempt.findMany({
       where: { userId: user.id, annulled: false },
       orderBy: { createdAt: "desc" },
@@ -84,7 +85,7 @@ export async function getDashboardSource(user: DashboardUser) {
     }),
     db.activity.findMany({
       where: {
-        OR: [{ userId: user.id }, { userId: null }],
+        userId: user.id,
       },
       orderBy: { createdAt: "desc" },
       take: 12,
@@ -97,13 +98,13 @@ export async function getDashboardSource(user: DashboardUser) {
     db.studySession.findMany({
       where: { userId: user.id },
       orderBy: { startedAt: "desc" },
-      take: 10,
     }),
     db.challenge.findMany({
       where: { status: ContentStatus.PUBLISHED },
       orderBy: { endsAt: "asc" },
       take: 6,
     }),
+    db.studentLearningProfile.findUnique({ where: { userId: user.id } }),
   ]);
 
   const insights = buildDashboardInsights({
@@ -111,6 +112,8 @@ export async function getDashboardSource(user: DashboardUser) {
       name: user.name,
       weeklyHours: user.weeklyHours ?? 0,
       targetExam: user.targetExam ?? "ENEM",
+      examDate: learningProfile?.examDate,
+      studyDays: learningProfile?.studyDays as number[] | undefined,
     },
     attempts,
     questions,
@@ -129,9 +132,15 @@ export async function getDashboardSource(user: DashboardUser) {
 
 export async function syncUserAchievements(user: DashboardUser) {
   await ensureAchievementCatalog();
+  return db.$transaction(async tx => {
+  await lockStudentProgress(tx, user.id);
+  await reconcileStudyXp(tx, user.id);
+  user = await tx.user.findUniqueOrThrow({ where: { id: user.id } });
+  user = { ...user, streak: await syncStudyStreak(tx, user.id) };
+  const learningProfile = await tx.studentLearningProfile.findUnique({ where: { userId: user.id } });
 
   const [attempts, achievements, existingRecords, examAttempts, studySessions, essays, communityPosts] = await Promise.all([
-    db.questionAttempt.findMany({
+    tx.questionAttempt.findMany({
       where: { userId: user.id, annulled: false },
       select: {
         questionId: true,
@@ -150,18 +159,18 @@ export async function syncUserAchievements(user: DashboardUser) {
       },
       orderBy: { createdAt: "asc" },
     }),
-    db.achievement.findMany({
+    tx.achievement.findMany({
       where: {
         status: ContentStatus.PUBLISHED,
         slug: { in: betaAchievementSlugs },
       },
       orderBy: [{ order: "asc" }, { criteriaType: "asc" }, { criteriaValue: "asc" }],
     }),
-    db.userAchievement.findMany({
+    tx.userAchievement.findMany({
       where: { userId: user.id },
       include: { achievement: true },
     }),
-    db.examAttempt.findMany({
+    tx.examAttempt.findMany({
       where: { userId: user.id, submittedAt: { not: null } },
       select: {
         score: true,
@@ -170,7 +179,7 @@ export async function syncUserAchievements(user: DashboardUser) {
         exam: { select: { vestibular: { select: { slug: true } } } },
       },
     }),
-    db.studySession.findMany({
+    tx.studySession.findMany({
       where: { userId: user.id, endedAt: { not: null } },
       select: {
         durationSeconds: true,
@@ -180,11 +189,11 @@ export async function syncUserAchievements(user: DashboardUser) {
         endedAt: true,
       },
     }),
-    db.essaySubmission.findMany({
+    tx.essaySubmission.findMany({
       where: { userId: user.id },
       select: { score: true, createdAt: true },
     }),
-    db.communityPost.count({
+    tx.communityPost.count({
       where: { userId: user.id },
     }),
   ]);
@@ -270,7 +279,7 @@ export async function syncUserAchievements(user: DashboardUser) {
     correct_streak: bestCorrectRun,
     math_correct: correctBySubject.get("matematica") ?? 0,
     portuguese_correct:
-      (correctBySubject.get("lingua portuguesa") ?? 0) +
+      (correctBySubject.get("língua portuguesa") ?? 0) +
       (correctBySubject.get("portugues") ?? 0),
     nature_correct:
       (correctBySubject.get("biologia") ?? 0) +
@@ -338,10 +347,10 @@ export async function syncUserAchievements(user: DashboardUser) {
     if (metric === "essay_score") return maxEssayScore;
     if (metric === "community_posts") return communityPosts;
     if (metric === "profile_completed") {
-      return [user.name, user.email, user.targetExam, user.weeklyHours, user.avatarUrl].filter(Boolean).length * 20;
+      return learningProfile?.completedAt ? 100 : 0;
     }
     if (metric === "profile_photo") return user.avatarUrl ? 1 : 0;
-    if (metric === "profile_goal") return user.targetExam ? 1 : 0;
+    if (metric === "profile_goal") return learningProfile?.completedAt ? 1 : 0;
     if (metric === "xp" || metric === "league") return user.xp;
     if (metric === "accuracy" || metric === "accuracy_10") return uniqueAnsweredIds.size >= 10 ? accuracy : 0;
     if (metric === "simulations") return examAttempts.length;
@@ -367,19 +376,19 @@ export async function syncUserAchievements(user: DashboardUser) {
 
     if (existing) {
       if (shouldComplete && !existing.completed) {
-        const claimed = await db.userAchievement.updateMany({
+        const claimed = await tx.userAchievement.updateMany({
           where: { id: existing.id, completed: false },
           data: { progress, completed: true, unlockedAt: now, rewardClaimed: true },
         });
         newlyUnlocked = claimed.count === 1;
       } else {
-        await db.userAchievement.update({
+        await tx.userAchievement.update({
           where: { id: existing.id },
           data: { progress },
         });
       }
     } else {
-      await db.userAchievement.create({
+      await tx.userAchievement.create({
         data: {
           userId: user.id,
           achievementId: achievement.id,
@@ -392,7 +401,7 @@ export async function syncUserAchievements(user: DashboardUser) {
       newlyUnlocked = shouldComplete;
     }
 
-    const record = await db.userAchievement.findUniqueOrThrow({
+    const record = await tx.userAchievement.findUniqueOrThrow({
       where: {
         userId_achievementId: {
           userId: user.id,
@@ -405,29 +414,8 @@ export async function syncUserAchievements(user: DashboardUser) {
   }
 
   const unlockedNow = records.filter((record) => record.newlyUnlocked);
-  const rewardXp = unlockedNow.reduce((sum, record) => sum + record.achievement.xpReward, 0);
-  if (rewardXp > 0) {
-    const nextXp = user.xp + rewardXp;
-    const nextLeague = leagueForXp(nextXp, user.targetExam);
-    await db.$transaction([
-      db.user.update({
-        where: { id: user.id },
-        data: {
-          xp: { increment: rewardXp },
-          ...(nextLeague !== user.league ? { league: nextLeague } : {}),
-        },
-      }),
-      ...unlockedNow.map((record) =>
-        db.activity.create({
-          data: {
-            userId: user.id,
-            type: "XP",
-            message: `Conquista desbloqueada: ${record.achievement.title}.`,
-            xp: record.achievement.xpReward,
-          },
-        }),
-      ),
-    ]);
+  for (const record of unlockedNow) {
+    await awardStudyXp(tx, user.id, "achievement:" + record.achievement.id, record.achievement.xpReward, "Conquista desbloqueada: " + record.achievement.title);
   }
 
   return records.map((record) => ({
@@ -442,6 +430,7 @@ export async function syncUserAchievements(user: DashboardUser) {
       Math.round((record.progress / Math.max(1, record.achievement.criteriaValue)) * 100),
     ),
   }));
+  }, { timeout: 30_000 });
 }
 
 export async function unlockQuestionMastery(userId: string, questionId: string) {
@@ -608,16 +597,14 @@ export async function buildDashboardPayload(user: DashboardUser) {
     (sum, session) => sum + session.durationSeconds,
     0,
   );
-  const unlockedRewardXp = achievements
-    .filter((record) => record.newlyUnlocked)
-    .reduce((sum, record) => sum + record.achievement.xpReward, 0);
-  const effectiveXp = sourceUser.xp + unlockedRewardXp;
+  const refreshed = persistedUser ? await db.user.findUniqueOrThrow({ where: { id: persistedUser.id } }) : sourceUser;
+  const effectiveXp = refreshed.xp;
 
   return {
     user: {
       ...user,
       xp: effectiveXp,
-      streak: sourceUser.streak,
+      streak: refreshed.streak,
       league: leagueForXp(effectiveXp, sourceUser.targetExam),
       weeklyHours: sourceUser.weeklyHours,
       targetExam: sourceUser.targetExam,

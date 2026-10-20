@@ -12,14 +12,14 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   let body: unknown;
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "JSON invalido." }, { status: 400 });
+    return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
   }
 
   const availableMinutes = readAvailableMinutes(
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
   );
 
   if (availableMinutes === null) {
-    return NextResponse.json({ error: "Tempo disponivel invalido." }, { status: 400 });
+    return NextResponse.json({ error: "Tempo disponível inválido." }, { status: 400 });
   }
 
   const persistedUserId = await getPersistedUserId(user);
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ recommendation });
   } catch {
     return NextResponse.json(
-      { error: "Nao foi possivel montar a sessao agora." },
+      { error: "Não foi possível montar a sessão agora." },
       { status: 500 },
     );
   }

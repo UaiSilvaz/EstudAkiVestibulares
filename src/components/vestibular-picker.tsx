@@ -1,7 +1,8 @@
 "use client";
 
+import { BookOpenCheck } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import { ArrowRight, BookOpenCheck, ClipboardList, Loader2, Sparkles } from "lucide-react";
+import { ArrowRight, ClipboardList, Loader2, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { FastLink } from "@/components/fast-link";
 import { loopImageForVestibular } from "@/lib/assets";
@@ -39,7 +40,6 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
         {vestibulares.map((item, index) => {
           const description = descriptions[item.slug] ?? item.description;
           const accent = item.color || "#2563EB";
-          const cardBg = `linear-gradient(135deg, ${lightenHex(accent, 0.06)} 0%, #FFFFFF 60%, ${lightenHex(accent, 0.04)} 100%)`;
           const loopImage = loopImageForVestibular(item.slug);
           return (
             <motion.div
@@ -49,13 +49,14 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.55, delay: index * 0.05 }}
               whileHover={{ y: -6 }}
-              className="group relative overflow-hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.18)] transition-shadow hover:shadow-[0_24px_50px_-22px_rgba(15,23,42,0.25)] md:p-6"
+              className="vestibular-picker-card group relative overflow-hidden rounded-3xl border p-5 shadow-sm transition-shadow md:p-6"
               style={{
-                background: cardBg,
+                background: "var(--theme-surface)",
+                borderColor: "var(--theme-border)",
                 borderTop: `4px solid ${accent}`,
               }}
             >
-              <div className="relative mb-5 flex min-h-40 items-center justify-center rounded-[28px] border border-white/80 bg-white/75 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.85)] md:min-h-48">
+              <div className="vestibular-picker-logo relative mb-5 flex min-h-40 items-center justify-center rounded-[18px] border p-5 md:min-h-48">
                 <div
                   aria-hidden
                   className="absolute inset-x-7 bottom-5 h-5 rounded-full blur-xl"
@@ -66,7 +67,7 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
                   alt={item.name}
                   width={360}
                   height={220}
-                  className="relative z-10 h-32 w-full object-contain drop-shadow-[0_18px_28px_rgba(15,23,42,0.18)] transition duration-300 group-hover:scale-105 md:h-40"
+                  className="relative z-10 h-32 w-full object-contain drop-shadow-sm transition duration-300  md:h-40"
                   unoptimized
                 />
               </div>
@@ -74,40 +75,40 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
               <div className="relative">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-bold text-[#0F172A]">{item.name}</h3>
+                    <h3 className="text-lg font-bold text-[color:var(--theme-text)]">{item.name}</h3>
                     <span
-                      className="inline-flex items-center gap-1 rounded-full border border-white/80 bg-white/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
+                      className="inline-flex items-center gap-1 rounded-full border border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide"
                       style={{ color: accent }}
                     >
                       <Sparkles className="h-3 w-3" />
                       oficial
                     </span>
                   </div>
-                  <p className="mt-1 text-sm leading-relaxed text-slate-600">{description}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[color:var(--theme-muted)]">{description}</p>
                 </div>
               </div>
 
-              <div className="relative mt-5 flex items-center gap-4 border-t border-slate-100/80 pt-4">
-                <div className="flex items-center gap-2 text-xs font-medium text-slate-600">
+              <div className="relative mt-5 flex items-center gap-4 border-t border-[color:var(--theme-border)] pt-4">
+                <div className="flex items-center gap-2 text-xs font-medium text-[color:var(--theme-muted)]">
                   <span
                     className="flex h-7 w-7 items-center justify-center rounded-full"
-                    style={{ background: `linear-gradient(135deg, ${lightenHex(accent, 0.16)} 0%, ${lightenHex(accent, 0.28)} 100%)` }}
+                    style={{ background: "var(--theme-surface)" }}
                   >
                     <ClipboardList className="h-3.5 w-3.5" style={{ color: accent }} />
                   </span>
                   <span>
-                    <span className="text-base font-bold text-[#0F172A]">{item.questionCount}</span> questões
+                    <span className="text-base font-bold text-[color:var(--theme-text)]">{item.questionCount}</span> questões
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-medium text-slate-600">
+                <div className="flex items-center gap-2 text-xs font-medium text-[color:var(--theme-muted)]">
                   <span
                     className="flex h-7 w-7 items-center justify-center rounded-full"
-                    style={{ background: `linear-gradient(135deg, ${lightenHex(accent, 0.16)} 0%, ${lightenHex(accent, 0.28)} 100%)` }}
+                    style={{ background: "var(--theme-surface)" }}
                   >
                     <BookOpenCheck className="h-3.5 w-3.5" style={{ color: accent }} />
                   </span>
                   <span>
-                    <span className="text-base font-bold text-[#0F172A]">{item.subjectCount}</span> matérias
+                    <span className="text-base font-bold text-[color:var(--theme-text)]">{item.subjectCount}</span> matérias
                   </span>
                 </div>
               </div>
@@ -123,10 +124,10 @@ export function VestibularPicker({ vestibulares }: { vestibulares: VestibularCar
                 }
                 className={cn(
                   "relative mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold transition-all active:scale-[0.99]",
-                  "text-white shadow-[0_10px_24px_-12px_rgba(15,23,42,0.30)] hover:shadow-[0_14px_30px_-12px_rgba(15,23,42,0.40)]"
+                  "vestibular-picker-action text-white shadow-sm"
                 )}
                 style={{
-                  background: `linear-gradient(135deg, ${accent} 0%, ${lightenHex(accent, 0.85)} 100%)`,
+                  background: "var(--theme-action-bg)",
                 }}
               >
                 Praticar {item.name}

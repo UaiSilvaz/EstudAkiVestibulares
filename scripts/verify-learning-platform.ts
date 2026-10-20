@@ -3,6 +3,10 @@ import { loadEnvConfig } from "@next/env";
 loadEnvConfig(process.cwd());
 
 const baseUrl = process.env.APP_URL ?? "http://localhost:3000";
+if (!["localhost", "127.0.0.1"].includes(new URL(baseUrl).hostname) ||
+  !["localhost", "127.0.0.1"].includes(new URL(process.env.DATABASE_URL!).hostname)) {
+  throw new Error("A verificação cria fixtures e deve ser executada somente em servidor e banco locais.");
+}
 
 async function main() {
   const { db } = await import("../src/lib/db");
@@ -16,7 +20,7 @@ async function main() {
     const response = await fetch(`${baseUrl}/api/auth/login`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ email, password: "Teste@123", name }),
+      body: JSON.stringify({ email, password: "Teste@123", name, intent: "signup" }),
     });
     if (!response.ok) throw new Error(`Login ${email}: HTTP ${response.status}`);
     return response.headers.get("set-cookie")!.split(";")[0];

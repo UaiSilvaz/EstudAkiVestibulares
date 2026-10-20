@@ -1,0 +1,31 @@
+{
+  "brand": "Norte Preparatórios",
+  "edition": "01/2026",
+  "color": {
+    "primary": "#FF6201",
+    "black": "#101216",
+    "graphite": "#272B31",
+    "snow": "#F5F6F8",
+    "white": "#FFFFFF"
+  },
+  "typography": {
+    "heading": "Inter Display Bold",
+    "body": "Inter Regular",
+    "fallback": "Arial"
+  },
+  "clearSpace": "25% da altura total do símbolo",
+  "minimumSize": {
+    "logotypeDigital": "160px largura",
+    "symbolDigital": "28px largura",
+    "logotypePrint": "35mm largura",
+    "symbolPrint": "10mm largura"
+  },
+  "formats": {
+    "postSquare": "1080x1080",
+    "postPortrait": "1080x1350",
+    "story": "1080x1920",
+    "presentation": "1920x1080",
+    "app": "1024x1024"
+  },
+  "note": "Os mínimos são recomendações; verificar leitura real. Cores de impressão requerem conversão ICC. Mockups demonstrativos não representam serviços ou contatos oficiais."
+}

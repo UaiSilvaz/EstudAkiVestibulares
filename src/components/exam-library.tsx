@@ -1,14 +1,8 @@
 "use client";
 
+import { FileText } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  FileText,
-  Search,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Search, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -117,16 +111,16 @@ export function ExamLibrary({ exams }: { exams: ExamCard[] }) {
                 setSelectedYear(null);
                 setSearch("");
               }}
-              className="group relative overflow-hidden rounded-[30px] border border-slate-100 bg-white p-5 text-left shadow-[0_18px_40px_-24px_rgba(15,23,42,0.15)] transition hover:-translate-y-1 hover:shadow-[0_24px_48px_-24px_rgba(15,23,42,0.22)]"
+              className="group relative overflow-hidden rounded-[18px] border border-slate-100 bg-white p-5 text-left shadow-sm transition  shadow-sm"
               style={{ borderTop: `4px solid ${group.color}` }}
             >
-              <div className="mb-5 flex h-36 items-center justify-center rounded-[24px] border border-slate-100 bg-gradient-to-br from-white to-slate-50 p-5">
+              <div className="mb-5 flex h-36 items-center justify-center rounded-[18px] border border-slate-100    p-5 professional-neutral">
                 <Image
                   src={image}
                   alt={group.name}
                   width={260}
                   height={150}
-                  className="h-24 w-full object-contain drop-shadow-[0_16px_24px_rgba(15,23,42,0.16)] transition group-hover:scale-105"
+                  className="h-24 w-full object-contain drop-shadow-sm transition "
                   unoptimized
                 />
               </div>
@@ -136,17 +130,17 @@ export function ExamLibrary({ exams }: { exams: ExamCard[] }) {
                   <Image src={logo} alt={group.name} width={42} height={42} className="h-8 w-8 object-contain" unoptimized />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-black uppercase tracking-[0.18em]" style={{ color: group.color }}>
-                    {group.years[0]} ate {group.years[group.years.length - 1]}
+                  <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: group.color }}>
+                    {group.years[0]} até {group.years[group.years.length - 1]}
                   </p>
-                  <h2 className="mt-1 text-2xl font-black text-slate-950">{group.name}</h2>
+                  <h2 className="mt-1 text-2xl font-semibold text-slate-950">{group.name}</h2>
                   <p className="mt-1 text-sm font-semibold text-slate-500">
                     {group.exams.length} registros, {pdfCount} com PDF direto
                   </p>
                 </div>
               </div>
 
-              <div className="mt-5 flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 text-sm font-black text-slate-700">
+              <div className="mt-5 flex items-center justify-between rounded-2xl bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700">
                 Ver anos
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </div>
@@ -178,16 +172,16 @@ export function ExamLibrary({ exams }: { exams: ExamCard[] }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: Math.min(index * 0.02, 0.18) }}
                 onClick={() => setSelectedYear(year)}
-                className="group rounded-[26px] border border-slate-100 bg-white p-5 text-left shadow-[0_16px_34px_-26px_rgba(15,23,42,0.18)] transition hover:-translate-y-0.5"
+                className="group rounded-[18px] border border-slate-100 bg-white p-5 text-left shadow-sm transition hover:-translate-y-0.5"
               >
-                <p className="text-xs font-black uppercase tracking-[0.18em]" style={{ color: activeGroup.color }}>
+                <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: activeGroup.color }}>
                   {items.length} prova(s)
                 </p>
-                <h2 className="mt-2 text-4xl font-black text-slate-950">{year}</h2>
+                <h2 className="mt-2 text-4xl font-semibold text-slate-950">{year}</h2>
                 <p className="mt-2 text-sm font-semibold text-slate-500">
                   {pdfCount} PDF(s) direto(s) e {items.filter((exam) => exam.answerKeyUrl).length} gabarito(s)
                 </p>
-                <div className="mt-5 inline-flex items-center gap-2 text-sm font-black" style={{ color: activeGroup.color }}>
+                <div className="mt-5 inline-flex items-center gap-2 text-sm font-semibold" style={{ color: activeGroup.color }}>
                   Abrir provas
                   <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
                 </div>
@@ -208,7 +202,7 @@ export function ExamLibrary({ exams }: { exams: ExamCard[] }) {
         onRoot={resetToVestibulares}
       />
 
-      <div className="mb-5 rounded-[28px] border border-slate-100 bg-white p-3 shadow-[0_14px_34px_-24px_rgba(15,23,42,0.16)]">
+      <div className="mb-5 rounded-[18px] border border-slate-100 bg-white p-3 shadow-sm">
         <div className="relative">
           <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
           <input
@@ -227,9 +221,9 @@ export function ExamLibrary({ exams }: { exams: ExamCard[] }) {
       </section>
 
       {yearExams.length === 0 && (
-        <div className="rounded-[28px] border border-slate-100 bg-white p-10 text-center">
+        <div className="rounded-[18px] border border-slate-100 bg-white p-10 text-center">
           <FileText className="mx-auto h-10 w-10 text-slate-300" />
-          <p className="mt-3 font-black text-slate-700">Nenhuma prova encontrada neste ano.</p>
+          <p className="mt-3 font-semibold text-slate-700">Nenhuma prova encontrada neste ano.</p>
         </div>
       )}
     </div>
@@ -253,7 +247,7 @@ function LibraryTrail({
         <ArrowLeft className="h-4 w-4" />
         Vestibulares
       </button>
-      <span className="rounded-full bg-slate-100 px-3 py-2 text-xs font-black uppercase tracking-wider text-slate-500">
+      <span className="rounded-full bg-slate-100 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
         {vestibular}
       </span>
       {year ? (
@@ -261,7 +255,7 @@ function LibraryTrail({
           <button type="button" onClick={onBack} className="estudaki-button estudaki-button-ghost h-11 px-4">
             Anos
           </button>
-          <span className="rounded-full bg-blue-50 px-3 py-2 text-xs font-black uppercase tracking-wider text-blue-700">
+          <span className="rounded-full bg-blue-50 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-blue-700">
             {year}
           </span>
         </>
@@ -279,7 +273,7 @@ function ExamCardItem({ exam, index }: { exam: ExamCard; index: number }) {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: Math.min(index * 0.02, 0.25) }}
-      className="group relative overflow-hidden rounded-[30px] border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.15)] transition hover:-translate-y-1 hover:shadow-[0_24px_48px_-24px_rgba(15,23,42,0.22)]"
+      className="group relative overflow-hidden rounded-[18px] border border-slate-100 bg-white p-5 shadow-sm transition  shadow-sm"
       style={{ borderTop: `4px solid ${accent}` }}
     >
       <div className="flex items-start gap-3">
@@ -287,12 +281,12 @@ function ExamCardItem({ exam, index }: { exam: ExamCard; index: number }) {
           <Image src={logo} alt={exam.vestibular.name} width={42} height={42} className="h-8 w-8 object-contain" unoptimized />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-black uppercase tracking-[0.18em]" style={{ color: accent }}>
+          <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: accent }}>
             {exam.vestibular.name} - {exam.year}
           </p>
-          <h2 className="mt-1 line-clamp-2 text-xl font-black text-slate-950">{exam.title}</h2>
+          <h2 className="mt-1 line-clamp-2 text-xl font-semibold text-slate-950">{exam.title}</h2>
           <p className="mt-1 text-sm font-semibold text-slate-500">
-            {exam.phase} - {exam.day ?? "Caderno unico"}
+            {exam.phase} - {exam.day ?? "Caderno único"}
           </p>
         </div>
       </div>
@@ -311,10 +305,10 @@ function ExamCardItem({ exam, index }: { exam: ExamCard; index: number }) {
       <Link
         href={`/provas/${exam.id}`}
         className={cn(
-          "mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-black text-white transition",
-          "shadow-[0_14px_28px_-16px_rgba(15,23,42,0.35)] hover:shadow-[0_18px_36px_-16px_rgba(15,23,42,0.45)]",
+          "mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold text-white transition",
+          "shadow-sm shadow-sm",
         )}
-        style={{ background: `linear-gradient(135deg, ${accent}, #22D3EE)` }}
+        style={{ background: "var(--theme-surface)" }}
       >
         Abrir no editor
         <ShieldCheck className="h-4 w-4" />
@@ -326,8 +320,8 @@ function ExamCardItem({ exam, index }: { exam: ExamCard; index: number }) {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-slate-100 bg-slate-50 p-3">
-      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-      <p className="mt-1 text-lg font-black text-slate-950">{value}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+      <p className="mt-1 text-lg font-semibold text-slate-950">{value}</p>
     </div>
   );
 }
@@ -336,7 +330,7 @@ function Badge({ active, label }: { active: boolean; label: string }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider",
+        "inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider",
         active ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-400",
       )}
     >

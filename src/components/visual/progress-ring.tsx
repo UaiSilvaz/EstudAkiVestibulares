@@ -63,10 +63,10 @@ export function ProgressRing({
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
         {label ?? (
-          <span className="font-display text-xl font-extrabold text-[#0F172A]">{Math.round(target)}</span>
+          <span className="font-display text-xl font-bold text-[#0F172A]">{Math.round(target)}</span>
         )}
         {caption && (
-          <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
             {caption}
           </span>
         )}

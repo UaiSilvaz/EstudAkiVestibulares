@@ -11,8 +11,6 @@ datasource db {
 enum Role {
   STUDENT
   TEACHER
-  MENTOR
-  COORDINATOR
   ADMIN
 }
 
@@ -249,6 +247,9 @@ model User {
   name                   String
   email                  String                  @unique
   passwordHash           String
+  emailVerifiedAt        DateTime?
+  bannedAt               DateTime?
+  banReason              String?
   role                   Role                    @default(STUDENT)
   avatarUrl              String?
   xp                     Int                     @default(0)
@@ -306,8 +307,97 @@ model User {
   chatMessages            ChatMessage[]
   createdConversations    Conversation[]       @relation("ConversationCreator")
   authSessions            AuthSession[]
+  passwordResets          PasswordReset[]
+  emailVerifications      EmailVerification[]
+  checkoutOrders          CheckoutOrder[]
   studyPlanPreference     StudyPlanPreference?
   studyPlanTasks          StudyPlanTask[]
+  learningProfile         StudentLearningProfile?
+  xpAwards                XpAward[]
+}
+
+model StudentLearningProfile {
+  userId              String @id
+  profile             String
+  exams               Json
+  course              String @default("")
+  targetScore         String @default("")
+  minutesPerDay       Int @default(60)
+  studyDays           Json
+  difficultSubjects   Json
+  level               PreparationLevel @default(BEGINNER)
+  learningPreferences Json
+  examDate            DateTime?
+  currentStep         Int @default(0)
+  completedAt         DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  user                User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model XpAward {
+  id        String @id @default(cuid())
+  userId    String
+  sourceKey String
+  amount    Int
+  reason    String
+  createdAt DateTime @default(now())
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, sourceKey])
+  @@index([userId, createdAt])
+}
+
+model CheckoutOrder {
+  id                 String         @id @default(cuid())
+  userId             String
+  providerCheckoutId String?        @unique
+  checkoutUrl        String?
+  amountCents        Int
+  items              Json
+  method             String
+  status             PurchaseStatus @default(PENDING)
+  devMode            Boolean
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  user               User           @relation(fields: [userId], references: [id], onDelete: Restrict)
+  events             PaymentWebhookEvent[]
+
+  @@index([userId, status, createdAt])
+}
+
+model PaymentWebhookEvent {
+  id          String        @id
+  orderId     String
+  event       String
+  processedAt DateTime      @default(now())
+  order       CheckoutOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+}
+
+model EmailVerification {
+  id        String    @id @default(cuid())
+  userId    String
+  email     String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model PasswordReset {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
 }
 
 model AuthSession {
@@ -1131,6 +1221,7 @@ model Product {
   coverUrl         String?
   checkoutUrl      String?
   hotmartProductId String?       @unique
+  abacateProductId String?       @unique
   status           ContentStatus @default(PUBLISHED)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
@@ -1339,6 +1430,10 @@ model Achievement {
   updatedAt         DateTime      @updatedAt
 
   users UserAchievement[]
+
+  @@index([category, status])
+  @@index([metric, status])
+  @@index([rarity, status])
 }
 
 model UserAchievement {
@@ -1357,6 +1452,7 @@ model UserAchievement {
 
   @@unique([userId, achievementId])
   @@index([userId, completed])
+  @@index([userId, unlockedAt], map: "UserAchievement_user_unlocked_idx")
 }
 
 model StudySession {
@@ -1716,6 +1812,7 @@ model Lesson {
   type                  LessonNodeType          @default(VIDEO)
   videoId               String?
   videoUrl              String?
+  thumbnailUrl          String?
   videoProvider         VideoProvider           @default(LOCAL)
   materialId            String?
   subjectId             String?

@@ -27,7 +27,7 @@ export function VestibularesLoopSection() {
         }}
       />
       <div className="relative">
-        <p className="mb-6 text-center text-[11px] font-extrabold uppercase tracking-[0.3em] text-slate-500">
+        <p className="mb-6 text-center text-[11px] font-bold uppercase tracking-[0.3em] text-slate-500">
           Cobertura completa dos principais vestibulares do Brasil
         </p>
         <LogoLoop

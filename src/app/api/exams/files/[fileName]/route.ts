@@ -10,7 +10,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ fil
 
   const { fileName } = await params;
   if (!/^[a-z0-9-]+\.pdf$/i.test(fileName)) {
-    return NextResponse.json({ error: "Arquivo invalido." }, { status: 400 });
+    return NextResponse.json({ error: "Arquivo inválido." }, { status: 400 });
   }
 
   const url = `/api/exams/files/${fileName}`;

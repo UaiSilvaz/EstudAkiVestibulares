@@ -1,54 +1,54 @@
-# Schema do Banco Nacional de Questoes
+# Schema do Banco Nacional de Questões
 
-Este documento descreve o contrato minimo para uma questao oficial entrar no
-EstudAki. A fonte de verdade operacional e o `prisma/schema.prisma`; os JSONs
-do corpus existem como artefatos auditaveis antes da importacao.
+Este documento descreve o contrato mínimo para uma questão oficial entrar no
+EstudAki. A fonte de verdade operacional é o `prisma/schema.prisma`; os JSONs
+do corpus existem como artefatos auditáveis antes da importação.
 
 ## Modelos principais
 
-- `Question`: questao exibida ao aluno. Deve manter `sourceType=OFFICIAL`,
-  `contentHash`, `reviewState`, metadados de prova e status de publicacao.
+- `Question`: questão exibida ao aluno. Deve manter `sourceType=OFFICIAL`,
+  `contentHash`, `reviewState`, metadados de prova e status de publicação.
 - `QuestionAlternative`: alternativas A-E, sempre vinculadas a uma `Question`.
-- `QuestionImage`: imagens do enunciado, alternativas, fac-simile ou recorte
-  administrativo, com hash, dimensoes, pagina e regiao original quando houver.
+- `QuestionImage`: imagens do enunciado, alternativas, fac-símile ou recorte
+  administrativo, com hash, dimensões, página e regiao original quando houver.
 - `OfficialSource` e `OfficialFile`: origem institucional, URL oficial,
   armazenamento local, SHA-256 e estado de processamento.
 - `OfficialAnswerKey`: gabarito oficial por ocorrencia, com alternativa,
-  anulacao quando aplicavel, hash e URL do PDF de origem.
-- `QuestionImportJob`: execucao de importacao, contadores, gate editorial e
+  anulacao quando aplicável, hash e URL do PDF de origem.
+- `QuestionImportJob`: execução de importação, contadores, gate editorial e
   logs.
 - `QuestionExtraction`, `QuestionBlock`, `QuestionRevision`,
   `QuestionPedagogicalMetadata` e `QuestionAuthorialResolution`: trilha de
-  extracao, blocos visuais/textuais, revisao, classificacao pedagogica e
-  resolucao autoral.
-- `ProvaAntiga` e `ProvaAntigaQuestao`: prova oficial antiga e vinculo entre
-  a prova e as questoes importadas.
+  extração, blocos visuais/textuais, revisão, classificação pedagógica e
+  resolução autoral.
+- `ProvaAntiga` e `ProvaAntigaQuestao`: prova oficial antiga e vínculo entre
+  a prova e as questões importadas.
 
-## Contrato de cada questao do corpus
+## Contrato de cada questão do corpus
 
 Cada item em `questoes-estruturadas.json` precisa conter:
 
 - Identidade: `id`, `corpusId`, `year`, `day`, `bookletNumber`,
   `bookletColor`, `officialNumber`, `language`.
-- Proveniencia: URL da pagina oficial, URL do PDF, caminho local, pagina(s),
-  regioes de origem, hash do PDF e hash de configuracao.
-- Conteudo: `supportText`, `statement`, `command`, `blocks` ordenados e
+- Proveniência: URL da página oficial, URL do PDF, caminho local, página(s),
+  regiões de origem, hash do PDF e hash de configuração.
+- Conteúdo: `supportText`, `statement`, `command`, `blocks` ordenados e
   `alternatives` A-E.
 - Resposta oficial: `answer`, `answerSituation`, `officialAnswerKey`.
 - Assets: `assets`, `originalCrops` e imagens de alternativas com
-  `artifactPath`, `sha256`, `width`, `height` e relacao semantica.
+  `artifactPath`, `sha256`, `width`, `height` e relação semantica.
 - Controle editorial: `contentHash`, `extractionStatus`, `reviewState`,
-  `confidence` e notas de revisao.
+  `confidence` e notas de revisão.
 
-## Regras de publicacao
+## Regras de publicação
 
-Uma questao oficial so pode ficar publica quando:
+Uma questão oficial só pode ficar pública quando:
 
 - tiver exatamente cinco alternativas, salvo tratamento explicito de anulacao;
-- preservar texto, imagens, creditos e ordem visual do fac-simile;
+- preservar texto, imagens, créditos e ordem visual do fac-símile;
 - estiver vinculada ao gabarito oficial com hash e URL;
-- tiver classificacao pedagogica e resolucao autoral revisadas;
-- passar no preview de aluno, correcao, mobile e pagina original para admin;
-- tiver `reviewState=APPROVED` e job em `READY_TO_PUBLISH` antes da publicacao.
+- tiver classificação pedagógica e resolução autoral revisadas;
+- passar no preview de aluno, correção, mobile e página original para admin;
+- tiver `reviewState=APPROVED` e job em `READY_TO_PUBLISH` antes da publicação.
 
-O piloto ENEM 2024, 2o dia, caderno 5 amarelo ainda nao atende a essas regras.
+O piloto ENEM 2024, 2o dia, caderno 5 amarelo ainda não atende a essas regras.

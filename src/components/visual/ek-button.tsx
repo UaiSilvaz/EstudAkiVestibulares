@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, type LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
@@ -50,7 +50,7 @@ export function EKButton({
   href,
   children,
   icon: Icon,
-  iconRight: IconRight = ArrowRight,
+  iconRight: IconRight,
   className,
   type = "button",
   onClick,
@@ -80,8 +80,11 @@ export function EKButton({
 
   if (href) {
     return (
-      <motion.span whileTap={{ scale: 0.97 }} className="inline-flex">
-        <Link href={href} className={classes}>
+      <motion.span whileTap={disabled ? undefined : { scale: 0.99 }} className={cn("inline-flex", fullWidth && "w-full")}>
+        <Link href={href} className={classes} aria-disabled={disabled || undefined} tabIndex={disabled ? -1 : undefined} onClick={(event) => {
+          if (disabled) { event.preventDefault(); return; }
+          onClick?.();
+        }}>
           {inner}
         </Link>
       </motion.span>
@@ -90,7 +93,7 @@ export function EKButton({
 
   return (
     <motion.button
-      whileTap={{ scale: 0.97 }}
+      whileTap={disabled ? undefined : { scale: 0.99 }}
       type={type}
       onClick={onClick}
       disabled={disabled}

@@ -1,6 +1,5 @@
-import { JornadaCertificatesClient } from "@/components/jornada/jornada-client";
-import { jornadaCourses } from "@/lib/jornada-curriculum";
+import { redirect } from "next/navigation";
 
-export default function CertificadosPage() {
-  return <JornadaCertificatesClient courses={jornadaCourses} />;
+export default function RetiredJourneyPage() {
+  redirect("/cursos");
 }

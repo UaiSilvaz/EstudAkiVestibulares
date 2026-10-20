@@ -29,9 +29,7 @@ export function formatDuration(seconds: number) {
 export function roleLabel(role: string) {
   const labels: Record<string, string> = {
     ADMIN: "Administrador",
-    COORDINATOR: "Coordenador",
     TEACHER: "Professor",
-    MENTOR: "Monitor",
     STUDENT: "Aluno",
   };
 
@@ -41,7 +39,7 @@ export function roleLabel(role: string) {
 export function difficultyLabel(difficulty: string) {
   const labels: Record<string, string> = {
     EASY: "Fácil",
-    MEDIUM: "Media",
+    MEDIUM: "Média",
     HARD: "Difícil",
   };
 

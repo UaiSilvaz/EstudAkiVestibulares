@@ -172,23 +172,23 @@ export function RichTextEditor({
 
   return (
     <div className="block">
-      <span className="mb-1.5 block text-[11px] font-black uppercase tracking-wider text-slate-500">
+      <span className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
         {label}
       </span>
       <div className="overflow-hidden rounded-[14px] border border-blue-100 bg-white shadow-sm transition focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-100">
         <div className="flex flex-wrap items-center gap-1 border-b border-slate-100 bg-slate-50/90 px-2 py-2">
-          <ToolbarButton title="Paragrafo" icon={Pilcrow} onClick={() => runCommand("formatBlock", "P")} />
+          <ToolbarButton title="Parágrafo" icon={Pilcrow} onClick={() => runCommand("formatBlock", "P")} />
           {!compact && (
-            <ToolbarButton title="Titulo" icon={Heading3} onClick={() => runCommand("formatBlock", "H3")} />
+            <ToolbarButton title="Título" icon={Heading3} onClick={() => runCommand("formatBlock", "H3")} />
           )}
           <ToolbarDivider />
           <ToolbarButton title="Negrito" icon={Bold} active={active.bold} onClick={() => runCommand("bold")} />
           <ToolbarButton title="Italico" icon={Italic} active={active.italic} onClick={() => runCommand("italic")} />
           <ToolbarButton title="Sublinhar" icon={Underline} active={active.underline} onClick={() => runCommand("underline")} />
           <ToolbarDivider />
-          <ToolbarButton title="Alinhar a esquerda" icon={AlignLeft} onClick={() => runCommand("justifyLeft")} />
+          <ToolbarButton title="Alinhar à esquerda" icon={AlignLeft} onClick={() => runCommand("justifyLeft")} />
           <ToolbarButton title="Centralizar" icon={AlignCenter} onClick={() => runCommand("justifyCenter")} />
-          <ToolbarButton title="Alinhar a direita" icon={AlignRight} onClick={() => runCommand("justifyRight")} />
+          <ToolbarButton title="Alinhar à direita" icon={AlignRight} onClick={() => runCommand("justifyRight")} />
           <ToolbarDivider />
           <ToolbarButton title="Lista" icon={List} active={active.unorderedList} onClick={() => runCommand("insertUnorderedList")} />
           <ToolbarButton title="Lista numerada" icon={ListOrdered} active={active.orderedList} onClick={() => runCommand("insertOrderedList")} />

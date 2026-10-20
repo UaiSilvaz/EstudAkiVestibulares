@@ -22,19 +22,34 @@ export const vestibularLoopMap: Record<string, string> = {
 
 export const materialCovers = [
   {
-    match: ["linguagens", "humanas", "redacao", "redacao"],
-    src: "/materiaiscapas/12.jpg",
+    match: ["kit enem"],
+    src: "/assets/norte-design/06_Capas_Digitais/kit-enem.svg",
+    label: "Kit ENEM Norte",
+  },
+  {
+    match: ["super pack", "250 questoes"],
+    src: "/assets/norte-design/06_Capas_Digitais/super-pack-etec.svg",
+    label: "Super Pack ETEC",
+  },
+  {
+    match: ["formula da aprovacao"],
+    src: "/assets/norte-design/06_Capas_Digitais/formula-aprovacao-etec.svg",
+    label: "Fórmula da Aprovação ETEC",
+  },
+  {
+    match: ["linguagens", "humanas", "redacao"],
+    src: "/assets/norte-design/06_Capas_Digitais/enem-humanas-linguagens.svg",
     label: "ENEM Linguagens e Humanas",
   },
   {
     match: ["exatas", "natureza", "matematica", "geometria"],
-    src: "/materiaiscapas/CADERNO_1000_QUESTOES_ENEM_ESTUDAKI.pdf%20(2).jpg",
+    src: "/assets/norte-design/06_Capas_Digitais/enem-exatas-natureza.svg",
     label: "ENEM Exatas e Natureza",
   },
   {
-    match: ["etec", "vestibulinho", "aprovacao"],
-    src: "/materiaiscapas/F%C3%93RMULA%20DA%20APROVA%C3%87%C3%83O%20-%20VESTIBULINHO%20ETEC%202026%20%23ESTUDAKI.jpg",
-    label: "Formula da Aprovacao ETEC",
+    match: ["etec", "vestibulinho"],
+    src: "/assets/norte-design/06_Capas_Digitais/formula-aprovacao-etec.svg",
+    label: "ETEC Norte",
   },
 ];
 
@@ -51,8 +66,15 @@ export function coverForMaterial(title: string, index = 0) {
   );
 }
 
+export function norteCoverForLegacy(url: string | null | undefined, title: string, index = 0) {
+  if (!url || /^\/(?:cadernos|materiaiscapas|materials\/covers)\//i.test(url)) {
+    return coverForMaterial(title, index).src;
+  }
+  return url;
+}
+
 export function logoForVestibular(slug: string) {
-  return vestibularLogoMap[slug] ?? "/brand/estudaki-tab.png";
+  return vestibularLogoMap[slug] ?? "/assets/norte-design/03_App_Favicon/norte_icone_256x256.png";
 }
 
 export function loopImageForVestibular(slug: string) {

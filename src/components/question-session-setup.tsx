@@ -1,27 +1,12 @@
 "use client";
 
+import { Bookmark, Clock3, Target } from "@/components/visual/aicon-icons";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Bookmark,
-  BookOpenText,
-  Check,
-  Clock3,
-  FileQuestion,
-  GraduationCap,
-  ListChecks,
-  RotateCcw,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  XCircle,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight, BookOpenText, Check, FileQuestion, GraduationCap, ListChecks, RotateCcw, ShieldCheck, Sparkles, XCircle } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { announceRouteTransition } from "@/components/route-transition-indicator";
+import { useLoadingRouter } from "@/components/use-loading-router";
 
 type Option = { id: string; name: string };
 type Topic = Option & { subjectId: string };
@@ -70,7 +55,7 @@ export function QuestionSessionSetup({
   total,
   initialFilters,
 }: Props) {
-  const router = useRouter();
+  const router = useLoadingRouter();
   const [step, setStep] = useState<"configure" | "confirm">("configure");
   const [subjectId, setSubjectId] = useState(initialFilters?.subjectId ?? "");
   const [topicId, setTopicId] = useState(initialFilters?.topicId ?? "");
@@ -118,7 +103,6 @@ export function QuestionSessionSetup({
     if (difficulty) params.set("difficulty", difficulty);
     if (scope !== "all") params.set("scope", scope);
     const destination = `/questions?${params.toString()}`;
-    announceRouteTransition(destination);
     router.push(destination);
   }
 
@@ -147,15 +131,15 @@ export function QuestionSessionSetup({
             exit={{ opacity: 0, y: -8 }}
             className="grid gap-5 xl:grid-cols-[1.4fr_0.75fr]"
           >
-            <section className="overflow-hidden rounded-[28px] border border-white/80 bg-white shadow-[0_24px_55px_-30px_rgba(15,23,42,0.32)]">
-              <header className="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-400 px-6 py-5 text-white">
+            <section className="overflow-hidden rounded-[18px] border border-white/80 bg-white shadow-sm">
+              <header className="    px-6 py-5 text-[color:var(--theme-text)] professional-neutral">
                 <div className="flex items-center gap-3">
                   <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/20 backdrop-blur">
                     <Target className="h-5 w-5" />
                   </span>
                   <div>
-                    <p className="text-xs font-black uppercase text-blue-100">Monte sua lista</p>
-                    <h2 className="mt-0.5 text-xl font-black">Escolha como quer praticar</h2>
+                    <p className="text-xs font-semibold uppercase text-blue-100">Monte sua lista</p>
+                    <h2 className="mt-0.5 text-xl font-semibold">Escolha como quer praticar</h2>
                   </div>
                 </div>
               </header>
@@ -244,7 +228,7 @@ export function QuestionSessionSetup({
                         className={cn(
                           "flex min-h-14 items-center gap-3 rounded-2xl border px-4 text-left text-sm font-bold transition",
                           scope === item.value
-                            ? "border-blue-500 bg-blue-50 text-blue-700 shadow-[0_12px_24px_-18px_rgba(37,99,235,0.75)]"
+                            ? "border-blue-500 bg-blue-50 text-blue-700 shadow-sm"
                             : "border-slate-200 bg-white text-slate-600 hover:-translate-y-0.5 hover:border-blue-200",
                         )}
                       >
@@ -268,7 +252,7 @@ export function QuestionSessionSetup({
                   <button
                     type="button"
                     onClick={() => setStep("confirm")}
-                    className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-3 text-sm font-black text-white shadow-[0_15px_30px_-16px_rgba(37,99,235,0.8)] transition hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 rounded-xl    px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 professional-action"
                   >
                     Revisar seleção
                     <ArrowRight className="h-4 w-4" />
@@ -296,14 +280,14 @@ export function QuestionSessionSetup({
             initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, y: 8 }}
-            className="mx-auto max-w-3xl overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_28px_65px_-32px_rgba(15,23,42,0.38)]"
+            className="mx-auto max-w-3xl overflow-hidden rounded-[18px] border border-white/80 bg-white shadow-sm"
           >
-            <div className="bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-400 px-6 py-7 text-white md:px-8">
+            <div className="    px-6 py-7 text-[color:var(--theme-text)] md:px-8 professional-neutral">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20">
                 <GraduationCap className="h-6 w-6" />
               </div>
-              <p className="mt-5 text-xs font-black uppercase text-blue-100">Tudo pronto</p>
-              <h2 className="mt-1 text-3xl font-black">Confirme sua lista de questões</h2>
+              <p className="mt-5 text-xs font-semibold uppercase text-blue-100">Tudo pronto</p>
+              <h2 className="mt-1 text-3xl font-semibold">Confirme sua lista de questões</h2>
             </div>
             <div className="p-6 md:p-8">
               <SessionSummary
@@ -331,7 +315,7 @@ export function QuestionSessionSetup({
                 <button
                   type="button"
                   onClick={start}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-400 px-6 py-3 text-sm font-black text-white shadow-[0_16px_32px_-16px_rgba(249,115,22,0.8)] transition hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl    px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 professional-action"
                 >
                   Começar questões
                   <ArrowRight className="h-4 w-4" />
@@ -356,7 +340,7 @@ function SetupSection({
 }) {
   return (
     <div>
-      <h3 className="mb-3 flex items-center gap-2 text-sm font-black text-slate-900">
+      <h3 className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-900">
         <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
           <Icon className="h-4 w-4" />
         </span>
@@ -382,7 +366,7 @@ function SetupSelect({
 }) {
   return (
     <label>
-      <span className="mb-1.5 block text-[10px] font-black uppercase text-slate-400">{label}</span>
+      <span className="mb-1.5 block text-[10px] font-semibold uppercase text-slate-400">{label}</span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -416,11 +400,11 @@ function ChoiceCard({
       className={cn(
         "relative min-h-16 rounded-2xl border px-2 py-3 text-center transition",
         selected
-          ? "border-blue-500 bg-blue-600 text-white shadow-[0_14px_26px_-16px_rgba(37,99,235,0.85)]"
+          ? "border-blue-500 bg-blue-600 text-white shadow-sm"
           : "border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-blue-200",
       )}
     >
-      <span className="block text-sm font-black">{label}</span>
+      <span className="block text-sm font-semibold">{label}</span>
       {detail && <span className={cn("mt-0.5 block text-[10px] font-bold", selected ? "text-blue-100" : "text-slate-400")}>{detail}</span>}
       {selected && <Check className="absolute right-1.5 top-1.5 h-3.5 w-3.5" />}
     </motion.button>
@@ -465,7 +449,7 @@ function SessionSummary({
 
   return (
     <aside className={cn(
-      "relative self-start overflow-hidden rounded-[26px] border border-blue-200/70 bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-400 p-5 text-white shadow-[0_24px_50px_-30px_rgba(37,99,235,0.58)]",
+      "relative self-start overflow-hidden rounded-[18px] border border-blue-200/70     p-5 text-[color:var(--theme-text)] shadow-sm professional-neutral",
       compact && "rounded-2xl",
     )}>
       <Sparkles className="pointer-events-none absolute -bottom-8 -right-7 h-36 w-36 rotate-[-12deg] text-white/18" />
@@ -474,8 +458,8 @@ function SessionSummary({
           <Sparkles className="h-5 w-5 text-yellow-200" />
         </span>
         <div>
-          <p className="text-[10px] font-black uppercase tracking-wider text-white/82">Resumo da prática</p>
-          <p className="text-lg font-black">{quantity} questões</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-white/82">Resumo da prática</p>
+          <p className="text-lg font-semibold">{quantity} questões</p>
         </div>
       </div>
       <dl className="mt-5 space-y-3">
@@ -489,12 +473,12 @@ function SessionSummary({
       <div className="mt-5 grid grid-cols-2 gap-2">
         <div className="rounded-2xl border border-white/30 bg-white/20 p-3 backdrop-blur">
           <FileQuestion className="h-4 w-4 text-cyan-100" />
-          <p className="mt-2 text-xl font-black">{quantity}</p>
+          <p className="mt-2 text-xl font-semibold">{quantity}</p>
           <p className="text-[10px] font-bold text-white/78">questões</p>
         </div>
         <div className="rounded-2xl border border-white/30 bg-white/20 p-3 backdrop-blur">
           <Clock3 className="h-4 w-4 text-yellow-200" />
-          <p className="mt-2 text-xl font-black">~{estimatedMinutes} min</p>
+          <p className="mt-2 text-xl font-semibold">~{estimatedMinutes} min</p>
           <p className="text-[10px] font-bold text-white/78">tempo estimado</p>
         </div>
       </div>

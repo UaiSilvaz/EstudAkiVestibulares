@@ -119,11 +119,11 @@ export function EnemImportDashboard({ initialDashboard }: { initialDashboard: Da
 
   if (!initialDashboard) {
     return (
-      <section className="rounded-[28px] border border-amber-200 bg-amber-50 p-6">
+      <section className="rounded-[18px] border border-amber-200 bg-amber-50 p-6">
         <div className="flex items-start gap-3">
           <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
           <div>
-            <h2 className="font-black text-amber-950">O piloto ainda não foi importado</h2>
+            <h2 className="font-semibold text-amber-950">O piloto ainda não foi importado</h2>
             <p className="mt-1 text-sm font-semibold leading-6 text-amber-800">
               Execute primeiro a extração, o gabarito e a importação controlada. Esta tela não cria registros nem publica outros anos.
             </p>
@@ -177,19 +177,19 @@ export function EnemImportDashboard({ initialDashboard }: { initialDashboard: Da
 
   return (
     <section className="space-y-5">
-      <article className="overflow-hidden rounded-[30px] border border-blue-100 bg-white shadow-[0_24px_60px_-42px_rgba(15,23,42,0.45)]">
-        <div className="border-b border-blue-100 bg-gradient-to-r from-blue-50 via-white to-amber-50 p-5 md:p-6">
+      <article className="overflow-hidden rounded-[18px] border border-blue-100 bg-white shadow-sm">
+        <div className="border-b border-blue-100     p-5 md:p-6 professional-neutral">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full bg-blue-600 px-3 py-1 text-[10px] font-black uppercase tracking-[0.18em] text-white">
+                <span className="rounded-full bg-blue-600 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-white">
                   piloto bloqueante
                 </span>
-                <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-black text-slate-700">
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold text-slate-700">
                   {job.status}
                 </span>
               </div>
-              <h2 className="mt-3 text-2xl font-black text-slate-950">
+              <h2 className="mt-3 text-2xl font-semibold text-slate-950">
                 ENEM {job.year} · {job.day}º dia · Caderno {job.bookletNumber} {job.bookletColor}
               </h2>
               <p className="mt-1 text-sm font-semibold text-slate-500">
@@ -233,7 +233,7 @@ export function EnemImportDashboard({ initialDashboard }: { initialDashboard: Da
             <div className="flex items-start gap-3">
               <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-blue-700" />
               <div>
-                <h3 className="font-black text-slate-950">Publicação protegida</h3>
+                <h3 className="font-semibold text-slate-950">Publicação protegida</h3>
                 <p className="mt-1 text-sm font-semibold leading-6 text-slate-600">
                   Não há publicação parcial. O endpoint aceita somente este piloto e exige 90/90 aprovações, gabaritos aprovados, originais preservados e relatório estrutural sem erro.
                 </p>
@@ -260,11 +260,11 @@ export function EnemImportDashboard({ initialDashboard }: { initialDashboard: Da
         </div>
       </article>
 
-      <article className="rounded-[26px] border border-slate-200 bg-white p-5 md:p-6">
+      <article className="rounded-[18px] border border-slate-200 bg-white p-5 md:p-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-700">Fila editorial</p>
-            <h2 className="mt-1 text-xl font-black text-slate-950">90 questões do piloto</h2>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-700">Fila editorial</p>
+            <h2 className="mt-1 text-xl font-semibold text-slate-950">90 questões do piloto</h2>
           </div>
           <label className="relative w-full sm:w-56">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -283,7 +283,7 @@ export function EnemImportDashboard({ initialDashboard }: { initialDashboard: Da
               type="button"
               key={item.value}
               onClick={() => setFilter(item.value)}
-              className={`rounded-full px-4 py-2 text-xs font-black ${filter === item.value ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"}`}
+              className={`rounded-full px-4 py-2 text-xs font-semibold ${filter === item.value ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"}`}
             >
               {item.label}
             </button>
@@ -300,11 +300,11 @@ export function EnemImportDashboard({ initialDashboard }: { initialDashboard: Da
                 className={`group rounded-2xl border p-3 transition hover:-translate-y-0.5 hover:shadow-md ${error ? "border-rose-200 bg-rose-50" : approved ? "border-emerald-200 bg-emerald-50" : "border-amber-200 bg-amber-50"}`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-black text-slate-950">Questão {row.number}</span>
+                  <span className="font-semibold text-slate-950">Questão {row.number}</span>
                   {approved ? <CheckCircle2 className="h-4 w-4 text-emerald-700" /> : error ? <AlertTriangle className="h-4 w-4 text-rose-700" /> : <CircleDashed className="h-4 w-4 text-amber-700" />}
                 </div>
                 <p className="mt-2 line-clamp-2 text-xs font-semibold leading-5 text-slate-600">{row.statement}</p>
-                <p className="mt-2 text-[10px] font-black uppercase text-slate-500">
+                <p className="mt-2 text-[10px] font-semibold uppercase text-slate-500">
                   {row.answerSituation === "ANNULLED" ? "Anulada" : row.answerReviewStatus ?? "gabarito pendente"}
                   {row.confidence !== null ? ` · ${Math.round(row.confidence * 100)}%` : ""}
                 </p>
@@ -329,14 +329,14 @@ function Counter({ label, value, tone }: { label: string; value: number; tone: "
     emerald: "bg-emerald-50 text-emerald-800",
     violet: "bg-violet-50 text-violet-800",
   };
-  return <div className={`rounded-2xl p-4 ${classes[tone]}`}><p className="text-[10px] font-black uppercase tracking-wider opacity-70">{label}</p><p className="mt-1 text-3xl font-black">{value}</p></div>;
+  return <div className={`rounded-2xl p-4 ${classes[tone]}`}><p className="text-[10px] font-semibold uppercase tracking-wider opacity-70">{label}</p><p className="mt-1 text-3xl font-semibold">{value}</p></div>;
 }
 
 function GateRow({ ok, label, detail }: { ok: boolean; label: string; detail: string }) {
   return (
     <div className={`flex items-start gap-3 rounded-2xl border p-3 ${ok ? "border-emerald-200 bg-emerald-50" : "border-amber-200 bg-amber-50"}`}>
       {ok ? <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" /> : <CircleDashed className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />}
-      <div><p className="text-sm font-black text-slate-900">{label}</p><p className="text-xs font-semibold text-slate-600">{detail}</p></div>
+      <div><p className="text-sm font-semibold text-slate-900">{label}</p><p className="text-xs font-semibold text-slate-600">{detail}</p></div>
     </div>
   );
 }

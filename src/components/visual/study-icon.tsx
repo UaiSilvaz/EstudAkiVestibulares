@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Aicon, type AiconName } from "./aicon";
 import { cn } from "@/lib/utils";
 
 export type StudyIconName =
@@ -35,7 +35,7 @@ type StudyIconMeta = {
 export const STUDY_ICON_META: Record<StudyIconName, StudyIconMeta> = {
   matematica: {
     src: "/assets/jornada-icons/matematica-compact.png",
-    alt: "Matematica",
+    alt: "Matemática",
     primary: "#2F8DFF",
     secondary: "#7CC2FF",
     soft: "#EAF4FF",
@@ -53,7 +53,7 @@ export const STUDY_ICON_META: Record<StudyIconName, StudyIconMeta> = {
   },
   redacao: {
     src: "/assets/jornada-icons/redacao-compact.png",
-    alt: "Redacao",
+    alt: "Redação",
     primary: "#FF8A18",
     secondary: "#FFB45C",
     soft: "#FFF2E2",
@@ -62,7 +62,7 @@ export const STUDY_ICON_META: Record<StudyIconName, StudyIconMeta> = {
   },
   fisica: {
     src: "/assets/jornada-icons/fisica-compact.png",
-    alt: "Fisica",
+    alt: "Física",
     primary: "#F43F5E",
     secondary: "#FF6B7E",
     soft: "#FFE9EE",
@@ -71,7 +71,7 @@ export const STUDY_ICON_META: Record<StudyIconName, StudyIconMeta> = {
   },
   quimica: {
     src: "/assets/jornada-icons/quimica-compact.png",
-    alt: "Quimica",
+    alt: "Química",
     primary: "#8A42FF",
     secondary: "#C084FC",
     soft: "#F2E8FF",
@@ -98,7 +98,7 @@ export const STUDY_ICON_META: Record<StudyIconName, StudyIconMeta> = {
   },
   "ciencias-humanas": {
     src: "/assets/jornada-icons/humanas-compact.png",
-    alt: "Ciencias Humanas",
+    alt: "Ciências Humanas",
     primary: "#F4B000",
     secondary: "#FFD43B",
     soft: "#FFF4BF",
@@ -108,19 +108,24 @@ export const STUDY_ICON_META: Record<StudyIconName, StudyIconMeta> = {
 };
 
 const sizeMap = {
-  xs: "h-10 w-10",
-  sm: "h-12 w-12",
-  md: "h-16 w-16",
-  lg: "h-24 w-24",
-  xl: "h-40 w-40",
+  xs: "h-8 w-8",
+  sm: "h-10 w-10",
+  md: "h-12 w-12",
+  lg: "h-14 w-14",
+  xl: "h-16 w-16",
 };
 
 const sizePx = {
-  xs: 40,
-  sm: 48,
-  md: 64,
-  lg: 96,
-  xl: 160,
+  xs: 32,
+  sm: 40,
+  md: 48,
+  lg: 56,
+  xl: 64,
+};
+
+const subjectArtwork: Record<StudyIconName, AiconName> = {
+  matematica: "polygon", linguagens: "book", redacao: "essay", fisica: "battery-full",
+  quimica: "chemistry", biologia: "anatomy", geografia: "geography", "ciencias-humanas": "bank",
 };
 
 export function StudyIcon({
@@ -129,37 +134,19 @@ export function StudyIcon({
   size = "md",
   className,
   imageClassName,
-  priority = false,
 }: StudyIconProps) {
-  const meta = STUDY_ICON_META[name];
-
   return (
     <span
-      aria-hidden={meta.src ? undefined : true}
-      aria-label={meta.src ? meta.alt : undefined}
+      aria-hidden="true"
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-visible",
-        variant === "tile" && "study-icon-badge",
-        variant === "ghost" && "pointer-events-none opacity-[0.58] saturate-125",
+        "professional-study-icon relative inline-flex shrink-0 items-center justify-center text-[color:var(--theme-primary)]",
+        variant === "tile" && "rounded-xl border border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)]",
+        variant === "ghost" && "hidden",
         sizeMap[size],
         className,
       )}
-      style={{
-        filter: variant === "tile" && meta.src ? `drop-shadow(0 14px 16px ${meta.glow})` : undefined,
-      }}
     >
-      {meta.src ? (
-        <Image
-          src={meta.src}
-          alt=""
-          width={sizePx[size] * 2}
-          height={sizePx[size] * 2}
-          priority={priority}
-          draggable={false}
-          className={cn("pointer-events-none h-full w-full select-none object-contain", imageClassName)}
-          sizes={`${sizePx[size]}px`}
-        />
-      ) : null}
+      <Aicon name={subjectArtwork[name]} tone="original" size={Math.min(sizePx[size] * 0.72, 44)} className={imageClassName} />
     </span>
   );
 }
@@ -188,7 +175,11 @@ export function studyIconNameForSubject(subjectName?: string | null): StudyIconN
 }
 
 export function studyIconColors(name: StudyIconName) {
-  return STUDY_ICON_META[name];
+  return {
+    ...STUDY_ICON_META[name],
+    primary: "var(--theme-primary)", secondary: "var(--theme-secondary)",
+    soft: "var(--theme-surface-alt)", deep: "var(--theme-primary-dark)", glow: "transparent",
+  };
 }
 
 function normalizeSubject(value?: string | null) {

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 async function main() {
   const production =
     process.env.NODE_ENV === "production" || process.env.VERCEL_ENV === "production";
-  const email = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase() || "admin@local.estudaki";
+  const email = process.env.SEED_ADMIN_EMAIL?.trim().toLowerCase() || "admin@gmail.com";
   const password = process.env.SEED_ADMIN_PASSWORD || "Admin@123";
 
   if (production && (!process.env.SEED_ADMIN_EMAIL || !process.env.SEED_ADMIN_PASSWORD)) {
@@ -17,14 +17,14 @@ async function main() {
   const admin = await db.user.upsert({
     where: { email },
     update: {
-      name: "Administrador EstudAki",
+      name: "Administrador Norte Preparatórios",
       passwordHash,
       role: Role.ADMIN,
       targetExam: "ENEM",
     },
     create: {
       email,
-      name: "Administrador EstudAki",
+      name: "Administrador Norte Preparatórios",
       passwordHash,
       role: Role.ADMIN,
       xp: 12800,

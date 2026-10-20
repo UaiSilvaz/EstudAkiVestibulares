@@ -117,13 +117,13 @@ export default async function ConquistasPage() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Conquistas"
-        title="Colecao de progresso"
-        highlight="EstudAki"
-        description="Uma selecao beta com 20 emblemas para acompanhar os primeiros marcos de estudo, revisao, questoes e constancia."
+        title="Coleção de progresso"
+        highlight="Norte Preparatórios"
+        description="Uma seleção beta com 20 emblemas para acompanhar os primeiros marcos de estudo, revisão, questões e constância."
         action={
           <Link
             href="/perfil"
-            className="inline-flex h-11 items-center gap-2 rounded-[8px] bg-gradient-to-r from-[#2563EB] via-[#22D3EE] to-[#22C55E] px-5 text-xs font-black uppercase tracking-wider text-white shadow-md transition hover:-translate-y-0.5 active:scale-[0.99]"
+            className="inline-flex h-11 items-center gap-2 rounded-[8px]     px-5 text-xs font-semibold uppercase tracking-wider text-white shadow-md transition hover:-translate-y-0.5 active:scale-[0.99] professional-action"
           >
             Ver perfil <Sparkles className="h-4 w-4" />
           </Link>
@@ -132,7 +132,7 @@ export default async function ConquistasPage() {
 
       {achievementError && (
         <div className="rounded-[18px] border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-bold text-amber-800">
-          Nao foi possivel sincronizar seu progresso agora. O catalogo foi carregado em modo seguro.
+          Não foi possível sincronizar seu progresso agora. O catálogo foi carregado em modo seguro.
         </div>
       )}
 

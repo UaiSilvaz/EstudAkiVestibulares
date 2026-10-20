@@ -1,100 +1,45 @@
 "use client";
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
+import { MotionConfig } from "framer-motion";
 import { EstudakiIntro } from "@/components/landing/estudaki-intro";
-import type { RouteLoadingMeta } from "@/lib/route-loading";
+import { createLoadingController } from "@/lib/loading-controller";
+import { routeLoadingMeta } from "@/lib/route-loading";
 
-type LoadingContextValue = {
-  beginLoading: (meta?: string | Partial<RouteLoadingMeta>) => () => void;
-};
-
-const LoadingContext = createContext<LoadingContextValue | null>(null);
-const defaultMeta: RouteLoadingMeta = {
-  label: "Carregando EstudAki",
-  from: "#2563EB",
-  to: "#22D3EE",
-  accent: "#FACC15",
-};
-
-function normalizeMeta(meta?: string | Partial<RouteLoadingMeta>): RouteLoadingMeta {
-  if (typeof meta === "string") return { ...defaultMeta, label: meta };
-  return { ...defaultMeta, ...meta };
-}
+type LoadingController = ReturnType<typeof createLoadingController>;
+const LoadingContext = createContext<LoadingController | null>(null);
 
 export function EstudakiLoadingProvider({ children }: { children: ReactNode }) {
-  const sources = useRef(new Map<symbol, RouteLoadingMeta>());
-  const [overlay, setOverlay] = useState({
-    visible: true,
-    introductory: true,
-    pending: false,
-    meta: defaultMeta,
-  });
+  const [controller] = useState(() => createLoadingController());
+  const overlay = useSyncExternalStore(controller.subscribe, controller.getSnapshot, controller.getServerSnapshot);
+  const visible = overlay.phase !== "hidden";
 
-  const beginLoading = useCallback((metaInput?: string | Partial<RouteLoadingMeta>) => {
-    const meta = normalizeMeta(metaInput);
-    const id = Symbol(meta.label);
-    sources.current.set(id, meta);
-    setOverlay((current) => ({ ...current, visible: true, pending: true, meta }));
-
-    return () => {
-      if (!sources.current.delete(id)) return;
-      const remainingMetas = [...sources.current.values()];
-      setOverlay((current) => ({
-        ...current,
-        pending: remainingMetas.length > 0,
-        meta: remainingMetas.at(-1) ?? current.meta,
-      }));
-    };
-  }, []);
-
-  const complete = useCallback(() => {
-    // A new Suspense boundary can mount while the preceding transition exits.
-    if (sources.current.size > 0) return false;
-    setOverlay((current) => ({ ...current, visible: false, introductory: false }));
-    return true;
-  }, []);
-
-  const context = useMemo(() => ({ beginLoading }), [beginLoading]);
+  useEffect(() => () => controller.dispose(), [controller]);
 
   return (
-    <LoadingContext.Provider value={context}>
-      {children}
-      {overlay.visible ? (
-        <EstudakiIntro
-          introductory={overlay.introductory}
-          pending={overlay.pending}
-          label={overlay.meta.label}
-          from={overlay.meta.from}
-          to={overlay.meta.to}
-          accent={overlay.meta.accent}
-          onComplete={complete}
-        />
-      ) : null}
+    <LoadingContext.Provider value={controller}>
+      <MotionConfig reducedMotion="user">
+      <div className="contents" inert={visible || undefined} aria-busy={visible || undefined}>
+        {children}
+      </div>
+      {visible && <EstudakiIntro key={overlay.cycle} leaving={overlay.phase === "leaving"} {...overlay.meta} />}
+      </MotionConfig>
     </LoadingContext.Provider>
   );
 }
 
 export function useEstudakiLoading() {
-  const context = useContext(LoadingContext);
-  if (!context) throw new Error("EstudakiLoadingProvider must wrap loading states.");
-  return context;
+  const controller = useContext(LoadingContext);
+  if (!controller) throw new Error("EstudakiLoadingProvider must wrap loading states.");
+  return { beginLoading: controller.begin };
 }
 
-/** Registers a pending screen without restarting the shared introduction. */
-export function EstudakiLoadingState({ label = defaultMeta.label }: { label?: string }) {
+/** Nested boundaries register work; only the root provider renders a screen. */
+export function EstudakiLoadingState({ label, href }: { label?: string; href?: string }) {
   const { beginLoading } = useEstudakiLoading();
-
-  useEffect(() => beginLoading(label), [beginLoading, label]);
-
-  return <span className="sr-only" role="status">{label}</span>;
+  useEffect(() => {
+    const meta = routeLoadingMeta(href ?? window.location.href);
+    return beginLoading({ ...meta, label: label ?? meta.label }, href ? 1 : 0);
+  }, [beginLoading, href, label]);
+  return null;
 }
-

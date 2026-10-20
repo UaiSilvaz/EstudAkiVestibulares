@@ -18,13 +18,13 @@ async function userScope() {
 
 export async function GET() {
   const scope = await userScope();
-  if (!scope) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 401 });
+  if (!scope) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 401 });
   return NextResponse.json(await getOrCreateStudyPlan(scope.id, scope.userPreparationId));
 }
 
 export async function POST(request: Request) {
   const scope = await userScope();
-  if (!scope) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 401 });
+  if (!scope) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 401 });
   const body = (await request.json()) as {
     availableDays?: number[];
     minutesPerDay?: number;
@@ -44,10 +44,10 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   const scope = await userScope();
-  if (!scope) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 401 });
+  if (!scope) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 401 });
   const body = (await request.json()) as { taskId?: string; completed?: boolean };
   if (!body.taskId) {
-    return NextResponse.json({ error: "Tarefa nao informada." }, { status: 400 });
+    return NextResponse.json({ error: "Tarefa não informada." }, { status: 400 });
   }
   const task = await db.studyPlanTask.findFirst({
     select: { id: true },
@@ -59,7 +59,7 @@ export async function PATCH(request: Request) {
         : {}),
     },
   });
-  if (!task) return NextResponse.json({ error: "Tarefa nao encontrada." }, { status: 404 });
+  if (!task) return NextResponse.json({ error: "Tarefa não encontrada." }, { status: 404 });
   const updated = await db.studyPlanTask.update({
     select: studyPlanTaskSelect,
     where: { id: task.id },

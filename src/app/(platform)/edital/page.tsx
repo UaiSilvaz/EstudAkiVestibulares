@@ -1,4 +1,5 @@
-import { CalendarCheck2, ClipboardList, Layers3, SearchCheck } from "lucide-react";
+import { CalendarCheck2 } from "@/components/visual/aicon-icons";
+import { ClipboardList, Layers3, SearchCheck } from "lucide-react";
 import { ChecklistPanel, PlatformHubPage } from "@/components/platform-hub-page";
 import { preparationMatrix } from "@/lib/platform-data";
 import { getPlatformPageContext } from "@/lib/platform-page-context";
@@ -11,7 +12,7 @@ export default async function EditalPage() {
     <PlatformHubPage
       eyebrow="Edital inteligente"
       title={`Cobertura de ${target}`}
-      description="Atalho para transformar edital em plano, questoes e revisoes."
+      description="Atalho para transformar edital em plano, questões e revisões."
       stats={preparationMatrix.slice(0, 4).map((subject, index) => ({
         label: subject.subject,
         value: `${subject.coverage}%`,
@@ -26,8 +27,8 @@ export default async function EditalPage() {
           tone: "orange",
         },
         {
-          title: "Questao por topico",
-          description: "Treine o conteudo mapeado com correcao imediata.",
+          title: "Questão por topico",
+          description: "Treine o conteúdo mapeado com correção imediata.",
           href: "/questions?vestibular=enem",
           icon: ClipboardList,
           tone: "blue",
@@ -35,13 +36,13 @@ export default async function EditalPage() {
         {
           title: "Trilhas",
           description: "Aprofunde os assuntos mais cobrados em aulas guiadas.",
-          href: "/trilhas",
+          href: "/cursos",
           icon: Layers3,
           tone: "violet",
         },
         {
           title: "Provas antigas",
-          description: "Confira como o edital aparece na pratica.",
+          description: "Confira como o edital aparece na prática.",
           href: "/provas-antigas",
           icon: SearchCheck,
           tone: "teal",
@@ -52,9 +53,9 @@ export default async function EditalPage() {
         title="Matriz inicial"
         items={[
           "Comece pelos assuntos com cobertura menor que 60%.",
-          "Depois de estudar um topico, resolva questoes antes de seguir.",
-          "Use provas antigas para validar interpretacao de comando e tempo.",
-          "Revise os erros antes de adicionar conteudo novo ao ciclo.",
+          "Depois de estudar um topico, resolva questões antes de seguir.",
+          "Use provas antigas para validar interpretação de comando e tempo.",
+          "Revise os erros antes de adicionar conteúdo novo ao ciclo.",
         ]}
       />
     </PlatformHubPage>

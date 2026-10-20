@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowRight, Lock, Mail, Sparkles, User } from "lucide-react";
+import { Mail } from "@/components/visual/aicon-icons";
+import { ArrowRight, Lock, User } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
-import { announceRouteTransition } from "@/components/route-transition-indicator";
+import Link from "next/link";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 export type FormMode = "login" | "signup";
 
@@ -21,19 +22,19 @@ export function LoginForm({
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState(
-    !isSignup && process.env.NODE_ENV === "development" ? "aluno@estudaki.com" : "",
+    !isSignup && process.env.NODE_ENV === "development" ? "Admin@gmail.com" : "",
   );
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const submitting = useRef(false);
+  const requestRef = useRef<AbortController | null>(null);
 
-  useEffect(() => {
-    router.prefetch("/dashboard");
-    router.prefetch("/onboarding");
-  }, [router]);
+  useEffect(() => () => requestRef.current?.abort(), []);
 
   async function submit(event?: FormEvent) {
     event?.preventDefault();
+    if (submitting.current || loading) return;
     setLoading(true);
     setError("");
 
@@ -55,16 +56,21 @@ export function LoginForm({
       return;
     }
 
-    if (password.length < 6) {
-      setError("A senha deve ter pelo menos 6 caracteres.");
+    if (password.length < (isSignup ? 8 : 6)) {
+      setError(`A senha deve ter pelo menos ${isSignup ? 8 : 6} caracteres.`);
       setLoading(false);
       return;
     }
 
+    submitting.current = true;
+    const request = new AbortController();
+    requestRef.current = request;
+    const timeout = window.setTimeout(() => request.abort(), 20000);
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: request.signal,
         body: JSON.stringify({
           intent: isSignup ? "signup" : "login",
           email: email.trim().toLowerCase(),
@@ -72,7 +78,11 @@ export function LoginForm({
           name: isSignup ? name.trim() : undefined,
         }),
       });
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      const data = (await response.json().catch(() => null)) as { error?: string; verificationRequired?: boolean } | null;
+      if (data?.verificationRequired) {
+        router.replace(`/confirmar-email?email=${encodeURIComponent(email.trim().toLowerCase())}`);
+        return;
+      }
 
       if (!response.ok) {
         setError(data?.error ?? "Não foi possível entrar agora.");
@@ -81,11 +91,14 @@ export function LoginForm({
       }
 
       const destination = isSignup ? "/onboarding" : redirectTo ?? "/dashboard";
-      announceRouteTransition(destination);
-      router.replace(destination);
+      const target = new URL(destination, window.location.origin);
+      window.location.replace(target.origin === window.location.origin ? target.href : `${window.location.origin}/dashboard`);
     } catch {
       setError("Não foi possível entrar agora.");
       setLoading(false);
+    } finally {
+      window.clearTimeout(timeout);
+      submitting.current = false;
     }
   }
 
@@ -154,7 +167,7 @@ export function LoginForm({
               setError("");
             }}
             autoComplete={isSignup ? "new-password" : "current-password"}
-            placeholder={isSignup ? "Mínimo 6 caracteres" : "Sua senha"}
+            placeholder={isSignup ? "Mínimo 8 caracteres" : "Sua senha"}
             className="ek-login-input"
           />
         </div>
@@ -169,7 +182,7 @@ export function LoginForm({
       <button
         type="submit"
         disabled={loading}
-        className="ek-login-submit group relative w-full overflow-hidden rounded-2xl px-5 text-[15px] font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-70"
+        className="ek-login-submit group relative w-full overflow-hidden rounded-2xl px-5 text-[15px] font-bold text-white disabled:cursor-not-allowed disabled:opacity-70"
       >
         <span className="ek-login-shine" aria-hidden />
         <span className="relative z-10 flex items-center justify-center gap-2 py-3">
@@ -186,17 +199,19 @@ export function LoginForm({
 
       <div className="flex items-center justify-center gap-1.5 pt-0.5 text-[11px] font-medium text-slate-500">
         <Lock className="h-3 w-3 text-slate-400" />
-        Conta protegida e salva no banco de dados.
+        Seu acesso é pessoal e protegido.
       </div>
 
+      {!isSignup && <Link href="/recuperar-senha" className="block text-center text-xs font-semibold text-orange-600">Esqueci minha senha</Link>}
       <div className="pt-1.5 text-center text-[12px] font-medium text-slate-500">
         {isSignup ? (
           <>
             Já tem conta?{" "}
             <button
               type="button"
+              disabled={loading}
               onClick={() => onModeChange?.("login")}
-              className="ek-login-signup-link inline-flex items-center gap-1 border-0 bg-transparent p-0 font-extrabold text-[#F97316]"
+              className="ek-login-signup-link inline-flex items-center gap-1 border-0 bg-transparent p-0 font-bold text-[#F97316]"
             >
               Entrar
               <ArrowRight className="h-3 w-3" />
@@ -207,11 +222,11 @@ export function LoginForm({
             Ainda não tem conta?{" "}
             <button
               type="button"
+              disabled={loading}
               onClick={() => onModeChange?.("signup")}
-              className="ek-login-signup-link inline-flex items-center gap-1 border-0 bg-transparent p-0 font-extrabold text-[#F97316]"
+              className="ek-login-signup-link inline-flex items-center gap-1 border-0 bg-transparent p-0 font-bold text-[#F97316]"
             >
               Crie sua conta grátis
-              <Sparkles className="h-3 w-3" />
             </button>
           </>
         )}

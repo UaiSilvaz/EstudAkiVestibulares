@@ -43,8 +43,8 @@ export default async function AdminQuestionsPage() {
     <div>
       <PageHeader
         eyebrow="Banco administravel"
-        title="Questoes cadastradas"
-        description="Escolha o vestibular, selecione o ano e revise enunciado, imagens, gabarito e resolucoes em texto ou video."
+        title="Questões cadastradas"
+        description="Escolha o vestibular, selecione o ano e revise enunciado, imagens, gabarito e resoluções em texto ou vídeo."
       />
 
       <QuestionReviewQueue
@@ -54,9 +54,9 @@ export default async function AdminQuestionsPage() {
         yearsByVestibular={yearsByVestibular}
       />
 
-      <details className="mt-5 rounded-[8px] border border-slate-200 bg-white p-4 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.14)]">
-        <summary className="cursor-pointer text-sm font-black text-slate-800">
-          Cadastrar nova questao manualmente
+      <details className="mt-5 rounded-[8px] border border-slate-200 bg-white p-4 shadow-sm">
+        <summary className="cursor-pointer text-sm font-semibold text-slate-800">
+          Cadastrar nova questão manualmente
         </summary>
         <div className="mt-5">
           <QuestionEditor

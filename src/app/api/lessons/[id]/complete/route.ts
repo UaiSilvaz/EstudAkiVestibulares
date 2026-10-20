@@ -4,9 +4,9 @@ import { completeLesson, getLearningUserId } from "@/lib/courses/learning";
 
 export async function POST(_request: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   const userId = await getLearningUserId(user);
-  if (!userId) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 409 });
+  if (!userId) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 409 });
   try {
     const { id } = await params;
     const progress = await completeLesson(id, userId);

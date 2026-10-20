@@ -17,15 +17,14 @@ export type NavigationItemConfig = {
 };
 
 const sharedNavigation: NavigationItemConfig[] = [
-  { id: "home", label: "Inicio", icon: "home", href: "/dashboard" },
+  { id: "home", label: "Início", icon: "home", href: "/dashboard" },
   {
     id: "plan",
     label: "Meu Plano",
     icon: "plan",
     children: [
-      { href: "/trilhas", label: "Jornada" },
       { href: "/cronograma", label: "Cronograma" },
-      { href: "/diagnostico", label: "Diagnostico" },
+      { href: "/diagnostico", label: "Diagnóstico" },
     ],
   },
   {
@@ -34,6 +33,7 @@ const sharedNavigation: NavigationItemConfig[] = [
     icon: "lessons",
     children: [
       { href: "/cursos", label: "Meus Cursos", badge: "Novo" },
+      { href: "/favoritos", label: "Aulas salvas" },
       { href: "/materials", label: "Materiais" },
       { href: "/flashcards", label: "Flashcards" },
     ],
@@ -43,9 +43,9 @@ const sharedNavigation: NavigationItemConfig[] = [
     label: "Praticar",
     icon: "questions",
     children: [
-      { href: "/questions", label: "Questoes" },
+      { href: "/questions", label: "Questões" },
       { href: "/simulados", label: "Simulados" },
-      { href: "/redacao", label: "Redacao" },
+      { href: "/redacao", label: "Redação" },
       { href: "/caderno-de-erros", label: "Caderno de Erros" },
     ],
   },
@@ -70,9 +70,9 @@ export const verticalNavigationConfig = {
       ? {
           ...item,
           children: [
-            { href: "/questions", label: "Questoes OAB" },
+            { href: "/questions", label: "Questões OAB" },
             { href: "/simulados", label: "Simulados OAB" },
-            { href: "/redacao", label: "Redacao" },
+            { href: "/redacao", label: "Redação" },
             { href: "/caderno-de-erros", label: "Caderno de Erros" },
           ],
         }
@@ -81,7 +81,7 @@ export const verticalNavigationConfig = {
   concursos: sharedNavigation,
   "policia-civil": sharedNavigation,
   "policia-militar": sharedNavigation.map((item) =>
-    item.id === "plan" ? { ...item, label: "Missao" } : item,
+    item.id === "plan" ? { ...item, label: "Missão" } : item,
   ),
   militares: sharedNavigation.map((item) =>
     item.id === "plan" ? { ...item, label: "Treinamento" } : item,

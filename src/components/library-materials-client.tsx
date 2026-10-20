@@ -2,7 +2,7 @@
 
 import { MaterialCardContent, MaterialsExplorer } from "@/components/materials-explorer";
 import { MaterialProfileCard } from "@/components/material-profile-card";
-import { coverForMaterial } from "@/lib/assets";
+import { coverForMaterial, norteCoverForLegacy } from "@/lib/assets";
 
 type LibraryMaterial = {
   id: string;
@@ -34,15 +34,15 @@ export function LibraryMaterialsClient({ materials }: { materials: LibraryMateri
       renderCard={(material, cover) => (
         <div key={material.id} className="flex flex-col items-center">
           <MaterialProfileCard
-            avatarUrl={material.product?.coverUrl ?? cover.src}
+            avatarUrl={material.product?.coverUrl ? norteCoverForLegacy(material.product.coverUrl, material.title) : cover.src}
             name={material.title}
             title={material.subject?.name ?? "Geral"}
             handle={material.category ?? material.type ?? "Material"}
             status={`Lido ${Math.round((material.progress ?? 0) * 100)}%`}
             contactText="Continuar"
             ctaHref={material.product?.slug ? `/biblioteca/${material.product.slug}` : material.fileUrl ?? "#"}
-            innerGradient="linear-gradient(145deg, rgba(37,99,235,0.55) 0%, rgba(34,211,238,0.45) 100%)"
-            behindGlowColor="rgba(56, 189, 248, 0.55)"
+            innerGradient="linear-gradient(145deg, rgba(255,98,1,0.3) 0%, rgba(39,43,49,0.55) 100%)"
+            behindGlowColor="rgba(255, 98, 1, 0.32)"
           />
           <MaterialCardContent material={material} cover={cover} />
         </div>

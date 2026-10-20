@@ -3,10 +3,10 @@ export { achievementCatalog } from "@/lib/achievement-catalog";
 export const leagueTrack = [
   { name: "Bronze", min: 0, color: "#D0925B", reward: "Primeiros passos" },
   { name: "Prata", min: 1000, color: "#94A3B8", reward: "Ritmo consistente" },
-  { name: "Ouro", min: 2500, color: "#FACC15", reward: "Meta diaria forte" },
-  { name: "Platina", min: 4500, color: "#60A5FA", reward: "Simulados avancados" },
-  { name: "Esmeralda", min: 7000, color: "#22C55E", reward: "Dominio por assunto" },
-  { name: "Diamante", min: 10000, color: "#67E8F9", reward: "Elite EstudAki" },
+  { name: "Ouro", min: 2500, color: "#FACC15", reward: "Meta diária forte" },
+  { name: "Platina", min: 4500, color: "#60A5FA", reward: "Simulados avançados" },
+  { name: "Esmeralda", min: 7000, color: "#22C55E", reward: "Domínio por assunto" },
+  { name: "Diamante", min: 10000, color: "#67E8F9", reward: "Elite Norte Preparatórios" },
 ];
 
 export function nextLeagueForXp(xp: number) {

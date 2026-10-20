@@ -1,12 +1,10 @@
-import { after, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { getCurrentUser, getPersistedUserId } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { availableQuestionWhere } from "@/lib/freemium-access";
+import { awardStudyXp, lockStudentProgress, reconcileStudyXp, syncStudyStreak } from "@/lib/study-xp";
 import { syncUserAchievements, unlockQuestionMastery } from "@/lib/backend-metrics";
-import { leagueForXp, parseJson } from "@/lib/utils";
-
-function saoPauloDayKey(date: Date) {
-  return new Date(date.getTime() - 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
-}
+import { parseJson } from "@/lib/utils";
 
 function publishedResolutionPayload(question: {
   explanation: string;
@@ -51,13 +49,13 @@ export async function POST(
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   const persistedUserId = await getPersistedUserId(user);
   if (!persistedUserId) {
     return NextResponse.json(
-      { error: "Nao foi possivel identificar o usuario no banco de dados." },
+      { error: "Não foi possível identificar o usuário no banco de dados." },
       { status: 409 },
     );
   }
@@ -72,16 +70,18 @@ export async function POST(
   try {
     body = (await request.json()) as typeof body;
   } catch {
-    return NextResponse.json({ error: "JSON invalido." }, { status: 400 });
+    return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
   }
 
-  if (!body.selectedAlternative) {
+  if (!body || typeof body !== "object" || typeof body.selectedAlternative !== "string") {
     return NextResponse.json({ error: "Selecione uma alternativa." }, { status: 400 });
   }
 
   if (!/^[A-E]$/.test(body.selectedAlternative)) {
     return NextResponse.json({ error: "Alternativa invalida." }, { status: 400 });
   }
+  if (body.timeSpentSeconds !== undefined && (typeof body.timeSpentSeconds !== "number" || !Number.isFinite(body.timeSpentSeconds) || body.timeSpentSeconds < 0 || body.timeSpentSeconds > 3600)) return NextResponse.json({ error: "Tempo inválido." }, { status: 400 });
+  if (body.errorType !== undefined && (typeof body.errorType !== "string" || body.errorType.length > 80)) return NextResponse.json({ error: "Tipo de erro inválido." }, { status: 400 });
 
   const question = await db.question.findUnique({
     where: { id },
@@ -114,22 +114,24 @@ export async function POST(
   });
 
   if (!question) {
-    return NextResponse.json({ error: "Questao nao encontrada." }, { status: 404 });
+    return NextResponse.json({ error: "Questão não encontrada." }, { status: 404 });
   }
   if (question.status !== "PUBLISHED") {
     return NextResponse.json(
-      { error: "Esta questao ainda nao esta publicada." },
+      { error: "Esta questão ainda não está publicada." },
       { status: 403 },
     );
   }
   if (question.reviewState !== "APPROVED") {
     return NextResponse.json(
-      { error: "Esta questao ainda nao concluiu a revisao editorial." },
+      { error: "Esta questão ainda não concluiu a revisão editorial." },
       { status: 403 },
     );
   }
 
   const resolutionPayload = publishedResolutionPayload(question);
+  const accessible = await db.question.findFirst({ where: { AND: [{ id }, await availableQuestionWhere(persistedUserId, user.role)] }, select: { id: true } });
+  if (!accessible) return NextResponse.json({ error: "Questão exclusiva de um curso. A conta gratuita inclui a seleção demonstrativa.", code: "COURSE_REQUIRED" }, { status: 403 });
 
   if (question.answerSituation === "ANNULLED") {
     await db.questionAttempt.create({
@@ -158,65 +160,23 @@ export async function POST(
   }
 
   const correct = question.correctAlternative === body.selectedAlternative;
-  const [persistedUser, previousAttempt, previousQuestionAttempt] = await Promise.all([
-    db.user.findUnique({ where: { id: persistedUserId } }),
-    db.questionAttempt.findFirst({
-      where: { userId: persistedUserId, annulled: false },
-      orderBy: { createdAt: "desc" },
-      select: { createdAt: true },
-    }),
-    db.questionAttempt.findFirst({
-      where: { userId: persistedUserId, questionId: question.id, annulled: false },
-      select: { id: true },
-    }),
-  ]);
-
-  if (!persistedUser) {
-    return NextResponse.json(
-      { error: "Nao foi possivel identificar o usuario no banco de dados." },
-      { status: 409 },
-    );
-  }
-
-  const repeatedQuestion = Boolean(previousQuestionAttempt);
-  const answerXp = repeatedQuestion ? 0 : correct ? 15 : 5;
-  const now = new Date();
-  const todayKey = saoPauloDayKey(now);
-  const yesterdayKey = saoPauloDayKey(new Date(now.getTime() - 24 * 60 * 60 * 1000));
-  const previousDayKey = previousAttempt ? saoPauloDayKey(previousAttempt.createdAt) : null;
-  const streakUpdated = !repeatedQuestion && previousDayKey !== todayKey;
-  const nextStreak = streakUpdated
-    ? previousDayKey === yesterdayKey
-      ? persistedUser.streak + 1
-      : 1
-    : persistedUser.streak;
-  const newLeague = leagueForXp(
-    persistedUser.xp + answerXp,
-    persistedUser.targetExam,
-  );
-  const leveledUp = newLeague !== persistedUser.league;
-
-  await db.$transaction([
-    db.questionAttempt.create({
-      data: {
-        userId: persistedUserId,
-        questionId: question.id,
-        selectedAlternative: body.selectedAlternative,
-        correct,
-        annulled: false,
-        errorType: correct ? null : body.errorType ?? "concept_gap",
-        timeSpentSeconds: body.timeSpentSeconds ?? 0,
-      },
-    }),
-    db.user.update({
-      where: { id: persistedUserId },
-      data: {
-        xp: { increment: answerXp },
-        ...(streakUpdated ? { streak: nextStreak } : {}),
-        ...(leveledUp ? { league: newLeague } : {}),
-      },
-    }),
-  ]);
+  const result = await db.$transaction(async tx => {
+    await lockStudentProgress(tx, persistedUserId);
+    await reconcileStudyXp(tx, persistedUserId);
+    const persistedUser = await tx.user.findUniqueOrThrow({ where: { id: persistedUserId } });
+    const previous = await tx.questionAttempt.findFirst({ where: { userId: persistedUserId, questionId: question.id, annulled: false } });
+    const repeatedQuestion = Boolean(previous);
+    const attempt = await tx.questionAttempt.create({ data: {
+      userId: persistedUserId, questionId: question.id, selectedAlternative: body.selectedAlternative!,
+      correct, annulled: false, errorType: correct ? null : body.errorType ?? "concept_gap",
+      timeSpentSeconds: Math.max(0, Math.min(3600, Math.round(body.timeSpentSeconds ?? 0))),
+    } });
+    const answerXp = repeatedQuestion ? 0 : await awardStudyXp(tx, persistedUserId, "question:" + question.id, correct ? 15 : 5, "Resposta registrada: " + (correct ? "acerto" : "revisar"));
+    const nextStreak = await syncStudyStreak(tx, persistedUserId);
+    return { repeatedQuestion, answerXp, nextStreak, streakUpdated: nextStreak !== persistedUser.streak, persistedUser, attempt };
+  });
+  const { repeatedQuestion, answerXp, nextStreak, streakUpdated, persistedUser } = result;
+  const newLeague = (await db.user.findUniqueOrThrow({ where: { id: persistedUserId } })).league;
 
   const updatedUser = await db.user.findUnique({ where: { id: persistedUserId } });
   const achievementRecords = updatedUser
@@ -235,22 +195,7 @@ export async function POST(
   const finalLeague = refreshedUser?.league ?? newLeague;
   const finalLeveledUp = finalLeague !== persistedUser.league;
 
-  after(async () => {
-    try {
-      await db.activity.create({
-        data: {
-          userId: persistedUserId,
-          type: "QUESTION",
-          message: `${user.name} respondeu uma questao ${correct ? "corretamente" : "para revisao"}.`,
-          xp: answerXp,
-        },
-      });
-
-      await unlockQuestionMastery(persistedUserId, question.id);
-    } catch (error) {
-      console.error("Falha ao sincronizar efeitos pos-resposta:", error);
-    }
-  });
+  await unlockQuestionMastery(persistedUserId, question.id);
 
   return NextResponse.json({
     correct,

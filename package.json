@@ -8,9 +8,14 @@
     "start": "node scripts/run-next-with-system-ca.mjs start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/ingestion/dedupe.test.ts src/ingestion/providers/inep/enem-inventory.test.ts src/ingestion/validation.test.ts src/lib/achievement-catalog.test.ts src/lib/insights.test.ts src/lib/jornada-curriculum.test.ts src/lib/learning/mastery-engine.test.ts src/lib/learning/priority-engine.test.ts src/lib/learning/study-session-planner.test.ts src/lib/old-exam-language.test.ts src/lib/old-exam-proof.test.ts src/lib/question-filter-url.test.ts src/lib/question-filters.test.ts src/lib/session-cookie.test.ts src/lib/student-question-payload.test.ts",
+    "test:loading": "tsx --test src/lib/loading-controller.test.ts",
+    "test": "tsx --test src/ingestion/dedupe.test.ts src/ingestion/providers/inep/enem-inventory.test.ts src/ingestion/validation.test.ts src/lib/achievement-catalog.test.ts src/lib/courses/video-source.test.ts src/lib/insights.test.ts src/lib/jornada-curriculum.test.ts src/lib/learning/mastery-engine.test.ts src/lib/learning/priority-engine.test.ts src/lib/learning/study-session-planner.test.ts src/lib/old-exam-language.test.ts src/lib/old-exam-proof.test.ts src/lib/question-filter-url.test.ts src/lib/question-filters.test.ts src/lib/session-cookie.test.ts src/lib/student-question-payload.test.ts src/lib/payments/hotmart-payload.test.ts src/lib/payments/abacatepay.test.ts src/lib/learning-profile.test.ts src/lib/progression.test.ts src/lib/course-media-direct.test.ts",
     "verify": "npm run lint && npm run typecheck && npm test",
     "security:audit": "npm audit --omit=dev",
+    "production:prepare": "node scripts/prepare-production-env.mjs",
+    "production:check": "node --env-file=.env.production.local scripts/check-launch.mjs",
+    "storage:check": "node --env-file=.env.production.local scripts/setup-supabase-storage.mjs",
+    "verify:email": "node --env-file=.env --import tsx scripts/verify-email-verification.ts",
     "clean:local": "node scripts/clean-local-artifacts.mjs",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
@@ -77,7 +82,14 @@
     "flashcards:import": "tsx scripts/import-anki-flashcards.ts",
     "flashcards:sync": "npm run flashcards:extract && npm run flashcards:import",
     "db:studio": "prisma studio",
-    "db:reset": "prisma migrate reset --force"
+    "db:reset": "prisma migrate reset --force",
+    "test:payments": "tsx --test src/lib/payments/hotmart-payload.test.ts src/lib/payments/abacatepay.test.ts",
+    "check:launch": "node --env-file=.env scripts/check-launch.mjs",
+    "verify:commerce": "node --env-file=.env --import tsx scripts/verify-commerce.ts",
+    "payments:sync": "node --env-file=.env --import tsx scripts/sync-abacate-products.ts",
+    "verify:abacate": "node --env-file=.env --import tsx scripts/verify-abacate-orders.ts",
+    "verify:real-learning": "node --env-file=.env --import tsx scripts/verify-real-learning.ts",
+    "progress:reconcile": "node --env-file=.env --import tsx scripts/reconcile-study-progress.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.19.3",
@@ -86,11 +98,11 @@
     "framer-motion": "^12.40.0",
     "gsap": "^3.15.0",
     "lucide-react": "^1.17.0",
-    "next": "^16.3.0",
+    "next": "^16.3.8",
     "pdfjs-dist": "^6.2.108",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "sharp": "^0.35.3",
+    "sharp": "^0.35.5",
     "tesseract.js": "^6.0.1"
   },
   "devDependencies": {
@@ -99,10 +111,13 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^16.3.0",
+    "eslint-config-next": "^16.3.8",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "deepmerge-ts": "^8.0.0"
   }
 }

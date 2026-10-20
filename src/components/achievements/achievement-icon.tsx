@@ -1,53 +1,8 @@
-import {
-  Award,
-  BookMarked,
-  BookOpenCheck,
-  Brain,
-  Calculator,
-  CalendarCheck,
-  ClipboardCheck,
-  Clock3,
-  Flame,
-  FlaskConical,
-  Gem,
-  Globe2,
-  GraduationCap,
-  Leaf,
-  Lightbulb,
-  LockKeyhole,
-  Map,
-  Medal,
-  MessagesSquare,
-  Network,
-  PenLine,
-  Rocket,
-  ScrollText,
-  Sparkles,
-  Target,
-  Trophy,
-  Users,
-  Zap,
-  type LucideIcon,
-} from "lucide-react";
+import { Award, BookMarked, BookOpenCheck, CalendarCheck, Clock3, FlaskConical, Globe2, Medal, MessagesSquare, PenLine, Target, Trophy, Users } from "@/components/visual/aicon-icons";
+import { Brain, Calculator, ClipboardCheck, Flame, Gem, GraduationCap, Leaf, Lightbulb, LockKeyhole, Map, Network, Rocket, ScrollText, Sparkles, Zap, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const categoryAccent: Record<string, string> = {
-  FIRST_STEPS: "#2563EB",
-  QUESTIONS_TOTAL: "#2563EB",
-  CORRECT_TOTAL: "#22C55E",
-  SUBJECT: "#22D3EE",
-  STREAK: "#F97316",
-  STUDY_TIME: "#0F172A",
-  PERFORMANCE: "#22C55E",
-  SIMULATION: "#FACC15",
-  EXAM: "#A855F7",
-  ERROR_NOTEBOOK: "#F97316",
-  ESSAY: "#EC4899",
-  CONTENT_MASTERY: "#22C55E",
-  COMMUNITY: "#2563EB",
-  MATERIALS: "#22D3EE",
-  SECRET: "#0F172A",
-};
+
 
 const iconMap: Record<string, LucideIcon> = {
   award: Award,
@@ -135,7 +90,7 @@ export function AchievementGlyph({
   title,
   locked,
   className,
-  strokeWidth = 2.6,
+  strokeWidth = 1.75,
 }: AchievementGlyphProps) {
   const props = { className, strokeWidth };
   if (locked) return <LockKeyhole {...props} />;
@@ -221,27 +176,18 @@ export function AchievementIcon({
   className?: string;
 }) {
   void rarity;
-  const accent = locked ? "#94A3B8" : color || categoryAccent[category ?? ""] || "#2563EB";
+  void color;
 
   return (
     <span
       className={cn(
-        "relative isolate inline-flex shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white/22 text-white shadow-[0_14px_28px_-18px_rgba(15,23,42,0.72)] ring-1 ring-white/35 backdrop-blur",
+        "relative inline-flex shrink-0 items-center justify-center rounded-xl border border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]",
         locked && "bg-slate-100 text-slate-400 ring-slate-200",
         className,
       )}
       role="img"
       aria-label={label}
     >
-      {!locked && (
-        <span
-          aria-hidden
-          className="absolute inset-0 opacity-45"
-          style={{
-            background: `radial-gradient(circle at 28% 18%, rgba(255,255,255,0.58), transparent 32%), linear-gradient(135deg, rgba(255,255,255,0.22), ${accent}66)`,
-          }}
-        />
-      )}
       <AchievementGlyph
         icon={icon}
         iconKey={iconKey}
@@ -249,11 +195,9 @@ export function AchievementIcon({
         title={title}
         locked={locked}
         className="relative z-10 h-[46%] w-[46%]"
-        strokeWidth={2.6}
+        strokeWidth={1.75}
       />
-      {!locked && (
-        <span className="absolute right-[14%] top-[14%] h-[16%] w-[16%] rounded-full bg-[#FACC15] shadow-[0_0_0_4px_rgba(255,255,255,0.22)]" />
-      )}
+
     </span>
   );
 }

@@ -12,6 +12,7 @@ import {
   SESSION_MAX_AGE_SECONDS,
 } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { emailDeliveryConfigured, emailVerificationRequired, sendEmailVerification } from "@/lib/email-verification";
 import { checkRateLimit } from "@/server/security/rate-limit";
 import { clientIpFromRequest, readJsonRequest } from "@/server/security/request";
 
@@ -98,6 +99,10 @@ export async function POST(request: Request) {
     return jsonError("JSON inválido.", 400);
   }
 
+  if (!payload || typeof payload !== "object" || typeof payload.email !== "string" || typeof payload.password !== "string" ||
+    (payload.name !== undefined && typeof payload.name !== "string")) {
+    return jsonError("Informe e-mail, senha e nome válidos.", 400);
+  }
   const intent: AuthIntent = payload.intent === "signup" ? "signup" : "login";
   const normalizedEmail = payload.email?.trim().toLowerCase() ?? "";
   const password = payload.password ?? "";
@@ -110,6 +115,16 @@ export async function POST(request: Request) {
 
   if (!isValidEmail(normalizedEmail)) {
     return jsonError("Informe um e-mail válido.", 400);
+  }
+
+  if (normalizedEmail.length > 254 || Buffer.byteLength(password) > 72) {
+    return jsonError("Use um e-mail de até 254 caracteres e uma senha de até 72 bytes.", 400);
+  }
+  if (intent === "signup" && password.length < 8) {
+    return jsonError("A senha deve ter pelo menos 8 caracteres.", 400);
+  }
+  if (intent === "signup" && emailVerificationRequired() && !emailDeliveryConfigured()) {
+    return jsonError("Cadastro indisponível enquanto o envio de confirmação está sendo configurado.", 503);
   }
 
   if (password.length < 6) {
@@ -131,19 +146,19 @@ export async function POST(request: Request) {
     user = await db.user.upsert({
       where: { email: DEFAULT_ADMIN_EMAIL },
       update: {
-        name: "Administrador EstudAki",
+        name: "Administrador Norte Preparatórios",
         passwordHash,
         role: Role.ADMIN,
         targetExam: "ENEM",
       },
       create: {
         email: DEFAULT_ADMIN_EMAIL,
-        name: "Administrador EstudAki",
+        name: "Administrador Norte Preparatórios",
         passwordHash,
         role: Role.ADMIN,
-        xp: 12800,
-        streak: 42,
-        league: "Aprovado",
+        xp: 0,
+        streak: 0,
+        league: "Aluno",
         weeklyHours: 20,
         targetExam: "ENEM",
       },
@@ -154,19 +169,19 @@ export async function POST(request: Request) {
     user = await db.user.upsert({
       where: { email: normalizedEmail },
       update: {
-        name: "Administrador EstudAki",
+        name: "Administrador Norte Preparatórios",
         passwordHash,
         role: Role.ADMIN,
         targetExam: "ENEM",
       },
       create: {
         email: normalizedEmail,
-        name: "Administrador EstudAki",
+        name: "Administrador Norte Preparatórios",
         passwordHash,
         role: Role.ADMIN,
-        xp: 12800,
-        streak: 42,
-        league: "Aprovado",
+        xp: 0,
+        streak: 0,
+        league: "Aluno",
         weeklyHours: 20,
         targetExam: "ENEM",
       },
@@ -176,7 +191,7 @@ export async function POST(request: Request) {
     try {
       const existing = await db.user.findUnique({
         where: { email: normalizedEmail },
-        select: { id: true, name: true, email: true, role: true, passwordHash: true },
+        select: { id: true, name: true, email: true, role: true, passwordHash: true, emailVerifiedAt: true, bannedAt: true },
       });
 
       if (intent === "signup") {
@@ -195,6 +210,14 @@ export async function POST(request: Request) {
           },
           select: { id: true, name: true, email: true, role: true },
         });
+        if (emailVerificationRequired()) {
+          try {
+            await sendEmailVerification(user);
+            return NextResponse.json({ verificationRequired: true, message: "Confirme seu e-mail para entrar." }, { status: 202 });
+          } catch {
+            return NextResponse.json({ verificationRequired: true, error: "Sua conta foi criada, mas o envio falhou. Solicite outra confirmação." }, { status: 503 });
+          }
+        }
       } else {
         if (!existing || isBlockedLegacyAdmin(existing.email, existing.role)) {
           return jsonError("E-mail ou senha inválidos.", 401);
@@ -203,6 +226,11 @@ export async function POST(request: Request) {
         const passwordMatches = await bcrypt.compare(password, existing.passwordHash);
         if (!passwordMatches) {
           return jsonError("E-mail ou senha inválidos.", 401);
+        }
+        if (existing.bannedAt) return jsonError("Sua conta está banida. Entre em contato com o suporte.", 403);
+
+        if (emailVerificationRequired() && !existing.emailVerifiedAt) {
+          return NextResponse.json({ verificationRequired: true, error: "Confirme seu e-mail antes de entrar." }, { status: 403 });
         }
 
         user = {
@@ -223,7 +251,11 @@ export async function POST(request: Request) {
     const localSession = user.id === "local-admin" || user.id.startsWith("local-user:");
     let sessionSubject = user.id;
 
-    if (!localSession && await hasAuthSessionTable()) {
+    const sessionTableReady = await hasAuthSessionTable();
+    if (process.env.NODE_ENV === "production" && !sessionTableReady) {
+      return jsonError("Serviço de autenticação indisponível.", 503);
+    }
+    if (!localSession && sessionTableReady) {
       const token = createAuthSessionToken();
       await db.authSession.create({
         data: {
@@ -237,7 +269,7 @@ export async function POST(request: Request) {
 
     signedSession = createSessionCookieValue(sessionSubject);
   } catch (error) {
-    if (isMissingAuthSessionTable(error)) {
+    if (isMissingAuthSessionTable(error) && process.env.NODE_ENV !== "production") {
       signedSession = createSessionCookieValue(user.id);
     } else {
     console.error("Configuração de sessão inválida", error);

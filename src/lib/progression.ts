@@ -20,7 +20,7 @@ export const progressionTracks: Record<ProgressionKind, ProgressionRank[]> = {
     { name: "Inteligente", min: 2500, color: "#0EA5E9", reward: "Listas consistentes" },
     { name: "Crânio", min: 4500, color: "#155EEF", reward: "Simulados avançados" },
     { name: "Gênio", min: 7000, color: "#0B1F51", reward: "Domínio por área" },
-    { name: "Aprovado", min: 10000, color: "#F59E0B", reward: "Elite EstudAki" },
+    { name: "Aprovado", min: 10000, color: "#F59E0B", reward: "Elite Norte Preparatórios" },
   ],
   juridica: [
     { name: "Cidadão", min: 0, color: "#2563EB", reward: "Base jurídica" },
@@ -28,7 +28,7 @@ export const progressionTracks: Record<ProgressionKind, ProgressionRank[]> = {
     { name: "Estagiário", min: 2500, color: "#0EA5E9", reward: "Questões por disciplina" },
     { name: "Advogado", min: 4500, color: "#155EEF", reward: "Peças e simulados" },
     { name: "Juiz", min: 7000, color: "#0B1F51", reward: "Alta performance" },
-    { name: "Desembargador", min: 10000, color: "#F59E0B", reward: "Excelencia juridica" },
+    { name: "Desembargador", min: 10000, color: "#F59E0B", reward: "Excelência jurídica" },
   ],
   policial: [
     { name: "Soldado", min: 0, color: "#2563EB", reward: "Base operacional" },
@@ -49,7 +49,7 @@ export const progressionTracks: Record<ProgressionKind, ProgressionRank[]> = {
   militar: [
     { name: "Recruta", min: 0, color: "#2563EB", reward: "Base de marcha" },
     { name: "Soldado", min: 1000, color: "#16803D", reward: "Rotina firme" },
-    { name: "Cabo", min: 2500, color: "#0EA5E9", reward: "Conteudo essencial" },
+    { name: "Cabo", min: 2500, color: "#0EA5E9", reward: "Conteúdo essencial" },
     { name: "Sargento", min: 4500, color: "#155EEF", reward: "Treino por prova" },
     { name: "Tenente", min: 7000, color: "#0B1F51", reward: "Domínio estratégico" },
     { name: "Capitão", min: 10000, color: "#F59E0B", reward: "Pronto para incorporação" },
@@ -57,10 +57,10 @@ export const progressionTracks: Record<ProgressionKind, ProgressionRank[]> = {
   default: [
     { name: "Bronze", min: 0, color: "#D0925B", reward: "Primeiros passos" },
     { name: "Prata", min: 1000, color: "#94A3B8", reward: "Ritmo consistente" },
-    { name: "Ouro", min: 2500, color: "#FACC15", reward: "Meta diaria forte" },
+    { name: "Ouro", min: 2500, color: "#FACC15", reward: "Meta diária forte" },
     { name: "Platina", min: 4500, color: "#60A5FA", reward: "Simulados avançados" },
-    { name: "Esmeralda", min: 7000, color: "#22C55E", reward: "Dominio por assunto" },
-    { name: "Diamante", min: 10000, color: "#67E8F9", reward: "Elite EstudAki" },
+    { name: "Esmeralda", min: 7000, color: "#22C55E", reward: "Domínio por assunto" },
+    { name: "Diamante", min: 10000, color: "#67E8F9", reward: "Elite Norte Preparatórios" },
   ],
 };
 

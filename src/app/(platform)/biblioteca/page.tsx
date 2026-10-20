@@ -4,9 +4,10 @@ import { LibraryMaterialsClient } from "@/components/library-materials-client";
 import { PageHeader } from "@/components/page-header";
 import { requirePersistedUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { courseMaterialAccess } from "@/lib/freemium-access";
 import { ensureEstudakiMaterials } from "@/lib/materials-bootstrap";
 
-type LibraryLicense = Prisma.UserProductGetPayload<{
+type LibraryLicense = Pick<Prisma.UserProductGetPayload<{
   include: {
     product: {
       include: {
@@ -16,7 +17,7 @@ type LibraryLicense = Prisma.UserProductGetPayload<{
       };
     };
   };
-}>;
+}>, "product" | "progress" | "lastPage" | "lastOpenedAt">;
 
 export default async function BibliotecaPage() {
   const user = await requirePersistedUser();
@@ -26,7 +27,7 @@ export default async function BibliotecaPage() {
   try {
     await ensureEstudakiMaterials();
     licenses = await db.userProduct.findMany({
-      where: { userId: user.id },
+      where: { userId: user.id, revokedAt: null },
       include: {
         product: {
           include: {
@@ -38,9 +39,26 @@ export default async function BibliotecaPage() {
       },
       orderBy: [{ unlockedAt: "desc" }, { createdAt: "desc" }],
     });
+    {
+      const progressByProduct = new Map(licenses.map(license => [license.product.id, license]));
+      const products = await db.product.findMany({
+        where: { status: "PUBLISHED", materialId: { not: null } },
+        include: { material: { include: { subject: true, topic: true, product: true } } },
+        orderBy: { createdAt: "desc" },
+      });
+      const accessible = user.role === "ADMIN" ? products : (await Promise.all(products.map(async product =>
+        progressByProduct.has(product.id) || (product.material && await courseMaterialAccess(user.id, product.material.id, product.material.fileUrl)) ? product : null,
+      ))).filter((product): product is (typeof products)[number] => Boolean(product));
+      licenses = accessible.map(product => ({
+        product,
+        progress: progressByProduct.get(product.id)?.progress ?? 0,
+        lastPage: progressByProduct.get(product.id)?.lastPage ?? 1,
+        lastOpenedAt: progressByProduct.get(product.id)?.lastOpenedAt ?? null,
+      }));
+    }
   } catch (error) {
     console.error("Falha ao carregar biblioteca", error);
-    loadError = "Nao foi possivel carregar sua biblioteca agora. Tente novamente em alguns instantes.";
+    loadError = "Não foi possível carregar sua biblioteca agora. Tente novamente em alguns instantes.";
   }
 
   const materials = licenses.flatMap((license) => {

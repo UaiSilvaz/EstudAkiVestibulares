@@ -1,10 +1,10 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { FastLink } from "./fast-link";
-import { announceRouteTransition } from "./route-transition-indicator";
+import { useLoadingRouter } from "@/components/use-loading-router";
 import { getVerticalNavigation } from "@/config/vertical-navigation";
 import { normalizeVerticalSlug } from "@/config/vertical-themes";
 import { cn } from "@/lib/utils";
@@ -29,7 +29,7 @@ type NavItem = {
 };
 
 type SidebarNavProps = {
-  canManage: boolean;
+  role: "ADMIN" | "TEACHER" | "STUDENT";
   verticalSlug?: string | null;
   collapsed?: boolean;
   onNavigate?: () => void;
@@ -38,16 +38,30 @@ type SidebarNavProps = {
 
 const adminItem: NavItem = {
   id: "admin",
-  label: "Administracao",
+  label: "Administração",
   icon: "admin",
   children: [
-    { href: "/admin", label: "Visao geral", exact: true },
-    { href: "/admin/questions", label: "Questoes cadastradas" },
-    { href: "/admin/trilhas", label: "Jornada" },
+    { href: "/admin", label: "Visão geral", exact: true },
+    { href: "/admin/users", label: "Usuários" },
+    { href: "/admin/simulados", label: "Simulados" },
+    { href: "/admin/questions", label: "Questões cadastradas" },
+    { href: "/admin/courses", label: "Cursos e aulas" },
+    { href: "/admin/ofertas", label: "Ofertas oficiais" },
     { href: "/admin/conquistas", label: "Conquistas" },
     { href: "/admin/exams", label: "Provas CMS" },
     { href: "/admin/provas-antigas", label: "Provas antigas" },
-    { href: "/admin/content", label: "Conteudos" },
+    { href: "/admin/content", label: "Conteúdos" },
+  ],
+};
+
+const teacherItem: NavItem = {
+  id: "teacher",
+  label: "Professores",
+  icon: "teacher",
+  children: [
+    { href: "/professor", label: "Painel do professor", exact: true },
+    { href: "/professor/cursos", label: "Cursos, módulos e aulas" },
+    { href: "/professor/alunos", label: "Acompanhar alunos" },
   ],
 };
 
@@ -62,14 +76,14 @@ function itemHasActiveRoute(pathname: string, item: NavItem) {
 }
 
 export function SidebarNav({
-  canManage,
+  role,
   verticalSlug,
   collapsed = false,
   onNavigate,
   onRequestExpand,
 }: SidebarNavProps) {
   const pathname = usePathname();
-  const router = useRouter();
+  const router = useLoadingRouter();
   const activeVertical = normalizeVerticalSlug(verticalSlug);
   const items = useMemo(() => {
     const mainItems: NavItem[] = getVerticalNavigation(activeVertical).map((item) => ({
@@ -77,8 +91,8 @@ export function SidebarNav({
       icon: item.icon as IconName,
     }));
 
-    return canManage ? [...mainItems, adminItem] : mainItems;
-  }, [activeVertical, canManage]);
+    return role === "ADMIN" ? [...mainItems, teacherItem, adminItem] : role === "TEACHER" ? [...mainItems, teacherItem] : mainItems;
+  }, [activeVertical, role]);
   const activeGroupId = items.find((item) => item.children?.some((child) => isActiveHref(pathname, child.href, child.exact)))?.id ?? null;
   const [openGroupOverride, setOpenGroupOverride] = useState<string | null>(null);
   const openGroup = openGroupOverride ?? activeGroupId;
@@ -88,9 +102,7 @@ export function SidebarNav({
     setLoggingOut(true);
     await fetch("/api/auth/logout", { method: "POST" });
     onNavigate?.();
-    announceRouteTransition("/login");
-    router.push("/login");
-    router.refresh();
+    router.replace("/login");
   }
 
   function toggleGroup(item: NavItem) {
@@ -99,18 +111,21 @@ export function SidebarNav({
   }
 
   return (
-    <nav className="flex h-full min-h-0 flex-col" aria-label="Navegacao principal">
+    <nav className="flex h-full min-h-0 flex-col" aria-label="Navegação principal">
       <div className={cn("flex min-h-0 flex-1 flex-col gap-2", collapsed ? "items-center" : "overflow-y-auto pr-1 thin-scrollbar")}>
-        {items.map((item, index) => {
+        {items.map((item) => {
           const active = itemHasActiveRoute(pathname, item);
           const open = openGroup === item.id && !collapsed;
+          const section = ({ home: "Principal", study: "Estudar", progress: "Desempenho", community: "Comunidade", teacher: "Gestão", admin: role === "ADMIN" ? "Administração" : "Gestão" } as Record<string, string>)[item.id];
 
           return (
             <div
               key={item.id}
-              className="w-full animate-[estudaki-fast-fade_120ms_ease-out]"
-              style={{ animationDelay: `${Math.min(index * 12, 72)}ms` }}
+              className="w-full"
             >
+              {section && !collapsed && (
+                <p className="sidebar-section-label px-3 pb-2 pt-4 text-[10px] font-semibold tracking-[0.1em] text-[color:var(--theme-muted)]">{section}</p>
+              )}
               {item.href ? (
                 <SidebarLink
                   item={item}
@@ -171,7 +186,7 @@ export function SidebarNav({
                         >
                           <span className="min-w-0 flex-1 truncate">{child.label}</span>
                           {child.badge && (
-                            <span className="shrink-0 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[9px] font-black uppercase leading-none text-emerald-700 ring-1 ring-emerald-200">
+                            <span className="sidebar-new-badge">
                               {child.badge}
                             </span>
                           )}
@@ -188,7 +203,7 @@ export function SidebarNav({
 
       <div className={cn("mt-auto border-t border-[color:var(--theme-border)] pt-3", collapsed ? "flex w-full flex-col items-center gap-2" : "space-y-2")}>
         <SidebarLink
-          item={{ id: "settings", label: "Configuracoes", icon: "settings", href: "/perfil" }}
+          item={{ id: "settings", label: "Configurações", icon: "settings", href: "/perfil" }}
           active={isActiveHref(pathname, "/perfil")}
           collapsed={collapsed}
           onNavigate={onNavigate}
@@ -247,10 +262,10 @@ function SidebarLink({
 
 function navItemClass(active: boolean, collapsed: boolean) {
   return cn(
-    "group relative flex w-full items-center gap-3 rounded-[17px] text-[15px] font-bold transition-all duration-200",
+    "group relative flex w-full items-center gap-3 rounded-[14px] text-[14px] font-semibold transition-all duration-200",
     collapsed ? "h-14 justify-center px-0" : "h-12 px-3",
     active
-      ? "bg-[color:color-mix(in_srgb,var(--theme-primary)_13%,var(--theme-surface))] text-[color:var(--theme-primary)] shadow-[0_14px_30px_-24px_var(--theme-primary)]"
+      ? "sidebar-nav-item-active bg-[color:color-mix(in_srgb,var(--theme-primary)_13%,var(--theme-surface))] text-[color:var(--theme-primary)] shadow-sm"
       : "text-[color:var(--theme-muted)] hover:translate-x-0.5 hover:bg-[color:color-mix(in_srgb,var(--theme-primary)_8%,var(--theme-surface))] hover:text-[color:var(--theme-primary)]",
   );
 }
@@ -277,8 +292,9 @@ function CollapsedTooltip({ show, label }: { show: boolean; label: string }) {
 
   return (
     <span
-      className="pointer-events-none absolute left-[calc(100%+10px)] top-1/2 z-50 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-xl border border-[color:var(--theme-border)] bg-[color:var(--theme-surface)] px-3 py-2 text-xs font-bold text-[color:var(--theme-text)] opacity-0 shadow-[0_14px_32px_-18px_rgba(15,23,42,0.38)] transition-all duration-150 group-hover:translate-x-0 group-hover:opacity-100"
+      className="pointer-events-none absolute left-[calc(100%+10px)] top-1/2 z-50 -translate-y-1/2 translate-x-1 whitespace-nowrap rounded-xl border border-[color:var(--theme-border)] bg-[color:var(--theme-surface)] px-3 py-2 text-xs font-bold text-[color:var(--theme-text)] opacity-0 shadow-sm transition-all duration-150 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
       role="tooltip"
+      aria-hidden="true"
     >
       {label}
     </span>

@@ -77,8 +77,8 @@ export function OldExamManager({ exams }: { exams: OldExamRecord[] }) {
 
   return (
     <div className="space-y-6">
-      <section className="rounded-[30px] border border-slate-100 bg-white p-6 shadow-[0_20px_50px_-34px_rgba(15,23,42,0.22)]">
-        <div className="mb-5 flex items-center justify-between gap-3"><div><p className="text-xs font-black uppercase tracking-[0.2em] text-orange-600">{editingId ? "Edição" : "Cadastro manual"}</p><h2 className="mt-1 text-2xl font-black text-slate-950">{editingId ? "Editar prova antiga" : "Nova prova antiga"}</h2></div>{editingId && <button className="estudaki-button estudaki-button-ghost" onClick={() => { setEditingId(null); setForm(emptyForm); }}>Cancelar</button>}</div>
+      <section className="rounded-[18px] border border-slate-100 bg-white p-6 shadow-sm">
+        <div className="mb-5 flex items-center justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">{editingId ? "Edição" : "Cadastro manual"}</p><h2 className="mt-1 text-2xl font-semibold text-slate-950">{editingId ? "Editar prova antiga" : "Nova prova antiga"}</h2></div>{editingId && <button className="estudaki-button estudaki-button-ghost" onClick={() => { setEditingId(null); setForm(emptyForm); }}>Cancelar</button>}</div>
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <Field label="Vestibular" value={form.vestibular} onChange={(vestibular) => setForm({ ...form, vestibular })} />
           <Field label="Ano" type="number" value={String(form.ano)} onChange={(ano) => setForm({ ...form, ano: Number(ano) })} />
@@ -101,9 +101,9 @@ export function OldExamManager({ exams }: { exams: OldExamRecord[] }) {
 
       <section className="space-y-3">
         {exams.map((exam) => (
-          <article key={exam.id} className="rounded-[26px] border border-slate-100 bg-white p-5 shadow-[0_14px_34px_-26px_rgba(15,23,42,0.2)]">
+          <article key={exam.id} className="rounded-[18px] border border-slate-100 bg-white p-5 shadow-sm">
             <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="min-w-0 flex-1"><p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">{exam.vestibular} · {exam.ano} · {exam.status.replaceAll("_", " ")}</p><h3 className="mt-1 text-lg font-black text-slate-950">{exam.titulo}</h3><p className="mt-1 text-sm font-semibold text-slate-500">{exam.fase} · {exam.dia ?? "Dia único"} · {exam.questoesVinculadas} vinculadas</p></div>
+              <div className="min-w-0 flex-1"><p className="text-xs font-semibold uppercase tracking-wide text-blue-700">{exam.vestibular} · {exam.ano} · {exam.status.replaceAll("_", " ")}</p><h3 className="mt-1 text-lg font-semibold text-slate-950">{exam.titulo}</h3><p className="mt-1 text-sm font-semibold text-slate-500">{exam.fase} · {exam.dia ?? "Dia único"} · {exam.questoesVinculadas} vinculadas</p></div>
               <div className="flex flex-wrap gap-2">
                 <a href={exam.arquivoProvaUrl} target="_blank" rel="noreferrer" className="estudaki-button estudaki-button-ghost"><Eye className="h-4 w-4" /> Prova</a>
                 {exam.arquivoGabaritoUrl && <a href={exam.arquivoGabaritoUrl} target="_blank" rel="noreferrer" className="estudaki-button estudaki-button-ghost"><FileCheck2 className="h-4 w-4" /> Gabarito</a>}
@@ -123,7 +123,7 @@ export function OldExamManager({ exams }: { exams: OldExamRecord[] }) {
 
 function Field({ label, value, onChange, type = "text", placeholder, textarea, select }: { label: string; value: string; onChange: (value: string) => void; type?: string; placeholder?: string; textarea?: boolean; select?: string[] }) {
   const props = { className: "estudaki-input", value, onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => onChange(event.target.value), placeholder };
-  return <label><span className="mb-1.5 block text-xs font-black text-slate-600">{label}</span>{textarea ? <textarea {...props} className="estudaki-input min-h-24" /> : select ? <select {...props}>{select.map((item) => <option key={item}>{item}</option>)}</select> : <input {...props} type={type} />}</label>;
+  return <label><span className="mb-1.5 block text-xs font-semibold text-slate-600">{label}</span>{textarea ? <textarea {...props} className="estudaki-input min-h-24" /> : select ? <select {...props}>{select.map((item) => <option key={item}>{item}</option>)}</select> : <input {...props} type={type} />}</label>;
 }
 
-function Metric({ label, value }: { label: string; value: number }) { return <div className="rounded-2xl bg-slate-50 p-3"><p className="text-[9px] font-black uppercase tracking-wider text-slate-400">{label}</p><p className="mt-1 text-lg font-black text-slate-900">{value}</p></div>; }
+function Metric({ label, value }: { label: string; value: number }) { return <div className="rounded-2xl bg-slate-50 p-3"><p className="text-[9px] font-semibold uppercase tracking-wider text-slate-400">{label}</p><p className="mt-1 text-lg font-semibold text-slate-900">{value}</p></div>; }

@@ -4,6 +4,7 @@ import { ContentStatus, EntitlementSource, PreparationLevel } from "@prisma/clie
 import type { CSSProperties } from "react";
 import { cache } from "react";
 import { db } from "@/lib/db";
+import { validEntitlementWhere } from "@/lib/freemium";
 import {
   educationThemeStyle,
   educationVerticals,
@@ -140,20 +141,23 @@ const verticalSlugByExam = new Map<string, EducationVerticalSlug>([
 ]);
 
 const fallbackPreparationSeed = [
+  { slug: "etec", name: "ETEC", verticalSlug: "vestibular", examSlug: "etec", description: "Preparatório oficial Norte Preparatórios para o Vestibulinho ETEC.", isFree: false },
+  { slug: "fatec", name: "FATEC", verticalSlug: "vestibular", examSlug: "fatec", description: "Preparatório oficial Norte Preparatórios para o vestibular FATEC.", isFree: false },
+  { slug: "concursos", name: "Concursos", verticalSlug: "concursos", examSlug: "concursos-publicos", description: "Preparatório oficial Norte Preparatórios para concursos públicos.", isFree: false },
   {
     slug: "enem-2027",
     name: "ENEM 2027",
     verticalSlug: "vestibular",
     examSlug: "enem",
-    description: "Trilha completa para o ENEM com plano, questoes, redacao e simulados.",
-    isFree: true,
+    description: "Trilha completa para o ENEM com plano, questões, redação e simulados.",
+    isFree: false,
   },
   {
     slug: "fuvest-2027",
     name: "FUVEST 2027",
     verticalSlug: "vestibular",
     examSlug: "fuvest",
-    description: "Preparacao para primeira e segunda fase da FUVEST.",
+    description: "Preparação para primeira e segunda fase da FUVEST.",
     isFree: false,
   },
   {
@@ -161,7 +165,7 @@ const fallbackPreparationSeed = [
     name: "Medicina pelo ENEM",
     verticalSlug: "medicina",
     examSlug: "medicina-enem",
-    description: "Rota de alta concorrencia com dados, revisoes e simulados.",
+    description: "Rota de alta concorrência com dados, revisões e simulados.",
     isFree: false,
   },
   {
@@ -169,15 +173,15 @@ const fallbackPreparationSeed = [
     name: "OAB 1a fase",
     verticalSlug: "oab",
     examSlug: "oab-1-fase",
-    description: "Disciplinas juridicas, questoes e revisao objetiva para a OAB.",
-    isFree: true,
+    description: "Disciplinas jurídicas, questões e revisão objetiva para a OAB.",
+    isFree: false,
   },
   {
     slug: "tj-sp-escrevente",
     name: "TJ-SP Escrevente",
     verticalSlug: "concursos",
     examSlug: "concursos-publicos",
-    description: "Plano por edital para portugues, direito, informatica e raciocinio logico.",
+    description: "Plano por edital para português, direito, informática e raciocínio lógico.",
     isFree: false,
   },
   {
@@ -185,7 +189,7 @@ const fallbackPreparationSeed = [
     name: "PC-SP Investigador",
     verticalSlug: "policia-civil",
     examSlug: "policia-civil",
-    description: "Preparacao por cargo com foco em edital, questoes e evolucao.",
+    description: "Preparação por cargo com foco em edital, questões e evolução.",
     isFree: false,
   },
   {
@@ -193,7 +197,7 @@ const fallbackPreparationSeed = [
     name: "PM-SP Soldado",
     verticalSlug: "policia-militar",
     examSlug: "policia-militar",
-    description: "Missao diaria com foco em disciplina, questoes e constancia.",
+    description: "Missão diária com foco em disciplina, questões e constância.",
     isFree: false,
   },
   {
@@ -296,7 +300,7 @@ export async function ensureEducationCatalog() {
   await Promise.all(
     fallbackPreparationSeed.map((item) => {
       const vertical = verticalBySlug.get(item.verticalSlug);
-      if (!vertical) throw new Error(`Vertical nao encontrada: ${item.verticalSlug}`);
+      if (!vertical) throw new Error(`Vertical não encontrada: ${item.verticalSlug}`);
       return db.preparation.upsert({
         where: { slug: item.slug },
         update: {
@@ -333,10 +337,10 @@ export function inferVerticalSlug(input: {
 
   if (joined.includes("medicina")) return "medicina";
   if (joined.includes("oab")) return "oab";
-  if (joined.includes("policia civil") || joined.includes("pc-") || joined.includes("investigador")) {
+  if (joined.includes("polícia civil") || joined.includes("pc-") || joined.includes("investigador")) {
     return "policia-civil";
   }
-  if (joined.includes("policia militar") || joined.includes("pm-") || joined.includes("soldado")) {
+  if (joined.includes("polícia militar") || joined.includes("pm-") || joined.includes("soldado")) {
     return "policia-militar";
   }
   if (joined.includes("militar") || joined.includes("esa") || joined.includes("espcex")) return "militares";
@@ -419,11 +423,11 @@ export async function findOrCreatePreparation(input: {
       verticalId: vertical.id,
       slug,
       name,
-      description: `Preparacao personalizada para ${name}.`,
+      description: `Preparação personalizada para ${name}.`,
       examSlug: slug.replace(/-\d{4}$/, ""),
       defaultExamDate: input.examDate ?? null,
       status: ContentStatus.PUBLISHED,
-      isFree: slug === "enem-2027" || slug === "oab-1-fase",
+      isFree: false,
     },
   });
 }
@@ -508,13 +512,11 @@ export const getActivePreparationContext = cache(async (userId: string): Promise
     await ensureEducationCatalog();
 
     const [user, rows, entitlements] = await Promise.all([
-      db.user.findUnique({ where: { id: userId }, select: { activePreparationId: true } }),
+      db.user.findUnique({ where: { id: userId }, select: { activePreparationId: true, role: true } }),
       fetchPreparationRows(userId),
       db.entitlement.findMany({
         where: {
-          userId,
-          revokedAt: null,
-          OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
+          ...validEntitlementWhere(userId),
           preparationId: { not: null },
         },
         select: { preparationId: true },
@@ -543,6 +545,7 @@ export const getActivePreparationContext = cache(async (userId: string): Promise
         .filter((preparationId): preparationId is string => Boolean(preparationId)),
     );
     const preparations = memberships.map((item) => serializePreparation(item, entitlementIds));
+    if (user?.role === "ADMIN") preparations.forEach(preparation => { preparation.hasAccess = true; });
     const active =
       preparations.find((item) => item.id === user?.activePreparationId) ??
       preparations[0] ??
@@ -556,7 +559,7 @@ export const getActivePreparationContext = cache(async (userId: string): Promise
   } catch (error) {
     if (isMissingPreparationSchema(error)) {
       preparationSchemaAvailable = false;
-      console.warn("Catalogo de preparacoes indisponivel; usando contexto padrao.", error);
+      console.warn("Catálogo de preparacoes indisponivel; usando contexto padrão.", error);
       return defaultPreparationContext();
     }
 

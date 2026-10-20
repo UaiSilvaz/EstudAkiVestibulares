@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { buildMasteryMap, type LearningAttemptSignal, type LearningQuestionSignal } from "./mastery-engine";
 
-const subject = { id: "subject-math", name: "Matematica", color: "#2563EB", slug: "matematica" };
+const subject = { id: "subject-math", name: "Matemática", color: "#2563EB", slug: "matematica" };
 const topic = { id: "topic-probability", name: "Probabilidade" };
 const now = new Date("2026-08-19T12:00:00.000Z");
 

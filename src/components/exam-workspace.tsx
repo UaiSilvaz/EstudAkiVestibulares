@@ -1,29 +1,7 @@
 "use client";
 
-import {
-  Brush,
-  ArrowLeft,
-  CheckCircle2,
-  Download,
-  Eraser,
-  ExternalLink,
-  FileDown,
-  Highlighter,
-  KeyRound,
-  LinkIcon,
-  MessageSquarePlus,
-  MousePointer2,
-  Pencil,
-  Redo2,
-  Save,
-  Settings2,
-  Strikethrough,
-  Trash2,
-  Undo2,
-  X,
-  ZoomIn,
-  ZoomOut,
-} from "lucide-react";
+import { Pencil } from "@/components/visual/aicon-icons";
+import { Brush, ArrowLeft, CheckCircle2, Download, Eraser, ExternalLink, FileDown, Highlighter, KeyRound, LinkIcon, MessageSquarePlus, MousePointer2, Redo2, Save, Settings2, Strikethrough, Trash2, Undo2, X, ZoomIn, ZoomOut } from "lucide-react";
 import Link from "next/link";
 import { EstudakiLoadingState } from "@/components/loading-states";
 import type { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
@@ -302,22 +280,22 @@ export function ExamWorkspace({
       <Link href={backHref} className="estudaki-button estudaki-button-ghost mb-4 inline-flex">
         <ArrowLeft className="h-4 w-4" /> Voltar para Provas Antigas
       </Link>
-      <div className="mb-4 flex items-start justify-between gap-3 rounded-[28px] border border-blue-100 bg-white/92 p-4 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.24)] backdrop-blur lg:hidden">
+      <div className="mb-4 flex items-start justify-between gap-3 rounded-[18px] border border-blue-100 bg-white/92 p-4 shadow-sm backdrop-blur lg:hidden">
         <div className="min-w-0">
-          <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
+          <p className="text-[10px] font-semibold uppercase tracking-wide text-blue-700">
             Prova antiga
           </p>
-          <h1 className="mt-1 line-clamp-2 font-display text-xl font-black text-[#0F172A]">
+          <h1 className="mt-1 line-clamp-2 font-display text-xl font-semibold text-[#0F172A]">
             {exam.title}
           </h1>
           <p className="mt-1 text-xs font-bold text-slate-500">
-            {exam.phase} - {exam.day ?? "Caderno unico"}
+            {exam.phase} - {exam.day ?? "Caderno único"}
           </p>
         </div>
         <button
           type="button"
           onClick={() => setToolsOpen(true)}
-          className="flex h-11 shrink-0 items-center gap-2 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-4 text-xs font-black uppercase tracking-wider text-white shadow-md"
+          className="flex h-11 shrink-0 items-center gap-2 rounded-2xl    px-4 text-xs font-semibold uppercase tracking-wider text-[color:var(--theme-text)] shadow-md professional-neutral"
         >
           <Settings2 className="h-4 w-4" />
           Ferramentas
@@ -326,26 +304,26 @@ export function ExamWorkspace({
 
       <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_360px] 2xl:grid-cols-[minmax(0,1fr)_390px]">
         <section className="min-w-0">
-          <div className="sticky top-4 z-30 mb-4 hidden rounded-[28px] border border-blue-100/80 bg-white/95 p-3 shadow-[0_18px_44px_-30px_rgba(15,23,42,0.30)] backdrop-blur-xl lg:block">
+          <div className="sticky top-4 z-30 mb-4 hidden rounded-[18px] border border-blue-100/80 bg-white/95 p-3 shadow-sm backdrop-blur-xl lg:block">
             {toolbar}
           </div>
 
-          <div className="overflow-hidden rounded-[32px] border border-blue-100/70 bg-white shadow-[0_24px_70px_-42px_rgba(15,23,42,0.34)]">
+          <div className="overflow-hidden rounded-[18px] border border-blue-100/70 bg-white shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-3 sm:px-5">
               <div className="min-w-0">
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-700">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-700">
                   {documentKind === "exam" ? "Visualizando prova" : "Visualizando gabarito"}
                 </p>
-                <h2 className="mt-1 truncate text-sm font-black text-slate-800 sm:text-base">
+                <h2 className="mt-1 truncate text-sm font-semibold text-slate-800 sm:text-base">
                   {documentKind === "exam" ? exam.title : `${exam.title} - gabarito`}
                 </h2>
               </div>
-              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-black uppercase tracking-wider text-blue-700">
+              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-blue-700">
                 Zoom {zoom}%
               </span>
             </div>
 
-            <div className="thin-scrollbar relative h-[calc(100vh-210px)] min-h-[560px] overflow-auto bg-gradient-to-br from-slate-100 via-[#F8FBFF] to-[#EEF8FF] p-3 sm:p-5 lg:h-[calc(100vh-230px)] lg:min-h-[700px]">
+            <div className="thin-scrollbar relative h-[calc(100vh-210px)] min-h-[560px] overflow-auto     p-3 sm:p-5 lg:h-[calc(100vh-230px)] lg:min-h-[700px] professional-neutral">
               {activeUrl ? (
                 <PdfDocument
                   url={activeUrl}
@@ -365,16 +343,16 @@ export function ExamWorkspace({
         </section>
 
         <aside className="min-w-0 space-y-5 xl:sticky xl:top-4 xl:self-start">
-        <div className="rounded-[30px] border border-blue-100/70 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">Prova antiga</p>
-          <h1 className="mt-2 text-2xl font-black text-slate-950">{exam.title}</h1>
+        <div className="rounded-[18px] border border-blue-100/70 bg-white p-6 shadow-sm">
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">Prova antiga</p>
+          <h1 className="mt-2 text-2xl font-semibold text-slate-950">{exam.title}</h1>
           <p className="mt-2 text-sm font-semibold text-slate-500">
-            {exam.phase} - {exam.day ?? "Caderno unico"}
+            {exam.phase} - {exam.day ?? "Caderno único"}
           </p>
           <div className="mt-5 grid grid-cols-2 gap-3">
             <MiniStat label="Ano" value={String(exam.year)} />
             <MiniStat label="Marcacoes" value={String(visibleAnnotations.length)} />
-            <MiniStat label="QuestÃµes" value={exam.questionCount ? String(exam.questionCount) : "--"} />
+            <MiniStat label="Questões" value={exam.questionCount ? String(exam.questionCount) : "--"} />
             <MiniStat label="Tempo" value={exam.durationMinutes ? `${exam.durationMinutes}m` : "--"} />
           </div>
         </div>
@@ -389,8 +367,8 @@ export function ExamWorkspace({
           onClear={clearAnswers}
         />
 
-        <div className="rounded-[30px] border border-blue-100/70 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
-          <p className="mb-3 text-sm font-black text-slate-800">Arquivos oficiais</p>
+        <div className="rounded-[18px] border border-blue-100/70 bg-white p-6 shadow-sm">
+          <p className="mb-3 text-sm font-semibold text-slate-800">Arquivos oficiais</p>
           <div className="grid gap-2">
             <ExternalButton href={exam.pdfUrl} label="Abrir PDF original" icon={<Download className="h-4 w-4" />} />
             <ExternalButton href={exam.answerKeyUrl} label="Abrir gabarito" icon={<KeyRound className="h-4 w-4" />} />
@@ -398,13 +376,13 @@ export function ExamWorkspace({
           </div>
         </div>
 
-        <div className="rounded-[30px] border border-blue-100/70 bg-white p-6 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
+        <div className="rounded-[18px] border border-blue-100/70 bg-white p-6 shadow-sm">
           <label className="block">
-            <span className="mb-2 block text-sm font-black text-slate-800">Texto da nota</span>
+            <span className="mb-2 block text-sm font-semibold text-slate-800">Texto da nota</span>
             <textarea className="estudaki-input min-h-28" value={noteText} onChange={(event) => setNoteText(event.target.value)} />
           </label>
           <p className="mt-3 text-xs font-semibold leading-5 text-slate-500">
-            Use Navegar para mexer no PDF. Use as ferramentas para desenhar por cima; as anotacoes ficam salvas no navegador.
+            Use Navegar para mexer no PDF. Use as ferramentas para desenhar por cima; as anotações ficam salvas no navegador.
           </p>
         </div>
         </aside>
@@ -418,13 +396,13 @@ export function ExamWorkspace({
             onClick={() => setToolsOpen(false)}
             className="absolute inset-0 bg-slate-950/40 backdrop-blur-sm"
           />
-          <div className="absolute inset-x-3 bottom-3 max-h-[82vh] overflow-hidden rounded-[30px] border border-white/70 bg-white shadow-2xl">
+          <div className="absolute inset-x-3 bottom-3 max-h-[82vh] overflow-hidden rounded-[18px] border border-white/70 bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
+                <p className="text-[10px] font-semibold uppercase tracking-wide text-blue-700">
                   Editor
                 </p>
-                <h2 className="font-display text-lg font-black text-[#0F172A]">
+                <h2 className="font-display text-lg font-semibold text-[#0F172A]">
                   Ferramentas da prova
                 </h2>
               </div>
@@ -526,7 +504,7 @@ function ToolbarPanel({
           <IconButton title="Diminuir zoom" onClick={() => setZoom((value) => Math.max(70, value - 10))}>
             <ZoomOut className="h-4 w-4" />
           </IconButton>
-          <span className="min-w-14 text-center text-sm font-black text-slate-700">{zoom}%</span>
+          <span className="min-w-14 text-center text-sm font-semibold text-slate-700">{zoom}%</span>
           <IconButton title="Aumentar zoom" onClick={() => setZoom((value) => Math.min(210, value + 10))}>
             <ZoomIn className="h-4 w-4" />
           </IconButton>
@@ -539,7 +517,7 @@ function ToolbarPanel({
           <IconButton title="Salvar no navegador">
             <Save className="h-4 w-4" />
           </IconButton>
-          <IconButton title="Exportar anotacoes" onClick={exportAnnotations}>
+          <IconButton title="Exportar anotações" onClick={exportAnnotations}>
             <FileDown className="h-4 w-4" />
           </IconButton>
           <IconButton title="Limpar documento atual" onClick={clearAnnotations}>
@@ -653,10 +631,10 @@ function PdfDocument({
           return;
         }
         setPdf(loaded);
-        setStatus(`${loaded.numPages} pagina(s) prontas`);
+        setStatus(`${loaded.numPages} página(s) prontas`);
       } catch {
         if (!cancelled) {
-          setError("Nao foi possivel abrir este PDF agora.");
+          setError("Não foi possível abrir este PDF agora.");
           setStatus("PDF indisponivel");
         }
       }
@@ -671,7 +649,7 @@ function PdfDocument({
 
   return (
     <div className="min-h-[840px] px-1 py-3 sm:px-3 sm:py-5">
-      <div className="mb-4 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700">
+      <div className="mb-4 flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700">
         <span className="min-w-0 truncate">{title}</span>
         <a href={url} target="_blank" rel="noreferrer" className="inline-flex shrink-0 items-center gap-1 text-blue-700">
           Abrir PDF
@@ -679,10 +657,10 @@ function PdfDocument({
         </a>
       </div>
       {error ? (
-        <div className="rounded-[26px] border border-rose-100 bg-white p-8 text-center shadow-sm">
-          <p className="text-lg font-black text-slate-950">{error}</p>
+        <div className="rounded-[18px] border border-rose-100 bg-white p-8 text-center shadow-sm">
+          <p className="text-lg font-semibold text-slate-950">{error}</p>
           <p className="mt-2 text-sm font-semibold text-slate-500">
-            Tente abrir pela fonte oficial ou recarregue a pagina.
+            Tente abrir pela fonte oficial ou recarregue a página.
           </p>
         </div>
       ) : pdf ? (
@@ -802,17 +780,17 @@ function PdfPageCanvas({
   return (
     <div ref={wrapperRef} className="mx-auto">
       <div
-        className="relative mx-auto overflow-hidden rounded-[10px] bg-white shadow-[0_18px_45px_-30px_rgba(15,23,42,0.65)] ring-1 ring-slate-200"
+        className="relative mx-auto overflow-hidden rounded-[10px] bg-white shadow-sm ring-1 ring-slate-200"
         style={{
           width: `${displayDimensions.width}px`,
           maxWidth: zoom <= 100 ? "100%" : undefined,
           aspectRatio: `${displayDimensions.width} / ${displayDimensions.height}`,
         }}
       >
-        <canvas ref={canvasRef} className="block h-full w-full bg-white" aria-label={`Pagina ${pageNumber}`} />
+        <canvas ref={canvasRef} className="block h-full w-full bg-white" aria-label={`Página ${pageNumber}`} />
         {!visible && (
-          <div className="absolute inset-0 grid place-items-center bg-slate-50 text-xs font-black uppercase tracking-wider text-slate-400">
-            Pagina {pageNumber}
+          <div className="absolute inset-0 grid place-items-center bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-400">
+            Página {pageNumber}
           </div>
         )}
         <PageAnnotationLayer
@@ -824,8 +802,8 @@ function PdfPageCanvas({
           onPointerUp={onPointerUp}
         />
       </div>
-      <p className="mt-2 text-center text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">
-        Pagina {pageNumber}
+      <p className="mt-2 text-center text-[11px] font-semibold uppercase tracking-wide text-slate-400">
+        Página {pageNumber}
       </p>
     </div>
   );
@@ -947,7 +925,7 @@ function IconButton({
 
 function ControlLabel({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="flex h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 text-xs font-black text-slate-600">
+    <label className="flex h-11 items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 text-xs font-semibold text-slate-600">
       {label}
       {children}
     </label>
@@ -981,7 +959,7 @@ function MiniStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-slate-50 p-4">
       <p className="text-xs font-bold uppercase text-slate-400">{label}</p>
-      <p className="mt-1 text-xl font-black text-slate-950">{value}</p>
+      <p className="mt-1 text-xl font-semibold text-slate-950">{value}</p>
     </div>
   );
 }
@@ -1006,22 +984,22 @@ function AnswerSheet({
   const progress = Math.round((answeredCount / questionCount) * 100);
 
   return (
-    <div className="rounded-[30px] border border-blue-100/70 bg-white p-5 shadow-[0_22px_54px_-38px_rgba(15,23,42,0.28)]">
+    <div className="rounded-[18px] border border-blue-100/70 bg-white p-5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-600">Cartao-resposta</p>
-          <h2 className="mt-1 text-xl font-black text-slate-950">
+          <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">Cartao-resposta</p>
+          <h2 className="mt-1 text-xl font-semibold text-slate-950">
             {answeredCount}/{questionCount}
           </h2>
         </div>
-        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-700">
+        <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
           {progress}%
         </span>
       </div>
 
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE]"
+          className="h-full rounded-full    professional-neutral"
           style={{ width: `${progress}%` }}
         />
       </div>
@@ -1032,19 +1010,19 @@ function AnswerSheet({
           const selected = answers[questionNumber];
           return (
             <div key={questionNumber} className="grid grid-cols-[2.75rem_1fr] items-center gap-2 rounded-2xl bg-slate-50 p-2">
-              <span className="text-center text-xs font-black text-slate-500">{questionNumber}</span>
+              <span className="text-center text-xs font-semibold text-slate-500">{questionNumber}</span>
               <div className="grid grid-cols-5 gap-1">
                 {answerOptions.map((answer) => (
                   <button
                     key={answer}
                     type="button"
                     onClick={() => onSelect(questionNumber, answer)}
-                    className={`h-8 rounded-xl text-xs font-black transition ${
+                    className={`h-8 rounded-xl text-xs font-semibold transition ${
                       selected === answer
-                        ? "bg-gradient-to-r from-[#2563EB] to-[#22D3EE] text-white shadow-sm"
+                        ? "   text-[color:var(--theme-text)] shadow-sm professional-neutral"
                         : "bg-white text-slate-600 ring-1 ring-slate-200 hover:bg-blue-50"
                     }`}
-                    aria-label={`Questao ${questionNumber}, alternativa ${answer}`}
+                    aria-label={`Questão ${questionNumber}, alternativa ${answer}`}
                   >
                     {answer}
                   </button>
@@ -1096,13 +1074,13 @@ function FallbackPaper({ exam, documentKind }: { exam: Exam; documentKind: Docum
     <div className="min-h-[840px] p-10">
       <div className="mb-8 flex items-center justify-between border-b border-slate-200 pb-6">
         <div>
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-blue-600">{exam.vestibular.name}</p>
-          <h2 className="mt-2 text-3xl font-black text-slate-950">{documentKind === "exam" ? exam.title : "Gabarito"}</h2>
+          <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">{exam.vestibular.name}</p>
+          <h2 className="mt-2 text-3xl font-semibold text-slate-950">{documentKind === "exam" ? exam.title : "Gabarito"}</h2>
         </div>
-        <div className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-black text-blue-700">{exam.year}</div>
+        <div className="rounded-2xl bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-700">{exam.year}</div>
       </div>
       <p className="text-sm leading-7 text-slate-600">
-        Este documento ainda nÃ£o possui um PDF cadastrado. Use a fonte oficial ou cadastre o arquivo no painel administrativo para abri-lo no editor.
+        Este documento ainda não possui um PDF cadastrado. Use a fonte oficial ou cadastre o arquivo no painel administrativo para abri-lo no editor.
       </p>
     </div>
   );

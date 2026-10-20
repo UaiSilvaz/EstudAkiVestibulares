@@ -42,7 +42,7 @@ export async function PATCH(request: Request, { params }: { params: Promise<{ id
     db.examAttempt.findUnique({ where: { examId_userId: { examId: id, userId: persistedUserId } } }),
   ]);
   if (!exam || !attempt) return NextResponse.json({ error: "Tentativa não encontrada." }, { status: 404 });
-  if (attempt.submittedAt) return NextResponse.json({ error: "Esta tentativa ja foi entregue." }, { status: 409 });
+  if (attempt.submittedAt) return NextResponse.json({ error: "Esta tentativa já foi entregue." }, { status: 409 });
 
   const now = new Date();
   const mustSubmit = Boolean(body.submit) || now >= attempt.expiresAt || Boolean(exam.endsAt && now >= exam.endsAt);

@@ -44,7 +44,7 @@ function fetchPdfStream(url: URL, range: string | null, redirects = 0): Promise<
 
         const contentType = String(response.headers["content-type"] ?? "application/pdf").toLowerCase();
         if (contentType.includes("text/html") || contentType.includes("application/json")) {
-          reject(new Error("Resposta remota nao e PDF."));
+          reject(new Error("Resposta remota não é PDF."));
           response.resume();
           return;
         }
@@ -94,7 +94,7 @@ async function assertPdfUrl(url: URL) {
   const signature = await readStreamSignature(probe.body);
 
   if (signature !== PDF_SIGNATURE) {
-    throw new Error("Resposta remota nao e PDF.");
+    throw new Error("Resposta remota não é PDF.");
   }
 }
 
@@ -137,7 +137,7 @@ export async function GET(request: Request) {
   try {
     await assertPublicHttpsUrl(url);
   } catch {
-    return NextResponse.json({ error: "Protocolo nao permitido." }, { status: 400 });
+    return NextResponse.json({ error: "Protocolo não permitido." }, { status: 400 });
   }
 
   try {

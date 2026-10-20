@@ -1,0 +1,12 @@
+/* Norte Preparatórios · identidade visual · edição 01/2026 */
+:root {
+  --norte-orange: #FF6201;
+  --norte-black: #101216;
+  --norte-graphite: #272B31;
+  --norte-snow: #F5F6F8;
+  --norte-white: #FFFFFF;
+  --norte-font-heading: "Inter Display", "Inter", Arial, sans-serif;
+  --norte-font-body: "Inter", Arial, sans-serif;
+  --norte-radius-card: 16px;
+  --norte-space-unit: 8px;
+}

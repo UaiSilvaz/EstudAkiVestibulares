@@ -1,16 +1,7 @@
 "use client";
 
-import {
-  AlertTriangle,
-  Check,
-  CheckCheck,
-  Eye,
-  FileCheck2,
-  FlaskConical,
-  Loader2,
-  RotateCcw,
-  Rocket,
-} from "lucide-react";
+import { FlaskConical } from "@/components/visual/aicon-icons";
+import { AlertTriangle, Check, CheckCheck, Eye, FileCheck2, Loader2, RotateCcw, Rocket } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -235,11 +226,11 @@ export function Enem2025PilotReview({
   }
 
   return (
-    <section className="mb-6 space-y-5 rounded-[30px] border border-blue-100 bg-white p-5 shadow-[0_22px_55px_-38px_rgba(15,23,42,0.3)] md:p-6">
+    <section className="mb-6 space-y-5 rounded-[18px] border border-blue-100 bg-white p-5 shadow-sm md:p-6">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-700">Piloto controlado</p>
-          <h2 className="mt-1 text-2xl font-black text-slate-950">ENEM 2025 · revisão e publicação</h2>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-700">Piloto controlado</p>
+          <h2 className="mt-1 text-2xl font-semibold text-slate-950">ENEM 2025 · revisão e publicação</h2>
           <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-slate-500">
             As regras abaixo são verificadas novamente pelo servidor. Questões com erro nunca entram na publicação normal nem no modo de teste.
           </p>
@@ -265,8 +256,8 @@ export function Enem2025PilotReview({
           <article key={exam.id} className="rounded-2xl border border-slate-200 p-4">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-black uppercase text-blue-700">{exam.day} · {exam.status}</p>
-                <h3 className="mt-1 font-black text-slate-950">{exam.title}</h3>
+                <p className="text-xs font-semibold uppercase text-blue-700">{exam.day} · {exam.status}</p>
+                <h3 className="mt-1 font-semibold text-slate-950">{exam.title}</h3>
                 <p className="mt-1 text-xs font-semibold text-slate-500">
                   {exam.total} questões · {exam.errors} com erro · {exam.published} publicadas
                 </p>
@@ -311,7 +302,7 @@ export function Enem2025PilotReview({
         <>
           <div className="flex flex-wrap gap-2 border-t border-slate-100 pt-5">
             {filters.map((item) => (
-              <button key={item.value} onClick={() => setFilter(item.value)} className={`rounded-full px-4 py-2 text-xs font-black ${filter === item.value ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"}`}>
+              <button key={item.value} onClick={() => setFilter(item.value)} className={`rounded-full px-4 py-2 text-xs font-semibold ${filter === item.value ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600"}`}>
                 {item.label}
               </button>
             ))}
@@ -322,11 +313,11 @@ export function Enem2025PilotReview({
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-black text-slate-950">Questão {row.number}</span>
-                      <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-black text-slate-600">{row.day}</span>
-                      <span className="rounded-full bg-blue-50 px-2 py-1 text-[10px] font-black text-blue-700">{row.subject}</span>
-                      <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-black text-slate-600">{row.status} · {row.reviewState}</span>
-                      {row.pilotTestPublished && <span className="rounded-full bg-violet-100 px-2 py-1 text-[10px] font-black text-violet-700">TESTE</span>}
+                      <span className="font-semibold text-slate-950">Questão {row.number}</span>
+                      <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-600">{row.day}</span>
+                      <span className="rounded-full bg-blue-50 px-2 py-1 text-[10px] font-semibold text-blue-700">{row.subject}</span>
+                      <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-600">{row.status} · {row.reviewState}</span>
+                      {row.pilotTestPublished && <span className="rounded-full bg-violet-100 px-2 py-1 text-[10px] font-semibold text-violet-700">TESTE</span>}
                     </div>
                     <p className="mt-2 line-clamp-2 text-sm font-semibold leading-6 text-slate-700">{row.statement}</p>
                     <p className="mt-2 text-xs font-bold text-slate-500">
@@ -379,5 +370,5 @@ function Counter({ label, value, tone = "slate" }: { label: string; value: numbe
     emerald: "bg-emerald-50 text-emerald-800",
     violet: "bg-violet-50 text-violet-800",
   };
-  return <div className={`rounded-2xl p-4 ${styles[tone]}`}><p className="text-[10px] font-black uppercase tracking-wider opacity-70">{label}</p><p className="mt-1 text-2xl font-black">{value}</p></div>;
+  return <div className={`rounded-2xl p-4 ${styles[tone]}`}><p className="text-[10px] font-semibold uppercase tracking-wider opacity-70">{label}</p><p className="mt-1 text-2xl font-semibold">{value}</p></div>;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { LogoEstudAki } from "../logo-estudaki";
 
@@ -11,7 +11,7 @@ export function LandingFooter() {
         <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-5">
           <LogoEstudAki size="sm" />
           <p className="text-xs font-semibold text-slate-500">
-            © {new Date().getFullYear()} EstudAki Vestibulares.
+            © {new Date().getFullYear()} Norte Preparatórios.
           </p>
         </div>
 
@@ -30,18 +30,11 @@ export function LandingFooter() {
           </Link>
           <div className="flex items-center gap-2">
             <Link
-              href="https://wa.me/5517997172045?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20o%20EstudAki%20Vestibulares"
+              href="https://wa.me/5517997172045?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20o%20Norte%20Preparat%C3%B3rios"
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-emerald-100 bg-emerald-50 text-emerald-600 transition hover:bg-emerald-500 hover:text-white"
               aria-label="WhatsApp"
             >
               <MessageCircle className="h-4 w-4" />
-            </Link>
-            <Link
-              href="mailto:contato@estudaki.com"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-blue-100 bg-blue-50 text-blue-600 transition hover:bg-blue-500 hover:text-white"
-              aria-label="E-mail"
-            >
-              <Mail className="h-4 w-4" />
             </Link>
           </div>
         </div>

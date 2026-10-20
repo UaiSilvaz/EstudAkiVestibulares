@@ -11,7 +11,7 @@ function exampleLessons(title: string, discipline: string) {
   return [
     `${discipline}: mapa da prova e prioridades`,
     `${discipline}: fundamentos para ganhar velocidade`,
-    `${title}: resolucao comentada de questoes`,
+    `${title}: resolução comentada de questões`,
   ];
 }
 
@@ -86,7 +86,7 @@ export default async function AulasPage() {
       />
       <LessonMarketplace
         courses={courses}
-        activeName={activePreparation?.displayName ?? "sua preparacao"}
+        activeName={activePreparation?.displayName ?? "sua preparação"}
       />
     </div>
   );

@@ -19,9 +19,9 @@ function commentKind(value: string | null) {
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   const userId = await getLearningUserId(user);
-  if (!userId) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 409 });
+  if (!userId) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 409 });
   const { id } = await params;
   const kind = commentKind(new URL(request.url).searchParams.get("kind"));
   const comments = await getLessonComments(id, userId, kind);
@@ -30,9 +30,9 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   const userId = await getLearningUserId(user);
-  if (!userId) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 409 });
+  if (!userId) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 409 });
   try {
     const body = (await request.json()) as { body?: string; kind?: string; positionSeconds?: number; parentId?: string };
     const { id } = await params;
@@ -50,11 +50,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
 export async function PATCH(request: Request) {
   const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   const userId = await getLearningUserId(user);
-  if (!userId) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 409 });
+  if (!userId) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 409 });
   const body = (await request.json()) as { commentId?: string; body?: string; action?: "like" | "report" | "delete" };
-  if (!body.commentId) return NextResponse.json({ error: "Comentario nao informado." }, { status: 400 });
+  if (!body.commentId) return NextResponse.json({ error: "Comentario não informado." }, { status: 400 });
   if (body.action === "like") return NextResponse.json(await toggleLessonCommentLike(body.commentId, userId));
   if (body.action === "report") return NextResponse.json(await reportLessonComment(body.commentId, userId));
   if (body.action === "delete") return NextResponse.json(await deleteLessonComment(body.commentId, userId));

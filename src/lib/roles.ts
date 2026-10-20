@@ -14,11 +14,13 @@ export type AppUser = {
 };
 
 export function canManageContent(role: Role) {
-  const roles: Role[] = [Role.ADMIN, Role.COORDINATOR, Role.TEACHER, Role.MENTOR];
-  return roles.includes(role);
+  return role === Role.ADMIN;
 }
 
 export function canPublishDirectly(role: Role) {
-  const roles: Role[] = [Role.ADMIN, Role.COORDINATOR];
-  return roles.includes(role);
+  return role === Role.ADMIN;
+}
+
+export function canUseTeacherTools(role: Role) {
+  return role === Role.ADMIN || role === Role.TEACHER;
 }

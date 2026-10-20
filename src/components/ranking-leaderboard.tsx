@@ -1,18 +1,8 @@
 "use client";
 
+import { Medal, Target, Trophy } from "@/components/visual/aicon-icons";
 import { motion, MotionConfig } from "framer-motion";
-import {
-  Crown,
-  Gem,
-  Medal,
-  RefreshCcw,
-  ShieldCheck,
-  Sparkles,
-  Target,
-  Trophy,
-  UserRound,
-  Zap,
-} from "lucide-react";
+import { Crown, Gem, RefreshCcw, ShieldCheck, Sparkles, UserRound, Zap } from "lucide-react";
 import Image from "next/image";
 import { LeagueBadge } from "@/components/visual/league-badge";
 import { cn } from "@/lib/utils";
@@ -21,7 +11,6 @@ import hoverAnimation from "./ranking-hover-animation.json";
 export type RankingPlayer = {
   id: string;
   name: string;
-  email: string;
   xp: number;
   league: string;
   avatarUrl: string | null;
@@ -118,8 +107,8 @@ function firstName(name: string) {
   return name.trim().split(" ").filter(Boolean)[0] ?? name;
 }
 
-function handleFor(player: Pick<RankingPlayer, "email" | "name">) {
-  const raw = player.email.split("@")[0] || player.name;
+function handleFor(player: Pick<RankingPlayer, "name">) {
+  const raw = player.name;
   return `@${raw.replace(/[^\w.-]/g, "").slice(0, 18) || "aluno"}`;
 }
 
@@ -165,7 +154,7 @@ function JsonHoverAnimation({ compact = false }: { compact?: boolean }) {
           transition={{
             duration: 0.95,
             delay: ring.delay,
-            repeat: Infinity,
+            repeat: 0,
             repeatDelay: 0.55,
             ease: [0.22, 1, 0.36, 1],
           }}
@@ -197,7 +186,7 @@ function JsonHoverAnimation({ compact = false }: { compact?: boolean }) {
             transition={{
               duration: 0.82,
               delay: particle.delay,
-              repeat: Infinity,
+              repeat: 0,
               repeatDelay: 0.7,
               ease: [0.22, 1, 0.36, 1],
             }}
@@ -222,7 +211,7 @@ function PlayerAvatar({
   return (
     <span
       className={cn(
-        "relative isolate flex shrink-0 items-center justify-center overflow-hidden rounded-[30%] bg-gradient-to-br text-sm font-black text-white shadow-[0_18px_32px_-22px_rgba(15,23,42,0.55)] ring-4 ring-white",
+        "relative isolate flex shrink-0 items-center justify-center overflow-hidden rounded-[30%]  text-sm font-semibold text-[color:var(--theme-text)] shadow-sm ring-4 ring-white professional-neutral",
         theme.chip,
         className,
       )}
@@ -261,13 +250,13 @@ function StatCard({
     <motion.div
       initial="idle"
       whileHover="hover"
-      className="relative isolate overflow-hidden rounded-[24px] border border-white/80 bg-white/90 p-4 shadow-[0_18px_42px_-28px_rgba(15,23,42,0.28)]"
+      className="relative isolate overflow-hidden rounded-[18px] border border-white/80 bg-white/90 p-4 shadow-sm"
     >
-      <div className={cn("mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br text-white shadow-md", tone)}>
+      <div className={cn("mb-3 flex h-11 w-11 items-center justify-center rounded-2xl  text-[color:var(--theme-text)] shadow-md professional-neutral", tone)}>
         <Icon className="h-5 w-5" />
       </div>
-      <p className="text-[10px] font-black uppercase tracking-[0.18em] text-slate-400">{label}</p>
-      <p className="mt-1 font-display text-3xl font-black leading-none text-[#0F172A]">{value}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">{label}</p>
+      <p className="mt-1 font-display text-3xl font-semibold leading-none text-[#0F172A]">{value}</p>
       <p className="mt-2 text-xs font-bold leading-5 text-slate-500">{hint}</p>
       <JsonHoverAnimation compact />
     </motion.div>
@@ -306,15 +295,15 @@ function PodiumSpot({
             <Sparkles className="h-3.5 w-3.5" />
           </span>
         </div>
-        <p className="mt-3 max-w-full truncate px-1 text-sm font-black text-[#0F172A] sm:text-base">
+        <p className="mt-3 max-w-full truncate px-1 text-sm font-semibold text-[#0F172A] sm:text-base">
           {firstName(player.name)}
         </p>
         <p className="max-w-full truncate px-1 text-[11px] font-bold text-slate-400">
           {handleFor(player)}
         </p>
         <div className="mt-2 flex min-w-0 items-center justify-center gap-1.5">
-          <LeagueBadge league={player.league} size="sm" showLabel={false} />
-          <span className={cn("truncate text-[10px] font-black uppercase tracking-wider", theme.text)}>
+          <LeagueBadge league={player.league} xp={player.xp} size="sm" showLabel={false} />
+          <span className={cn("truncate text-[10px] font-semibold uppercase tracking-wider", theme.text)}>
             {player.league}
           </span>
         </div>
@@ -327,20 +316,20 @@ function PodiumSpot({
         }}
         transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "relative mt-4 overflow-hidden rounded-t-[24px] border border-white/65 bg-gradient-to-b shadow-[0_24px_44px_-28px_rgba(15,23,42,0.34)]",
+          "relative mt-4 overflow-hidden rounded-t-[24px] border border-white/65  shadow-sm professional-neutral",
           layout.pedestal,
           layout.tone,
         )}
       >
         <div className="absolute inset-x-0 top-0 h-8 bg-white/36" />
         <div className="absolute inset-x-4 top-3 h-px bg-white/55" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.10),rgba(255,255,255,0.54))]" />
+        <div className="absolute inset-0  professional-neutral" />
         <div className="relative flex h-full flex-col items-center justify-center text-white">
           <Icon className="mb-1 h-5 w-5 drop-shadow" />
-          <span className="font-display text-5xl font-black leading-none drop-shadow-sm sm:text-6xl">
+          <span className="font-display text-5xl font-semibold leading-none drop-shadow-sm sm:text-6xl">
             {layout.label}
           </span>
-          <span className="mt-2 rounded-full bg-white/26 px-3 py-1 text-[10px] font-black uppercase tracking-wider">
+          <span className="mt-2 rounded-full bg-white/26 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider">
             {formatNumber(player.xp)} XP
           </span>
         </div>
@@ -360,20 +349,20 @@ function RankingRow({ player, currentUserId }: { player: RankingPlayer; currentU
       whileHover="hover"
       whileTap={{ scale: 0.995 }}
       className={cn(
-        "group relative isolate flex min-h-[76px] items-center gap-3 overflow-hidden rounded-[22px] border p-3 transition-colors sm:gap-4",
+        "group relative isolate flex min-h-[76px] items-center gap-3 overflow-hidden rounded-[18px] border p-3 transition-colors sm:gap-4",
         isMe
-          ? "border-blue-200 bg-gradient-to-r from-[#EFF6FF] via-white to-[#ECFEFF] shadow-[0_18px_38px_-28px_rgba(37,99,235,0.44)]"
-          : "border-slate-100 bg-white/92 shadow-[0_14px_32px_-28px_rgba(15,23,42,0.28)]",
+          ? "border-blue-200     shadow-sm professional-neutral"
+          : "border-slate-100 bg-white/92 shadow-sm",
       )}
     >
       <motion.span
         aria-hidden
         className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          background: `radial-gradient(420px circle at 82% 50%, ${theme.glow}, transparent 55%)`,
+          background: "var(--theme-surface)",
         }}
       />
-      <div className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-50 font-black text-slate-700 ring-1 ring-slate-100">
+      <div className="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-slate-50 font-semibold text-slate-700 ring-1 ring-slate-100">
         {player.rank <= 6 ? <Medal className="h-4 w-4 text-amber-500" /> : null}
         <span className={cn(player.rank <= 6 && "sr-only")}>{player.rank}</span>
       </div>
@@ -383,15 +372,15 @@ function RankingRow({ player, currentUserId }: { player: RankingPlayer; currentU
       </div>
       <div className="relative z-10 min-w-0 flex-1">
         <div className="flex min-w-0 items-center gap-2">
-          <p className="truncate text-sm font-black text-[#0F172A]">{player.name}</p>
+          <p className="truncate text-sm font-semibold text-[#0F172A]">{player.name}</p>
           {isMe && (
-            <span className="shrink-0 rounded-full bg-blue-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-blue-700">
-              voce
+            <span className="shrink-0 rounded-full bg-blue-100 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-blue-700">
+              você
             </span>
           )}
         </div>
         <div className="mt-1 flex min-w-0 flex-wrap items-center gap-1.5">
-          <span className={cn("text-[11px] font-black uppercase tracking-wider", theme.text)}>
+          <span className={cn("text-[11px] font-semibold uppercase tracking-wider", theme.text)}>
             Liga {player.league}
           </span>
           <span className="h-1 w-1 rounded-full bg-slate-300" />
@@ -401,11 +390,11 @@ function RankingRow({ player, currentUserId }: { player: RankingPlayer; currentU
         </div>
       </div>
       <div className="relative z-10 flex shrink-0 flex-col items-end">
-        <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-3 py-1.5 text-xs font-black text-slate-700 ring-1 ring-slate-100">
+        <span className="inline-flex items-center gap-1 rounded-full bg-slate-50 px-3 py-1.5 text-xs font-semibold text-slate-700 ring-1 ring-slate-100">
           <Gem className="h-3.5 w-3.5 text-cyan-500" />
           {formatNumber(player.xp)}
         </span>
-        <span className="mt-1 hidden text-[10px] font-black uppercase tracking-wider text-slate-400 sm:block">
+        <span className="mt-1 hidden text-[10px] font-semibold uppercase tracking-wider text-slate-400 sm:block">
           XP
         </span>
       </div>
@@ -436,7 +425,7 @@ export function RankingLeaderboard({
         <section className="grid gap-3 md:grid-cols-3">
           <StatCard
             icon={Trophy}
-            label="Sua posicao"
+            label="Sua posição"
             value={myRank ? `#${myRank}` : "Top 20+"}
             hint={`${formatNumber(totalUsers)} alunos na disputa`}
             tone="from-[#2563EB] to-[#22D3EE]"
@@ -450,15 +439,15 @@ export function RankingLeaderboard({
           />
           <StatCard
             icon={Target}
-            label="Proxima posicao"
+            label="Próxima posição"
             value={xpToOvertake > 0 ? `+${formatNumber(xpToOvertake)}` : "Top 1"}
-            hint={nextName ? `Para ultrapassar ${firstName(nextName)}` : "Voce esta no topo"}
+            hint={nextName ? `Para ultrapassar ${firstName(nextName)}` : "Você está no topo"}
             tone="from-[#22C55E] to-[#86EFAC]"
           />
         </section>
 
         {podium.length > 0 && (
-          <section className="relative isolate overflow-hidden rounded-[32px] border border-white/80 bg-[linear-gradient(180deg,#FFFFFF_0%,#FFF7ED_46%,#EFF6FF_100%)] px-4 pb-6 pt-6 shadow-[0_26px_64px_-40px_rgba(15,23,42,0.32)] sm:px-6 md:px-8">
+          <section className="relative isolate overflow-hidden rounded-[18px] border border-white/80  px-4 pb-6 pt-6 shadow-sm sm:px-6 md:px-8 professional-neutral">
             <div
               aria-hidden
               className="absolute inset-0 opacity-70"
@@ -473,14 +462,14 @@ export function RankingLeaderboard({
             <div className="absolute -bottom-20 -left-16 h-52 w-52 rounded-full bg-[#22D3EE]/22 blur-3xl" />
 
             <div className="relative z-10 flex flex-col gap-3 text-center">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-amber-500 shadow-[0_14px_30px_-20px_rgba(15,23,42,0.5)] ring-1 ring-amber-100">
+              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-white text-amber-500 shadow-sm ring-1 ring-amber-100">
                 <Crown className="h-6 w-6" />
               </div>
               <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.24em] text-amber-700">
-                  Podio da liga
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-amber-700">
+                  Pódio da liga
                 </p>
-                <h2 className="mt-1 font-display text-2xl font-black text-[#0F172A] md:text-3xl">
+                <h2 className="mt-1 font-display text-2xl font-semibold text-[#0F172A] md:text-3xl">
                   Top 3 da semana
                 </h2>
               </div>
@@ -498,22 +487,22 @@ export function RankingLeaderboard({
           </section>
         )}
 
-        <section className="relative overflow-hidden rounded-[30px] border border-white/80 bg-white/88 p-4 shadow-[0_24px_56px_-38px_rgba(15,23,42,0.28)] backdrop-blur md:p-6">
+        <section className="relative overflow-hidden rounded-[18px] border border-white/80 bg-white/88 p-4 shadow-sm backdrop-blur md:p-6">
           <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2563EB] to-[#22D3EE] text-white shadow-md">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
                 <ShieldCheck className="h-5 w-5" />
               </div>
               <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-                  Classificacao geral
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-700">
+                  Classificação geral
                 </p>
-                <h2 className="font-display text-xl font-black text-[#0F172A]">
-                  Top 20 do EstudAki
+                <h2 className="font-display text-xl font-semibold text-[#0F172A]">
+                  Top 20 do Norte Preparatórios
                 </h2>
               </div>
             </div>
-            <div className="flex items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-black text-slate-500 ring-1 ring-slate-100">
+            <div className="flex items-center gap-2 rounded-full bg-slate-50 px-3 py-2 text-xs font-semibold text-slate-500 ring-1 ring-slate-100">
               <UserRound className="h-4 w-4 text-blue-500" />
               Fotos, ligas e XP
             </div>
@@ -525,7 +514,7 @@ export function RankingLeaderboard({
             ))}
             {rest.length === 0 && (
               <p className="rounded-2xl border border-slate-100 bg-slate-50 p-4 text-center text-sm font-bold text-slate-500">
-                Ainda nao ha mais jogadores no ranking.
+                Ainda não há mais jogadores no ranking.
               </p>
             )}
           </div>

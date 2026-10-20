@@ -66,9 +66,9 @@ function importanceScore(node: MasteryNode) {
 function statusLabel(status: MasteryStatus) {
   const labels: Record<MasteryStatus, string> = {
     mastered: "Dominado",
-    progressing: "Em evolucao",
-    attention: "Precisa de atencao",
-    not_studied: "Nao estudado",
+    progressing: "Em evolução",
+    attention: "Precisa de atenção",
+    not_studied: "Não estudado",
   };
 
   return labels[status];
@@ -78,26 +78,26 @@ function reasonsFor(node: MasteryNode, now: Date) {
   const reasons: string[] = [];
 
   if (node.pendingErrors > 0) {
-    reasons.push(`${node.pendingErrors} erro(s) pendente(s) de revisao.`);
+    reasons.push(`${node.pendingErrors} erro(s) pendente(s) de revisão.`);
   }
 
   if (node.status === "not_studied") {
-    reasons.push("Ainda nao ha contato suficiente com esse assunto.");
+    reasons.push("Ainda não há contato suficiente com esse assunto.");
   } else if (node.masteryScore < 50) {
-    reasons.push(`Dominio pedagogico estimado em ${node.masteryScore}%.`);
+    reasons.push(`Domínio pedagógico estimado em ${node.masteryScore}%.`);
   }
 
   if (node.lastTouchedAt) {
     const days = daysBetween(node.lastTouchedAt, now);
-    if (days >= 7) reasons.push(`Ultimo contato ha ${days} dia(s).`);
+    if (days >= 7) reasons.push(`Último contato há ${days} dia(s).`);
   }
 
   if (node.questionCount > 0 && node.coverage < 40) {
-    reasons.push(`Cobertura baixa: ${node.answeredQuestions}/${node.questionCount} questoes vistas.`);
+    reasons.push(`Cobertura baixa: ${node.answeredQuestions}/${node.questionCount} questões vistas.`);
   }
 
   if (reasons.length === 0) {
-    reasons.push("Bom ponto para manter ritmo e consolidar o que ja apareceu no plano.");
+    reasons.push("Bom ponto para manter ritmo e consolidar o que já apareceu no plano.");
   }
 
   return reasons.slice(0, 3);

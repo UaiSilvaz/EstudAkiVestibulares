@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { ExamWorkspace } from "@/components/exam-workspace";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { courseMaterialAccess } from "@/lib/freemium-access";
 import { ensureEstudakiMaterials } from "@/lib/materials-bootstrap";
 
 export default async function BibliotecaMaterialPage({
@@ -37,7 +38,7 @@ export default async function BibliotecaMaterialPage({
     notFound();
   }
 
-  const access = material.priceCents <= 0
+  const access = user.role === "ADMIN" || (!material.premium && material.priceCents <= 0 && product.priceCents <= 0)
     ? true
     : await db.userProduct.findUnique({
         where: {
@@ -48,7 +49,7 @@ export default async function BibliotecaMaterialPage({
         },
       });
 
-  if (!access) {
+  if ((!access || (typeof access === "object" && access.revokedAt)) && !await courseMaterialAccess(user.id, material.id, material.fileUrl)) {
     redirect("/materials");
   }
 
@@ -75,7 +76,7 @@ export default async function BibliotecaMaterialPage({
         color: "#2563EB",
         official: false,
         vestibular: {
-          name: material.subject?.name ?? "EstudAki",
+          name: material.subject?.name ?? "Norte Preparatórios",
           slug: "biblioteca",
           color: "#2563EB",
         },

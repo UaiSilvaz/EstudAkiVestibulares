@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { getCurrentUser, getPersistedUserId } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { awardStudyXp, lockStudentProgress, syncStudyStreak } from "@/lib/study-xp";
 import { parseOldExamLanguage, selectOldExamLanguageLinks } from "@/lib/old-exam-language";
 import { validateOldExamProofSubmission } from "@/lib/old-exam-proof";
 import { questionResolutionPayload } from "@/lib/question-resolution-payload";
-import { leagueForXp } from "@/lib/utils";
 
 export async function POST(
   request: Request,
@@ -117,22 +117,14 @@ export async function POST(
       ...questionResolutionPayload(question),
     };
   });
-  const gainedXp = results.reduce(
-    (total, result) => total + (result.annulled || !result.selectedAlternative ? 0 : result.correct ? 15 : 5),
-    0,
-  );
-  const userBeforeReward =
-    gainedXp > 0
-      ? await db.user.findUnique({
-          where: { id: persistedUserId },
-          select: { xp: true, league: true, targetExam: true },
-        })
-      : null;
-  const newLeague = userBeforeReward
-    ? leagueForXp(userBeforeReward.xp + gainedXp, userBeforeReward.targetExam)
-    : null;
-
-  await db.$transaction(async (transaction) => {
+  const gainedXp = await db.$transaction(async (transaction) => {
+    await lockStudentProgress(transaction, persistedUserId);
+    let awarded = 0;
+    for (const result of results) {
+      if (result.annulled || !result.selectedAlternative) continue;
+      const existing = await transaction.questionAttempt.findFirst({ where: { userId: persistedUserId, questionId: result.questionId, annulled: false } });
+      if (!existing) awarded += await awardStudyXp(transaction, persistedUserId, "question:" + result.questionId, result.correct ? 15 : 5, "Resposta no modo prova");
+    }
     if (answeredLinks.length > 0) {
       await transaction.questionAttempt.createMany({
         data: answeredLinks.map((link) => {
@@ -151,24 +143,17 @@ export async function POST(
         }),
       });
     }
-    if (gainedXp > 0) {
-      await transaction.user.update({
-        where: { id: persistedUserId },
-        data: {
-          xp: { increment: gainedXp },
-          ...(newLeague && newLeague !== userBeforeReward?.league ? { league: newLeague } : {}),
-        },
-      });
-    }
     await transaction.activity.create({
       data: {
         userId: persistedUserId,
         type: "QUESTION",
         message: `${user.name} finalizou ${exam.titulo} no modo prova.`,
-        xp: gainedXp,
+        xp: 0,
       },
     });
-  });
+    await syncStudyStreak(transaction, persistedUserId);
+    return awarded;
+  }, { timeout: 30_000 });
 
   const correctCount = results.filter((result) => result.correct).length;
   const scoredCount = results.filter((result) => !result.annulled).length;

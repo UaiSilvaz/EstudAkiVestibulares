@@ -21,6 +21,7 @@ export type CourseCardDTO = {
   coverImage: string | null;
   priceCents: number;
   isFree: boolean;
+  canPurchase: boolean;
   featured: boolean;
   rating: number;
   studentsCount: number;
@@ -128,6 +129,7 @@ export type LessonPageDTO = {
     content: string | null;
     type: LessonNodeType;
     videoUrl: string | null;
+    thumbnailUrl: string | null;
     videoProvider: VideoProvider;
     durationSeconds: number;
     xpReward: number;

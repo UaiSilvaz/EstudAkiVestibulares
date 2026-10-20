@@ -42,22 +42,22 @@ export default async function EnemImportPreviewPage({
         title={`Prévia em REVIEW — ${exam.titulo}`}
         description={`${questions.length} questões da variante selecionada. Fonte congelada ${job.sourceJsonSha256.slice(0, 12)}…`}
       />
-      <section className="mb-5 flex items-start gap-3 rounded-[24px] border border-amber-200 bg-amber-50 p-4 text-amber-950">
+      <section className="mb-5 flex items-start gap-3 rounded-[18px] border border-amber-200 bg-amber-50 p-4 text-amber-950">
         <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0" />
         <div>
-          <h2 className="font-black">Prévia administrativa sem publicação</h2>
+          <h2 className="font-semibold">Prévia administrativa sem publicação</h2>
           <p className="mt-1 text-sm leading-6">
             As questões permanecem em REVIEW. A entrega abaixo não cria tentativa, não concede XP e só libera gabarito e resolução nesta sessão autenticada.
           </p>
         </div>
       </section>
       {availableLanguages.length > 0 && (
-        <section className="mb-5 rounded-[24px] border border-blue-100 bg-white p-4 shadow-sm">
+        <section className="mb-5 rounded-[18px] border border-blue-100 bg-white p-4 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-start gap-3">
               <Languages className="mt-0.5 h-5 w-5 shrink-0 text-blue-700" />
               <div>
-                <h2 className="font-black text-slate-950">Variante de língua estrangeira</h2>
+                <h2 className="font-semibold text-slate-950">Variante de língua estrangeira</h2>
                 <p className="mt-1 text-xs font-semibold text-slate-500">
                   Cada idioma mantém cinco ocorrências próprias e compartilha as demais questões do caderno.
                 </p>
@@ -69,7 +69,7 @@ export default async function EnemImportPreviewPage({
                   key={language}
                   href={`/admin/importacoes-enem/${job.id}/preview?idioma=${language}`}
                   aria-current={selectedLanguage === language ? "page" : undefined}
-                  className={`rounded-full px-4 py-2 text-sm font-black transition ${
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     selectedLanguage === language
                       ? "bg-blue-600 text-white shadow-md"
                       : "bg-blue-50 text-blue-800 hover:bg-blue-100"

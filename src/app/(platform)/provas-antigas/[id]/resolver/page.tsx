@@ -67,7 +67,7 @@ export default async function ResolveOldExamPage({
         title={`Resolver ${exam.titulo}`}
         description={`${questions.length} questão(ões) publicadas e revisadas disponíveis nesta prova.`}
       />
-      <nav className="mb-5 grid gap-2 rounded-[24px] border border-slate-200 bg-white p-2 shadow-sm sm:grid-cols-2" aria-label="Modo de resolução">
+      <nav className="mb-5 grid gap-2 rounded-[18px] border border-slate-200 bg-white p-2 shadow-sm sm:grid-cols-2" aria-label="Modo de resolução">
         <Link
           href={`/provas-antigas/${exam.id}/resolver?modo=estudo${selectedLanguage ? `&idioma=${selectedLanguage}` : ""}`}
           aria-current={mode === "estudo" ? "page" : undefined}
@@ -90,12 +90,12 @@ export default async function ResolveOldExamPage({
         </Link>
       </nav>
       {availableLanguages.length > 0 && (
-        <section className="mb-5 rounded-[24px] border border-blue-100 bg-white p-4 shadow-[0_18px_44px_-34px_rgba(15,23,42,0.32)]">
+        <section className="mb-5 rounded-[18px] border border-blue-100 bg-white p-4 shadow-sm">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-start gap-3">
               <Languages className="mt-0.5 h-5 w-5 shrink-0 text-blue-700" />
               <div>
-                <h2 className="font-black text-slate-950">Escolha a língua estrangeira</h2>
+                <h2 className="font-semibold text-slate-950">Escolha a língua estrangeira</h2>
                 <p className="mt-1 text-xs font-semibold text-slate-500">
                   As demais questões do caderno permanecem iguais; somente a variante de língua é trocada.
                 </p>
@@ -107,7 +107,7 @@ export default async function ResolveOldExamPage({
                   key={language}
                   href={`/provas-antigas/${exam.id}/resolver?modo=${mode}&idioma=${language}`}
                   aria-current={selectedLanguage === language ? "page" : undefined}
-                  className={`rounded-full px-4 py-2 text-sm font-black transition ${
+                  className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
                     selectedLanguage === language
                       ? "bg-blue-600 text-white shadow-md"
                       : "bg-blue-50 text-blue-800 hover:bg-blue-100"

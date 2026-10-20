@@ -1,19 +1,8 @@
 "use client";
 
+import { BarChart3, BookOpenCheck, CalendarDays, Clock3, Target } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  BarChart3,
-  BookOpenCheck,
-  CalendarDays,
-  Check,
-  Clock3,
-  Compass,
-  GraduationCap,
-  RotateCcw,
-  Settings2,
-  Target,
-} from "lucide-react";
+import { ArrowRight, Check, Compass, GraduationCap, RotateCcw, Settings2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
@@ -59,11 +48,11 @@ const weekDays = [
 
 function taskTypeLabel(type: string) {
   const normalized = type.toLowerCase();
-  if (normalized.includes("review")) return "Revisao";
+  if (normalized.includes("review")) return "Revisão";
   if (normalized.includes("error")) return "Caderno de erros";
-  if (normalized.includes("question")) return "Questoes";
+  if (normalized.includes("question")) return "Questões";
   if (normalized.includes("lesson")) return "Trilha";
-  if (normalized.includes("essay")) return "Redacao";
+  if (normalized.includes("essay")) return "Redação";
   return type.replace(/_/g, " ");
 }
 
@@ -107,7 +96,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
       icon: GraduationCap,
     },
     {
-      title: "Diagnostico",
+      title: "Diagnóstico",
       value: `${diagnostics.pendingErrors} erro(s) pendentes`,
       detail: "define prioridades",
       href: "/diagnostico",
@@ -193,19 +182,19 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
 
   return (
     <div className="space-y-5">
-      <section className="relative overflow-hidden rounded-[28px] border border-white/80 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.26)] sm:p-6">
+      <section className="relative overflow-hidden rounded-[18px] border border-white/80 bg-white p-5 shadow-sm sm:p-6">
         <div aria-hidden className="pointer-events-none absolute -right-12 -top-14 h-44 w-44 rounded-full bg-blue-200/30 blur-3xl" />
         <div className="relative z-10 flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
           <div className="min-w-0">
-            <p className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
+            <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wide text-blue-700">
               <Compass className="h-4 w-4" />
               Plano conectado
             </p>
-            <h2 className="mt-1 font-display text-2xl font-extrabold text-[#0F172A]">
+            <h2 className="mt-1 font-display text-2xl font-bold text-[#0F172A]">
               Do onboarding ao bloco de estudo
             </h2>
             <p className="mt-1 max-w-2xl text-sm font-semibold leading-6 text-slate-500">
-              Este cronograma combina sua meta, sua base inicial e o tempo que voce disse ter disponivel.
+              Este cronograma combina sua meta, sua base inicial e o tempo que você disse ter disponível.
             </p>
           </div>
           <div className="grid gap-2 sm:grid-cols-3 xl:min-w-[560px]">
@@ -213,18 +202,18 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
               <Link
                 key={item.title}
                 href={item.href}
-                className="group rounded-[22px] border border-slate-100 bg-slate-50/80 p-3 transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/60"
+                className="group rounded-[18px] border border-slate-100 bg-slate-50/80 p-3 transition hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/60"
               >
                 <div className="flex items-center gap-2">
                   <span className="flex h-9 w-9 items-center justify-center rounded-2xl bg-white text-blue-700 shadow-sm">
                     <item.icon className="h-4 w-4" />
                   </span>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                     Passo {index + 1}
                   </span>
                 </div>
-                <p className="mt-3 text-xs font-black uppercase tracking-wider text-blue-700">{item.title}</p>
-                <p className="mt-1 line-clamp-2 min-h-9 text-sm font-extrabold leading-5 text-[#0F172A]">
+                <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-blue-700">{item.title}</p>
+                <p className="mt-1 line-clamp-2 min-h-9 text-sm font-bold leading-5 text-[#0F172A]">
                   {item.value}
                 </p>
                 <p className="mt-1 text-xs font-semibold text-slate-500">{item.detail}</p>
@@ -235,13 +224,13 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
       </section>
 
       <section className="grid gap-4 lg:grid-cols-[1fr_1.35fr]">
-        <div className="rounded-[28px] border border-blue-100 bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-400 p-6 text-white shadow-[0_24px_55px_-30px_rgba(37,99,235,0.7)]">
-          <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/75">
+        <div className="rounded-[18px] border border-blue-100     p-6 text-[color:var(--theme-text)] shadow-sm professional-neutral">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-white/75">
             Plano adaptativo
           </p>
           <div className="mt-3 flex items-end justify-between gap-4">
             <div>
-              <p className="font-display text-5xl font-black">{completion}%</p>
+              <p className="font-display text-5xl font-semibold">{completion}%</p>
               <p className="mt-1 text-sm font-bold text-white/80">da semana concluída</p>
             </div>
             <Target className="h-14 w-14 text-white/35" />
@@ -250,7 +239,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${completion}%` }}
-              className="h-full rounded-full bg-gradient-to-r from-yellow-300 to-orange-400"
+              className="h-full rounded-full    professional-neutral"
             />
           </div>
           <div className="mt-5 grid grid-cols-2 gap-3">
@@ -258,15 +247,15 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
             <Metric label="Erros pendentes" value={String(diagnostics.pendingErrors)} />
           </div>
           <div className="mt-4 rounded-2xl border border-white/24 bg-white/16 p-3 backdrop-blur">
-            <p className="text-[10px] font-black uppercase tracking-wider text-white/70">Base do plano</p>
-            <p className="mt-1 text-sm font-black leading-5 text-white">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70">Base do plano</p>
+            <p className="mt-1 text-sm font-semibold leading-5 text-white">
               {profile?.targetExam ?? "ENEM"} · {selectedDaysLabel || "dias a definir"} · {minutes} min/dia
             </p>
           </div>
           {diagnostics.pendingErrors > 0 && (
             <Link
               href="/questions?vestibular=enem&mode=errors"
-              className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white text-sm font-black text-blue-700 shadow-sm transition hover:-translate-y-0.5"
+              className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-white text-sm font-semibold text-blue-700 shadow-sm transition hover:-translate-y-0.5"
             >
               <BookOpenCheck className="h-4 w-4" />
               Abrir Caderno de Erros
@@ -275,36 +264,36 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
           <div className="mt-3 grid grid-cols-2 gap-2">
             <Link
               href="/onboarding"
-              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-white/12 px-3 text-xs font-black uppercase tracking-wider text-white transition hover:bg-white/20"
+              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-white/12 px-3 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-white/20"
             >
               Rever objetivo
             </Link>
             <Link
               href="/diagnostico"
-              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-white/12 px-3 text-xs font-black uppercase tracking-wider text-white transition hover:bg-white/20"
+              className="inline-flex min-h-10 items-center justify-center rounded-2xl border border-white/24 bg-white/12 px-3 text-xs font-semibold uppercase tracking-wider text-white transition hover:bg-white/20"
             >
-              Diagnostico
+              Diagnóstico
             </Link>
           </div>
         </div>
 
-        <div className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_20px_48px_-32px_rgba(15,23,42,0.32)] sm:p-6">
+        <div className="rounded-[18px] border border-slate-100 bg-white p-5 shadow-sm sm:p-6">
           <div className="flex items-center gap-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-orange-50 text-orange-600">
               <Settings2 className="h-5 w-5" />
             </span>
             <div>
-              <h2 className="font-display text-xl font-black text-slate-950">Seu tempo disponível</h2>
+              <h2 className="font-display text-xl font-semibold text-slate-950">Seu tempo disponível</h2>
               <p className="text-xs font-semibold text-slate-500">Altere e regenere o plano em segundos.</p>
             </div>
           </div>
-          <div className="mt-5 grid gap-3 rounded-[22px] border border-orange-100 bg-orange-50/70 p-3 sm:grid-cols-3">
+          <div className="mt-5 grid gap-3 rounded-[18px] border border-orange-100 bg-orange-50/70 p-3 sm:grid-cols-3">
             <SmallPlanMetric label="Dias" value={String(days.length)} />
             <SmallPlanMetric label="Por dia" value={`${minutes}min`} />
             <SmallPlanMetric label="Semana" value={`${weeklyHours}h`} />
           </div>
           <div className="mt-5">
-            <p className="mb-2 text-xs font-black uppercase tracking-wider text-slate-500">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-slate-500">
               Dias de estudo
             </p>
             <div className="grid grid-cols-7 gap-1.5">
@@ -321,7 +310,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                           : [...current, day.value].sort(),
                       )
                     }
-                    className={`min-h-10 rounded-xl text-xs font-black transition ${
+                    className={`min-h-10 rounded-xl text-xs font-semibold transition ${
                       selected
                         ? "bg-blue-600 text-white shadow-sm"
                         : "border border-slate-200 bg-white text-slate-500 hover:border-blue-300"
@@ -335,7 +324,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
           </div>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <label>
-              <span className="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-500">
+              <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Minutos por dia
               </span>
               <input
@@ -349,7 +338,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
               />
             </label>
             <label>
-              <span className="mb-1.5 block text-xs font-black uppercase tracking-wider text-slate-500">
+              <span className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Data da prova
               </span>
               <input
@@ -364,7 +353,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
             type="button"
             disabled={saving}
             onClick={() => void regenerate()}
-            className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 text-sm font-black text-white shadow-md transition hover:-translate-y-0.5 disabled:opacity-60"
+            className="mt-4 flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl    text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 disabled:opacity-60 professional-action"
           >
             <RotateCcw className={`h-4 w-4 ${saving ? "animate-spin" : ""}`} />
             {saving ? "Recalculando..." : "Regenerar cronograma"}
@@ -379,16 +368,16 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
 
           return (
           <div key={date}>
-            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[22px] border border-slate-100 bg-white px-4 py-3 shadow-sm">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-slate-100 bg-white px-4 py-3 shadow-sm">
               <div className="flex items-center gap-2">
               <CalendarDays className="h-4 w-4 text-blue-600" />
-              <h2 className="text-sm font-black capitalize text-slate-700">{date}</h2>
+              <h2 className="text-sm font-semibold capitalize text-slate-700">{date}</h2>
               </div>
-              <div className="flex flex-wrap items-center gap-2 text-[10px] font-black uppercase tracking-wider text-slate-500">
+              <div className="flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                 <span className="rounded-full bg-blue-50 px-2.5 py-1 text-blue-700">{dayTasks.length} bloco(s)</span>
                 <span className="rounded-full bg-orange-50 px-2.5 py-1 text-orange-700">{dayMinutes} min</span>
                 <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-emerald-700">
-                  {dayCompleted}/{dayTasks.length} concluidos
+                  {dayCompleted}/{dayTasks.length} concluídos
                 </span>
               </div>
             </div>
@@ -399,7 +388,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                   <motion.article
                     key={task.id}
                     layout
-                    className={`flex items-start gap-3 rounded-[22px] border p-4 shadow-sm transition ${
+                    className={`flex items-start gap-3 rounded-[18px] border p-4 shadow-sm transition ${
                       completed
                         ? "border-emerald-200 bg-emerald-50/70"
                         : "border-slate-100 bg-white"
@@ -419,7 +408,7 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                     </button>
                     <div className="min-w-0 flex-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-blue-50 px-2 py-1 text-[9px] font-black uppercase tracking-wider text-blue-700">
+                        <span className="rounded-full bg-blue-50 px-2 py-1 text-[9px] font-semibold uppercase tracking-wider text-blue-700">
                           {taskTypeLabel(task.type)}
                         </span>
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-400">
@@ -427,21 +416,21 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
                           {task.durationMinutes} min
                         </span>
                         {completed ? (
-                          <span className="rounded-full bg-emerald-100 px-2 py-1 text-[9px] font-black uppercase tracking-wider text-emerald-700">
-                            Concluido
+                          <span className="rounded-full bg-emerald-100 px-2 py-1 text-[9px] font-semibold uppercase tracking-wider text-emerald-700">
+                            Concluído
                           </span>
                         ) : null}
                       </div>
-                      <h3 className={`mt-2 font-black ${completed ? "text-emerald-800 line-through" : "text-slate-950"}`}>
+                      <h3 className={`mt-2 font-semibold ${completed ? "text-emerald-800 line-through" : "text-slate-950"}`}>
                         {task.title}
                       </h3>
                       <p className="mt-1 text-xs font-medium leading-5 text-slate-500">{task.description}</p>
                       {!completed && (
                         <Link
                           href={task.actionHref}
-                          className="mt-3 inline-flex items-center gap-1 text-xs font-black text-blue-700 hover:text-blue-900"
+                          className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-blue-700 hover:text-blue-900"
                         >
-                          Comecar agora
+                          Começar agora
                           <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                       )}
@@ -461,8 +450,8 @@ export function StudyPlanDashboard({ tasks, profile, preference, diagnostics }: 
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-white/20 bg-white/15 p-3 backdrop-blur">
-      <p className="text-[9px] font-black uppercase tracking-wider text-white/70">{label}</p>
-      <p className="mt-1 text-xl font-black">{value}</p>
+      <p className="text-[9px] font-semibold uppercase tracking-wider text-white/70">{label}</p>
+      <p className="mt-1 text-xl font-semibold">{value}</p>
     </div>
   );
 }
@@ -470,8 +459,8 @@ function Metric({ label, value }: { label: string; value: string }) {
 function SmallPlanMetric({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-white px-3 py-2">
-      <p className="text-[9px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-      <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">{value}</p>
+      <p className="text-[9px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+      <p className="mt-1 font-display text-xl font-bold text-[#0F172A]">{value}</p>
     </div>
   );
 }

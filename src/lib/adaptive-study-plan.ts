@@ -1,5 +1,7 @@
 import type { Prisma } from "@prisma/client";
 import { db } from "./db";
+import { accessibleCourseWhere } from "./freemium";
+import { availableQuestionWhere } from "./freemium-access";
 
 type PlanSettings = {
   availableDays?: number[];
@@ -38,16 +40,17 @@ function normalizedDays(days: number[] | undefined) {
 export async function regenerateStudyPlan(userId: string, settings: PlanSettings = {}) {
   const user = await db.user.findUniqueOrThrow({
     where: { id: userId },
-    select: { weeklyHours: true },
+    select: { weeklyHours: true, role: true },
   });
   const existingPreference = await db.studyPlanPreference.findUnique({ where: { userId } });
+  const learningProfile = await db.studentLearningProfile.findUnique({ where: { userId } });
   const availableDays = normalizedDays(
-    settings.availableDays ??
+    settings.availableDays ?? (learningProfile?.studyDays as number[] | undefined) ??
       (existingPreference ? JSON.parse(existingPreference.availableDays) as number[] : undefined),
   );
   const defaultMinutes = Math.round(((user.weeklyHours || 8) * 60) / availableDays.length);
   const minutesPerDay = clamp(
-    settings.minutesPerDay ?? existingPreference?.minutesPerDay ?? defaultMinutes,
+    settings.minutesPerDay ?? learningProfile?.minutesPerDay ?? existingPreference?.minutesPerDay ?? defaultMinutes,
     30,
     300,
   );
@@ -56,19 +59,31 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
     update: {
       availableDays: JSON.stringify(availableDays),
       minutesPerDay,
-      examDate: settings.examDate === undefined ? existingPreference?.examDate : settings.examDate,
+      examDate: settings.examDate === undefined ? learningProfile?.examDate ?? existingPreference?.examDate : settings.examDate,
     },
     create: {
       userId,
       availableDays: JSON.stringify(availableDays),
       minutesPerDay,
-      examDate: settings.examDate ?? null,
+      examDate: settings.examDate ?? learningProfile?.examDate ?? null,
     },
   });
 
-  const [attempts, questions] = await Promise.all([
+  const exams = await db.vestibular.findMany({ select: { slug: true, name: true } });
+  const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const chosen = Array.isArray(learningProfile?.exams) ? learningProfile.exams as string[] : [];
+  const selectedExams = exams.filter(exam => chosen.some(value => normalize(value) === normalize(exam.name) || normalize(value) === exam.slug));
+  const examSlugs = learningProfile ? selectedExams.map(exam => exam.slug) : ["enem"];
+  const examSlug = examSlugs[0] ?? "";
+  const questionCount = learningProfile?.level === "ADVANCED" ? 15 : learningProfile?.level === "BEGINNER" ? 5 : 10;
+  const preferences = (learningProfile?.learningPreferences as string[] | undefined) ?? ["questions"];
+  const difficulties = (learningProfile?.difficultSubjects as string[] | undefined) ?? [];
+  const preferredSubjects = await db.subject.findMany({ where: { slug: { in: difficulties } }, select: { id: true } });
+  const preferredSubjectIds = new Set(preferredSubjects.map(subject => subject.id));
+  const availableQuestions = await availableQuestionWhere(userId, user.role);
+  const [attempts, questions, courses, materials] = await Promise.all([
     db.questionAttempt.findMany({
-      where: { userId, annulled: false },
+      where: { userId, annulled: false, question: { vestibular: { slug: { in: examSlugs } } } },
       orderBy: { createdAt: "desc" },
       include: {
         question: {
@@ -83,7 +98,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
       },
     }),
     db.question.findMany({
-      where: { status: "PUBLISHED", answerSituation: { not: "ANNULLED" } },
+      where: { status: "PUBLISHED", reviewState: "APPROVED", answerSituation: { not: "ANNULLED" }, vestibular: { slug: { in: examSlugs } }, AND: [availableQuestions] },
       select: {
         id: true,
         subjectId: true,
@@ -92,6 +107,8 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
         topic: { select: { name: true } },
       },
     }),
+    db.course.findMany({ where: { status: "PUBLISHED", AND: [accessibleCourseWhere(userId)] }, select: { slug: true, subjectId: true } }),
+    db.material.findMany({ where: { status: "PUBLISHED", fileUrl: { not: null }, OR: [{ priceCents: 0 }, { product: { licenses: { some: { userId, revokedAt: null } } } }] }, select: { fileUrl: true, subjectId: true, product: { select: { slug: true } } } }),
   ]);
 
   const answeredIds = new Set(attempts.map((attempt) => attempt.questionId));
@@ -134,7 +151,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
     subjectCoverage.set(current.id, current);
   }
   const coverageGaps = Array.from(subjectCoverage.values()).sort(
-    (a, b) => a.answered / Math.max(1, a.total) - b.answered / Math.max(1, b.total),
+    (a, b) => Number(preferredSubjectIds.has(b.id)) - Number(preferredSubjectIds.has(a.id)) || a.answered / Math.max(1, a.total) - b.answered / Math.max(1, b.total),
   );
 
   const today = new Date();
@@ -178,7 +195,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
           title: "Revisar o Caderno de Erros",
           description: `${pendingErrors.length} questão(ões) pendente(s) em ${Array.from(errorSubjects).slice(0, 2).join(" e ")}.`,
           durationMinutes: blockDuration,
-          actionHref: "/questions?vestibular=enem&mode=errors",
+          actionHref: "/questions?vestibular=" + encodeURIComponent(examSlug) + "&mode=errors",
         });
         continue;
       }
@@ -196,7 +213,7 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
           durationMinutes: blockDuration,
           subjectId: weak.subjectId,
           topicId: weak.id,
-          actionHref: `/questions?vestibular=enem&subject=${encodeURIComponent(weak.subjectId)}&topic=${encodeURIComponent(weak.id)}&session=1&count=10`,
+          actionHref: `/questions?vestibular=${encodeURIComponent(examSlug)}&subject=${encodeURIComponent(weak.subjectId)}&topic=${encodeURIComponent(weak.id)}&session=1&count=${questionCount}`,
         });
         continue;
       }
@@ -205,22 +222,28 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
       if (gap) {
         gapIndex += 1;
         const coverage = Math.round((gap.answered / Math.max(1, gap.total)) * 100);
+        const course = preferences.includes("video") ? courses.find(item => item.subjectId === gap.id) : undefined;
+        const material = preferences.includes("reading") ? materials.find(item => item.subjectId === gap.id) : undefined;
+        if (course || material) {
+          tasks.push({ userId, ...(settings.userPreparationId ? { userPreparationId: settings.userPreparationId } : {}), scheduledFor,
+            type: "THEORY", title: course ? "Estudar uma aula de " + gap.name : "Ler e anotar: " + gap.name,
+            description: "Bloco escolhido para sua preferência de estudo e seu objetivo: " + (learningProfile?.course ?? "avançar na preparação") + (learningProfile?.targetScore ? " · meta " + learningProfile.targetScore : ""),
+            durationMinutes: blockDuration, subjectId: gap.id, actionHref: course ? "/cursos/" + course.slug : material?.product ? "/biblioteca/" + material.product.slug : material!.fileUrl! });
+          continue;
+        }
         tasks.push({
           userId,
           ...(settings.userPreparationId ? { userPreparationId: settings.userPreparationId } : {}),
           scheduledFor,
-          type: block % 2 === 0 ? "THEORY" : "FLASHCARDS",
-          title: block % 2 === 0 ? `Avançar em ${gap.name}` : `Flashcards de ${gap.name}`,
+          type: "QUESTIONS",
+          title: `Praticar ${gap.name}`,
           description:
             block % 2 === 0
               ? `Você percorreu ${coverage}% das questões disponíveis desta matéria.`
               : "Faça uma revisão ativa antes do próximo bloco de questões.",
           durationMinutes: blockDuration,
           subjectId: gap.id,
-          actionHref:
-            block % 2 === 0
-              ? `/questions?vestibular=enem&subject=${encodeURIComponent(gap.id)}&session=1&scope=unanswered&count=10`
-              : `/flashcards?subject=${encodeURIComponent(gap.id)}`,
+          actionHref: `/questions?vestibular=${encodeURIComponent(examSlug)}&subject=${encodeURIComponent(gap.id)}&session=1&scope=unanswered&count=${questionCount}`,
         });
       }
     }
@@ -259,6 +282,8 @@ export async function regenerateStudyPlan(userId: string, settings: PlanSettings
       weakTopics: weakTopics.slice(0, 4),
       coverageGaps: coverageGaps.slice(0, 4),
       weeklyMinutes: minutesPerDay * availableDays.length,
+      learningProfile: learningProfile ? { goal: learningProfile.course, target: learningProfile.targetScore, level: learningProfile.level, preferences, difficulties, examDate: learningProfile.examDate } : null,
+      availableQuestionCount: questions.length,
     },
   };
 }

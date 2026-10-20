@@ -11,6 +11,9 @@ type UserRow = {
   name: string;
   email: string;
   role: Role;
+  bannedAt: string | null;
+  banReason: string | null;
+  emailVerifiedAt: string | null;
   xp: number;
   streak: number;
   league: string;
@@ -56,8 +59,6 @@ type ProductRow = {
 
 const roleLabels: Record<Role, string> = {
   ADMIN: "Admin",
-  COORDINATOR: "Coordenador",
-  MENTOR: "Mentor",
   TEACHER: "Professor",
   STUDENT: "Aluno",
 };
@@ -82,6 +83,7 @@ export function UserManager() {
   const [search, setSearch] = useState("");
   const [selectedProductId, setSelectedProductId] = useState("");
   const [loadError, setLoadError] = useState<string | null>(null);
+  const [banReasons, setBanReasons] = useState<Record<string, string>>({});
 
   async function loadUsers() {
     setLoading(true);
@@ -89,7 +91,7 @@ export function UserManager() {
     try {
       const response = await fetch("/api/admin/users", { cache: "no-store" });
       const payload = (await response.json()) as { users?: UserRow[]; products?: ProductRow[]; error?: string };
-      if (!response.ok) throw new Error(payload.error ?? "Falha ao carregar usuarios.");
+      if (!response.ok) throw new Error(payload.error ?? "Falha ao carregar usuários.");
       setUsers(payload.users ?? []);
       setProducts(payload.products ?? []);
       if (!selectedProductId && payload.products?.[0]) setSelectedProductId(payload.products[0].id);
@@ -98,7 +100,7 @@ export function UserManager() {
       setLoadError(message);
       notify({
         tone: "error",
-        title: "Usuarios indisponiveis",
+        title: "Usuários indisponiveis",
         message,
       });
     } finally {
@@ -136,6 +138,8 @@ export function UserManager() {
     : 0;
 
   async function updateRole(user: UserRow, role: Role) {
+    if (role === user.role) return;
+    if (!await confirm({ title: "Alterar cargo?", message: `${user.email}: ${roleLabels[user.role]} → ${roleLabels[role]}. As sessões existentes serão encerradas.`, confirmLabel: "Alterar cargo", cancelLabel: "Cancelar", tone: "default" })) return;
     setBusyId(user.id);
     try {
       const response = await fetch(`/api/admin/users/${user.id}`, {
@@ -144,17 +148,17 @@ export function UserManager() {
         body: JSON.stringify({ role }),
       });
       const payload = (await response.json()) as { error?: string };
-      if (!response.ok) throw new Error(payload.error ?? "Nao foi possivel atualizar.");
+      if (!response.ok) throw new Error(payload.error ?? "Não foi possível atualizar.");
       notify({
         tone: "success",
-        title: "Usuario atualizado",
-        message: `${user.email} agora esta como ${roleLabels[role]}.`,
+        title: "Usuário atualizado",
+        message: `${user.email} agora está como ${roleLabels[role]}.`,
       });
       await loadUsers();
     } catch (error) {
       notify({
         tone: "error",
-        title: "Alteracao nao aplicada",
+        title: "Alteração não aplicada",
         message: error instanceof Error ? error.message : "Tente novamente.",
       });
     } finally {
@@ -162,10 +166,24 @@ export function UserManager() {
     }
   }
 
+  async function toggleBan(user: UserRow) {
+    const banned = !user.bannedAt;
+    if (!await confirm({ title: banned ? "Banir usuário?" : "Remover banimento?", message: banned ? `${user.email} perderá o acesso imediatamente. Seus dados serão preservados.` : `${user.email} poderá entrar novamente com a senha existente.`, confirmLabel: banned ? "Banir" : "Desbanir", cancelLabel: "Cancelar", tone: banned ? "danger" : "default" })) return;
+    setBusyId(user.id);
+    try {
+      const response = await fetch(`/api/admin/users/${user.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ banned, banReason: banReasons[user.id] || "Banimento administrativo" }) });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || "Não foi possível alterar o banimento.");
+      notify({ tone: "success", title: banned ? "Usuário banido" : "Banimento removido", message: user.email });
+      await loadUsers();
+    } catch (error) { notify({ tone: "error", title: "Ação não aplicada", message: error instanceof Error ? error.message : "Tente novamente." }); }
+    finally { setBusyId(null); }
+  }
+
   async function deleteUser(user: UserRow) {
     const accepted = await confirm({
       tone: "danger",
-      title: "Excluir usuario?",
+      title: "Excluir usuário?",
       message: `Isso remove ${user.email} e os dados vinculados por cascata. Use apenas quando tiver certeza.`,
       confirmLabel: "Excluir",
       cancelLabel: "Cancelar",
@@ -176,13 +194,13 @@ export function UserManager() {
     try {
       const response = await fetch(`/api/admin/users/${user.id}`, { method: "DELETE" });
       const payload = (await response.json()) as { error?: string };
-      if (!response.ok) throw new Error(payload.error ?? "Nao foi possivel excluir.");
-      notify({ tone: "success", title: "Usuario excluido", message: user.email });
+      if (!response.ok) throw new Error(payload.error ?? "Não foi possível excluir.");
+      notify({ tone: "success", title: "Usuário excluido", message: user.email });
       await loadUsers();
     } catch (error) {
       notify({
         tone: "error",
-        title: "Exclusao bloqueada",
+        title: "Exclusão bloqueada",
         message: error instanceof Error ? error.message : "Tente novamente.",
       });
     } finally {
@@ -204,7 +222,7 @@ export function UserManager() {
         body: JSON.stringify({ productId: selectedProductId, licenseAction }),
       });
       const payload = (await response.json()) as { error?: string };
-      if (!response.ok) throw new Error(payload.error ?? "Nao foi possivel atualizar o acesso.");
+      if (!response.ok) throw new Error(payload.error ?? "Não foi possível atualizar o acesso.");
       notify({
         tone: "success",
         title: licenseAction === "grant" ? "PDF liberado" : "PDF restringido",
@@ -214,7 +232,7 @@ export function UserManager() {
     } catch (error) {
       notify({
         tone: "error",
-        title: "Acesso nao atualizado",
+        title: "Acesso não atualizado",
         message: error instanceof Error ? error.message : "Tente novamente.",
       });
     } finally {
@@ -226,16 +244,16 @@ export function UserManager() {
     <div className="space-y-5">
       <section className="grid gap-3 md:grid-cols-3">
         <div className="rounded-2xl border border-blue-100 bg-blue-50 p-5">
-          <p className="text-xs font-black uppercase tracking-wider text-blue-700">Usuarios</p>
-          <p className="mt-1 text-3xl font-black text-slate-950">{users.length}</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-blue-700">Usuários</p>
+          <p className="mt-1 text-3xl font-semibold text-slate-950">{users.length}</p>
         </div>
         <div className="rounded-2xl border border-violet-100 bg-violet-50 p-5">
-          <p className="text-xs font-black uppercase tracking-wider text-violet-700">Admins</p>
-          <p className="mt-1 text-3xl font-black text-slate-950">{totals.admins}</p>
+          <p className="text-xs font-semibold uppercase tracking-wider text-violet-700">Administradores</p>
+          <p className="mt-1 text-3xl font-semibold text-slate-950">{totals.admins}</p>
         </div>
         <div className="rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
-          <p className="text-xs font-black uppercase tracking-wider text-emerald-700">Compras/licencas</p>
-          <p className="mt-1 text-3xl font-black text-slate-950">
+          <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">Compras/licenças</p>
+          <p className="mt-1 text-3xl font-semibold text-slate-950">
             {totals.purchases}/{totals.licenses}
           </p>
         </div>
@@ -245,16 +263,16 @@ export function UserManager() {
         value={search}
         onChange={(event) => setSearch(event.target.value)}
         className="ek-input w-full"
-        placeholder="Buscar por nome, email, papel ou vestibular..."
+        placeholder="Buscar por nome, e-mail, papel ou vestibular..."
       />
 
-      <section className="overflow-hidden rounded-[28px] border border-orange-100 bg-gradient-to-br from-orange-50 via-white to-blue-50 p-4 shadow-[0_18px_42px_-28px_rgba(249,115,22,0.26)] md:p-5">
+      <section className="overflow-hidden rounded-[18px] border border-orange-100     p-4 shadow-sm md:p-5 professional-neutral">
         <div className="grid gap-4 lg:grid-cols-[1fr_0.85fr] lg:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.24em] text-orange-700">Controle de acesso aos materiais</p>
-            <h2 className="mt-1 text-2xl font-black text-slate-950">Liberar ou restringir PDF por usuario</h2>
+            <p className="text-xs font-semibold uppercase tracking-wide text-orange-700">Controle de acesso aos materiais</p>
+            <h2 className="mt-1 text-2xl font-semibold text-slate-950">Liberar ou restringir PDF por usuário</h2>
             <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">
-              Escolha um material e use os botoes em cada aluno. A biblioteca do aluno atualiza assim que o acesso e liberado.
+              Escolha um material e use os botões em cada aluno. A biblioteca do aluno atualiza assim que o acesso é liberado.
             </p>
           </div>
           <select
@@ -270,18 +288,18 @@ export function UserManager() {
           </select>
         </div>
         {selectedProduct && (
-          <div className="mt-4 grid gap-3 rounded-[22px] border border-white/80 bg-white/85 p-4 md:grid-cols-[1fr_auto] md:items-center">
+          <div className="mt-4 grid gap-3 rounded-[18px] border border-white/80 bg-white/85 p-4 md:grid-cols-[1fr_auto] md:items-center">
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-emerald-700">
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
                   <CheckCircle2 className="h-3.5 w-3.5" />
                   {selectedAccessCount} liberado(s)
                 </span>
-                <span className="rounded-full bg-blue-100 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-blue-700">
+                <span className="rounded-full bg-blue-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-blue-700">
                   {money(selectedProduct.priceCents)}
                 </span>
               </div>
-              <h3 className="mt-2 text-lg font-black text-slate-950">{selectedProduct.name}</h3>
+              <h3 className="mt-2 text-lg font-semibold text-slate-950">{selectedProduct.name}</h3>
               <p className="text-sm font-semibold text-slate-500">{selectedProduct.material.title}</p>
             </div>
             {selectedProduct.material.fileUrl && (
@@ -314,7 +332,7 @@ export function UserManager() {
         <EstudakiLoadingState label="Carregando usuários" />
       ) : loadError ? (
         <div className="rounded-3xl border border-rose-100 bg-rose-50 p-6 text-center">
-          <p className="text-lg font-black text-rose-800">Nao foi possivel carregar os usuarios.</p>
+          <p className="text-lg font-semibold text-rose-800">Não foi possível carregar os usuários.</p>
           <p className="mt-2 text-sm font-semibold text-rose-700">{loadError}</p>
           <button type="button" onClick={() => void loadUsers()} className="ek-button ek-button-primary mt-4">
             Tentar novamente
@@ -325,23 +343,24 @@ export function UserManager() {
           {filteredUsers.map((user) => (
             <article
               key={user.id}
-              className="rounded-3xl border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.18)]"
+              className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm"
             >
               <div className="grid gap-4 xl:grid-cols-[1fr_auto]">
                 <div>
                   <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="text-xl font-black text-slate-950">{user.name}</h2>
-                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-slate-600">
+                    <h2 className="text-xl font-semibold text-slate-950">{user.name}</h2>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
                       {roleLabels[user.role]}
                     </span>
                     {user.role === Role.ADMIN && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-violet-700">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-violet-700">
                         <Crown className="h-3 w-3" />
                         Sistema
                       </span>
                     )}
                   </div>
                   <p className="mt-1 text-sm font-semibold text-slate-500">{user.email}</p>
+                  <p className={`mt-2 text-xs font-bold ${user.bannedAt ? "text-rose-700" : "text-emerald-700"}`}>{user.bannedAt ? `Banido: ${user.banReason || "Banimento administrativo"}` : "Conta ativa"} · {user.emailVerifiedAt ? "E-mail confirmado" : "E-mail pendente"}</p>
                   <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-slate-600">
                     <span className="rounded-full bg-slate-50 px-3 py-1">{user.xp} XP</span>
                     <span className="rounded-full bg-slate-50 px-3 py-1">{user.streak} dias</span>
@@ -378,6 +397,15 @@ export function UserManager() {
                   <button
                     type="button"
                     disabled={busyId === user.id}
+                    onClick={() => void toggleBan(user)}
+                    className="ek-button border-amber-200 bg-amber-50 text-amber-800"
+                  >
+                    <LockKeyhole className="h-4 w-4" />{user.bannedAt ? "Desbanir" : "Banir"}
+                  </button>
+                  {!user.bannedAt && <input aria-label={`Motivo do banimento de ${user.email}`} placeholder="Motivo do banimento (opcional)" value={banReasons[user.id] || ""} onChange={event => setBanReasons(current => ({ ...current, [user.id]: event.target.value }))} maxLength={500} className="ek-input" />}
+                  <button
+                    type="button"
+                    disabled={busyId === user.id}
                     onClick={() => void deleteUser(user)}
                     className="ek-button border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100"
                   >
@@ -390,7 +418,7 @@ export function UserManager() {
               <div className="mt-4 flex flex-wrap gap-2 rounded-2xl border border-orange-100 bg-orange-50 p-3">
                 {selectedProduct && (
                   <span
-                    className={`inline-flex min-h-11 items-center gap-2 rounded-2xl px-3 text-xs font-black ${
+                    className={`inline-flex min-h-11 items-center gap-2 rounded-2xl px-3 text-xs font-semibold ${
                       user.licenses.some((license) => license.product.slug === selectedProduct.slug)
                         ? "bg-emerald-100 text-emerald-700"
                         : "bg-white text-slate-500"
@@ -413,7 +441,7 @@ export function UserManager() {
                   className="ek-button bg-white text-emerald-700 hover:bg-emerald-50"
                 >
                   <Unlock className="h-4 w-4" />
-                  Liberar para este usuario
+                  Liberar para este usuário
                 </button>
                 <button
                   type="button"
@@ -432,6 +460,9 @@ export function UserManager() {
                 <UserMetric icon={<ShieldCheck className="h-4 w-4" />} label="Licencas" value={`${count(user, "licenses")} acessos`} />
               </div>
 
+              <details className="mt-4 rounded-2xl border border-slate-100 p-4">
+                <summary className="cursor-pointer font-bold text-blue-700">Ver detalhes de {user.name}</summary>
+                <p className="mt-3 text-xs text-slate-500">Conta criada em {new Date(user.createdAt).toLocaleDateString("pt-BR")} · {count(user, "studySessions")} sessões de estudo · {count(user, "achievements")} conquistas</p>
               <div className="mt-4 grid gap-3 xl:grid-cols-2">
                 <UserDetailList
                   title="Compras recentes"
@@ -444,7 +475,7 @@ export function UserManager() {
                 />
                 <UserDetailList
                   title="Planos e materiais liberados"
-                  empty="Nenhuma licenca ativa."
+                  empty="Nenhuma licença ativa."
                   items={(user.licenses ?? []).map((license) => (
                     <span key={license.id}>
                       {license.product.name} · {Math.round(license.progress * 100)}% lido
@@ -452,6 +483,7 @@ export function UserManager() {
                   ))}
                 />
               </div>
+              </details>
             </article>
           ))}
         </div>
@@ -475,8 +507,8 @@ function UserMetric({
         {icon}
       </span>
       <div>
-        <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-        <p className="text-sm font-black text-slate-800">{value}</p>
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+        <p className="text-sm font-semibold text-slate-800">{value}</p>
       </div>
     </div>
   );
@@ -493,7 +525,7 @@ function UserDetailList({
 }) {
   return (
     <div className="rounded-2xl border border-slate-100 bg-slate-50 p-4">
-      <p className="text-xs font-black uppercase tracking-wider text-slate-500">{title}</p>
+      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{title}</p>
       <div className="mt-2 space-y-1 text-sm font-semibold text-slate-700">
         {items.length ? items.slice(0, 3).map((item, index) => <p key={index}>{item}</p>) : <p>{empty}</p>}
       </div>

@@ -4,14 +4,14 @@ import { requirePersistedUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 
 const areaLabels: Record<StudyIconName, string> = {
-  matematica: "Matematica",
+  matematica: "Matemática",
   linguagens: "Linguagens",
-  redacao: "Redacao",
-  fisica: "Fisica",
-  quimica: "Quimica",
+  redacao: "Redação",
+  fisica: "Física",
+  quimica: "Química",
   biologia: "Biologia",
   geografia: "Geografia",
-  "ciencias-humanas": "Ciencias Humanas",
+  "ciencias-humanas": "Ciências Humanas",
 };
 
 const baseAreas: StudyIconName[] = [
@@ -37,7 +37,6 @@ export default async function DiagnosticoPage() {
           },
         },
       },
-      take: 240,
       orderBy: { createdAt: "desc" },
     })
     .catch(() => []);

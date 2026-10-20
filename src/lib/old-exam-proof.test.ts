@@ -42,7 +42,7 @@ test("initial proof payload drops every answer and resolution field", () => {
   assert.equal(serialized.includes("Segredo"), false);
 });
 
-test("student view keeps structured media and excludes audit facsimiles", () => {
+test("student view keeps structured média and excludes audit facsimiles", () => {
   const question = {
     id: "q1",
     supportText: "Texto digitalizado",

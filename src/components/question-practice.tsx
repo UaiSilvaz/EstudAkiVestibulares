@@ -1,37 +1,12 @@
 "use client";
 
+import { CalendarDays, Bookmark, Clock3 } from "@/components/visual/aicon-icons";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  AlertTriangle,
-  ArrowLeft,
-  BookOpenText,
-  CalendarDays,
-  CheckCircle2,
-  Bookmark,
-  Flag,
-  ChevronRight,
-  CircleX,
-  Clock3,
-  Filter,
-  Flame,
-  GraduationCap,
-  Layers3,
-  ListChecks,
-  Loader2,
-  RotateCcw,
-  Search,
-  ShieldCheck,
-  SlidersHorizontal,
-  Sparkles,
-  X,
-  XCircle,
-  Zap,
-  type LucideIcon,
-} from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { AlertTriangle, ArrowLeft, BookOpenText, CheckCircle2, Flag, ChevronRight, CircleX, Filter, Flame, GraduationCap, Layers3, ListChecks, Loader2, RotateCcw, Search, ShieldCheck, SlidersHorizontal, Sparkles, X, XCircle, Zap, type LucideIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { FastLink } from "./fast-link";
-import { announceRouteTransition } from "./route-transition-indicator";
+import { useLoadingRouter } from "@/components/use-loading-router";
 import { CelebrationBurst } from "./visual/celebration-burst";
 import { useFeedback } from "./feedback/feedback-provider";
 import { QuestionRichText } from "./question-rich-text";
@@ -297,7 +272,7 @@ export function QuestionPractice({
   favoriteIds = [],
   answeredIds = [],
 }: Props) {
-  const router = useRouter();
+  const router = useLoadingRouter();
   const [isFilterPending, startFilterTransition] = useTransition();
   const currentSearchParams = useSearchParams();
   const {
@@ -495,7 +470,6 @@ export function QuestionPractice({
     setMobileFiltersOpen(false);
     startFilterTransition(() => {
       const href = questionBankHref(params);
-      announceRouteTransition(href);
       router.push(href);
     });
   }
@@ -715,7 +689,6 @@ export function QuestionPractice({
     setMobileFiltersOpen(false);
     startFilterTransition(() => {
       const href = questionBankHref(params);
-      announceRouteTransition(href);
       router.push(href);
     });
   }
@@ -741,7 +714,6 @@ export function QuestionPractice({
     setMobileFilterQuery(params.toString());
     startFilterTransition(() => {
       const href = questionBankHref(params);
-      announceRouteTransition(href);
       router.push(href);
     });
   }
@@ -751,7 +723,6 @@ export function QuestionPractice({
     setMobileFiltersOpen(false);
     startFilterTransition(() => {
       const href = questionBankHref(params);
-      announceRouteTransition(href);
       router.push(href);
     });
   }
@@ -840,7 +811,7 @@ export function QuestionPractice({
 
   if (!activeQuestion) {
     return (
-      <div className="rounded-lg border border-slate-200 bg-white p-10 text-center shadow-[0_12px_30px_-24px_rgba(15,23,42,0.35)]">
+      <div className="rounded-lg border border-slate-200 bg-white p-10 text-center shadow-sm">
         <Sparkles className="mx-auto h-10 w-10 text-[#2563EB]" />
         <h3 className="mt-4 text-lg font-bold text-[#0F172A]">Nenhuma questão encontrada</h3>
         <p className="mt-2 text-sm text-slate-500">
@@ -961,7 +932,7 @@ export function QuestionPractice({
         </FastLink>
         <div className="flex items-center gap-2">
           {contextualVestibular && (
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-black text-blue-700">
+            <div className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700">
               <GraduationCap className="h-4 w-4" />
               {selectedVestibularName}
             </div>
@@ -995,25 +966,25 @@ export function QuestionPractice({
       <aside className="contents lg:order-1 lg:block lg:space-y-4">
         <section
           className={cn(
-            "order-1 rounded-[24px] border border-white/80 bg-white p-4 shadow-[0_20px_45px_-28px_rgba(15,23,42,0.32)] lg:block lg:p-5",
+            "order-1 rounded-[18px] border border-white/80 bg-white p-4 shadow-sm lg:block lg:p-5",
             mobileFiltersOpen
-              ? "fixed inset-x-3 bottom-3 top-20 z-50 block overflow-y-auto rounded-[26px]"
+              ? "fixed inset-x-3 bottom-3 top-20 z-50 block overflow-y-auto rounded-[18px]"
               : "hidden",
           )}
         >
           {isFilterPending && (
-            <div className="sticky top-0 z-10 -mx-4 -mt-4 mb-3 flex items-center gap-2 border-b border-blue-100 bg-blue-50 px-4 py-3 text-xs font-black text-blue-700 lg:-mx-5 lg:-mt-5">
+            <div className="sticky top-0 z-10 -mx-4 -mt-4 mb-3 flex items-center gap-2 border-b border-blue-100 bg-blue-50 px-4 py-3 text-xs font-semibold text-blue-700 lg:-mx-5 lg:-mt-5">
               <Loader2 className="h-4 w-4 animate-spin" />
               Atualizando filtros...
             </div>
           )}
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-3">
-              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-cyan-400 text-white shadow-[0_10px_20px_-12px_rgba(37,99,235,0.8)]">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl    text-[color:var(--theme-text)] shadow-sm professional-neutral">
                 <Filter className="h-4 w-4" />
               </span>
               <div>
-                <h2 className="text-sm font-extrabold text-slate-950">Buscar questões</h2>
+                <h2 className="text-sm font-bold text-slate-950">Buscar questões</h2>
                 <p className="mt-0.5 text-xs text-slate-500">
                   {pagination?.total.toLocaleString("pt-BR") ?? filteredQuestions.length} disponíveis
                 </p>
@@ -1227,7 +1198,7 @@ export function QuestionPractice({
               <button
                 type="button"
                 onClick={clearFilters}
-                className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-black text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
+                className="h-11 flex-1 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700"
               >
                 Limpar
               </button>
@@ -1235,7 +1206,7 @@ export function QuestionPractice({
                 type="button"
                 onClick={applyMobileFilters}
                 disabled={isFilterPending}
-                className="inline-flex h-11 flex-[1.4] items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 text-sm font-black text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-70"
+                className="inline-flex h-11 flex-[1.4] items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-70"
               >
                 {isFilterPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Filter className="h-4 w-4" />}
                 Aplicar filtros
@@ -1244,7 +1215,7 @@ export function QuestionPractice({
           </div>
         </section>
 
-        <section className="order-3 rounded-[24px] border border-white/80 bg-white p-3 shadow-[0_20px_45px_-28px_rgba(15,23,42,0.32)]">
+        <section className="order-3 rounded-[18px] border border-white/80 bg-white p-3 shadow-sm">
           <div className="flex items-center justify-between gap-3 px-2 py-2">
             <span className="inline-flex items-center gap-2 text-xs font-bold text-slate-700">
               <ListChecks className="h-4 w-4 text-blue-600" />
@@ -1301,7 +1272,7 @@ export function QuestionPractice({
                     isCorrect ? (
                       <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                     ) : wasDone ? (
-                      <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-blue-700">
+                      <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-blue-700">
                         feita
                       </span>
                     ) : (
@@ -1318,10 +1289,10 @@ export function QuestionPractice({
             )}
           </div>
           {pagination && pagination.pages > 1 && (
-            <div className="mt-3 flex items-center justify-between gap-2 border-t border-slate-100 px-2 pt-3 text-[11px] font-black text-slate-500">
+            <div className="mt-3 flex items-center justify-between gap-2 border-t border-slate-100 px-2 pt-3 text-[11px] font-semibold text-slate-500">
               {pagination.page > 1 ? <FastLink className="rounded-md border border-slate-200 px-2.5 py-1.5 hover:border-blue-300 hover:text-blue-700 active:scale-[0.99]" href={pageHref(pagination.page - 1)}>Anterior</FastLink> : <span />}
               <span>{pagination.page}/{pagination.pages}</span>
-              {pagination.page < pagination.pages ? <FastLink className="rounded-md border border-slate-200 px-2.5 py-1.5 hover:border-blue-300 hover:text-blue-700 active:scale-[0.99]" href={pageHref(pagination.page + 1)}>Proxima</FastLink> : <span />}
+              {pagination.page < pagination.pages ? <FastLink className="rounded-md border border-slate-200 px-2.5 py-1.5 hover:border-blue-300 hover:text-blue-700 active:scale-[0.99]" href={pageHref(pagination.page + 1)}>Próxima</FastLink> : <span />}
             </div>
           )}
         </section>
@@ -1335,19 +1306,19 @@ export function QuestionPractice({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "order-2 relative overflow-hidden rounded-[28px] border border-white/80 bg-white shadow-[0_24px_55px_-30px_rgba(15,23,42,0.36)] lg:order-2",
+          "order-2 relative overflow-hidden rounded-[18px] border border-white/80 bg-white shadow-sm lg:order-2",
           articleGlowClass,
           articleShakeClass,
         )}
       >
-        <div className="absolute inset-x-0 top-0 h-1 bg-[linear-gradient(90deg,#2563EB_0%,#22D3EE_48%,#FF7A1A_100%)]" />
+        <div className="absolute inset-x-0 top-0 h-1  professional-neutral" />
 
-        <header className="relative border-b border-blue-100 bg-gradient-to-r from-blue-50 via-white to-orange-50 px-5 pb-4 pt-6 md:px-8">
+        <header className="relative border-b border-blue-100     px-5 pb-4 pt-6 md:px-8 professional-neutral">
           <div className="flex items-start justify-between gap-4">
             <div className="flex min-w-0 items-stretch gap-3">
-              <span className="w-1.5 shrink-0 rounded-full bg-gradient-to-b from-blue-600 to-cyan-400" aria-hidden />
+              <span className="w-1.5 shrink-0 rounded-full    professional-neutral" aria-hidden />
               <div>
-                <h2 className="font-display text-xl font-extrabold text-slate-950">
+                <h2 className="font-display text-xl font-bold text-slate-950">
                   Questão {activeQuestion.questionNumber ?? activeQuestionPosition}
                 </h2>
                 <p className="mt-0.5 text-sm font-bold text-blue-700">{editionLabel}</p>
@@ -1360,7 +1331,7 @@ export function QuestionPractice({
                 )}
                 {(activeQuestion.officialLanguage === "ENGLISH" ||
                   activeQuestion.officialLanguage === "SPANISH") && (
-                  <p className="mt-1 text-xs font-black text-violet-700">
+                  <p className="mt-1 text-xs font-semibold text-violet-700">
                     Língua estrangeira: {activeQuestion.officialLanguage === "ENGLISH" ? "Inglês" : "Espanhol"}
                   </p>
                 )}
@@ -1505,7 +1476,7 @@ export function QuestionPractice({
 
           {isAnnulled && (
             <div className="relative mt-6 rounded-2xl border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-amber-950">
-              <p className="font-extrabold">Questão anulada pelo gabarito oficial</p>
+              <p className="font-bold">Questão anulada pelo gabarito oficial</p>
               <p>Você pode responder para estudo, mas a escolha não será marcada como certa ou errada e não contará pontos.</p>
             </div>
           )}
@@ -1530,14 +1501,14 @@ export function QuestionPractice({
               } else if (isAnnulledResult) {
                 stateStyles = "border-slate-100 bg-slate-50/60 text-slate-500";
               } else if (isCorrectAnswer) {
-                stateStyles = "border-emerald-400 bg-emerald-50 text-emerald-900 shadow-[0_12px_28px_-20px_rgba(16,185,129,0.8)]";
+                stateStyles = "border-emerald-400 bg-emerald-50 text-emerald-900 shadow-sm";
               } else if (isSelected && !currentResult.correct) {
-                stateStyles = "border-rose-400 bg-rose-50 text-rose-900 shadow-[0_12px_28px_-20px_rgba(244,63,94,0.75)]";
+                stateStyles = "border-rose-400 bg-rose-50 text-rose-900 shadow-sm";
               } else {
                 stateStyles = "border-slate-100 bg-slate-50/60 text-slate-500";
               }
             } else if (isSelected) {
-              stateStyles = "border-blue-500 bg-blue-600 text-white shadow-[0_16px_30px_-20px_rgba(37,99,235,0.9)]";
+              stateStyles = "border-blue-500 bg-blue-600 text-white shadow-sm";
             } else if (isEliminated) {
               stateStyles = "border-slate-200 bg-slate-50 text-slate-400";
             }
@@ -1596,7 +1567,7 @@ export function QuestionPractice({
                     {showResult && isCorrectAnswer && <CheckCircle2 className="h-3.5 w-3.5" />}
                     {showResult && isSelected && !currentResult.correct && !isAnnulledResult && <XCircle className="h-3.5 w-3.5" />}
                   </span>
-                  <span className={cn("w-7 shrink-0 pt-px font-extrabold", isSelected && !showResult ? "text-white" : "text-blue-700")}>
+                  <span className={cn("w-7 shrink-0 pt-px font-bold", isSelected && !showResult ? "text-white" : "text-blue-700")}>
                     {alt.key})
                   </span>
                   <span className={cn("relative flex-1 leading-6", isEliminated && !showResult ? "line-through text-slate-400" : "")}>
@@ -1685,12 +1656,12 @@ export function QuestionPractice({
               exit={{ opacity: 0, y: 10, scale: 0.98 }}
               transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
               className={cn(
-                "relative mt-7 rounded-3xl border p-5 shadow-[0_18px_36px_-28px_rgba(15,23,42,0.38)]",
+                "relative mt-7 rounded-3xl border p-5 shadow-sm",
                 currentResultAnnulled
-                  ? "border-amber-300 bg-gradient-to-br from-amber-50 to-white"
+                  ? "border-amber-300    professional-neutral"
                   : currentResult.correct
-                    ? "border-emerald-300 bg-gradient-to-br from-emerald-50 to-white"
-                    : "border-rose-300 bg-gradient-to-br from-rose-50 to-white",
+                    ? "border-emerald-300    professional-neutral"
+                    : "border-rose-300    professional-neutral",
               )}
             >
               <div className="relative flex items-center gap-2">
@@ -1754,7 +1725,7 @@ export function QuestionPractice({
                   transition={{ delay: 0.2, type: "spring", stiffness: 280, damping: 16 }}
                   className="ml-auto inline-flex items-center gap-1 rounded-full border border-white/80 bg-white px-2.5 py-1 text-xs font-bold"
                   style={{
-                    background: "linear-gradient(135deg, #FACC15 0%, #F97316 100%)",
+                    background: "var(--theme-surface)",
                     color: "#7C2D12",
                   }}
                 >
@@ -1779,7 +1750,7 @@ export function QuestionPractice({
                     transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                     className="relative mt-4 rounded-2xl border border-white bg-white/90 p-4 shadow-sm"
                   >
-                    <p className="text-xs font-black uppercase tracking-wider text-slate-500">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                       Resolução
                     </p>
                     <QuestionRichText
@@ -1857,7 +1828,7 @@ export function QuestionPractice({
                 "inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold text-white transition-all",
                 !currentSelected || currentSubmitting
                   ? "cursor-not-allowed bg-slate-200 text-slate-400"
-                  : "shadow-[0_12px_28px_-12px_rgba(37,99,235,0.55)] hover:shadow-[0_16px_34px_-12px_rgba(37,99,235,0.65)]",
+                  : "shadow-sm shadow-sm",
               )}
               style={currentSelected && !currentSubmitting ? { background: "#2563EB" } : undefined}
             >
@@ -1881,7 +1852,7 @@ export function QuestionPractice({
                 type="button"
                 onClick={goNext}
                 whileTap={{ scale: 0.97 }}
-                className="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-2.5 text-sm font-black text-white shadow-[0_14px_28px_-16px_rgba(37,99,235,0.8)] transition hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-xl    px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 professional-action"
               >
                 Próxima questão
                 <ChevronRight className="h-4 w-4" />

@@ -1,17 +1,7 @@
 "use client";
 
-import {
-  AlertTriangle,
-  CheckCircle2,
-  ChevronLeft,
-  ChevronRight,
-  Clock3,
-  FileCheck2,
-  ExternalLink,
-  ListChecks,
-  Loader2,
-  Send,
-} from "lucide-react";
+import { Clock3 } from "@/components/visual/aicon-icons";
+import { AlertTriangle, CheckCircle2, ChevronLeft, ChevronRight, FileCheck2, ExternalLink, ListChecks, Loader2, Send } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { splitQuestionParts } from "@/lib/question-formatting";
 import { hasRichTextMarkup } from "@/lib/question-rich-text";
@@ -211,14 +201,14 @@ export function OldExamProofWorkspace({
 
   return (
     <div className="space-y-4">
-      <header className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
+      <header className="sticky top-2 z-30 flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-slate-200 bg-white/95 p-4 shadow-lg backdrop-blur">
         <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-orange-600">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-orange-600">
             {submission
               ? reviewPreview ? "Prévia administrativa finalizada" : "Tentativa finalizada"
               : reviewPreview ? "Prévia administrativa · respostas protegidas" : "Modo prova · respostas protegidas"}
           </p>
-          <p className="mt-1 font-black text-slate-950">
+          <p className="mt-1 font-semibold text-slate-950">
             {answeredCount}/{questions.length} respondidas
           </p>
         </div>
@@ -229,7 +219,7 @@ export function OldExamProofWorkspace({
           >
             <ListChecks className="h-4 w-4" /> Cartão
           </a>
-          <span className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 font-mono text-base font-black text-white">
+          <span className="inline-flex items-center gap-2 rounded-2xl bg-slate-950 px-4 py-2 font-mono text-base font-semibold text-white">
             <Clock3 className="h-4 w-4" /> {formatElapsed(elapsedSeconds)}
           </span>
           {!submission && (
@@ -247,7 +237,7 @@ export function OldExamProofWorkspace({
       </header>
 
       {submission && (
-        <section className="grid gap-3 rounded-[24px] border border-emerald-200 bg-emerald-50 p-4 sm:grid-cols-4">
+        <section className="grid gap-3 rounded-[18px] border border-emerald-200 bg-emerald-50 p-4 sm:grid-cols-4">
           <ResultStat label="Nota" value={`${submission.score.toFixed(1)}%`} />
           <ResultStat label="Acertos" value={`${submission.correctCount}/${submission.scoredCount}`} />
           <ResultStat label="Respondidas" value={`${submission.answeredCount}/${questions.length}`} />
@@ -256,10 +246,10 @@ export function OldExamProofWorkspace({
       )}
 
       <div className="grid items-start gap-5 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <article className="order-2 overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm xl:order-1">
-          <div className="border-b border-slate-100 bg-gradient-to-r from-blue-50 to-white px-5 py-4 sm:px-7">
+        <article className="order-2 overflow-hidden rounded-[18px] border border-slate-200 bg-white shadow-sm xl:order-1">
+          <div className="border-b border-slate-100    px-5 py-4 sm:px-7 professional-neutral">
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-blue-700">
+              <p className="text-xs font-semibold uppercase tracking-wide text-blue-700">
                 Questão {activeQuestion.questionNumber ?? activeIndex + 1} · {activeIndex + 1} de {questions.length}
               </p>
               {reviewPreview && activeQuestion.adminOriginalPageUrl && (
@@ -267,7 +257,7 @@ export function OldExamProofWorkspace({
                   href={activeQuestion.adminOriginalPageUrl}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs font-black text-blue-800 underline-offset-4 hover:underline"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-800 underline-offset-4 hover:underline"
                 >
                   <ExternalLink className="h-3.5 w-3.5" /> Página original
                 </a>
@@ -349,7 +339,7 @@ export function OldExamProofWorkspace({
                     <FileCheck2 className="mt-0.5 h-5 w-5 text-blue-700" />
                   )}
                   <div>
-                    <h2 className="font-black text-slate-950">
+                    <h2 className="font-semibold text-slate-950">
                       {activeResult.annulled
                         ? "Questão anulada"
                         : activeResult.selectedAlternative === null
@@ -397,10 +387,10 @@ export function OldExamProofWorkspace({
 
         <aside
           id="cartao-resposta"
-          className="order-1 scroll-mt-28 rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm xl:order-2 xl:sticky xl:top-28"
+          className="order-1 scroll-mt-28 rounded-[18px] border border-slate-200 bg-white p-4 shadow-sm xl:order-2 xl:sticky xl:top-28"
         >
           <div className="flex items-center justify-between gap-3">
-            <h2 className="font-black text-slate-950">Cartão-resposta</h2>
+            <h2 className="font-semibold text-slate-950">Cartão-resposta</h2>
             <span className="text-xs font-bold text-slate-500">salvo localmente</span>
           </div>
           <div className="mt-4 grid max-h-[66vh] grid-cols-5 gap-2 overflow-y-auto pr-1 sm:grid-cols-8 xl:grid-cols-5">
@@ -414,7 +404,7 @@ export function OldExamProofWorkspace({
                   onClick={() => navigate(index)}
                   aria-label={`Questão ${question.questionNumber ?? index + 1}${answer ? `, marcada ${answer}` : ", em branco"}`}
                   className={cn(
-                    "min-h-12 rounded-xl border px-1 py-2 text-center text-xs font-black transition",
+                    "min-h-12 rounded-xl border px-1 py-2 text-center text-xs font-semibold transition",
                     draft.activeQuestionId === question.id && "ring-2 ring-blue-400 ring-offset-2",
                     result?.annulled
                       ? "border-amber-300 bg-amber-100 text-amber-800"
@@ -448,8 +438,8 @@ export function OldExamProofWorkspace({
 function ResultStat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-white/80 p-3">
-      <p className="text-[10px] font-black uppercase tracking-wider text-emerald-700">{label}</p>
-      <p className="mt-1 text-lg font-black text-slate-950">{value}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700">{label}</p>
+      <p className="mt-1 text-lg font-semibold text-slate-950">{value}</p>
     </div>
   );
 }

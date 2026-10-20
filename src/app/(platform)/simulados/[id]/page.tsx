@@ -15,9 +15,9 @@ export default async function SimulationPage({ params }: { params: Promise<{ id:
   const released = Boolean(attempt?.submittedAt) && resultIsReleased(exam.resultsAt);
 
   if (!attempt && state !== "OPEN") {
-    return <section className="mx-auto max-w-2xl rounded-[32px] border border-slate-200 bg-white p-8 text-center">
+    return <section className="mx-auto max-w-2xl rounded-[18px] border border-slate-200 bg-white p-8 text-center">
       {state === "SCHEDULED" ? <CalendarClock className="mx-auto h-12 w-12 text-orange-500" /> : <LockKeyhole className="mx-auto h-12 w-12 text-slate-400" />}
-      <h1 className="mt-4 text-3xl font-black text-slate-950">{exam.title}</h1>
+      <h1 className="mt-4 text-3xl font-semibold text-slate-950">{exam.title}</h1>
       <p className="mt-3 text-slate-600">{state === "SCHEDULED" ? `A prova abre em ${exam.startsAt?.toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" })}.` : "A janela deste simulado foi encerrada."}</p>
     </section>;
   }

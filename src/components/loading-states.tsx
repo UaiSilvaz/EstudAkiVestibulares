@@ -3,7 +3,7 @@ import { EstudakiLoadingState } from "@/components/estudaki-loading-provider";
 export { EstudakiLoadingState };
 
 export function DashboardLoadingState() {
-  return <EstudakiLoadingState label="Preparando seu estudo de hoje" />;
+  return <EstudakiLoadingState href="/dashboard" label="Preparando seu estudo de hoje" />;
 }
 
 export function PlatformLoadingState() {
@@ -11,41 +11,41 @@ export function PlatformLoadingState() {
 }
 
 export function QuestionsLoadingState() {
-  return <EstudakiLoadingState label="Preparando sua lista de questões" />;
+  return <EstudakiLoadingState href="/questions" label="Preparando sua lista de questões" />;
 }
 
 export function JourneyLoadingState() {
-  return <EstudakiLoadingState label="Montando seus mundos e trilhas" />;
+  return <EstudakiLoadingState href="/cursos" label="Abrindo seus cursos" />;
 }
 
 export function SimuladosLoadingState() {
-  return <EstudakiLoadingState label="Carregando simulados" />;
+  return <EstudakiLoadingState href="/simulados" label="Carregando simulados" />;
 }
 
 export function RedacaoLoadingState() {
-  return <EstudakiLoadingState label="Abrindo seu treino de redação" />;
+  return <EstudakiLoadingState href="/redacao" label="Abrindo seu treino de redação" />;
 }
 
 export function PerformanceLoadingState() {
-  return <EstudakiLoadingState label="Calculando sua evolução" />;
+  return <EstudakiLoadingState href="/performance" label="Calculando sua evolução" />;
 }
 
 export function ProfileLoadingState() {
-  return <EstudakiLoadingState label="Carregando seus dados" />;
+  return <EstudakiLoadingState href="/perfil" label="Carregando seus dados" />;
 }
 
 export function LibraryLoadingState() {
-  return <EstudakiLoadingState label="Organizando seus materiais" />;
+  return <EstudakiLoadingState href="/biblioteca" label="Organizando seus materiais" />;
 }
 
 export function ExamsLoadingState() {
-  return <EstudakiLoadingState label="Buscando provas e simulados" />;
+  return <EstudakiLoadingState href="/provas" label="Buscando provas e simulados" />;
 }
 
 export function ReviewsLoadingState() {
-  return <EstudakiLoadingState label="Preparando suas revisões" />;
+  return <EstudakiLoadingState href="/revisoes" label="Preparando suas revisões" />;
 }
 
 export function ScheduleLoadingState() {
-  return <EstudakiLoadingState label="Atualizando seu cronograma" />;
+  return <EstudakiLoadingState href="/cronograma" label="Atualizando seu cronograma" />;
 }

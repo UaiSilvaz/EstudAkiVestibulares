@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { CloudLandingPage } from "@/components/landing/cloud-landing-page";
+import { GlassLandingPage } from "@/components/landing/glass-landing-page";
 import { getCurrentUser } from "@/lib/auth";
-import "@/components/landing/cloud-landing.css";
 
 export const metadata: Metadata = {
-  title: "EstudAki Vestibulares | Sua aprovação começa aqui",
+  title: "Norte Preparatórios | Seu futuro tem direção",
   description:
-    "Plano de estudos, questões, simulados, redação e acompanhamento inteligente para ENEM, ETEC, FATEC e vestibulares.",
+    "Plano de estudos, aulas, questões e progresso para ENEM, vestibulares, OAB, Medicina e concursos. Sua preparação, com direção.",
 };
 
 export default async function LandingPage() {
   const user = await getCurrentUser();
   if (user) redirect("/dashboard");
 
-  return <CloudLandingPage />;
+  return <GlassLandingPage />;
 }

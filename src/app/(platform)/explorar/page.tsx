@@ -1,6 +1,7 @@
+import { Target } from "@/components/visual/aicon-icons";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { Compass, LockKeyhole, Sparkles, Target } from "lucide-react";
+import { Compass, LockKeyhole, Sparkles } from "lucide-react";
 import { ContentStatus } from "@prisma/client";
 import { FastLink } from "@/components/fast-link";
 import { PageHeader } from "@/components/page-header";
@@ -13,6 +14,7 @@ import {
 } from "@/lib/preparations";
 import { getPlatformPageContext } from "@/lib/platform-page-context";
 import { cn } from "@/lib/utils";
+import { FreemiumSummary } from "@/components/freemium-summary";
 
 async function getExploreCatalog(persistedUserId: string | null) {
   try {
@@ -38,7 +40,7 @@ async function getExploreCatalog(persistedUserId: string | null) {
       membershipIds: new Set(memberships.map((membership) => membership.preparationId)),
     };
   } catch (error) {
-    console.warn("Catalogo de preparacoes indisponivel em /explorar; usando fallback.", error);
+    console.warn("Catálogo de preparacoes indisponivel em /explorar; usando fallback.", error);
     return {
       catalogAvailable: false,
       preparations: getFallbackPreparationCatalog(),
@@ -82,12 +84,12 @@ export default async function ExplorarPage() {
     <div className="space-y-6">
       <PageHeader
         eyebrow="Explorar"
-        title="Escolha sua preparacao"
-        description="Adicione outro objetivo, troque a preparacao ativa ou volte para o seu plano atual."
+        title="Preparatórios oficiais Norte Preparatórios"
+        description="Escolher um objetivo e usar o plano básico é grátis. Compre separadamente o preparatório completo que desejar."
         action={
           <FastLink
             href="/preparacao"
-            className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-black text-white shadow-lg shadow-slate-200 transition hover:-translate-y-0.5"
+            className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-slate-200 transition hover:-translate-y-0.5"
           >
             <Target className="h-4 w-4" />
             Ver ativa
@@ -96,12 +98,13 @@ export default async function ExplorarPage() {
       />
 
       {!catalogAvailable ? (
-        <section className="rounded-[28px] border border-amber-200 bg-amber-50 p-5 text-sm font-semibold leading-6 text-amber-900 shadow-sm">
-          O catalogo online de preparacoes nao respondeu agora. Voce ainda pode escolher um objetivo
+        <section className="rounded-[18px] border border-amber-200 bg-amber-50 p-5 text-sm font-semibold leading-6 text-amber-900 shadow-sm">
+          O catálogo online de preparacoes não respondeu agora. Você ainda pode escolher um objetivo
           inicial pelo onboarding enquanto sincronizamos os dados.
         </section>
       ) : null}
 
+      <FreemiumSummary />
       <section className="grid gap-4 lg:grid-cols-2">
         {preparations.map((preparation) => {
           const isActive = preparation.id === activePreparation?.id;
@@ -110,36 +113,36 @@ export default async function ExplorarPage() {
             <article
               key={preparation.id}
               className={cn(
-                "rounded-[28px] border bg-white p-5 shadow-[0_20px_48px_-34px_rgba(15,23,42,0.28)]",
+                "rounded-[18px] border bg-white p-5 shadow-sm",
                 isActive ? "border-blue-200 ring-2 ring-blue-100" : "border-slate-100",
               )}
             >
               <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[10px] font-black uppercase text-blue-700">
+                <span className="inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[10px] font-semibold uppercase text-blue-700">
                   <Compass className="h-3.5 w-3.5" />
                   {preparation.vertical.name}
                 </span>
                 <span
                   className={cn(
-                    "inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-black uppercase",
+                    "inline-flex items-center gap-2 rounded-full px-3 py-1 text-[10px] font-semibold uppercase",
                     preparation.isFree
                       ? "bg-emerald-50 text-emerald-700"
                       : "bg-slate-100 text-slate-600",
                   )}
                 >
                   {preparation.isFree ? <Sparkles className="h-3.5 w-3.5" /> : <LockKeyhole className="h-3.5 w-3.5" />}
-                  {preparation.isFree ? "Livre" : "Premium"}
+                  {preparation.isFree ? "Gratuito" : "Compra individual"}
                 </span>
                 {isActive && (
-                  <span className="rounded-full bg-orange-50 px-3 py-1 text-[10px] font-black uppercase text-orange-700">
+                  <span className="rounded-full bg-orange-50 px-3 py-1 text-[10px] font-semibold uppercase text-orange-700">
                     Ativa agora
                   </span>
                 )}
               </div>
 
-              <h2 className="mt-4 font-display text-2xl font-black text-slate-950">{preparation.name}</h2>
+              <h2 className="mt-4 font-display text-2xl font-semibold text-slate-950">{preparation.name}</h2>
               <p className="mt-2 min-h-[52px] text-sm font-semibold leading-6 text-slate-600">
-                {preparation.description || "Preparacao organizada com plano, questoes e revisoes."}
+                {preparation.description || "Preparação organizada com plano, questões e revisões."}
               </p>
 
               <div className="mt-5 flex flex-wrap gap-3">
@@ -149,28 +152,28 @@ export default async function ExplorarPage() {
                     <button
                       type="submit"
                       className={cn(
-                        "inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm font-black text-white shadow-lg transition hover:-translate-y-0.5",
+                        "inline-flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-0.5",
                         isActive
                           ? "bg-emerald-600 shadow-emerald-100"
                           : "bg-blue-600 shadow-blue-100",
                       )}
                     >
-                      {isActive ? "Continuar" : isMember ? "Tornar ativa" : "Comecar"}
+                      {isActive ? "Continuar plano gratuito" : isMember ? "Ativar objetivo" : "Começar grátis"}
                     </button>
                   </form>
                 ) : (
                   <FastLink
                     href="/onboarding"
-                    className="inline-flex h-11 items-center gap-2 rounded-full bg-blue-600 px-4 text-sm font-black text-white shadow-lg shadow-blue-100 transition hover:-translate-y-0.5"
+                    className="inline-flex h-11 items-center gap-2 rounded-full bg-blue-600 px-4 text-sm font-semibold text-white shadow-lg shadow-blue-100 transition hover:-translate-y-0.5"
                   >
                     Configurar objetivo
                   </FastLink>
                 )}
                 <FastLink
-                  href="/edital"
-                  className="inline-flex h-11 items-center rounded-full border border-slate-200 px-4 text-sm font-black text-slate-700 transition hover:border-blue-200 hover:bg-blue-50"
+                  href={`/preparatorios/${preparation.slug}`}
+                  className="inline-flex h-11 items-center rounded-full border border-slate-200 px-4 text-sm font-semibold text-slate-700 transition hover:border-blue-200 hover:bg-blue-50"
                 >
-                  Ver edital
+                  Ver preparatório completo
                 </FastLink>
               </div>
             </article>

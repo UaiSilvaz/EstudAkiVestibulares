@@ -22,10 +22,10 @@ type FadeUpProps = {
 export function FadeUp({
   children,
   delay = 0,
-  y = 24,
+  y = 6,
   className,
   once = true,
-  duration = 0.6,
+  duration = 0.2,
 }: FadeUpProps) {
   return (
     <motion.div
@@ -47,7 +47,7 @@ type FadeInProps = {
   duration?: number;
 };
 
-export function FadeIn({ children, delay = 0, className, duration = 0.7 }: FadeInProps) {
+export function FadeIn({ children, delay = 0, className, duration = 0.2 }: FadeInProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -70,11 +70,11 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 22 },
+  hidden: { opacity: 0, y: 6 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -121,9 +121,10 @@ type SpotlightCardProps = {
 
 export const SpotlightCard = forwardRef<HTMLDivElement, SpotlightCardProps>(
   function SpotlightCard(
-    { children, className, spotlightColor = "rgba(30,115,255,0.18)", tilt = true, ...rest },
+    { children, className, spotlightColor, tilt = false, ...rest },
     ref,
   ) {
+    void spotlightColor;
     const localRef = useRef<HTMLDivElement | null>(null);
 
     const handleMouseMove = useCallback(
@@ -172,9 +173,9 @@ export const SpotlightCard = forwardRef<HTMLDivElement, SpotlightCardProps>(
             transition: "transform 280ms cubic-bezier(0.2,0.8,0.2,1), box-shadow 250ms ease",
           } as CSSProperties
         }
-        whileHover={{ y: -6 }}
+        whileHover={{ y: -1 }}
         className={cn(
-          "ek-spotlight group relative isolate overflow-hidden rounded-[28px] border border-white/70 bg-white/92 p-6 shadow-[0_18px_50px_-22px_rgba(15,23,42,0.18)] backdrop-blur-xl transition-shadow duration-300 hover:shadow-[0_30px_60px_-22px_rgba(30,115,255,0.35)]",
+          "ek-spotlight group relative isolate overflow-hidden rounded-[18px] border border-white/70 bg-white/92 p-6 shadow-sm backdrop-blur-xl transition-shadow duration-300 shadow-sm",
           className,
         )}
         {...rest}
@@ -183,14 +184,14 @@ export const SpotlightCard = forwardRef<HTMLDivElement, SpotlightCardProps>(
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{
-            background: `radial-gradient(420px circle at var(--mx) var(--my), ${spotlightColor}, transparent 55%)`,
+            background: "var(--theme-surface)",
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-[28px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          className="pointer-events-none absolute inset-0 rounded-[18px] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{
-            background: `linear-gradient(120deg, transparent 0%, ${spotlightColor} 50%, transparent 100%)`,
+            background: "var(--theme-surface)",
             mixBlendMode: "overlay",
           }}
         />
@@ -277,7 +278,7 @@ export function GradientBorderCard({
   };
   return (
     <div className={cn("p-[2px]", variantMap[variant], className)}>
-      <div className={cn("rounded-[26px] bg-white p-6", innerClassName)}>{children}</div>
+      <div className={cn("rounded-[18px] bg-white p-6", innerClassName)}>{children}</div>
     </div>
   );
 }
@@ -300,15 +301,15 @@ export function SectionTitle({
       {eyebrow && (
         <div
           className={cn(
-            "mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200/60 bg-white/70 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-blue-700 backdrop-blur",
+            "mb-4 inline-flex items-center gap-2 rounded-full border border-blue-200/60 bg-white/70 px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-blue-700 backdrop-blur",
             align === "center" && "mx-auto",
           )}
         >
-          <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-[#ff6b00] to-[#ffc400]" />
+          <span className="h-1.5 w-1.5 rounded-full    professional-neutral" />
           {eyebrow}
         </div>
       )}
-      <h2 className="font-display text-4xl font-extrabold tracking-tight text-[#061a40] md:text-5xl lg:text-6xl">
+      <h2 className="font-display text-4xl font-bold tracking-tight text-[#061a40] md:text-5xl lg:text-6xl">
         {title}
       </h2>
       {description && (
@@ -343,10 +344,10 @@ export function GlowIcon({
       />
       <div
         className={cn(
-          "relative flex items-center justify-center text-white shadow-[0_12px_30px_-10px_rgba(15,23,42,0.3)]",
+          "relative flex items-center justify-center text-white shadow-sm",
           size,
           rounded,
-          "bg-gradient-to-br",
+          " professional-neutral",
           bgClass,
         )}
       >

@@ -1,10 +1,10 @@
-# Validacao e Gates
+# Validação e Gates
 
-A validacao combina checagens automaticas, auditoria humana e provas de app.
-O objetivo e evitar tres erros graves: questao incompleta, gabarito errado e
-conteudo misturado entre questoes.
+A validação combina checagens automáticas, auditoria humana e provas de app.
+O objetivo é evitar três erros graves: questão incompleta, gabarito errado e
+conteúdo misturado entre questões.
 
-## Relatorios
+## Relatórios
 
 `npm run exams:validate` gera:
 
@@ -18,17 +18,17 @@ conteudo misturado entre questoes.
 
 Copias com prefixo do corpus tambem ficam em `data/reports/`.
 
-## Checagens automaticas
+## Checagens automáticas
 
 - sequencia oficial esperada;
-- quantidade de questoes logicas e ocorrencias impressas;
+- quantidade de questões lógicas e ocorrências impressas;
 - cinco alternativas por ocorrencia;
-- vinculo com gabarito oficial;
-- anulacoes esperadas;
-- hashes de prova, gabarito, configuracao e assets;
+- vínculo com gabarito oficial;
+- anulações esperadas;
+- hashes de prova, gabarito, configuração e assets;
 - duplicidades por hash e por enunciado normalizado;
-- recortes administrativos e imagens com dimensoes validas;
-- status de extracao de cada questao.
+- recortes administrativos e imagens com dimensões válidas;
+- status de extração de cada questão.
 
 ## Gates humanos
 
@@ -36,23 +36,23 @@ Antes de publicar, o pacote tambem precisa de:
 
 - auditoria visual lado a lado com o PDF oficial;
 - confirmacao humana do gabarito;
-- classificacao pedagogica completa e auditada;
-- resolucao autoral completa e auditada;
-- evidencia de preview, resposta, correcao, mobile e pagina original no admin.
+- classificação pedagógica completa e auditada;
+- resolução autoral completa e auditada;
+- evidência de preview, resposta, correção, mobile e página original no admin.
 
 ## Estado do piloto 2024/D2
 
 Ultima auditoria local: `2026-08-27T00:38:43.131Z`.
 
 - Status: `NEEDS_REVIEW`.
-- Questoes logicas: 90/90.
-- Ocorrencias estruturadas: 90.
+- Questões lógicas: 90/90.
+- Ocorrências estruturadas: 90.
 - Alternativas: 430/450.
 - Gabaritos associados: 90/90.
 - Duplicidades detectadas pelo auditor novo: 0 grupos.
 - Conflitos de gabarito detectados pelo auditor novo: 2 registros.
 - Gate: `canPublish=false`.
 
-Bloqueios principais: extracao estrutural falhou, classificacao pedagogica
-ausente, revisao visual pendente, revisao humana do gabarito pendente e teste
-de integracao no app ainda nao executado.
+Bloqueios principais: extração estrutural falhou, classificação pedagógica
+ausente, revisão visual pendente, revisão humana do gabarito pendente e teste
+de integracao no app ainda não executado.

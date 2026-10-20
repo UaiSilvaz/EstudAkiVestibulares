@@ -1,815 +1,159 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowLeft,
-  ArrowRight,
-  BookOpenCheck,
-  CalendarDays,
-  Check,
-  CheckCircle2,
-  Clock3,
-  GraduationCap,
-  ListChecks,
-  Loader2,
-  Map,
-  Search,
-  ShieldCheck,
-  Sparkles,
-  Target,
-} from "lucide-react";
+import { BookOpen, CalendarDays, Clock3, Dna, FlaskConical, Globe2, HeartPulse, Landmark, Scale, Target, Video } from "@/components/visual/aicon-icons";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowLeft, ArrowRight, Atom, BriefcaseBusiness, Calculator, Check, CheckCheck, CircleHelp, Compass, GraduationCap, History, Languages, Loader2, Shield, Sparkles, Swords, type LucideIcon } from "lucide-react";
+import { Brand } from "./brand";
+import { useProductAppearance } from "./use-product-appearance";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useFeedback } from "@/components/feedback/feedback-provider";
-import { StudyIcon, type StudyIconName } from "@/components/visual/study-icon";
-import { cn } from "@/lib/utils";
-import { announceRouteTransition } from "@/components/route-transition-indicator";
+import { useEffect, useRef, useState } from "react";
+import { defaultLearningProfile, type LearningProfileInput } from "@/lib/learning-profile";
+import { onboardingProfileKeys, onboardingProfiles, type OnboardingProfileKey } from "@/lib/onboarding-profiles";
 import type { AppUser } from "@/lib/roles";
-import {
-  normalizeOnboardingProfile,
-  onboardingProfileKeys,
-  onboardingProfiles,
-  type OnboardingProfileKey,
-} from "@/lib/onboarding-profiles";
-
-type OnboardingState = {
-  profile: OnboardingProfileKey;
-  exams: string[];
-  course: string;
-  targetScore: string;
-  minutesPerDay: number;
-  studyDays: number[];
-  difficultSubjects: string[];
-  examDate: string;
-};
-
-const storageKey = "estudaki:onboarding:v2";
-const timeOptions = [
-  { minutes: 30, label: "30 min" },
-  { minutes: 60, label: "1h" },
-  { minutes: 120, label: "2h" },
-  { minutes: 180, label: "3h" },
-  { minutes: 240, label: "4h+" },
-];
-const weekDays = [
-  { value: 0, label: "Dom" },
-  { value: 1, label: "Seg" },
-  { value: 2, label: "Ter" },
-  { value: 3, label: "Qua" },
-  { value: 4, label: "Qui" },
-  { value: 5, label: "Sex" },
-  { value: 6, label: "Sab" },
-];
-const journeyPreview = [
-  {
-    title: "Objetivo",
-    detail: "prova, curso e meta",
-    icon: Target,
-  },
-  {
-    title: "Diagnostico",
-    detail: "base por area",
-    icon: ListChecks,
-  },
-  {
-    title: "Plano",
-    detail: "semana pronta",
-    icon: Map,
-  },
-];
-
-function defaultStateForProfile(profileKey: OnboardingProfileKey): OnboardingState {
-  const profile = onboardingProfiles[profileKey];
-  return {
-    profile: profileKey,
-    exams: profile.defaultExams,
-    course: "",
-    targetScore: "",
-    minutesPerDay: 90,
-    studyDays: [1, 2, 3, 4, 5],
-    difficultSubjects: [profile.subjects[0]?.value ?? "matematica"],
-    examDate: "",
-  };
-}
-
-function readInitialOnboarding(profileKey: OnboardingProfileKey) {
-  const fallback = defaultStateForProfile(profileKey);
-  if (typeof window === "undefined") return { state: fallback, step: 0 };
-  const saved = window.localStorage.getItem(storageKey);
-  if (!saved) return { state: fallback, step: 0 };
-
-  try {
-    const parsed = JSON.parse(saved) as Partial<OnboardingState> & { step?: number };
-    const profile = normalizeOnboardingProfile(parsed.profile ?? profileKey);
-    const base = defaultStateForProfile(profile);
-    return {
-      state: { ...base, ...parsed, profile },
-      step: typeof parsed.step === "number" ? Math.min(Math.max(parsed.step, 0), steps.length - 1) : 0,
-    };
-  } catch {
-    window.localStorage.removeItem(storageKey);
-    return { state: fallback, step: 0 };
-  }
-}
-
-export function OnboardingFlow({
-  user,
-  initialProfile = "vestibular",
-}: {
-  user: AppUser;
-  initialProfile?: OnboardingProfileKey;
-}) {
-  const router = useRouter();
-  const { notify } = useFeedback();
-  const [initial] = useState(() => readInitialOnboarding(initialProfile));
-  const [step, setStep] = useState(initial.step);
-  const [state, setState] = useState<OnboardingState>(initial.state);
-  const [courseQuery, setCourseQuery] = useState("");
-  const [saving, setSaving] = useState(false);
-  const [saveState, setSaveState] = useState<"idle" | "local" | "saving" | "saved" | "error">("idle");
-  const saveStateTimeout = useRef<number | null>(null);
-
-  useEffect(() => {
-    window.localStorage.setItem(storageKey, JSON.stringify({ ...state, step }));
-  }, [state, step]);
-
-  useEffect(() => {
-    router.prefetch("/diagnostico");
-    router.prefetch("/dashboard");
-  }, [router]);
-
-  useEffect(() => {
-    return () => {
-      if (saveStateTimeout.current) window.clearTimeout(saveStateTimeout.current);
-    };
-  }, []);
-
-  const filteredCourses = useMemo(() => {
-    const query = courseQuery.trim().toLowerCase();
-    const suggestions = onboardingProfiles[state.profile].courseSuggestions;
-    if (!query) return suggestions;
-    return suggestions.filter((course) => course.toLowerCase().includes(query));
-  }, [courseQuery, state.profile]);
-
-  const profile = onboardingProfiles[state.profile];
-  const weeklyHours = Math.max(1, Math.round((state.minutesPerDay * state.studyDays.length) / 60));
-  const currentStep = steps[step];
-  const currentQuestion =
-    step === 1
-      ? profile.courseTitle
-      : step === 2
-        ? profile.targetTitle
-        : step === 5
-          ? profile.difficultTitle
-          : currentStep.question;
-  const currentHelper =
-    step === 0
-      ? profile.examHelper
-      : step === 1
-        ? profile.courseHelper
-        : step === 2
-          ? profile.targetHelper
-          : step === 5
-            ? profile.difficultHelper
-            : currentStep.helper;
-  const currentImpact =
-    step === 0
-      ? profile.examImpact
-      : step === 1
-        ? profile.courseImpact
-        : step === 2
-          ? profile.targetImpact
-          : step === 5
-            ? profile.difficultImpact
-            : currentStep.impact;
-  const canAdvance = isStepValid(step, state);
-  const completion = Math.round(((step + 1) / steps.length) * 100);
-  const selectedSubjects = profile.subjects.filter((subject) => state.difficultSubjects.includes(subject.value));
-  const saveStateLabel =
-    saveState === "saving"
-      ? "Salvando no plano..."
-      : saveState === "saved"
-        ? "Plano salvo"
-        : saveState === "error"
-          ? "Falha ao salvar"
-          : saveState === "local"
-            ? "Alteracao salva neste navegador"
-            : "Progresso salvo neste navegador";
-  const nextActionLabel = step === steps.length - 1 ? "Salvar e abrir diagnostico" : "Continuar";
-
-  function patch(next: Partial<OnboardingState>) {
-    markLocalSaved();
-    setState((current) => ({ ...current, ...next }));
-  }
-
-  function markLocalSaved() {
-    setSaveState("local");
-    if (saveStateTimeout.current) window.clearTimeout(saveStateTimeout.current);
-    saveStateTimeout.current = window.setTimeout(() => setSaveState("idle"), 1200);
-  }
-
-  function goToStep(nextStep: number) {
-    markLocalSaved();
-    setStep(Math.min(Math.max(nextStep, 0), steps.length - 1));
-  }
-
-  function toggleListValue<T extends string | number>(values: T[], value: T) {
-    return values.includes(value) ? values.filter((item) => item !== value) : [...values, value];
-  }
-
-  function selectProfile(profileKey: OnboardingProfileKey) {
-    const next = defaultStateForProfile(profileKey);
-    markLocalSaved();
-    setCourseQuery("");
-    setState((current) => ({
-      ...next,
-      minutesPerDay: current.minutesPerDay,
-      studyDays: current.studyDays,
-      examDate: current.examDate,
-    }));
-  }
-
-  function next() {
-    if (!canAdvance) {
-      notify({
-        tone: "warning",
-        title: "Complete esta etapa",
-        message: "Escolha uma opcao para o EstudAki montar seu plano com contexto.",
-      });
-      return;
-    }
-    goToStep(step + 1);
-  }
-
-  async function finish() {
-    if (!canAdvance || saving) return;
-    setSaving(true);
-    setSaveState("saving");
-    try {
-      const response = await fetch("/api/onboarding", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(state),
-      });
-      const data = (await response.json().catch(() => null)) as { error?: string } | null;
-      if (!response.ok) throw new Error(data?.error ?? "Nao foi possivel salvar.");
-      window.localStorage.removeItem(storageKey);
-      setSaveState("saved");
-      notify({
-        tone: "success",
-        title: "Plano inicial pronto",
-        message: "Seu objetivo e tempo de estudo foram salvos.",
-      });
-      announceRouteTransition("/diagnostico");
-      router.replace("/diagnostico");
-    } catch (error) {
-      setSaveState("error");
-      notify({
-        tone: "error",
-        title: "Nao foi possivel salvar",
-        message: error instanceof Error ? error.message : "Confira a conexao e tente novamente.",
-      });
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  return (
-    <div className="mx-auto max-w-6xl space-y-5">
-      <section className="relative overflow-hidden rounded-[30px] border border-white/80 bg-white p-5 shadow-[0_24px_56px_-34px_rgba(37,99,235,0.32)] md:p-7">
-        <div aria-hidden className="pointer-events-none absolute -right-14 -top-16 h-48 w-48 rounded-full bg-blue-200/35 blur-3xl" />
-        <div aria-hidden className="pointer-events-none absolute -bottom-16 -left-16 h-44 w-44 rounded-full bg-orange-200/30 blur-3xl" />
-        <div className="relative z-10 grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
-          <div className="min-w-0">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-              Bem-vindo, {user.name.split(" ")[0]}
-            </p>
-            <h1 className="mt-2 font-display text-3xl font-extrabold leading-tight text-[#0F172A] md:text-4xl">
-              Defina sua meta. O EstudAki transforma em plano.
-            </h1>
-            <p className="mt-2 max-w-3xl text-sm font-semibold leading-6 text-slate-600">
-              {profile.description} Este fluxo conecta objetivo, diagnostico e cronograma para voce saber exatamente o que estudar primeiro.
-            </p>
-
-            <div className="mt-5 grid gap-2 sm:grid-cols-3">
-              {journeyPreview.map((item, index) => (
-                <div
-                  key={item.title}
-                  className={cn(
-                    "flex min-h-20 items-center gap-3 rounded-[22px] border p-3",
-                    index === 0
-                      ? "border-blue-200 bg-blue-50 text-blue-800"
-                      : "border-slate-100 bg-slate-50/80 text-slate-600",
-                  )}
-                >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white shadow-sm">
-                    <item.icon className="h-5 w-5" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-[10px] font-black uppercase tracking-wider opacity-70">
-                      Passo {index + 1}
-                    </span>
-                    <span className="block text-sm font-black text-[#0F172A]">{item.title}</span>
-                    <span className="block text-xs font-bold opacity-75">{item.detail}</span>
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <aside className="rounded-[26px] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-wider text-blue-700">Plano semanal</p>
-                <p className="mt-1 font-display text-4xl font-extrabold text-[#0F172A]">{weeklyHours}h</p>
-              </div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm">
-                <CalendarDays className="h-6 w-6" />
-              </div>
-            </div>
-            <div className="mt-4 h-2 overflow-hidden rounded-full bg-blue-100">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE] transition-all"
-                style={{ width: `${completion}%` }}
-              />
-            </div>
-            <dl className="mt-4 grid gap-2 text-xs font-bold text-slate-600">
-              <SummaryLine label="Preparacao" value={profile.shortTitle} />
-              <SummaryLine label={profile.examLabel} value={state.exams.join(", ")} />
-              <SummaryLine label={profile.courseLabel} value={state.course || "a definir"} />
-              <SummaryLine label="Dias" value={`${state.studyDays.length} por semana`} />
-            </dl>
-          </aside>
-        </div>
-      </section>
-
-      <section className="grid gap-5 lg:grid-cols-[250px_minmax(0,1fr)]">
-        <aside className="self-start rounded-[26px] border border-white/80 bg-white p-4 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.26)]">
-          <div className="mb-4 rounded-[22px] border border-blue-100 bg-blue-50/70 p-3">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-blue-700">
-                Progresso
-              </p>
-              <p className="font-display text-xl font-extrabold text-[#0F172A]">{completion}%</p>
-            </div>
-            <div className="mt-2 h-2 overflow-hidden rounded-full bg-white">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE] transition-all"
-                style={{ width: `${completion}%` }}
-              />
-            </div>
-          </div>
-          <ol className="space-y-2">
-            {steps.map((item, index) => {
-              const active = index === step;
-              const done = index < step;
-              return (
-                <li key={item.title}>
-                  <button
-                    type="button"
-                    onClick={() => goToStep(index)}
-                    className={cn(
-                      "flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-bold transition",
-                      active && "bg-blue-600 text-white shadow-[0_14px_28px_-18px_rgba(37,99,235,0.85)]",
-                      done && !active && "bg-emerald-50 text-emerald-700",
-                      !active && !done && "text-slate-500 hover:bg-slate-50",
-                    )}
-                  >
-                    <span className={cn(
-                      "flex h-7 w-7 shrink-0 items-center justify-center rounded-xl text-xs font-black",
-                      active ? "bg-white/22 text-white" : done ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-400",
-                    )}>
-                      {done ? <Check className="h-3.5 w-3.5" /> : index + 1}
-                    </span>
-                    {item.title}
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-          <div className="mt-4 rounded-2xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs font-bold text-slate-500">
-            {saveStateLabel}
-          </div>
-          <div className="mt-4 space-y-2 border-t border-slate-100 pt-4">
-            <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">
-              Isso ja vira plano
-            </p>
-            <div className="flex items-start gap-2 text-xs font-semibold leading-5 text-slate-600">
-              <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-              Preferencias ficam salvas para recalcular seu cronograma depois.
-            </div>
-            <div className="flex items-start gap-2 text-xs font-semibold leading-5 text-slate-600">
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-blue-600" />
-              Materias dificeis entram como prioridade no diagnostico.
-            </div>
-          </div>
-        </aside>
-
-        <main className="overflow-hidden rounded-[30px] border border-white/80 bg-white shadow-[0_26px_60px_-34px_rgba(15,23,42,0.34)]">
-          <div className="border-b border-slate-100 bg-gradient-to-r from-blue-50 via-white to-orange-50 px-5 py-5 md:px-7">
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-sm">
-                  <currentStep.icon className="h-5 w-5" />
-                </span>
-                <div>
-                  <p className="text-[10px] font-black uppercase tracking-[0.22em] text-blue-700">
-                    Etapa {step + 1} de {steps.length}
-                  </p>
-                  <h2 className="font-display text-2xl font-extrabold text-[#0F172A]">{currentQuestion}</h2>
-                  <p className="mt-1 max-w-2xl text-xs font-semibold leading-5 text-slate-500">
-                    {currentHelper}
-                  </p>
-                </div>
-              </div>
-              <div className="min-w-36">
-                <div className="mb-1 flex items-center justify-between text-[10px] font-black uppercase tracking-wider text-blue-700">
-                  <span>Avanco</span>
-                  <span>{completion}%</span>
-                </div>
-                <div className="h-2 overflow-hidden rounded-full bg-blue-100">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#2563EB] to-[#22D3EE] transition-all"
-                    style={{ width: `${completion}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="min-h-[420px] p-5 md:p-7">
-            <div className="mb-5 flex items-start gap-3 rounded-[22px] border border-amber-100 bg-amber-50/70 p-4">
-              <ListChecks className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" />
-              <div>
-                <p className="text-xs font-black uppercase tracking-wider text-amber-700">
-                  Como isso muda o plano
-                </p>
-                <p className="mt-1 text-sm font-semibold leading-6 text-slate-700">
-                  {currentImpact}
-                </p>
-              </div>
-            </div>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={`${step}-${state.profile}`}
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.2 }}
-              >
-                {step === 0 && (
-                  <div className="space-y-5">
-                    <div>
-                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-slate-500">
-                        Tipo de preparacao
-                      </p>
-                      <ChoiceGrid compact>
-                        {onboardingProfileKeys.map((profileKey) => {
-                          const option = onboardingProfiles[profileKey];
-                          return (
-                            <ChoiceButton
-                              key={profileKey}
-                              selected={state.profile === profileKey}
-                              onClick={() => selectProfile(profileKey)}
-                              title={option.shortTitle}
-                              detail={option.description}
-                            />
-                          );
-                        })}
-                      </ChoiceGrid>
-                    </div>
-
-                    <div>
-                      <p className="mb-3 text-xs font-black uppercase tracking-wider text-slate-500">
-                        {profile.examLabel}
-                      </p>
-                      <ChoiceGrid>
-                        {profile.exams.map((exam) => (
-                          <ChoiceButton
-                            key={exam}
-                            selected={state.exams.includes(exam)}
-                            onClick={() => patch({ exams: toggleListValue(state.exams, exam) })}
-                            title={exam}
-                            detail={profile.choiceDetail}
-                          />
-                        ))}
-                      </ChoiceGrid>
-                    </div>
-                  </div>
-                )}
-
-                {step === 1 && (
-                  <div className="space-y-4">
-                    <label className="relative block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-slate-500">{profile.courseLabel}</span>
-                      <Search className="absolute left-4 top-10 h-4 w-4 text-slate-400" />
-                      <input
-                        value={state.course}
-                        onChange={(event) => {
-                          patch({ course: event.target.value });
-                          setCourseQuery(event.target.value);
-                        }}
-                        placeholder={profile.coursePlaceholder}
-                        className="ek-input ek-input-with-icon"
-                      />
-                    </label>
-                    <ChoiceGrid compact>
-                      {filteredCourses.map((course) => (
-                        <ChoiceButton
-                          key={course}
-                          selected={state.course === course}
-                          onClick={() => {
-                            patch({ course });
-                            setCourseQuery(course);
-                          }}
-                          title={course}
-                        />
-                      ))}
-                    </ChoiceGrid>
-                  </div>
-                )}
-
-                {step === 2 && (
-                  <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_260px]">
-                    <label className="block">
-                      <span className="mb-2 block text-xs font-black uppercase tracking-wider text-slate-500">
-                        Nota/meta
-                      </span>
-                      <input
-                        value={state.targetScore}
-                        onChange={(event) => patch({ targetScore: event.target.value })}
-                        placeholder={profile.targetPlaceholder}
-                        className="ek-input"
-                      />
-                    </label>
-                    <div className="rounded-[24px] border border-amber-100 bg-amber-50 p-4">
-                      <Target className="h-6 w-6 text-amber-600" />
-                      <p className="mt-3 text-sm font-black text-[#0F172A]">Meta clara melhora prioridade.</p>
-                      <p className="mt-1 text-xs font-semibold leading-5 text-slate-600">
-                        Se ainda nao souber a nota, escreva o objetivo em palavras.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {step === 3 && (
-                  <ChoiceGrid>
-                    {timeOptions.map((option) => (
-                      <ChoiceButton
-                        key={option.minutes}
-                        selected={state.minutesPerDay === option.minutes}
-                        onClick={() => patch({ minutesPerDay: option.minutes })}
-                        title={option.label}
-                        detail="por dia"
-                        icon={<Clock3 className="h-5 w-5" />}
-                      />
-                    ))}
-                  </ChoiceGrid>
-                )}
-
-                {step === 4 && (
-                  <ChoiceGrid compact>
-                    {weekDays.map((day) => (
-                      <ChoiceButton
-                        key={day.value}
-                        selected={state.studyDays.includes(day.value)}
-                        onClick={() => patch({ studyDays: toggleListValue(state.studyDays, day.value).sort() })}
-                        title={day.label}
-                        detail="dia"
-                        icon={<CalendarDays className="h-5 w-5" />}
-                      />
-                    ))}
-                  </ChoiceGrid>
-                )}
-
-                {step === 5 && (
-                  <ChoiceGrid>
-                    {profile.subjects.map((subject) => (
-                      <ChoiceButton
-                        key={subject.value}
-                        selected={state.difficultSubjects.includes(subject.value)}
-                        onClick={() =>
-                          patch({
-                            difficultSubjects: toggleListValue(state.difficultSubjects, subject.value),
-                          })
-                        }
-                        title={subject.label}
-                        icon={<StudyIcon name={subject.icon as StudyIconName} size="xs" />}
-                      />
-                    ))}
-                  </ChoiceGrid>
-                )}
-
-                {step === 6 && (
-                  <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
-                    <div className="rounded-[26px] border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-5">
-                      <Sparkles className="h-8 w-8 text-blue-700" />
-                      <h3 className="mt-4 font-display text-3xl font-extrabold text-[#0F172A]">
-                        Primeiro plano quase pronto
-                      </h3>
-                      <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">
-                        Agora falta calibrar sua base por materia. Depois disso, o cronograma nasce com prioridades reais.
-                      </p>
-                      <dl className="mt-5 grid gap-3 sm:grid-cols-3">
-                        <Metric label={profile.examLabel} value={state.exams.join(", ")} />
-                        <Metric label="Tempo" value={`${weeklyHours}h/sem`} />
-                        <Metric label="Dificeis" value={String(state.difficultSubjects.length)} />
-                      </dl>
-                      <div className="mt-5 grid gap-3 sm:grid-cols-3">
-                        {["Objetivo salvo", "Diagnostico guiado", "Plano gerado"].map((label, index) => (
-                          <div key={label} className="flex items-center gap-2 text-xs font-black text-slate-700">
-                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white">
-                              {index + 1}
-                            </span>
-                            {label}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div className="rounded-[26px] border border-slate-100 bg-white p-5 shadow-sm">
-                      <p className="text-[11px] font-black uppercase tracking-wider text-slate-500">Resumo</p>
-                      <ul className="mt-4 space-y-3 text-sm font-semibold text-slate-600">
-                        <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Preparacao: {profile.title}</li>
-                        <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Objetivo: {state.course || "em aberto"}</li>
-                        <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Meta: {state.targetScore || "ajustar depois"}</li>
-                        <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> {state.studyDays.length} dias de estudo</li>
-                        <li className="flex gap-2"><Check className="mt-0.5 h-4 w-4 text-emerald-600" /> Prioridade: {selectedSubjects.map((item) => item.label).join(", ") || "ajustar no diagnostico"}</li>
-                      </ul>
-                    </div>
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          <div className="flex flex-col-reverse gap-3 border-t border-slate-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between md:px-7">
-            <button
-              type="button"
-              disabled={step === 0 || saving}
-              onClick={() => goToStep(step - 1)}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-4 text-sm font-black text-slate-600 transition hover:border-blue-200 hover:text-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Voltar
-            </button>
-            <div className="flex flex-col items-stretch gap-2 sm:items-end">
-              {!canAdvance ? (
-                <p className="text-xs font-bold text-orange-600">
-                  Complete esta etapa para continuar.
-                </p>
-              ) : null}
-              {step === steps.length - 1 ? (
-                <button
-                  type="button"
-                  disabled={saving || !canAdvance}
-                  onClick={() => void finish()}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#F97316] to-[#FACC15] px-5 text-sm font-black text-white shadow-[0_16px_30px_-18px_rgba(249,115,22,0.75)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <BookOpenCheck className="h-4 w-4" />}
-                  {saving ? "Salvando..." : nextActionLabel}
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  disabled={!canAdvance}
-                  onClick={next}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#2563EB] to-[#22D3EE] px-5 text-sm font-black text-white shadow-[0_16px_30px_-18px_rgba(37,99,235,0.75)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  {nextActionLabel}
-                  <ArrowRight className="h-4 w-4" />
-                </button>
-              )}
-            </div>
-          </div>
-        </main>
-      </section>
-    </div>
-  );
-}
+import { cn } from "@/lib/utils";
+import { verticalThemeStyle } from "@/config/vertical-themes";
 
 const steps = [
-  {
-    title: "Objetivo",
-    question: "Qual e seu objetivo?",
-    helper: "Escolha as provas que realmente importam para o seu ano.",
-    impact: "As provas escolhidas definem o repertorio de questoes, simulados e revisoes que entram no plano.",
-    icon: GraduationCap,
-  },
-  {
-    title: "Curso",
-    question: "Qual curso voce quer?",
-    helper: "Digite livremente ou use uma sugestao rapida.",
-    impact: "O curso ajuda a dar peso para materias decisivas e deixa suas metas mais concretas.",
-    icon: Search,
-  },
-  {
-    title: "Meta",
-    question: "Qual nota/meta voce deseja alcancar?",
-    helper: "Pode ser nota, curso, instituicao ou uma frase simples.",
-    impact: "A meta vira referencia para calibrar intensidade, ritmo semanal e revisoes.",
-    icon: Target,
-  },
-  {
-    title: "Tempo",
-    question: "Quanto tempo consegue estudar por dia?",
-    helper: "Escolha um ritmo realista. O plano fica melhor quando cabe na sua rotina.",
-    impact: "O tempo por dia define a duracao dos blocos e evita um cronograma impossivel de cumprir.",
-    icon: Clock3,
-  },
-  {
-    title: "Dias",
-    question: "Quais dias voce costuma estudar?",
-    helper: "Marque apenas os dias em que voce quer receber blocos de estudo.",
-    impact: "Os dias escolhidos distribuem pratica, revisao e trilhas ao longo da semana.",
-    icon: CalendarDays,
-  },
-  {
-    title: "Dificuldades",
-    question: "Quais materias parecem mais dificeis?",
-    helper: "Escolha as areas que precisam de mais atencao agora.",
-    impact: "Essas materias aparecem primeiro no diagnostico e ganham prioridade no plano inicial.",
-    icon: Sparkles,
-  },
-  {
-    title: "Diagnostico",
-    question: "Pronto para descobrir seu ponto de partida?",
-    helper: "Revise o resumo e abra o diagnostico inicial.",
-    impact: "O diagnostico transforma suas respostas em prioridades concretas para a primeira semana.",
-    icon: BookOpenCheck,
-  },
+  { label: "Seu objetivo", title: "O que você quer conquistar?", helper: "Escolha a preparação que faz sentido para o seu próximo passo.", icon: Compass },
+  { label: "Sua meta", title: "Vamos dar um nome ao seu futuro.", helper: "Escolha suas provas e conte onde você quer chegar.", icon: Target },
+  { label: "Seu ritmo", title: "Um plano que cabe na sua vida.", helper: "Consistência começa com uma rotina possível. Você pode ajustar depois.", icon: Clock3 },
+  { label: "Seu ponto de partida", title: "Por onde vamos começar?", helper: "Não é um teste. Isso ajuda a escolher os primeiros conteúdos.", icon: Sparkles },
+  { label: "Seu plano", title: "O primeiro passo já é seu.", helper: "Confira suas escolhas. Depois, o diagnóstico vai calibrar seu plano.", icon: GraduationCap },
 ];
+const profileIcons: Record<OnboardingProfileKey, LucideIcon> = { vestibular: GraduationCap, medicina: HeartPulse, oab: Scale, concursos: BriefcaseBusiness, "policia-civil": Shield, "policia-militar": Shield, militares: Swords };
+const preferences = [{ id: "questions", label: "Resolver questões", icon: CheckCheck }, { id: "video", label: "Assistir aulas", icon: Video }, { id: "reading", label: "Ler e fazer anotações", icon: BookOpen }, { id: "review", label: "Revisar com frequência", icon: CalendarDays }];
+const levels = [{ id: "BEGINNER", label: "Estou começando", detail: "Quero construir uma boa base." }, { id: "INTERMEDIATE", label: "Já tenho uma base", detail: "Preciso organizar e praticar." }, { id: "ADVANCED", label: "Estou na reta final", detail: "Quero refinar meu desempenho." }] as const;
+const days = ["D", "S", "T", "Q", "Q", "S", "S"];
+const fullDays = ["Domingo", "Segunda-feira", "Terça-feira", "Quarta-feira", "Quinta-feira", "Sexta-feira", "Sábado"];
+const subjectIcons: Record<string, LucideIcon> = { matematica: Calculator, portugues: Languages, linguagens: Languages, ingles: Languages, historia: History, geografia: Globe2, fisica: Atom, quimica: FlaskConical, biologia: Dna, redacao: BookOpen };
+function toggle<T>(values: T[], value: T) { return values.includes(value) ? values.filter(item => item !== value) : [...values, value]; }
 
-function isStepValid(step: number, state: OnboardingState) {
-  if (step === 0) return state.exams.length > 0;
-  if (step === 1) return state.course.trim().length > 1;
-  if (step === 2) return state.targetScore.trim().length > 1;
-  if (step === 3) return state.minutesPerDay >= 30;
-  if (step === 4) return state.studyDays.length > 0;
-  if (step === 5) return state.difficultSubjects.length > 0;
-  return true;
-}
+export function OnboardingFlow({ user, initial }: { user: AppUser; initial: LearningProfileInput }) {
+  const router = useRouter();
+  const reducedMotion = useReducedMotion();
+  const { mode } = useProductAppearance();
+  const [state, setState] = useState(initial);
+  const [saved, setSaved] = useState<"idle" | "saving" | "saved" | "error">("idle");
+  const [error, setError] = useState("");
+  const [finishing, setFinishing] = useState(false);
+  const heading = useRef<HTMLHeadingElement>(null);
+  const lastSaved = useRef(JSON.stringify(initial));
+  const savingRequest = useRef<Promise<void> | null>(null);
+  const step = state.currentStep, current = steps[step], profile = onboardingProfiles[state.profile];
+  const Icon = current.icon;
+  const weeklyMinutes = state.minutesPerDay * state.studyDays.length;
+  const canAdvance = step === 1 ? Boolean(state.exams.length && state.course.trim()) : step === 2 ? state.studyDays.length > 0 : step === 3 ? state.learningPreferences.length > 0 : true;
+  function patch(values: Partial<LearningProfileInput>) { setState(value => ({ ...value, ...values })); setError(""); }
 
-function ChoiceGrid({ children, compact = false }: { children: React.ReactNode; compact?: boolean }) {
-  return (
-    <div className={cn("grid gap-3", compact ? "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4" : "sm:grid-cols-2 xl:grid-cols-3")}>
-      {children}
+  useEffect(() => { heading.current?.focus({ preventScroll: true }); }, [step]);
+  useEffect(() => {
+    const snapshot = JSON.stringify(state);
+    if (snapshot === lastSaved.current || finishing) return;
+    const timer = window.setTimeout(() => {
+      const previous = savingRequest.current;
+      savingRequest.current = (async () => {
+        await previous;
+        setSaved("saving");
+        try {
+          const response = await fetch("/api/onboarding", { method: "PUT", headers: { "Content-Type": "application/json" }, body: snapshot });
+          if (!response.ok) throw new Error("save");
+          lastSaved.current = snapshot; setSaved("saved");
+        } catch { setSaved("error"); }
+      })();
+    }, 700);
+    return () => window.clearTimeout(timer);
+  }, [state, finishing]);
+
+  async function finish() {
+    if (finishing) return;
+    setFinishing(true); setError("");
+    try {
+      await savingRequest.current;
+      const response = await fetch("/api/onboarding", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(state) });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Não foi possível salvar seu plano.");
+      router.push("/diagnostico"); router.refresh();
+    } catch (error) { setError(error instanceof Error ? error.message : "Tente novamente."); setFinishing(false); }
+  }
+
+  return <main style={verticalThemeStyle(state.profile, mode)} data-theme-mode={mode} data-vertical={state.profile} className="professional-platform onboarding-page min-h-screen bg-[color:var(--theme-background)] px-4 py-5 text-slate-900 sm:px-8 sm:py-8">
+    <header className="mx-auto flex max-w-[960px] items-center justify-between gap-3">
+      <Brand href="/" className="estudaki-brand--sm" />
+      <span className="flex items-center gap-2 text-xs font-medium text-slate-500"><Shield className="h-4 w-4 text-[color:var(--theme-primary)]" />Sua jornada começa aqui</span>
+    </header>
+    <div className="mx-auto mt-7 max-w-[840px] sm:mt-10">
+      <nav aria-label="Etapas do seu plano" className="mb-6 flex items-center justify-between gap-2">
+        {steps.map((item, index) => <button key={item.label} type="button" onClick={() => patch({ currentStep: index })} disabled={index > step || finishing} aria-current={index === step ? "step" : undefined}
+          className={cn("flex min-w-0 flex-1 items-center gap-2 rounded-xl px-1 py-2 text-left text-xs font-semibold disabled:cursor-default", index === step ? "text-[color:var(--theme-primary)]" : "text-slate-400")}>
+          <span className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full border text-[11px]", index < step ? "border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]" : index === step ? "border-[color:var(--theme-border)] bg-[color:var(--theme-primary)] text-white" : "border-slate-200 bg-white")}>{index < step ? <Check className="h-4 w-4" /> : String(index + 1).padStart(2, "0")}</span>
+          <span className="hidden leading-4 sm:block">{item.label}</span>
+        </button>)}
+      </nav>
+      <section className="overflow-hidden rounded-[18px] border border-white bg-white shadow-sm sm:rounded-[18px]">
+        <div className="border-b border-slate-100 px-5 pb-6 pt-7 sm:px-10 sm:pb-7 sm:pt-9">
+          <div className="mb-5 flex items-center justify-between"><span className="grid h-12 w-12 place-items-center rounded-2xl border border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]"><Icon className="h-6 w-6" strokeWidth={1.6} /></span><span className="text-[11px] font-medium text-slate-400">ETAPA {step + 1} DE {steps.length}</span></div>
+          <p className="mb-2 text-xs font-semibold text-[color:var(--theme-primary)]">{step === 0 ? user.name.split(" ")[0] + ", este espaço é seu." : current.label}</p>
+          <h1 ref={heading} tabIndex={-1} className="font-display text-[28px] font-bold leading-[1.18] tracking-tight outline-none sm:text-[36px]">{current.title}</h1>
+          <p className="mt-3 max-w-xl text-sm leading-6 text-slate-500">{current.helper}</p>
+        </div>
+        <div className="px-5 py-6 sm:px-10 sm:py-8">
+          <AnimatePresence mode="wait"><motion.div key={step} initial={reducedMotion ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -6 }} transition={{ duration: .16 }}>
+            {step === 0 && <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+              {onboardingProfileKeys.map(key => { const item = onboardingProfiles[key]; return <Option key={key} compactMobile icon={profileIcons[key]} title={item.shortTitle} detail={item.description} selected={state.profile === key} onClick={() => patch({ ...defaultLearningProfile(key), currentStep: 0 })} />; })}
+            </div>}
+            {step === 1 && <div className="space-y-6">
+              <fieldset><legend className="mb-3 text-sm font-semibold">{profile.examLabel}</legend><div className="flex flex-wrap gap-2">{profile.exams.map(exam => <button type="button" key={exam} aria-pressed={state.exams.includes(exam)} onClick={() => patch({ exams: toggle(state.exams, exam) })} className={cn("inline-flex min-h-11 items-center gap-2 rounded-xl border px-4 text-sm font-medium transition", state.exams.includes(exam) ? "border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]" : "border-slate-200 text-slate-600 hover:border-[color:var(--theme-border)]")}>{state.exams.includes(exam) && <Check className="h-3.5 w-3.5" />}{exam}</button>)}</div></fieldset>
+              <Field label={profile.courseLabel} icon={Landmark}><input value={state.course} maxLength={96} onChange={event => patch({ course: event.target.value })} placeholder={profile.coursePlaceholder} className="welcome-input" /></Field>
+              <div className="flex flex-wrap gap-2">{profile.courseSuggestions.slice(0, 5).map(course => <button type="button" key={course} onClick={() => patch({ course })} className="rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-500 hover:bg-[color:var(--theme-surface-alt)] hover:text-[color:var(--theme-primary)]">{course}</button>)}</div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <Field label="Sua meta (opcional)" icon={Target}><input value={state.targetScore} maxLength={80} onChange={event => patch({ targetScore: event.target.value })} placeholder={profile.targetPlaceholder} className="welcome-input" /></Field>
+                <Field label="Data da prova (se souber)" icon={CalendarDays}><input type="date" value={state.examDate} onChange={event => patch({ examDate: event.target.value })} className="welcome-input" /></Field>
+              </div>
+            </div>}
+            {step === 2 && <div className="space-y-7">
+              <fieldset><legend className="mb-3 text-sm font-semibold">Quanto tempo por dia?</legend><div className="grid grid-cols-3 gap-2 sm:grid-cols-6">{[30, 60, 90, 120, 180, 240].map(minutes => <button type="button" aria-pressed={state.minutesPerDay === minutes} key={minutes} onClick={() => patch({ minutesPerDay: minutes })} className={cn("rounded-2xl border px-2 py-4 text-sm font-semibold", state.minutesPerDay === minutes ? "border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]" : "border-slate-200 text-slate-600")}><Clock3 className="mx-auto mb-2 h-5 w-5" strokeWidth={1.5} />{minutes < 60 ? minutes + " min" : minutes / 60 + " h"}</button>)}</div></fieldset>
+              <fieldset><legend className="mb-3 text-sm font-semibold">Quais dias ficam melhores?</legend><div className="grid grid-cols-7 gap-2">{days.map((label, day) => <button type="button" key={day} aria-label={fullDays[day]} aria-pressed={state.studyDays.includes(day)} onClick={() => patch({ studyDays: toggle(state.studyDays, day).sort() })} className={cn("aspect-square rounded-xl border text-sm font-semibold", state.studyDays.includes(day) ? "border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]" : "border-slate-200 text-slate-500")}>{label}</button>)}</div></fieldset>
+              <div className="flex items-start gap-3 rounded-2xl bg-[color:var(--theme-background)] p-4"><CalendarDays className="mt-1 h-5 w-5 shrink-0 text-[color:var(--theme-primary)]" /><div><p className="text-sm font-semibold">{Math.floor(weeklyMinutes / 60)}h{weeklyMinutes % 60 ? " " + weeklyMinutes % 60 + "min" : ""} por semana, no seu ritmo.</p><p className="mt-1 text-xs leading-5 text-slate-500">Seu cronograma vai distribuir os blocos nos {state.studyDays.length} dias escolhidos.</p></div></div>
+            </div>}
+            {step === 3 && <div className="space-y-7">
+              <fieldset><legend className="mb-3 text-sm font-semibold">Como você se sente hoje?</legend><div className="grid gap-2 sm:grid-cols-3">{levels.map(item => <Option key={item.id} title={item.label} detail={item.detail} selected={state.level === item.id} onClick={() => patch({ level: item.id })} />)}</div></fieldset>
+              <fieldset><legend className="mb-1 text-sm font-semibold">O que merece mais atenção?</legend><p className="mb-3 text-xs text-slate-500">Pode escolher várias matérias ou deixar para o diagnóstico.</p><div className="flex flex-wrap gap-2">{profile.subjects.map(subject => <button type="button" aria-pressed={state.difficultSubjects.includes(subject.value)} key={subject.value} onClick={() => patch({ difficultSubjects: toggle(state.difficultSubjects, subject.value) })} className={cn("flex min-h-11 items-center gap-2 rounded-xl border px-3 text-sm", state.difficultSubjects.includes(subject.value) ? "border-[color:var(--theme-border)] bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]" : "border-slate-200 text-slate-600")}><SubjectGlyph subject={subject.value} />{subject.label}{state.difficultSubjects.includes(subject.value) && <Check className="h-3.5 w-3.5" />}</button>)}</div></fieldset>
+              <fieldset><legend className="mb-3 text-sm font-semibold">Como você gosta de estudar?</legend><div className="grid grid-cols-2 gap-2">{preferences.map(item => <Option key={item.id} icon={item.icon} title={item.label} selected={state.learningPreferences.includes(item.id)} onClick={() => patch({ learningPreferences: toggle(state.learningPreferences, item.id) })} />)}</div></fieldset>
+            </div>}
+            {step === 4 && <div>
+              <div className="mb-6 flex items-center gap-4 rounded-2xl    p-5 professional-neutral"><span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white text-[color:var(--theme-primary)]"><GraduationCap className="h-8 w-8" strokeWidth={1.5} /></span><div><p className="text-xs font-medium text-[color:var(--theme-primary)]">{profile.title}</p><h2 className="mt-1 text-xl font-bold">{state.course}</h2><p className="mt-1 text-xs text-slate-500">{state.exams.join(" · ")}</p></div></div>
+              <dl className="grid gap-5 sm:grid-cols-2"><Summary icon={Target} label="Sua meta" value={state.targetScore || "Definir com o diagnóstico"} /><Summary icon={Clock3} label="Sua rotina" value={state.minutesPerDay + " min/dia · " + state.studyDays.length + " dias/semana"} /><Summary icon={Sparkles} label="Seu ponto de partida" value={levels.find(item => item.id === state.level)!.label} /><Summary icon={CalendarDays} label="Sua prova" value={state.examDate ? new Date(state.examDate + "T12:00:00Z").toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }) : "Data ainda em aberto"} /></dl>
+              <p className="mt-6 flex items-start gap-2 rounded-xl border border-slate-100 p-4 text-xs leading-5 text-slate-500"><CircleHelp className="mt-0.5 h-4 w-4 shrink-0" />Suas escolhas orientam seu plano. O diagnóstico e sua atividade vão ajudar a ajustá-lo ao longo do caminho.</p>
+            </div>}
+          </motion.div></AnimatePresence>
+        </div>
+        <footer className="border-t border-slate-100 px-5 py-5 sm:px-10">
+          {error && <p role="alert" className="mb-4 rounded-xl bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+          <div className="flex items-center justify-between gap-3"><button type="button" disabled={!step || finishing} onClick={() => patch({ currentStep: step - 1 })} className="flex min-h-12 items-center gap-2 rounded-xl px-3 text-sm font-medium text-slate-500 disabled:opacity-30"><ArrowLeft className="h-4 w-4" />Voltar</button>
+          <button type="button" disabled={!canAdvance || finishing} onClick={() => step === 4 ? void finish() : patch({ currentStep: step + 1 })} className="flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[color:var(--theme-primary)] px-5 text-sm font-semibold text-white transition hover:bg-[color:var(--theme-primary)] disabled:opacity-40">{finishing ? <Loader2 className="h-4 w-4 animate-spin" /> : null}{step === 4 ? "Criar meu plano" : "Continuar"}{!finishing && (step === 4 ? <Sparkles className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />)}</button></div>
+          <p role="status" className={cn("mt-3 text-center text-[11px]", saved === "error" ? "text-red-600" : "text-slate-400")}>{saved === "saving" ? "Salvando suas escolhas…" : saved === "saved" ? "Suas escolhas estão salvas na sua conta." : saved === "error" ? "Não foi possível salvar agora. Tente novamente antes de sair." : "Você pode ajustar suas escolhas depois."}</p>
+        </footer>
+      </section>
+      <p className="mt-5 flex items-center justify-center gap-1.5 text-xs text-slate-400"><BookOpen className="h-3.5 w-3.5" />Um passo de cada vez. Uma conquista por vez.</p>
     </div>
-  );
+  </main>;
 }
 
-function ChoiceButton({
-  selected,
-  onClick,
-  title,
-  detail,
-  icon,
-}: {
-  selected: boolean;
-  onClick: () => void;
-  title: string;
-  detail?: string;
-  icon?: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={selected}
-      className={cn(
-        "relative flex min-h-[104px] items-center gap-3 rounded-[22px] border p-4 text-left transition active:scale-[0.99]",
-        selected
-          ? "border-blue-500 bg-gradient-to-br from-blue-50 via-white to-cyan-50 text-blue-800 shadow-[0_18px_32px_-24px_rgba(37,99,235,0.6)] ring-2 ring-blue-100"
-          : "border-slate-200 bg-white text-slate-700 hover:-translate-y-0.5 hover:border-blue-200 hover:bg-blue-50/30 hover:shadow-sm",
-      )}
-    >
-      {icon ? <span className="shrink-0">{icon}</span> : null}
-      <span className="min-w-0">
-        <span className="block text-base font-black text-[#0F172A]">{title}</span>
-        {detail ? <span className="mt-1 block text-xs font-bold text-slate-500">{detail}</span> : null}
-      </span>
-      {selected ? (
-        <span className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-white">
-          <Check className="h-3.5 w-3.5" />
-        </span>
-      ) : null}
-    </button>
-  );
+function Option({ title, detail, icon: Icon, selected, onClick, compactMobile = false }: { title: string; detail?: string; compactMobile?: boolean; icon?: LucideIcon; selected: boolean; onClick: () => void }) {
+  return <button type="button" onClick={onClick} aria-pressed={selected} className={cn("relative flex h-full flex-col items-start rounded-2xl border p-4 text-left transition sm:p-5", selected ? "border-[color:var(--theme-border)] bg-[#FFF9F2] shadow-sm" : "border-slate-200 bg-white hover:border-[color:var(--theme-border)] hover:bg-[#FFFCF8]")}>
+    {Icon && <span className={cn("mb-3 grid h-10 w-10 place-items-center rounded-xl", selected ? "bg-[color:var(--theme-surface-alt)] text-[color:var(--theme-primary)]" : "bg-slate-50 text-slate-500")}><Icon className="h-5 w-5" strokeWidth={1.6} /></span>}
+    <span className="pr-4 text-sm font-semibold leading-5 sm:text-base">{title}</span>{detail && <span className={cn("mt-2 text-xs leading-5 text-slate-500", compactMobile && "hidden sm:block")}>{detail}</span>}
+    <span className={cn("absolute right-3 top-3 grid h-4 w-4 place-items-center rounded-full border", selected ? "border-[color:var(--theme-border)] bg-[color:var(--theme-primary)] text-white" : "border-slate-200")}>{selected && <Check className="h-3 w-3" />}</span>
+  </button>;
+}
+function Field({ label, icon: Icon, children }: { label: string; icon: LucideIcon; children: React.ReactNode }) {
+  return <label className="block"><span className="mb-2 flex items-center gap-2 text-sm font-medium"><Icon className="h-4 w-4 text-slate-400" strokeWidth={1.6} />{label}</span>{children}</label>;
+}
+function Summary({ label, value, icon: Icon }: { label: string; value: string; icon: LucideIcon }) {
+  return <div className="flex items-start gap-3"><Icon className="mt-1 h-5 w-5 shrink-0 text-[color:var(--theme-primary)]" strokeWidth={1.6} /><div><dt className="text-xs text-slate-500">{label}</dt><dd className="mt-1 text-sm font-semibold">{value}</dd></div></div>;
 }
 
-function SummaryLine({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-center justify-between gap-3 rounded-2xl bg-white/75 px-3 py-2">
-      <dt className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</dt>
-      <dd className="truncate text-right font-black text-[#0F172A]">{value}</dd>
-    </div>
-  );
-}
-
-function Metric({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-2xl border border-white bg-white/70 p-3">
-      <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{label}</p>
-      <p className="mt-1 line-clamp-2 text-sm font-black text-[#0F172A]">{value}</p>
-    </div>
-  );
+function SubjectGlyph({ subject }: { subject: string }) {
+  const Icon = subjectIcons[subject] ?? (subject.includes("direito") ? Scale : BookOpen);
+  return <Icon className="h-4 w-4" strokeWidth={1.5} />;
 }

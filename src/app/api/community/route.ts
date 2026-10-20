@@ -9,7 +9,7 @@ async function currentUserId() {
 
 export async function GET(request: Request) {
   const userId = await currentUserId();
-  if (!userId) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 401 });
+  if (!userId) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 401 });
 
   const search = new URL(request.url).searchParams.get("q")?.trim() ?? "";
 
@@ -73,7 +73,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const userId = await currentUserId();
-  if (!userId) return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 401 });
+  if (!userId) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 401 });
 
   const body = (await request.json()) as {
     action?: "post" | "like" | "conversation" | "message";
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     if (body.action === "post") {
       const content = body.content?.trim();
       if (!content || content.length > 1200) {
-        return NextResponse.json({ error: "Escreva uma publicacao de ate 1.200 caracteres." }, { status: 400 });
+        return NextResponse.json({ error: "Escreva uma publicação de até 1.200 caracteres." }, { status: 400 });
       }
       const post = await db.communityPost.create({ data: { userId, content } });
       return NextResponse.json({ post }, { status: 201 });
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Escolha pelo menos um colega." }, { status: 400 });
       }
       if (body.isGroup && !body.title?.trim()) {
-        return NextResponse.json({ error: "De um nome ao grupo." }, { status: 400 });
+        return NextResponse.json({ error: "Dê um nome ao grupo." }, { status: 400 });
       }
       const conversation = await db.conversation.create({
         data: {
@@ -134,7 +134,7 @@ export async function POST(request: Request) {
     if (body.action === "message" && body.conversationId) {
       const content = body.content?.trim();
       if (!content || content.length > 3000) {
-        return NextResponse.json({ error: "Escreva uma mensagem valida." }, { status: 400 });
+        return NextResponse.json({ error: "Escreva uma mensagem válida." }, { status: 400 });
       }
       const membership = await db.conversationMember.findUnique({
         where: {
@@ -157,9 +157,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ message }, { status: 201 });
     }
 
-    return NextResponse.json({ error: "Acao invalida." }, { status: 400 });
+    return NextResponse.json({ error: "Ação invalida." }, { status: 400 });
   } catch (error) {
-    console.error("Falha em acao da comunidade", error);
+    console.error("Falha em ação da comunidade", error);
     return NextResponse.json({ error: "Comunidade indisponivel no momento." }, { status: 503 });
   }
 }

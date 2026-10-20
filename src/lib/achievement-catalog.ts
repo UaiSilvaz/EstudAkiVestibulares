@@ -56,7 +56,7 @@ export type AchievementCatalogItem = {
   criteriaValue: number;
 };
 
-const estudakiColors = ["#2563EB", "#F97316", "#FACC15", "#22C55E", "#22D3EE", "#0F172A"];
+const estudakiColors = ["#FF6201", "#C94D00", "#272B31", "#B84000", "#FF9B62", "#101216"];
 
 const rarityRewards: Record<AchievementRarity, { xp: number; coins: number }> = {
   COMMON: { xp: 20, coins: 5 },
@@ -137,7 +137,7 @@ function createAchievement(input: {
     iconKey,
     iconDescription:
       input.iconDescription ??
-      `Emblema original EstudAki com moldura ${rarity.toLowerCase()}, brilho azul, detalhe laranja e assinatura amarela.`,
+      `Emblema original Norte Preparatórios com moldura ${rarity.toLowerCase()}, lobo laranja e acabamento em grafite.`,
     unlockedIconPath: `/achievements/${slug}.svg`,
     lockedIconPath: `/achievements/locked/${slug}.svg`,
     isHidden: input.hidden ?? false,
@@ -154,7 +154,7 @@ const questionMilestones = [
 ];
 
 const questionNames = [
-  "Primeira Questao",
+  "Primeira Questão",
   "Cinco no Aquecimento",
   "Dez de Uma Vez",
   "Lista Fechada",
@@ -172,48 +172,48 @@ const questionNames = [
   "Mil e Meio de Foco",
   "Dois Mil Motivos",
   "Dois Mil e Meio",
-  "Tres Mil Degraus",
+  "Três Mil Degraus",
   "Quatro Mil Respostas",
   "Cinco Mil Passos",
-  "Atlas de Questoes",
-  "Enciclopedia de Questoes",
+  "Atlas de Questões",
+  "Enciclopedia de Questões",
 ];
 
 const firstSteps = [
-  ["Primeiro Passo", "Voce resolveu sua primeira questao no EstudAki.", "unique_questions_answered", 1, "sparkles"],
-  ["Comecou Bem", "Voce acertou sua primeira questao.", "unique_correct_answers", 1, "target"],
-  ["Errar Faz Parte", "Voce revisou pela primeira vez uma questao que errou.", "reviewed_errors", 1, "book-open-check"],
-  ["Caderno Aberto", "Voce adicionou sua primeira questao ao caderno de erros.", "error_bookmarked", 1, "clipboard-check"],
-  ["Rumo a Aprovacao", "Voce escolheu seu principal vestibular.", "profile_completed", 40, "graduation-cap"],
-  ["Identidade de Estudante", "Voce completou seu perfil.", "profile_completed", 100, "award"],
-  ["Foto de Guerra", "Voce adicionou uma foto ao perfil.", "profile_photo", 1, "medal"],
-  ["Plano Ligado", "Voce configurou horas semanais de estudo.", "study_plan_configured", 1, "calendar-check"],
-  ["Primeira Sessao", "Voce concluiu uma sessao de estudo real.", "study_session_count", 1, "flame"],
-  ["Primeiro Simulado", "Voce iniciou sua primeira experiencia de prova.", "simulation_count", 1, "clipboard-check"],
-  ["Primeiro Material", "Voce abriu o primeiro material de estudo.", "materials_opened", 1, "book-open-check"],
-  ["Primeira Redacao", "Voce iniciou sua primeira redacao.", "essay_count", 1, "pen"],
-  ["Primeira Revisao", "Voce revisou um ponto fraco pela primeira vez.", "reviewed_errors", 1, "zap"],
-  ["Mapa Inicial", "Voce acessou o cronograma de estudos.", "schedule_started", 1, "calendar-check"],
-  ["Liga Destravada", "Voce ganhou XP suficiente para mover a barra de liga.", "xp", 50, "trophy"],
-  ["Perfil com Meta", "Voce definiu o vestibular principal.", "profile_goal", 1, "graduation-cap"],
-  ["Primeira Semana", "Voce registrou atividade valida na semana.", "weekly_unique_questions", 1, "calendar-check"],
-  ["Botao Azul Apertado", "Voce praticou pelo primeiro botao de questoes.", "unique_questions_answered", 1, "zap"],
-  ["Aluno em Movimento", "Voce combinou estudo e resposta no mesmo dia.", "daily_unique_questions", 3, "rocket"],
-  ["EstudAki Ligado", "Voce entrou no ciclo de progresso da plataforma.", "xp", 100, "sparkles"],
+  ["Primeiro Passo", "Você resolveu sua primeira questão no Norte Preparatórios.", "unique_questions_answered", 1, "sparkles"],
+  ["Comecou Bem", "Você acertou sua primeira questão.", "unique_correct_answers", 1, "target"],
+  ["Errar Faz Parte", "Você revisou pela primeira vez uma questão que errou.", "reviewed_errors", 1, "book-open-check"],
+  ["Caderno Aberto", "Você adicionou sua primeira questão ao caderno de erros.", "error_bookmarked", 1, "clipboard-check"],
+  ["Rumo a Aprovação", "Você escolheu seu principal vestibular.", "profile_completed", 40, "graduation-cap"],
+  ["Identidade de Estudante", "Você completou seu perfil.", "profile_completed", 100, "award"],
+  ["Foto de Guerra", "Você adicionou uma foto ao perfil.", "profile_photo", 1, "medal"],
+  ["Plano Ligado", "Você configurou horas semanais de estudo.", "study_plan_configured", 1, "calendar-check"],
+  ["Primeira Sessão", "Você concluiu uma sessão de estudo real.", "study_session_count", 1, "flame"],
+  ["Primeiro Simulado", "Você iniciou sua primeira experiência de prova.", "simulation_count", 1, "clipboard-check"],
+  ["Primeiro Material", "Você abriu o primeiro material de estudo.", "materials_opened", 1, "book-open-check"],
+  ["Primeira Redação", "Você iniciou sua primeira redação.", "essay_count", 1, "pen"],
+  ["Primeira Revisão", "Você revisou um ponto fraco pela primeira vez.", "reviewed_errors", 1, "zap"],
+  ["Mapa Inicial", "Você acessou o cronograma de estudos.", "schedule_started", 1, "calendar-check"],
+  ["Liga Destravada", "Você ganhou XP suficiente para mover a barra de liga.", "xp", 50, "trophy"],
+  ["Perfil com Meta", "Você definiu o vestibular principal.", "profile_goal", 1, "graduation-cap"],
+  ["Primeira Semana", "Você registrou atividade válida na semana.", "weekly_unique_questions", 1, "calendar-check"],
+  ["Botão Azul Apertado", "Você praticou pelo primeiro botão de questões.", "unique_questions_answered", 1, "zap"],
+  ["Aluno em Movimento", "Você combinou estudo e resposta no mesmo dia.", "daily_unique_questions", 3, "rocket"],
+  ["Norte Preparatórios Ligado", "Você entrou no ciclo de progresso da plataforma.", "xp", 100, "sparkles"],
 ] as const;
 
 const subjects = [
-  { key: "matematica", name: "Matematica", short: "Numeros", icon: "calculator", color: "#2563EB" },
-  { key: "fisica", name: "Fisica", short: "Vetores", icon: "zap", color: "#22D3EE" },
-  { key: "quimica", name: "Quimica", short: "Reacoes", icon: "flask", color: "#F97316" },
+  { key: "matematica", name: "Matemática", short: "Números", icon: "calculator", color: "#2563EB" },
+  { key: "fisica", name: "Física", short: "Vetores", icon: "zap", color: "#22D3EE" },
+  { key: "quimica", name: "Química", short: "Reações", icon: "flask", color: "#F97316" },
   { key: "biologia", name: "Biologia", short: "Vida", icon: "leaf", color: "#22C55E" },
-  { key: "lingua-portuguesa", name: "Lingua Portuguesa", short: "Palavras", icon: "book-open-check", color: "#2563EB" },
+  { key: "lingua-portuguesa", name: "Língua Portuguesa", short: "Palavras", icon: "book-open-check", color: "#2563EB" },
   { key: "literatura", name: "Literatura", short: "Paginas", icon: "book-marked", color: "#FACC15" },
-  { key: "historia", name: "Historia", short: "Eras", icon: "scroll", color: "#F97316" },
+  { key: "historia", name: "História", short: "Eras", icon: "scroll", color: "#F97316" },
   { key: "geografia", name: "Geografia", short: "Mapas", icon: "globe", color: "#22C55E" },
   { key: "filosofia", name: "Filosofia", short: "Ideias", icon: "lightbulb", color: "#0F172A" },
   { key: "sociologia", name: "Sociologia", short: "Sociedade", icon: "network", color: "#2563EB" },
-  { key: "ingles", name: "Ingles", short: "English", icon: "messages-square", color: "#22D3EE" },
+  { key: "ingles", name: "Inglês", short: "English", icon: "messages-square", color: "#22D3EE" },
   { key: "espanhol", name: "Espanhol", short: "Espanol", icon: "messages-square", color: "#F97316" },
 ] as const;
 
@@ -222,15 +222,15 @@ const subjectSteps = [
   ["Dez Confirmadas", 10, "subject_unique_correct"],
   ["Vinte e Cinco Claras", 25, "subject_unique_correct"],
   ["Marco 50", 50, "subject_unique_correct"],
-  ["Cem no Dominio", 100, "subject_unique_correct"],
+  ["Cem no Domínio", 100, "subject_unique_correct"],
   ["Duzentas e Cinquenta", 250, "subject_unique_correct"],
   ["Quinhentas no Alvo", 500, "subject_unique_correct"],
   ["Mil de Maestria", 1000, "subject_unique_correct"],
-  ["Sequencia de 5", 5, "subject_correct_streak"],
-  ["Sequencia de 10", 10, "subject_correct_streak"],
-  ["80 por Cento Solido", 80, "subject_accuracy"],
+  ["Sequência de 5", 5, "subject_correct_streak"],
+  ["Sequência de 10", 10, "subject_correct_streak"],
+  ["80 por Cento Sólido", 80, "subject_accuracy"],
   ["90 por Cento de Elite", 90, "subject_accuracy"],
-  ["Todos os Conteudos", 100, "subject_mastery"],
+  ["Todos os Conteúdos", 100, "subject_mastery"],
 ] as const;
 
 function buildAchievementCatalog() {
@@ -246,7 +246,7 @@ function buildAchievementCatalog() {
       icon,
       rarity: index < 10 ? "COMMON" : "UNCOMMON",
       color: estudakiColors[index % estudakiColors.length],
-      iconDescription: "Trilha azul do EstudAki com detalhe laranja e pequeno brilho amarelo de inicio.",
+      iconDescription: "Trilha Norte Preparatórios em grafite com detalhe laranja e símbolo do lobo.",
     }));
   });
 
@@ -254,7 +254,7 @@ function buildAchievementCatalog() {
     items.push(createAchievement({
       category: "QUESTIONS_TOTAL",
       name: questionNames[index],
-      description: `Resolva ${target.toLocaleString("pt-BR")} questoes unicas.`,
+      description: `Resolva ${target.toLocaleString("pt-BR")} questões únicas.`,
       metric: "unique_questions_answered",
       target,
       icon: "clipboard-check",
@@ -263,18 +263,18 @@ function buildAchievementCatalog() {
     }));
   });
   ([
-    ["Sprint 10", "Resolva 10 questoes em uma sessao.", "session_questions", 10],
-    ["Sprint 25", "Resolva 25 questoes em uma sessao.", "session_questions", 25],
-    ["Sprint 50", "Resolva 50 questoes em uma sessao.", "session_questions", 50],
-    ["Dia de 100", "Resolva 100 questoes em um dia.", "daily_unique_questions", 100],
-    ["Cinco Materias no Dia", "Resolva questoes de cinco disciplinas no mesmo dia.", "daily_subjects", 5],
-    ["ENEM em Uma Semana", "Estude todas as areas do ENEM na mesma semana.", "weekly_enem_areas", 4],
-    ["Lista Sem Abandono", "Complete uma lista de questoes sem abandonar.", "completed_question_list", 1],
-    ["No Tempo Planejado", "Conclua a sessao dentro do tempo previsto.", "planned_session_completed", 1],
-    ["Manha Produtiva", "Resolva questoes pela manha.", "morning_questions", 10],
-    ["Noite de Foco", "Resolva questoes a noite.", "night_questions", 10],
-    ["Recorde Diario", "Supere seu proprio recorde diario de questoes.", "daily_record", 1],
-    ["Doze Disciplinas", "Resolva uma questao de cada disciplina.", "subjects_touched", 12],
+    ["Sprint 10", "Resolva 10 questões em uma sessão.", "session_questions", 10],
+    ["Sprint 25", "Resolva 25 questões em uma sessão.", "session_questions", 25],
+    ["Sprint 50", "Resolva 50 questões em uma sessão.", "session_questions", 50],
+    ["Dia de 100", "Resolva 100 questões em um dia.", "daily_unique_questions", 100],
+    ["Cinco Matérias no Dia", "Resolva questões de cinco disciplinas no mesmo dia.", "daily_subjects", 5],
+    ["ENEM em Uma Semana", "Estude todas as Áreas do ENEM na mesma semana.", "weekly_enem_areas", 4],
+    ["Lista Sem Abandono", "Complete uma lista de questões sem abandonar.", "completed_question_list", 1],
+    ["No Tempo Planejado", "Conclua a sessão dentro do tempo previsto.", "planned_session_completed", 1],
+    ["Manhã Produtiva", "Resolva questões pela manhã.", "morning_questions", 10],
+    ["Noite de Foco", "Resolva questões a noite.", "night_questions", 10],
+    ["Recorde Diário", "Supere seu próprio recorde diário de questões.", "daily_record", 1],
+    ["Doze Disciplinas", "Resolva uma questão de cada disciplina.", "subjects_touched", 12],
   ] as const).forEach(([name, description, metric, target], index) => {
     items.push(createAchievement({
       category: "QUESTIONS_TOTAL",
@@ -293,13 +293,13 @@ function buildAchievementCatalog() {
       category: "CORRECT_TOTAL",
       name: [
         "Primeiro Acerto", "Na Mosca", "Dez Cravadas", "Vinte e Cinco Certas", "Cinquenta Certas",
-        "Setenta e Cinco no Alvo", "Centena Perfeita", "Precisao 150", "Duzentas Certezas",
+        "Setenta e Cinco no Alvo", "Centena Perfeita", "Precisão 150", "Duzentas Certezas",
         "Colecionador de Acertos", "Trezentas Confirmadas", "Quatrocentas Certezas", "Quinhentas no Gabarito",
         "Setecentos e Cinquenta Acertos", "Mil Certezas", "Mil e Meio no Alvo", "Dois Mil Acertos",
-        "Dois Mil e Meio Certos", "Tres Mil Certezas", "Quatro Mil Acertos", "Cinco Mil Gabaritos",
+        "Dois Mil e Meio Certos", "Três Mil Certezas", "Quatro Mil Acertos", "Cinco Mil Gabaritos",
         "Sete Mil e Meio Certos", "Lenda do Gabarito",
       ][index],
-      description: `Acerte ${target.toLocaleString("pt-BR")} questoes unicas.`,
+      description: `Acerte ${target.toLocaleString("pt-BR")} questões únicas.`,
       metric: "unique_correct_answers",
       target,
       icon: "target",
@@ -308,18 +308,18 @@ function buildAchievementCatalog() {
     }));
   });
   ([
-    ["Cinco Seguidas", "Acerte cinco questoes consecutivas.", "correct_streak", 5],
-    ["Dez Seguidas", "Acerte dez questoes consecutivas.", "correct_streak", 10],
-    ["Difícil Sem Medo", "Acerte cinco questoes dificeis consecutivas.", "hard_correct_streak", 5],
+    ["Cinco Seguidas", "Acerte cinco questões consecutivas.", "correct_streak", 5],
+    ["Dez Seguidas", "Acerte dez questões consecutivas.", "correct_streak", 10],
+    ["Difícil Sem Medo", "Acerte cinco questões difíceis consecutivas.", "hard_correct_streak", 5],
     ["Gabarito Limpo", "Finalize uma lista sem erros.", "perfect_list", 1],
-    ["Virada Certa", "Acerte uma questao que ja tinha errado.", "fixed_previous_error", 1],
-    ["Acerto Relampago", "Acerte dez questoes no mesmo dia.", "daily_unique_correct", 10],
-    ["Trinta Certas no Dia", "Acerte trinta questoes no mesmo dia.", "daily_unique_correct", 30],
-    ["Todas as Areas", "Acerte questoes nas quatro areas do ENEM.", "correct_enem_areas", 4],
-    ["Sem Chute", "Acerte uma sequencia com tempo consistente.", "steady_corrects", 10],
-    ["Aposta no Estudo", "Melhore a media de acertos apos revisao.", "accuracy_improvement", 10],
-    ["Cem por Cento Curto", "Faca 100% em uma sessao de 10 questoes.", "perfect_session", 10],
-    ["Resposta de Elite", "Acerte uma questao dificil apos revisa-la.", "review_then_correct", 1],
+    ["Virada Certa", "Acerte uma questão que já tinha errado.", "fixed_previous_error", 1],
+    ["Acerto Relâmpago", "Acerte dez questões no mesmo dia.", "daily_unique_correct", 10],
+    ["Trinta Certas no Dia", "Acerte trinta questões no mesmo dia.", "daily_unique_correct", 30],
+    ["Todas as Áreas", "Acerte questões nas quatro Áreas do ENEM.", "correct_enem_areas", 4],
+    ["Sem Chute", "Acerte uma sequência com tempo consistente.", "steady_corrects", 10],
+    ["Aposta no Estudo", "Melhore a média de acertos após revisão.", "accuracy_improvement", 10],
+    ["Cem por Cento Curto", "Faca 100% em uma sessão de 10 questões.", "perfect_session", 10],
+    ["Resposta de Elite", "Acerte uma questão difícil após revisa-la.", "review_then_correct", 1],
   ] as const).forEach(([name, description, metric, target], index) => {
     items.push(createAchievement({
       category: "CORRECT_TOTAL",
@@ -342,8 +342,8 @@ function buildAchievementCatalog() {
           metric === "subject_accuracy"
             ? `Alcance ${target}% de aproveitamento em ${subject.name} com amostra minima.`
             : metric === "subject_mastery"
-              ? `Domine os principais conteudos cadastrados de ${subject.name}.`
-              : `Avance em ${subject.name} ate o marco ${target}.`,
+              ? `Domine os principais conteúdos cadastrados de ${subject.name}.`
+              : `Avance em ${subject.name} até o marco ${target}.`,
         metric,
         target,
         icon: subject.icon,
@@ -363,8 +363,8 @@ function buildAchievementCatalog() {
   streakTargets.forEach((target) => {
     items.push(createAchievement({
       category: "STREAK",
-      name: target === 365 ? "Lenda da Constancia" : `Sequencia de ${target} Dias`,
-      description: `Estude por ${target} dias consecutivos com atividade valida.`,
+      name: target === 365 ? "Lenda da Constância" : `Sequência de ${target} Dias`,
+      description: `Estude por ${target} dias consecutivos com atividade válida.`,
       metric: "study_streak_days",
       target,
       icon: "flame",
@@ -373,11 +373,11 @@ function buildAchievementCatalog() {
     }));
   });
   ([
-    ["Chama Recuperada", "Recupere uma sequencia perdida.", "streak_recovered", 1],
-    ["De Volta Depois da Pausa", "Volte apos sete dias sem estudar.", "return_after_break", 7],
+    ["Chama Recuperada", "Recupere uma sequência perdida.", "streak_recovered", 1],
+    ["De Volta Depois da Pausa", "Volte após sete dias sem estudar.", "return_after_break", 7],
     ["Segunda a Sexta", "Estude de segunda a sexta.", "weekday_study", 5],
     ["Quatro Finais de Semana", "Estude durante quatro finais de semana.", "weekend_study", 4],
-    ["Semana Sem Quebrar", "Complete uma semana sem quebrar a meta diaria.", "daily_goal_week", 7],
+    ["Semana Sem Quebrar", "Complete uma semana sem quebrar a meta diária.", "daily_goal_week", 7],
   ] as const).forEach(([name, description, metric, target]) => {
     items.push(createAchievement({ category: "STREAK", name, description, metric: String(metric), target: Number(target), icon: "calendar-check", color: "#2563EB", rarity: "RARE" }));
   });
@@ -386,11 +386,11 @@ function buildAchievementCatalog() {
     1, 15, 30, 60, 300, 600, 1500, 3000, 6000, 15000, 30000, 30, 60, 1, 1, 1, 1, 1, 5, 1,
   ].forEach((target, index) => {
     const names = [
-      "Relogio Iniciado", "Quinze Minutos Reais", "Meia Hora de Foco", "Hora do Conhecimento",
+      "Relógio Iniciado", "Quinze Minutos Reais", "Meia Hora de Foco", "Hora do Conhecimento",
       "Cinco Horas Mais Perto", "Dez Horas de Base", "Vinte e Cinco Horas", "Cinquenta Horas",
-      "Cem Horas Mais Perto", "Duzentas e Cinquenta Horas", "Quinhentas Horas", "Modo Concentracao",
-      "Uma Hora Sem Interrupcao", "Tempo Planejado Cumprido", "Antes do Cafe", "Depois do Por do Sol",
-      "Sabado de Estudo", "Domingo Produtivo", "Cinco Dias Equilibrados", "Mestre do Relogio",
+      "Cem Horas Mais Perto", "Duzentas e Cinquenta Horas", "Quinhentas Horas", "Modo Concentração",
+      "Uma Hora Sem Interrupção", "Tempo Planejado Cumprido", "Antes do Café", "Depois do Pôr do Sol",
+      "Sábado de Estudo", "Domingo Produtivo", "Cinco Dias Equilibrados", "Mestre do Relógio",
     ];
     const metrics = [
       "study_session_count", "study_time_minutes", "study_time_minutes", "study_time_minutes",
@@ -415,9 +415,9 @@ function buildAchievementCatalog() {
     [80, 3], [10, 1], [3, 1], [5, 1], [10, 1], [1, 1], [1, 1],
   ];
   const performanceNames = [
-    "Mira Ajustada", "Olho de Aguia", "Precisao Firme", "Elite dos 90", "Sessao Perfeita",
-    "Oitenta em Cinquenta", "Noventa em Cinquenta", "Quase Perfeito", "Tres Materias Fortes",
-    "Virada de Dez Pontos", "Tres Semanas Subindo", "Cinco Dificeis Seguidas", "Dez Dificeis no Dia",
+    "Mira Ajustada", "Olho de Águia", "Precisão Firme", "Elite dos 90", "Sessão Perfeita",
+    "Oitenta em Cinquenta", "Noventa em Cinquenta", "Quase Perfeito", "Três Matérias Fortes",
+    "Virada de Dez Pontos", "Três Semanas Subindo", "Cinco Difíceis Seguidas", "Dez Difíceis no Dia",
     "Lista Sem Erro", "Aprendeu de Verdade",
   ];
   for (let repeat = 0; repeat < 2; repeat += 1) {
@@ -440,9 +440,9 @@ function buildAchievementCatalog() {
     "Simulacao Iniciada", "Primeiro Simulado Finalizado", "Sem Abandono", "Dentro do Tempo",
     "Antes do Tempo", "Cinco Simulados", "Dez Simulados", "Vinte e Cinco Simulados",
     "Cinquenta Simulados", "Cem Simulados", "Nota 50", "Nota 60", "Nota 70", "Nota 80",
-    "Nota 90", "Nota 95", "Nota em Ascensao", "Recorde Pessoal", "Prova de 90 Questoes",
+    "Nota 90", "Nota 95", "Nota em Ascensão", "Recorde Pessoal", "Prova de 90 Questões",
     "Primeiro Dia Vencido", "Segundo Dia Vencido", "Dois Dias ENEM", "ETEC Completa",
-    "FATEC Completa", "Erros do Simulado Revisados", "Area Perfeita", "Ritmo Medio Ideal",
+    "FATEC Completa", "Erros do Simulado Revisados", "Área Perfeita", "Ritmo Médio Ideal",
     "Nenhuma em Branco", "Tempo Bem Administrado", "Pronto para a Prova",
   ];
   simulationNames.forEach((name, index) => {
@@ -469,7 +469,7 @@ function buildAchievementCatalog() {
       items.push(createAchievement({
         category: "EXAM",
         name: String(name),
-        description: `Resolva ${Number(target).toLocaleString("pt-BR")} questoes do ${exam}.`,
+        description: `Resolva ${Number(target).toLocaleString("pt-BR")} questões do ${exam}.`,
         metric: "exam_unique_questions",
         target: Number(target),
         examId: exam.toLowerCase(),
@@ -486,35 +486,35 @@ function buildAchievementCatalog() {
   });
 
   [
-    "Erro Registrado", "Segunda Chance", "Agora Eu Sei", "Dez Erros Revisados", "Vinte e Cinco Revisoes",
-    "Cinquenta Revisoes", "Cem Revisoes", "Duzentas e Cinquenta Revisoes", "Quinhentas Revisoes",
-    "Caderno Limpo", "Tres Dias Revisando", "Cinco Erros Viraram Acertos", "Dez Erros Viraram Acertos",
-    "Cinquenta Erros Viraram Acertos", "Todas as Disciplinas Revisadas", "Sessao So de Erros",
-    "Aproveitamento Recuperado", "Simulado Revisado", "Voltou Depois de Sete Dias", "Semana de Revisoes Fechada",
+    "Erro Registrado", "Segunda Chance", "Agora Eu Sei", "Dez Erros Revisados", "Vinte e Cinco Revisões",
+    "Cinquenta Revisões", "Cem Revisões", "Duzentas e Cinquenta Revisões", "Quinhentas Revisões",
+    "Caderno Limpo", "Três Dias Revisando", "Cinco Erros Viraram Acertos", "Dez Erros Viraram Acertos",
+    "Cinquenta Erros Viraram Acertos", "Todas as Disciplinas Revisadas", "Sessão So de Erros",
+    "Aproveitamento Recuperado", "Simulado Revisado", "Voltou Depois de Sete Dias", "Semana de Revisões Fechada",
   ].forEach((name, index) => {
     const target = [1, 1, 1, 10, 25, 50, 100, 250, 500, 1, 3, 5, 10, 50, 12, 1, 10, 1, 7, 1][index];
-    items.push(createAchievement({ category: "ERROR_NOTEBOOK", name, description: `${name} no caderno de erros e revisoes.`, metric: index <= 8 ? "reviewed_errors" : "review_goal", target, icon: "book-open-check", color: "#F97316" }));
+    items.push(createAchievement({ category: "ERROR_NOTEBOOK", name, description: `${name} no caderno de erros e revisões.`, metric: index <= 8 ? "reviewed_errors" : "review_goal", target, icon: "book-open-check", color: "#F97316" }));
   });
 
   [
-    "Area de Redacao Aberta", "Tema Escolhido", "Primeiras Linhas", "Texto Completo", "Primeira Correcao",
-    "Reescrever e Evoluir", "Cinco Redacoes", "Dez Redacoes", "Vinte e Cinco Redacoes", "Cinquenta Redacoes",
-    "Cem Redacoes", "Rumo aos 500", "Rumo aos 600", "Rumo aos 700", "Rumo aos 800", "Rumo aos 900",
-    "Nota 960", "Nota 980", "Redacao Mil", "Subiu Cem Pontos", "Tres Redacoes Subindo",
-    "Competencia Forte", "Cinco Competencias Maximas", "Tema no Alvo", "Texto com Repertorio",
+    "Área de Redação Aberta", "Tema Escolhido", "Primeiras Linhas", "Texto Completo", "Primeira Correção",
+    "Reescrever e Evoluir", "Cinco Redações", "Dez Redações", "Vinte e Cinco Redações", "Cinquenta Redações",
+    "Cem Redações", "Rumo aos 500", "Rumo aos 600", "Rumo aos 700", "Rumo aos 800", "Rumo aos 900",
+    "Nota 960", "Nota 980", "Redação Mil", "Subiu Cem Pontos", "Três Redações Subindo",
+    "Competência Forte", "Cinco Competências Maximas", "Tema no Alvo", "Texto com Repertório",
   ].forEach((name, index) => {
     const targets = [1, 1, 1, 1, 1, 1, 5, 10, 25, 50, 100, 500, 600, 700, 800, 900, 960, 980, 1000, 100, 3, 200, 5, 1, 1];
-    items.push(createAchievement({ category: "ESSAY", name, description: `${name} na sua trilha de redacao.`, metric: index >= 11 && index <= 18 ? "essay_score" : "essay_count", target: targets[index], icon: "pen", color: index >= 15 ? "#FACC15" : "#2563EB" }));
+    items.push(createAchievement({ category: "ESSAY", name, description: `${name} na sua trilha de redação.`, metric: index >= 11 && index <= 18 ? "essay_score" : "essay_count", target: targets[index], icon: "pen", color: index >= 15 ? "#FACC15" : "#2563EB" }));
   });
 
   [
-    "Primeiro Dominio", "Cinco Conteudos Dominados", "Dez Conteudos Dominados", "Vinte e Cinco Conteudos",
-    "Cinquenta Conteudos", "Conteudo Dificil Dominado", "Tres Conteudos em Sequencia", "Todas as Areas Dominadas",
-    "Uma Materia Dominada", "Duas Materias Dominadas", "Area ENEM Dominada", "Conteudo Recuperado",
-    "Memoria de Longo Prazo", "Prioritarios Fechados", "Plano de Conteudos Fechado",
+    "Primeiro Domínio", "Cinco Conteúdos Dominados", "Dez Conteúdos Dominados", "Vinte e Cinco Conteúdos",
+    "Cinquenta Conteúdos", "Conteúdo Difícil Dominado", "Três Conteúdos em Sequência", "Todas as Áreas Dominadas",
+    "Uma Matéria Dominada", "Duas Matérias Dominadas", "Área ENEM Dominada", "Conteúdo Recuperado",
+    "Memória de Longo Prazo", "Prioritarios Fechados", "Plano de Conteúdos Fechado",
   ].forEach((name, index) => {
     const target = [1, 5, 10, 25, 50, 1, 3, 4, 1, 2, 1, 1, 30, 1, 1][index];
-    items.push(createAchievement({ category: "CONTENT_MASTERY", name, description: `${name}: alcance dominio com pratica, revisao e consistencia.`, metric: "content_mastery_count", target, icon: "brain", color: "#22C55E" }));
+    items.push(createAchievement({ category: "CONTENT_MASTERY", name, description: `${name}: alcance domínio com prática, revisão e consistência.`, metric: "content_mastery_count", target, icon: "brain", color: "#22C55E" }));
     items.push(createAchievement({ category: "CONTENT_MASTERY", name: `${name} Avancado`, description: `Versao avancada de ${name.toLowerCase()} com criterios mais fortes.`, metric: "content_mastery_count", target: target * 2, icon: "gem", color: "#22D3EE", rarity: "EPIC" }));
   });
 
@@ -523,28 +523,28 @@ function buildAchievementCatalog() {
     "Ajudou um Estudante", "Entrou em Desafio", "Concluiu Desafio", "Entrou no Ranking", "Top 100",
     "Top 50", "Top 10", "Seguiu uma Trilha", "Compartilhou Conquista", "Postura Positiva",
   ].forEach((name, index) => {
-    items.push(createAchievement({ category: "COMMUNITY", name, description: `${name} dentro da comunidade e perfil EstudAki.`, metric: index < 3 ? "profile_completed" : "community_posts", target: index < 3 ? 100 : 1, icon: "medal", color: "#2563EB" }));
+    items.push(createAchievement({ category: "COMMUNITY", name, description: `${name} dentro da comunidade e perfil Norte Preparatórios.`, metric: index < 3 ? "profile_completed" : "community_posts", target: index < 3 ? 100 : 1, icon: "medal", color: "#2563EB" }));
   });
 
   [
-    "Primeiro Material Aberto", "Material Concluido", "Cinco Materiais", "Dez Materiais Concluidos", "Primeira Videoaula",
+    "Primeiro Material Aberto", "Material Concluído", "Cinco Materiais", "Dez Materiais Concluídos", "Primeira Videoaula",
     "Cinco Videoaulas", "Vinte e Cinco Videoaulas", "Aula Salva", "Aula Express", "Cinco Disciplinas em Aula",
-    "Trilha Concluida", "PDF Baixado", "Material Virou Questao", "Aula Sem Abandono", "Aula Revisada",
+    "Trilha Concluída", "PDF Baixado", "Material Virou Questão", "Aula Sem Abandono", "Aula Revisada",
   ].forEach((name, index) => {
-    items.push(createAchievement({ category: "MATERIALS", name, description: `${name} no uso de materiais, videos e aulas.`, metric: index >= 4 && index <= 8 ? "video_completed" : "materials_opened", target: [1, 1, 5, 10, 1, 5, 25, 1, 1, 5, 1, 1, 1, 1, 1][index], icon: "book-marked", color: index % 2 ? "#FACC15" : "#22D3EE" }));
+    items.push(createAchievement({ category: "MATERIALS", name, description: `${name} no uso de materiais, vídeos e aulas.`, metric: index >= 4 && index <= 8 ? "video_completed" : "materials_opened", target: [1, 1, 5, 10, 1, 5, 25, 1, 1, 5, 1, 1, 1, 1, 1][index], icon: "book-marked", color: index % 2 ? "#FACC15" : "#22D3EE" }));
   });
 
   [
-    "Antes do Sol", "De Volta ao Jogo", "Virada Impossivel", "Equilibrio Perfeito", "Sem Medo da Dificil",
-    "Exatamente no Limite", "Dia Perfeito", "Silencio Produtivo", "Cafe com Questao", "Quase Meia-Noite",
-    "Plano B Funcionou", "Erro Teimoso Vencido", "Quatro Areas no Dia", "Domingo Dourado", "Aula e Gabarito",
-    "Foco Sem Notificacao", "Mapa Secreto", "Sprint Surpresa", "Aprovacao no Radar",
+    "Antes do Sol", "De Volta ao Jogo", "Virada Impossivel", "Equilibrio Perfeito", "Sem Medo da Difícil",
+    "Exatamente no Limite", "Dia Perfeito", "Silencio Produtivo", "Café com Questão", "Quase Meia-Noite",
+    "Plano B Funcionou", "Erro Teimoso Vencido", "Quatro Áreas no Dia", "Domingo Dourado", "Aula e Gabarito",
+    "Foco Sem Notificação", "Mapa Secreto", "Sprint Surpresa", "Aprovação no Radar",
   ].forEach((name, index) => {
     items.push(createAchievement({
       category: "SECRET",
       name,
-      description: `${name}: voce encontrou um feito especial escondido no EstudAki.`,
-      lockedDescription: "Silhueta secreta. Continue explorando o EstudAki.",
+      description: `${name}: você encontrou um feito especial escondido no Norte Preparatórios.`,
+      lockedDescription: "Silhueta secreta. Continue explorando o Norte Preparatórios.",
       metric: ["early_study", "return_after_break", "fixed_previous_error", "daily_enem_areas", "hard_correct_streak"][index % 5],
       target: [1, 7, 3, 4, 5][index % 5],
       icon: "sparkles",
@@ -565,22 +565,22 @@ export const betaAchievementNames = [
   "Comecou Bem",
   "Errar Faz Parte",
   "Caderno Aberto",
-  "Rumo a Aprovacao",
+  "Rumo a Aprovação",
   "Plano Ligado",
-  "Primeira Sessao",
+  "Primeira Sessão",
   "Primeiro Simulado",
-  "Primeira Redacao",
+  "Primeira Redação",
   "Perfil com Meta",
   "Primeira Semana",
   "Aluno em Movimento",
-  "EstudAki Ligado",
-  "Primeira Questao",
+  "Norte Preparatórios Ligado",
+  "Primeira Questão",
   "Cinco no Aquecimento",
   "Dez de Uma Vez",
   "Primeiro Acerto",
   "Cinco Seguidas",
-  "Numeros: Primeiro Sinal",
-  "Area de Redacao Aberta",
+  "Números: Primeiro Sinal",
+  "Área de Redação Aberta",
 ] as const;
 
 export const BETA_ACHIEVEMENT_LIMIT = betaAchievementNames.length;

@@ -1,28 +1,18 @@
-import {
-  ArrowRight,
-  BookOpen,
-  CheckCircle2,
-  Clock3,
-  Flame,
-  Sparkles,
-  Target,
-  Trophy,
-  Zap,
-} from "lucide-react";
+import { LeagueBadge } from "@/components/visual/league-badge";
+import { StudyFocusPanel } from "@/components/dashboard/study-focus-panel";
+import { BookOpen, Clock3, Target, Trophy } from "@/components/visual/aicon-icons";
+import { ArrowRight, CheckCircle2, Sparkles, Zap } from "lucide-react";
 import type { Prisma } from "@prisma/client";
-import Image from "next/image";
 import Link from "next/link";
 import { ChallengeChip } from "@/components/visual/challenge-chip";
 import { EmptyState } from "@/components/visual/empty-state";
 import { EvolutionChart } from "@/components/visual/evolution-chart";
+import { nextRankForXp, rankForXp, rankProgressForXp } from "@/lib/progression";
 import { FloatingWhatsApp } from "@/components/visual/floating-whatsapp";
 import { LearningResumeCard, type LearningResumeCardProps, type ResumeTrailStep } from "@/components/learning-resume-card";
-import { ProgressRing } from "@/components/visual/progress-ring";
 import { SmartPrefetcher } from "@/components/smart-prefetcher";
-import { LeagueBadge } from "@/components/visual/league-badge";
 import { Sparkline } from "@/components/visual/sparkline";
 import { StatTile } from "@/components/visual/stat-tile";
-import { StreakBadge } from "@/components/visual/streak-badge";
 import { StudyIcon, studyIconColors, studyIconNameForSubject } from "@/components/visual/study-icon";
 import { getPersistedUserId, requireUser } from "@/lib/auth";
 import { getOrCreateStudyPlan } from "@/lib/adaptive-study-plan";
@@ -32,16 +22,8 @@ import type { CourseCardDTO, CourseDetailDTO, LearningPathNodeDTO } from "@/lib/
 import { db } from "@/lib/db";
 import { buildDashboardInsights, ERROR_NOTEBOOK_HREF } from "@/lib/insights";
 import { getActivePreparationContext } from "@/lib/preparations";
-import { difficultyLabel, leagueForXp, percent } from "@/lib/utils";
+import { difficultyLabel, percent } from "@/lib/utils";
 
-const LEAGUE_THRESHOLDS: Array<{ name: string; min: number }> = [
-  { name: "Bronze", min: 0 },
-  { name: "Prata", min: 1000 },
-  { name: "Ouro", min: 2500 },
-  { name: "Platina", min: 4500 },
-  { name: "Esmeralda", min: 7000 },
-  { name: "Diamante", min: 10000 },
-];
 
 const dashboardSubjectSelect = {
   id: true,
@@ -95,18 +77,18 @@ type QuestionWithSubject = Prisma.QuestionGetPayload<{ select: typeof dashboardQ
 type ActivityWithUser = Prisma.ActivityGetPayload<{
   select: typeof dashboardActivitySelect;
 }>;
-function getNextLeague(xp: number) {
-  return LEAGUE_THRESHOLDS.find((l) => xp < l.min) ?? null;
+function getNextLeague(xp: number, objective?: string | null) {
+  return nextRankForXp(xp, objective);
 }
 
-function getLeagueProgress(xp: number) {
-  const idx = LEAGUE_THRESHOLDS.findIndex((l) => l.name === leagueForXp(xp));
-  const current = LEAGUE_THRESHOLDS[idx];
-  const next = LEAGUE_THRESHOLDS[idx + 1] ?? null;
-  if (!next) return { from: current.min, to: current.min, current: 100, nextName: null };
-  const range = next.min - current.min;
-  const within = Math.max(0, xp - current.min);
-  return { from: current.min, to: next.min, current: (within / range) * 100, nextName: next.name };
+function getLeagueProgress(xp: number, objective?: string | null) {
+  const progress = rankProgressForXp(xp, objective);
+  return {
+    from: progress.current.min,
+    to: progress.next?.min ?? progress.current.min,
+    current: progress.value,
+    nextName: progress.next?.name ?? null,
+  };
 }
 
 function greetingFor(date: Date) {
@@ -129,6 +111,7 @@ function isSameCalendarDay(value: Date, date: Date) {
 }
 
 function normalizeStudyHref(href: string) {
+  if (/^\/(trilhas|aula|atividade)(\/|$)/.test(href)) return "/cursos";
   if (!href || href === "/questions") return "/questions?vestibular=enem";
   if (href === "/questions?mode=errors") return ERROR_NOTEBOOK_HREF;
   return href;
@@ -147,7 +130,7 @@ function studyTaskTypeLabel(type: string) {
   if (normalized.includes("review") || normalized.includes("error")) return "Revisão";
   if (normalized.includes("question")) return "Questões";
   if (normalized.includes("flashcard")) return "Flashcards";
-  if (normalized.includes("theory") || normalized.includes("lesson")) return "Jornada";
+  if (normalized.includes("theory") || normalized.includes("lesson")) return "Cursos";
   if (normalized.includes("essay")) return "Redação";
   return "Plano";
 }
@@ -261,23 +244,23 @@ function buildLearningResumeCard({
         ? recentNode
         : nextNode ?? nodes.find((node) => node.state === "current" || node.state === "available") ?? nodes[0] ?? null;
     const currentIndex = resumeNode ? Math.max(0, nodes.findIndex((node) => node.id === resumeNode.id)) : 0;
-    const moduleTitle = resumeNode && "moduleTitle" in resumeNode ? resumeNode.moduleTitle : course.modules[0]?.title ?? "Modulo inicial";
+    const moduleTitle = resumeNode && "moduleTitle" in resumeNode ? resumeNode.moduleTitle : course.modules[0]?.title ?? "Módulo inicial";
     const title = compactCourseTitle(course.title) || course.title;
     const currentTitle = resumeNode?.title ?? "Primeira aula";
     const timeLabel = recentPositionSeconds > 0 && recentLessonId === resumeNode?.id
-      ? `Voce parou em ${formatClockPosition(recentPositionSeconds)}`
-      : `${formatMinutes(Math.max(1, Math.round(course.totalDurationSeconds / 60)))} de conteudo`;
+      ? `Você parou em ${formatClockPosition(recentPositionSeconds)}`
+      : `${formatMinutes(Math.max(1, Math.round(course.totalDurationSeconds / 60)))} de conteúdo`;
 
     return {
-      eyebrow: completed ? "Trilha concluida" : course.progressPercent > 0 ? "Continue de onde parou" : "Comece sua primeira trilha",
+      eyebrow: completed ? "Trilha concluída" : course.progressPercent > 0 ? "Continue de onde parou" : "Comece sua primeira trilha",
       title,
       subtitle: `${moduleTitle} - ${currentTitle}`,
       nextLabel: completed ? "Curso finalizado" : "Aula atual",
-      detailLabel: completed ? "Todas as etapas foram concluidas." : timeLabel,
+      detailLabel: completed ? "Todas as etapas foram concluídas." : timeLabel,
       progressPercent: completed ? 100 : course.progressPercent,
-      progressLabel: completed ? "concluido" : "da trilha",
+      progressLabel: completed ? "concluído" : "da trilha",
       href: completed ? "/cursos" : resumeNode?.href ?? `/cursos/${course.slug}`,
-      ctaLabel: completed ? "Ver proxima trilha" : course.progressPercent > 0 ? "Continuar" : "Comecar agora",
+      ctaLabel: completed ? "Ver próxima trilha" : course.progressPercent > 0 ? "Continuar" : "Começar agora",
       steps: trailWindow(nodes, currentIndex, completed),
       icon: <BookOpen className="h-5 w-5" strokeWidth={2.35} />,
     };
@@ -295,34 +278,34 @@ function buildLearningResumeCard({
       href: fallback.href,
       ctaLabel: "Continuar",
       steps: [
-        { id: "question-1", label: "Questao respondida", state: "completed" },
-        { id: "question-2", label: "Questao respondida", state: "completed" },
+        { id: "question-1", label: "Questão respondida", state: "completed" },
+        { id: "question-2", label: "Questão respondida", state: "completed" },
         { id: "question-current", label: fallback.title, state: "current" },
-        { id: "question-next-1", label: "Proxima questao", state: "next" },
-        { id: "question-next-2", label: "Proxima questao", state: "next" },
+        { id: "question-next-1", label: "Próxima questão", state: "next" },
+        { id: "question-next-2", label: "Próxima questão", state: "next" },
       ],
       icon: fallback.icon,
       secondaryHref: "/questions",
-      secondaryLabel: "Ver questoes",
+      secondaryLabel: "Ver questões",
     };
   }
 
   return {
     eyebrow: "Comece sua primeira trilha",
-    title: fallbackCourse ? compactCourseTitle(fallbackCourse.title) : "Seu plano ja esta pronto",
+    title: fallbackCourse ? compactCourseTitle(fallbackCourse.title) : "Seu plano já está pronto",
     subtitle: fallbackCourse ? `${fallbackCourse.lessonCount} atividades - ${fallbackCourse.teacherName}` : "Escolha uma trilha e avance aula por aula.",
     nextLabel: "Primeiro passo",
-    detailLabel: "A trilha fica salva para voce continuar depois.",
+    detailLabel: "A trilha fica salva para você continuar depois.",
     progressPercent: 0,
-    progressLabel: "concluido",
+    progressLabel: "concluído",
     href: fallbackCourse ? `/cursos/${fallbackCourse.slug}` : "/cursos",
-    ctaLabel: "Comecar agora",
+    ctaLabel: "Começar agora",
     steps: [
       { id: "start-1", label: "Primeira aula", state: "current" },
-      { id: "start-2", label: "Proxima aula", state: "next" },
-      { id: "start-3", label: "Proxima aula", state: "next" },
-      { id: "start-4", label: "Modulo seguinte", state: "next" },
-      { id: "start-5", label: "Conclusao", state: "locked" },
+      { id: "start-2", label: "Próxima aula", state: "next" },
+      { id: "start-3", label: "Próxima aula", state: "next" },
+      { id: "start-4", label: "Módulo seguinte", state: "next" },
+      { id: "start-5", label: "Conclusão", state: "locked" },
     ],
     icon: <BookOpen className="h-5 w-5" strokeWidth={2.35} />,
   };
@@ -336,12 +319,15 @@ export default async function DashboardPage() {
   const activePreparation = preparationContext?.active ?? null;
   const activeTheme = getVerticalTheme(activePreparation?.vertical.slug);
   const dashboardUserId = persistedUserId ?? user.id;
+  const learningProfile = persistedUserId ? await db.studentLearningProfile.findUnique({ where: { userId: persistedUserId } }) : null;
   const dashboardProfile = {
     name: user.name,
     weeklyHours: activePreparation
       ? Math.max(1, Math.round((activePreparation.minutesPerDay * activePreparation.studyDays.length) / 60))
       : user.weeklyHours ?? 0,
     targetExam: activePreparation?.displayName ?? user.targetExam ?? "ENEM",
+    examDate: learningProfile?.examDate,
+    studyDays: learningProfile?.studyDays as number[] | undefined,
   };
 
   let attempts: AttemptWithQuestion[] = [];
@@ -356,17 +342,15 @@ export default async function DashboardPage() {
       db.questionAttempt.findMany({
         where: { userId: dashboardUserId, annulled: false },
         orderBy: { createdAt: "desc" },
-        take: 240,
         select: dashboardAttemptSelect,
       }),
       db.question.findMany({
         where: { status: "PUBLISHED", answerSituation: { not: "ANNULLED" } },
         select: dashboardQuestionPoolSelect,
         orderBy: { createdAt: "desc" },
-        take: 120,
       }),
       db.activity.findMany({
-        where: { OR: [{ userId: dashboardUserId }, { userId: null }] },
+        where: { userId: dashboardUserId },
         orderBy: { createdAt: "desc" },
         take: 5,
         select: dashboardActivitySelect,
@@ -381,7 +365,7 @@ export default async function DashboardPage() {
       {
         id: "local-welcome",
         message: "Ambiente local iniciado com acesso liberado.",
-        xp: 120,
+        xp: 0,
         createdAt: now,
       },
     ];
@@ -454,7 +438,7 @@ export default async function DashboardPage() {
   });
 
   const mainRecommendation = insights.recommendations[0];
-  const currentLeague = leagueForXp(user.xp);
+  const currentLeague = rankForXp(user.xp);
   const leagueProgress = getLeagueProgress(user.xp);
   const nextLeague = getNextLeague(user.xp);
   const accuracySeries = insights.dailyBuckets.map((b) => b.accuracy || 0);
@@ -471,9 +455,6 @@ export default async function DashboardPage() {
   const firstPlanTask = activePlanTasks[0] ?? null;
   const planTotalMinutes = planScopeTasks.reduce((sum, task) => sum + task.durationMinutes, 0);
   const planCompletedCount = planScopeTasks.filter((task) => task.completedAt).length;
-  const planProgress = planScopeTasks.length
-    ? Math.round((planCompletedCount / planScopeTasks.length) * 100)
-    : dailyProgress;
   const errorBookHint = errorBookDone
     ? `${insights.reviewedErrors} revisados de ${errorBookDone}`
     : "Nenhum erro pendente";
@@ -528,7 +509,6 @@ export default async function DashboardPage() {
     "/questions?vestibular=enem",
     ERROR_NOTEBOOK_HREF,
     ...activePlanTasks.map((task) => normalizeStudyHref(task.actionHref)),
-    "/trilhas",
     "/cursos",
     "/cronograma",
     "/diagnostico",
@@ -536,199 +516,114 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <div className="mx-auto w-full min-w-0 space-y-3 overflow-x-clip sm:space-y-6">
+    <div className="dashboard-page mx-auto w-full min-w-0 space-y-3 overflow-x-clip sm:space-y-6">
       <SmartPrefetcher hrefs={prefetchTargets} />
 
-      {/* Header compacto */}
-      <section className="theme-hero relative overflow-hidden rounded-[24px] border p-4 sm:rounded-[32px] sm:p-6 md:p-7">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-16 -top-20 hidden h-56 w-56 rounded-full opacity-[0.24] blur-3xl sm:block"
-          style={{ background: "var(--theme-ambient-a)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-12 -left-12 hidden h-44 w-44 rounded-full opacity-[0.18] blur-3xl sm:block"
-          style={{ background: "var(--theme-ambient-b)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-white to-transparent"
-        />
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 sm:gap-4">
-          <div className="flex min-w-0 items-start gap-3 sm:items-center sm:gap-4">
-            <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-[0_18px_30px_-22px_var(--theme-primary)] ring-1 ring-[color:var(--theme-border)] sm:h-16 sm:w-16 sm:rounded-[24px]">
-              <Image
-                src="/brand/estudaki-logo.png"
-                alt="EstudAki"
-                width={132}
-                height={132}
-                className="h-10 w-10 object-contain sm:h-12 sm:w-12"
-                priority
-              />
-              <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full text-white shadow-md ring-2 ring-white sm:h-6 sm:w-6" style={{ background: "var(--theme-gradient-progress)" }}>
-                <Sparkles className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-              </span>
-            </div>
-            <div className="min-w-0">
-            <p className="text-[9px] font-black uppercase leading-4 tracking-[0.18em] text-[color:var(--theme-primary)] sm:text-[11px] sm:tracking-[0.22em]">
-              {greetingFor(now)} · {weekdayLabel(now)}
-            </p>
-            <h1 className="mt-0.5 font-display text-2xl font-extrabold leading-[1.05] tracking-tight text-[color:var(--theme-text)] sm:mt-1 sm:text-3xl md:text-4xl">
-              {user.name.split(" ")[0]}, {activeTheme.copy.heroTitle}
-            </h1>
-            <p className="mt-1 max-w-xl text-xs font-medium leading-5 text-[color:var(--theme-muted)] sm:text-sm">
-              {activeTheme.copy.heroDescription} Você está na liga <span className="font-extrabold text-[color:var(--theme-text)]">{currentLeague}</span> com
-              {" "}<span className="font-extrabold text-[color:var(--theme-text)]">{user.xp.toLocaleString("pt-BR")} XP</span>.
-              {nextLeague
-                ? ` Faltam ${(leagueProgress.to - user.xp).toLocaleString("pt-BR")} XP para a liga ${nextLeague.name}.`
-                : " Você está no topo; continue mantendo o ritmo."}
-            </p>
-            </div>
-          </div>
-          <div className="flex w-full items-center justify-between gap-3 border-t border-[color:var(--theme-border)] pt-3 sm:w-auto sm:flex-wrap sm:justify-start sm:border-0 sm:pt-0">
-            <div className="flex items-center gap-2 sm:hidden">
-              <StreakBadge days={user.streak} size="sm" />
-              <LeagueBadge league={currentLeague} size="md" />
-            </div>
-            <div className="hidden items-center gap-3 sm:flex">
-            <StreakBadge days={user.streak} size="lg" />
-            <LeagueBadge league={currentLeague} size="lg" />
-            </div>
+      <header className="professional-page-header border-b border-[color:var(--theme-border)] pb-5">
+        <p className="mb-2 text-xs text-[color:var(--theme-muted)]">{weekdayLabel(now)}</p>
+        <h1 className="text-2xl font-semibold tracking-tight text-[color:var(--theme-text)] sm:text-3xl">
+          {greetingFor(now)}, {user.name.split(" ")[0]}.
+        </h1>
+        <p className="professional-preparation-marker mt-3 text-sm text-[color:var(--theme-muted)]">{activePreparation?.displayName ?? activeTheme.name}</p>
+      </header>
+
+      <section className="dashboard-rank-summary" aria-label="Seu nível de XP">
+        <LeagueBadge league={currentLeague} xp={user.xp} size="lg" />
+        <div className="dashboard-rank-summary__progress">
+          <p className="text-sm font-semibold">{user.xp.toLocaleString("pt-BR")} XP acumulados</p>
+          <p className="mt-1 text-xs text-[color:var(--theme-muted)]">
+            {nextLeague ? `${Math.max(0, nextLeague.min - user.xp).toLocaleString("pt-BR")} XP para chegar a ${nextLeague.name}` : "Você chegou ao nível máximo da trilha."}
+          </p>
+          <div className="dashboard-rank-summary__track" role="progressbar" aria-label="Progresso para o próximo nível" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(leagueProgress.current)}>
+            <span style={{ width: `${leagueProgress.current}%` }} />
           </div>
         </div>
+        <Link href="/perfil#ligas" className="text-xs font-semibold text-[color:var(--theme-primary)]">Ver emblemas <span aria-hidden="true">→</span></Link>
       </section>
 
-      <LearningResumeCard {...learningResumeCard} />
+      <StudyFocusPanel eyebrow={activeTheme.copy.dashboardKicker} title={mainRecommendation.title} description={focusMessage} actionLabel={activeTheme.copy.primaryCta} actionHref={mainRecommendation.actionTarget} completed={insights.completedToday} goal={insights.dailyGoal.questions} />
+      <nav className="dashboard-shortcuts" aria-label="Atalhos de estudo">
+        <Link href="/cronograma"><Clock3 />Meu plano</Link><Link href="/questions"><BookOpen />Praticar questões</Link><Link href="/simulados"><Target />Simulados</Link><Link href="/performance"><Trophy />Meu progresso</Link>
+      </nav>
 
-      <section className="grid min-w-0 gap-3 sm:gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.85fr)]">
-        {/* Foco do dia */}
-        <div className="theme-focus-panel group relative min-w-0 overflow-hidden rounded-[22px] bg-gradient-to-br from-[#FF8A18] via-[#FFA51F] to-[#FFE01B] p-4 text-white shadow-[0_22px_46px_-28px_rgba(249,115,22,0.55)] sm:rounded-[28px] sm:p-6 md:min-h-[266px] md:p-7">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_46%)]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-white/20 blur-sm"
-          />
-          <Target
-            aria-hidden
-            className="pointer-events-none absolute -right-7 bottom-3 h-28 w-28 rotate-[-9deg] text-white/18 transition duration-300 group-hover:scale-105 sm:h-44 sm:w-44 sm:text-white/22"
-            strokeWidth={1.8}
-          />
-          <div className="relative z-10 grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
+      {/* Plano de hoje, seguido das métricas reais. */}
+
+
+      <section className="grid min-w-0 gap-4 xl:grid-cols-1">
+        <div className="rounded-[18px] border border-slate-100 bg-white p-5 shadow-sm">
+          <div className="mb-4 flex items-center justify-between gap-3">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-white/88 sm:text-[11px] sm:tracking-[0.22em]">
-                {activeTheme.copy.dashboardKicker}
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-700">
+                {planCompletedCount} de {planScopeTasks.length} atividades concluídas · {formatMinutes(planTotalMinutes)} previstos
               </p>
-              <div className="mt-2 h-0.5 w-6 rounded-full bg-white/35" />
-              <h2 className="mt-3 max-w-[760px] font-display text-xl font-extrabold leading-tight text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)] sm:mt-4 sm:text-2xl md:text-3xl">
-                {mainRecommendation.title}
+              <h2 className="mt-1 font-display text-xl font-bold text-[#0F172A]">
+                Plano de hoje
               </h2>
-              <p className="mt-2 hidden max-w-xl text-sm font-semibold leading-6 text-white/84 sm:block">
-                {focusMessage}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-3 sm:mt-5">
-                <Link
-                  href={mainRecommendation.actionTarget}
-                  className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-white px-5 text-sm font-black text-[color:var(--theme-primary)] shadow-[0_18px_32px_-22px_rgba(15,23,42,0.55)] transition hover:-translate-y-0.5 hover:bg-white/92 sm:py-3"
-                >
-                  {activeTheme.copy.primaryCta}
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link href="/cronograma" className="hidden items-center justify-center rounded-full border border-white/30 bg-white/14 px-5 py-3 text-sm font-black text-white shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20 sm:inline-flex">
-                  {activeTheme.copy.secondaryCta}
-                </Link>
-              </div>
             </div>
-            <div className="hidden flex-col items-center justify-center rounded-[24px] border border-white/24 bg-white/16 p-5 shadow-[0_12px_30px_-16px_rgba(15,23,42,0.35)] backdrop-blur md:flex">
-              <ProgressRing
-                value={dailyProgress}
-                size={140}
-                strokeWidth={12}
-                gradientFrom="#FFFFFF"
-                gradientTo="#FDE68A"
-                label={
-                  <span className="font-display text-3xl font-extrabold text-white">
-                    {insights.completedToday}
-                    <span className="text-base font-black text-white">/{insights.dailyGoal.questions}</span>
-                  </span>
-                }
-                caption={<span className="text-white">Meta hoje</span>}
-              />
-              <p className="mt-3 text-xs font-bold uppercase tracking-wider text-white/82">
-                {dailyProgress}% concluído
-              </p>
-            </div>
+            <Link href="/cronograma" className="hidden rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-blue-700 sm:inline-flex">
+              Ver plano
+            </Link>
           </div>
-        </div>
-
-        {/* Liga / XP */}
-        <div className="theme-league-panel group relative hidden min-w-0 overflow-hidden rounded-[28px] bg-gradient-to-br from-[#6B2CF5] via-[#8A42FF] to-[#A569FF] p-6 text-white shadow-[0_26px_52px_-28px_rgba(124,58,237,0.55)] sm:block md:min-h-[266px] md:p-7">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_18%_16%,rgba(255,255,255,0.30),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.14),transparent_46%)]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-white/18 blur-sm"
-          />
-          <Trophy
-            aria-hidden
-            className="pointer-events-none absolute -right-7 bottom-3 h-40 w-40 rotate-[-9deg] text-white/26 transition duration-300 group-hover:scale-105"
-            strokeWidth={1.8}
-          />
-          <div className="relative z-10">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/82">
-              Sua liga
-            </p>
-            <div className="mt-2 h-0.5 w-6 rounded-full bg-white/35" />
-            <div className="mt-1 flex items-end justify-between gap-3">
-              <h2 className="mt-3 font-display text-3xl font-extrabold text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">
-                {currentLeague}
-              </h2>
-              {nextLeague && (
-                <p className="rounded-full border border-white/30 bg-white/18 px-3 py-1 text-xs font-black uppercase tracking-wider text-white backdrop-blur">
-                  Prox. {nextLeague.name}
-                </p>
-              )}
-            </div>
-            <p className="mt-2 max-w-[70%] text-sm font-semibold text-white/84">
-              {user.xp.toLocaleString("pt-BR")} XP {nextLeague ? `de ${leagueProgress.to.toLocaleString("pt-BR")}` : "(máximo)"}
-            </p>
-            <div className="mt-5 h-2.5 max-w-[75%] overflow-hidden rounded-full bg-white/24">
-              <div
-                className="h-full rounded-full bg-white/88 transition-all"
-                style={{ width: `${Math.min(100, leagueProgress.current)}%` }}
+          <div className="grid gap-2">
+            {activePlanTasks.length === 0 ? (
+              <EmptyState
+                title={planScopeTasks.length ? "Plano de hoje concluído" : "Cronograma pronto para montar"}
+                description={
+                  planScopeTasks.length
+                    ? "Você já concluiu os blocos previstos. Revise o caderno ou gere uma nova semana."
+                    : "Complete o onboarding ou gere o cronograma para o Norte Preparatórios criar blocos com base nos seus dados."
+                }
+                accent="green"
               />
-            </div>
-            <div className="mt-5 grid max-w-full grid-cols-3 gap-2 text-center text-xs xl:max-w-[88%]">
-              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
-                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">Sequência</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.streak}d</p>
-              </div>
-              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
-                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">XP</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.xp}</p>
-              </div>
-              <div className="rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
-                <p className="text-[9px] font-black uppercase tracking-wider text-white/70">Horas</p>
-                <p className="mt-0.5 font-display text-lg font-extrabold text-white">{user.weeklyHours ?? 0}/sem</p>
-              </div>
-            </div>
+            ) : (
+              activePlanTasks.map((task, index) => {
+                const isReview = task.type.toLowerCase().includes("review") || task.type.toLowerCase().includes("error");
+                const isQuestion = task.type.toLowerCase().includes("question");
+                const tone = isReview
+                  ? "border-emerald-100    text-emerald-700 professional-neutral"
+                  : isQuestion
+                    ? "border-orange-100    text-orange-700 professional-neutral"
+                    : "border-blue-100    text-blue-700 professional-neutral";
+
+                return (
+                  <Link
+                    key={task.id}
+                    href={normalizeStudyHref(task.actionHref)}
+                    className={`group relative flex items-center gap-4 overflow-hidden rounded-[20px] border p-3.5 transition duration-200 hover:-translate-y-0.5 shadow-sm ${tone}`}
+                  >
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/82 shadow-sm ring-1 ring-white">
+                      {studyTaskIcon(task.type)}
+                    </span>
+                    <div className="relative z-10 min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-[10px] font-semibold uppercase tracking-wider">
+                          Passo {index + 1} · {studyTaskTypeLabel(task.type)}
+                        </p>
+                        <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-semibold text-slate-500">
+                          {formatMinutes(task.durationMinutes)}
+                        </span>
+                      </div>
+                      <p className="mt-1 truncate text-sm font-bold text-[#0F172A]">{task.title}</p>
+                      <p className="mt-0.5 line-clamp-1 text-xs font-semibold text-slate-500">
+                        {task.description}
+                      </p>
+                    </div>
+                    <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-1 group-hover:text-blue-600" />
+                  </Link>
+                );
+              })
+            )}
           </div>
         </div>
       </section>
 
-      {/* Stats strip gamificado */}
-      <section className="grid min-w-0 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid min-w-0 gap-4 sm:grid-cols-3">
         <StatTile
-          label="Meta de hoje"
+          label="Questões hoje"
           value={
             <span>
               {insights.completedToday}
-              <span className="text-base font-black text-white">/{insights.dailyGoal.questions}</span>
+              <span className="text-base font-normal text-[color:var(--theme-muted)]">/{insights.dailyGoal.questions}</span>
             </span>
           }
           hint={`${dailyProgress}% concluído · ${insights.dailyGoal.reviews} revisões`}
@@ -737,14 +632,7 @@ export default async function DashboardPage() {
           accent="cyan"
           progress={dailyProgress}
         />
-        <StatTile
-          label="Sequência"
-          value={`${user.streak}d`}
-          hint="Mantenha a constância"
-          icon={<Flame className="h-5 w-5" strokeWidth={2.4} />}
-          ghostIcon={<Flame className="h-24 w-24" strokeWidth={2.05} />}
-          accent="purple"
-        />
+
         <StatTile
           label="Acerto ponderado"
           value={percent(insights.weightedAccuracyRate)}
@@ -769,130 +657,73 @@ export default async function DashboardPage() {
         />
       </section>
 
-      <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(280px,0.72fr)_minmax(0,1.28fr)]">
-        <div className="relative overflow-hidden rounded-[26px] border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-26px_rgba(15,23,42,0.16)]">
+      <section className="dashboard-chart-card" aria-label="Evolução do desempenho">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><div><p className="mb-1 text-xs text-[color:var(--theme-primary)]">Seu aprendizado em perspectiva</p><h2>Desempenho dos últimos 7 dias</h2></div><Link href="/performance" className="inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--theme-primary)]">Ver meu progresso<ArrowRight className="h-4 w-4" /></Link></div>
+        <EvolutionChart data={insights.dailyBuckets.map(bucket => bucket.attempts ? bucket.accuracy : null)} labels={insights.dailyBuckets.map(bucket => bucket.label)} height={160} />
+      </section>
+
+      <details className="professional-details">
+        <summary>Continuar minhas aulas</summary>
+        <LearningResumeCard {...learningResumeCard} />
+      </details>
+      <details className="professional-details">
+        <summary>Constância e conquistas</summary>
+        <div className="space-y-5">
+
+      <section aria-label="Constância e conquistas">
+        {/* Liga / XP */}
+        <div className="theme-league-panel group relative hidden min-w-0 overflow-hidden rounded-[18px]     p-6 text-[color:var(--theme-text)] shadow-sm sm:block md:min-h-[266px] md:p-7 professional-neutral">
           <div
             aria-hidden
-            className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#22C55E] opacity-[0.12] blur-3xl"
+            className="theme-league-sheen pointer-events-none absolute -inset-px rounded-[18px]  professional-neutral"
           />
-          <div className="relative z-10 flex items-start justify-between gap-4">
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-emerald-700">
-                Plano do dia
-              </p>
-              <h2 className="mt-1 font-display text-2xl font-extrabold text-[#0F172A]">
-                Blocos calculados
+          <div
+            aria-hidden
+            className="theme-league-ghost pointer-events-none absolute -bottom-14 -left-12 h-36 w-36 rounded-full bg-white/18 blur-sm"
+          />
+          <Trophy
+            aria-hidden
+            className="theme-league-ghost pointer-events-none absolute -right-7 bottom-3 h-40 w-40 rotate-[-9deg] text-white/26 transition duration-300 "
+            strokeWidth={1.8}
+          />
+          <div className="relative z-10">
+            <p className="theme-league-kicker text-[11px] font-semibold uppercase tracking-wide text-white/82">
+              Sua liga
+            </p>
+            <div className="theme-league-rule mt-2 h-0.5 w-6 rounded-full bg-white/35" />
+            <div className="mt-1 flex items-end justify-between gap-3">
+              <h2 className="mt-3 font-display text-3xl font-bold text-white drop-shadow-sm">
+                {currentLeague}
               </h2>
-              <p className="mt-2 text-sm font-semibold leading-6 text-slate-600">
-                O cronograma cruza seus erros, cobertura e tempo disponível para decidir o próximo passo.
-              </p>
+              {nextLeague && (
+                <p className="theme-league-next rounded-full border border-white/30 bg-white/18 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur">
+                  Prox. {nextLeague.name}
+                </p>
+              )}
             </div>
-            <div className="relative shrink-0">
-              <div className="flex h-16 w-16 items-center justify-center rounded-[24px] bg-gradient-to-br from-[#22C55E] to-[#22D3EE] text-white shadow-[0_16px_30px_-20px_rgba(34,197,94,0.72)]">
-                <Target className="h-8 w-8" strokeWidth={2.35} />
-              </div>
-              <span className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FF8A18] to-[#FACC15] text-white shadow-[0_10px_20px_-12px_rgba(249,115,22,0.8)] ring-2 ring-white">
-                <Flame className="h-4 w-4" strokeWidth={2.5} />
-              </span>
-            </div>
-          </div>
-          <div className="relative z-10 mt-5 grid grid-cols-3 gap-2 text-center">
-            <div className="rounded-2xl bg-slate-50 px-2 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Blocos</p>
-              <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">{planScopeTasks.length}</p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 px-2 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Tempo</p>
-              <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">
-                {planTotalMinutes ? formatMinutes(planTotalMinutes) : "0min"}
-              </p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 px-2 py-3">
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">Erros</p>
-              <p className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">{insights.pendingErrors}</p>
-            </div>
-          </div>
-          <div className="relative z-10 mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-[#22C55E] to-[#22D3EE] transition-all"
-              style={{ width: `${Math.max(0, Math.min(100, planProgress))}%` }}
-            />
-          </div>
-          <p className="relative z-10 mt-2 text-xs font-bold text-slate-500">
-            {planCompletedCount} de {planScopeTasks.length || 0} bloco(s) concluído(s)
-          </p>
-          <Link
-            href="/cronograma"
-            className="relative z-10 mt-4 inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#22C55E] to-[#22D3EE] px-4 text-sm font-black text-white shadow-[0_14px_28px_-18px_rgba(34,197,94,0.7)] transition hover:-translate-y-0.5"
-          >
-            Abrir cronograma
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
-
-        <div className="rounded-[26px] border border-slate-100 bg-white p-5 shadow-[0_18px_40px_-26px_rgba(15,23,42,0.16)]">
-          <div className="mb-4 flex items-center justify-between gap-3">
-            <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
-                Plano adaptativo
-              </p>
-              <h2 className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">
-                O que fazer agora
-              </h2>
-            </div>
-            <Link href="/cronograma" className="hidden rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-[11px] font-black uppercase tracking-wider text-blue-700 sm:inline-flex">
-              Ver plano
-            </Link>
-          </div>
-          <div className="grid gap-2">
-            {activePlanTasks.length === 0 ? (
-              <EmptyState
-                title={planScopeTasks.length ? "Plano de hoje concluído" : "Cronograma pronto para montar"}
-                description={
-                  planScopeTasks.length
-                    ? "Você já concluiu os blocos previstos. Revise o caderno ou gere uma nova semana."
-                    : "Complete o onboarding ou gere o cronograma para o EstudAki criar blocos com base nos seus dados."
-                }
-                accent="green"
+            <p className="mt-2 max-w-[70%] text-sm font-semibold text-white/84">
+              {user.xp.toLocaleString("pt-BR")} XP {nextLeague ? `de ${leagueProgress.to.toLocaleString("pt-BR")}` : "(máximo)"}
+            </p>
+            <div className="theme-league-progress mt-5 h-2.5 max-w-[75%] overflow-hidden rounded-full bg-white/24">
+              <div
+                className="theme-league-progress-fill h-full rounded-full bg-white/88 transition-all"
+                style={{ width: `${Math.min(100, leagueProgress.current)}%` }}
               />
-            ) : (
-              activePlanTasks.map((task, index) => {
-                const isReview = task.type.toLowerCase().includes("review") || task.type.toLowerCase().includes("error");
-                const isQuestion = task.type.toLowerCase().includes("question");
-                const tone = isReview
-                  ? "border-emerald-100 bg-gradient-to-br from-[#ECFDF5] to-white text-emerald-700"
-                  : isQuestion
-                    ? "border-orange-100 bg-gradient-to-br from-[#FFF7ED] to-white text-orange-700"
-                    : "border-blue-100 bg-gradient-to-br from-[#EFF6FF] to-white text-blue-700";
-
-                return (
-                  <Link
-                    key={task.id}
-                    href={normalizeStudyHref(task.actionHref)}
-                    className={`group relative flex items-center gap-4 overflow-hidden rounded-[20px] border p-3.5 transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_-28px_rgba(15,23,42,0.35)] ${tone}`}
-                  >
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/82 shadow-sm ring-1 ring-white">
-                      {studyTaskIcon(task.type)}
-                    </span>
-                    <div className="relative z-10 min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-[10px] font-black uppercase tracking-wider">
-                          Passo {index + 1} · {studyTaskTypeLabel(task.type)}
-                        </p>
-                        <span className="rounded-full bg-white/80 px-2 py-0.5 text-[10px] font-black text-slate-500">
-                          {formatMinutes(task.durationMinutes)}
-                        </span>
-                      </div>
-                      <p className="mt-1 truncate text-sm font-extrabold text-[#0F172A]">{task.title}</p>
-                      <p className="mt-0.5 line-clamp-1 text-xs font-semibold text-slate-500">
-                        {task.description}
-                      </p>
-                    </div>
-                    <ArrowRight className="h-4 w-4 shrink-0 text-slate-400 transition group-hover:translate-x-1 group-hover:text-blue-600" />
-                  </Link>
-                );
-              })
-            )}
+            </div>
+            <div className="mt-5 grid max-w-full grid-cols-3 gap-2 text-center text-xs xl:max-w-[88%]">
+              <div className="theme-league-metric rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-white/70">Sequência</p>
+                <p className="mt-0.5 font-display text-lg font-bold text-white">{user.streak}d</p>
+              </div>
+              <div className="theme-league-metric rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-white/70">XP</p>
+                <p className="mt-0.5 font-display text-lg font-bold text-white">{user.xp}</p>
+              </div>
+              <div className="theme-league-metric rounded-2xl border border-white/20 bg-white/16 px-2 py-3 backdrop-blur">
+                <p className="text-[9px] font-semibold uppercase tracking-wider text-white/70">Horas</p>
+                <p className="mt-0.5 font-display text-lg font-bold text-white">{user.weeklyHours ?? 0}/sem</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -901,10 +732,10 @@ export default async function DashboardPage() {
       <section>
         <div className="mb-3 flex items-end justify-between gap-3">
           <div>
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-violet-700">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-violet-700">
               Próximas metas
             </p>
-            <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
+            <h2 className="font-display text-xl font-bold text-[#0F172A]">
               Desafios que aproximam você da próxima liga
             </h2>
           </div>
@@ -953,9 +784,14 @@ export default async function DashboardPage() {
         </div>
       </section>
 
+        </div>
+      </details>
+
+      <details className="professional-details">
+        <summary>Histórico e evolução</summary>
       {/* Evolução + atividades */}
       <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.85fr)]">
-        <div className="relative overflow-hidden rounded-[28px] border border-blue-100/60 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
+        <div className="relative overflow-hidden rounded-[18px] border border-blue-100/60 bg-white p-6 shadow-sm md:p-7">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#60A5FA] opacity-20 blur-3xl"
@@ -963,22 +799,19 @@ export default async function DashboardPage() {
           <div className="relative z-10">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-700">
                   Evolução
                 </p>
-                <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
+                <h2 className="font-display text-xl font-bold text-[#0F172A]">
                   Desempenho dos últimos 7 dias
                 </h2>
               </div>
-              <div className="flex items-center gap-2 rounded-full border border-emerald-100 bg-gradient-to-r from-[#ECFDF5] to-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wider text-emerald-700">
+              <div className="flex items-center gap-2 rounded-full border border-emerald-100    px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-700 professional-neutral">
                 <Zap className="h-3.5 w-3.5" />
                 {trendText} na semana
               </div>
             </div>
-            <EvolutionChart
-              data={insights.dailyBuckets.map((b) => b.accuracy || b.completion)}
-              labels={insights.dailyBuckets.map((b) => b.label)}
-            />
+
             <div className="mt-5 grid grid-cols-3 gap-3">
               {[
                 { label: "Acertos hoje", value: String(insights.correctToday), color: "#22C55E" },
@@ -987,13 +820,13 @@ export default async function DashboardPage() {
               ].map((stat) => (
                 <div
                   key={stat.label}
-                  className="rounded-2xl border border-slate-100 bg-gradient-to-br from-white to-slate-50 p-3.5"
+                  className="rounded-2xl border border-slate-100    p-3.5 professional-neutral"
                 >
-                  <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                     {stat.label}
                   </p>
                   <div className="mt-1 flex items-end justify-between gap-2">
-                    <p className="font-display text-xl font-extrabold text-[#0F172A]">{stat.value}</p>
+                    <p className="font-display text-xl font-bold text-[#0F172A]">{stat.value}</p>
                     <Sparkline data={accuracySeries} color={stat.color} width={56} height={22} />
                   </div>
                 </div>
@@ -1003,17 +836,17 @@ export default async function DashboardPage() {
         </div>
 
         {/* Atividades recentes */}
-        <div className="relative overflow-hidden rounded-[28px] border border-yellow-200/40 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
+        <div className="theme-activity-panel relative overflow-hidden rounded-[18px] border border-yellow-200/40 bg-white p-6">
           <div
             aria-hidden
             className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#FACC15] opacity-20 blur-3xl"
           />
           <div className="relative z-10">
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-br from-[#FACC15] via-[#FDE047] to-[#F97316] text-white shadow-md">
+              <div className="theme-activity-icon flex h-10 w-10 items-center justify-center rounded-xl     text-[color:var(--theme-text)] professional-neutral">
                 <Clock3 className="h-5 w-5" />
               </div>
-              <h2 className="font-display text-xl font-extrabold text-[#0F172A]">
+              <h2 className="font-display text-xl font-bold text-[#0F172A]">
                 Atividades recentes
               </h2>
             </div>
@@ -1023,7 +856,7 @@ export default async function DashboardPage() {
               </p>
             ) : (
               <ul className="space-y-2.5">
-                {activities.map((activity) => (
+                {activities.slice(0, 3).map((activity) => (
                   <li
                     key={activity.id}
                     className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-3.5"
@@ -1033,7 +866,7 @@ export default async function DashboardPage() {
                     </div>
                     <p className="flex-1 text-sm font-semibold text-slate-700">{activity.message}</p>
                     {activity.xp > 0 && (
-                      <span className="rounded-full bg-gradient-to-r from-[#FACC15] to-[#F97316] px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white">
+                      <span className="theme-xp-pill rounded-full    px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[color:var(--theme-text)] professional-neutral">
                         +{activity.xp} XP
                       </span>
                     )}
@@ -1045,21 +878,24 @@ export default async function DashboardPage() {
         </div>
       </section>
 
+      </details>
+      <details className="professional-details">
+        <summary>Questões recomendadas e atalhos</summary>
       {/* Ações rápidas + questões recomendadas */}
       <section className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.85fr)]">
-        <div className="rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)] md:p-7">
+        <div className="rounded-[18px] border border-slate-100 bg-white p-6 shadow-sm md:p-7">
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-700">
                 Lista inteligente
               </p>
-              <h2 className="mt-1 font-display text-xl font-extrabold text-[#0F172A]">
+              <h2 className="mt-1 font-display text-xl font-bold text-[#0F172A]">
                 Questões recomendadas
               </h2>
             </div>
             <Link
               href="/questions?vestibular=enem"
-              className="rounded-full border border-blue-200 bg-white px-3 py-1.5 text-[11px] font-black uppercase tracking-wider text-blue-700 hover:border-blue-300"
+              className="rounded-full border border-blue-200 bg-white px-3 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-blue-700 hover:border-blue-300"
             >
               Ver tudo
             </Link>
@@ -1073,7 +909,7 @@ export default async function DashboardPage() {
             />
           ) : (
             <div className="space-y-2.5">
-              {insights.automaticList.slice(0, 5).map((question, index) => {
+              {insights.automaticList.slice(0, 3).map((question, index) => {
                 const iconName = studyIconNameForSubject(question.subject.name);
                 const colors = studyIconColors(iconName);
 
@@ -1082,19 +918,19 @@ export default async function DashboardPage() {
                     key={question.id}
                     href={questionHref(question.id, question.vestibular?.slug)}
                     className="group flex items-center gap-4 rounded-2xl border border-slate-100 bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
-                    style={{ borderColor: `${colors.primary}18` }}
+                    style={{ borderColor: "var(--theme-border)" }}
                   >
                     <div className="relative shrink-0">
                       <StudyIcon name={iconName} size="sm" />
                       <span
-                        className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[9px] font-black text-white ring-2 ring-white"
+                        className="absolute -right-1.5 -top-1.5 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[9px] font-semibold text-white ring-2 ring-white"
                         style={{ background: colors.primary }}
                       >
                         {index + 1}
                       </span>
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-extrabold text-[#0F172A]">
+                      <p className="truncate text-sm font-bold text-[#0F172A]">
                         {question.topic?.name ?? question.subject.name}
                       </p>
                       <p className="mt-0.5 text-xs font-semibold text-slate-500">
@@ -1110,59 +946,59 @@ export default async function DashboardPage() {
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-[28px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-blue-700">
+          <div className="rounded-[18px] border border-slate-100 bg-white p-6 shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-blue-700">
               Atalhos rápidos
             </p>
-            <h2 className="mt-1 font-display text-lg font-extrabold text-[#0F172A]">
+            <h2 className="mt-1 font-display text-lg font-bold text-[#0F172A]">
               Continue com 1 clique
             </h2>
             <div className="mt-4 grid grid-cols-2 gap-2.5">
-              <Link href={mainRecommendation.actionTarget} className="group relative overflow-hidden rounded-2xl border border-blue-100 bg-gradient-to-br from-[#EFF6FF] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
+              <Link href={mainRecommendation.actionTarget} data-accent="blue" className="theme-quick-action group relative overflow-hidden rounded-2xl border border-blue-100    p-3 transition hover:-translate-y-0.5 hover:shadow-md professional-neutral">
+                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition  group-hover:opacity-35">
                   <StudyIcon name="matematica" variant="ghost" size="lg" />
                 </span>
                 <StudyIcon name="matematica" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Praticar</p>
+                <p className="mt-2 text-sm font-bold text-[#0F172A]">Praticar</p>
                 <p className="text-[11px] font-semibold text-slate-500">Lista inteligente</p>
               </Link>
-              <Link href={ERROR_NOTEBOOK_HREF} className="group relative overflow-hidden rounded-2xl border border-emerald-100 bg-gradient-to-br from-[#ECFDF5] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
+              <Link href={ERROR_NOTEBOOK_HREF} data-accent="green" className="theme-quick-action group relative overflow-hidden rounded-2xl border border-emerald-100    p-3 transition hover:-translate-y-0.5 hover:shadow-md professional-neutral">
+                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition  group-hover:opacity-35">
                   <StudyIcon name="redacao" variant="ghost" size="lg" />
                 </span>
                 <StudyIcon name="redacao" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Caderno</p>
+                <p className="mt-2 text-sm font-bold text-[#0F172A]">Caderno</p>
                 <p className="text-[11px] font-semibold text-slate-500">Revisar erros</p>
               </Link>
-              <Link href="/biblioteca" className="group relative overflow-hidden rounded-2xl border border-pink-100 bg-gradient-to-br from-[#FDF2F8] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
+              <Link href="/biblioteca" data-accent="pink" className="theme-quick-action group relative overflow-hidden rounded-2xl border border-pink-100    p-3 transition hover:-translate-y-0.5 hover:shadow-md professional-neutral">
+                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition  group-hover:opacity-35">
                   <StudyIcon name="linguagens" variant="ghost" size="lg" />
                 </span>
                 <StudyIcon name="linguagens" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Biblioteca</p>
+                <p className="mt-2 text-sm font-bold text-[#0F172A]">Biblioteca</p>
                 <p className="text-[11px] font-semibold text-slate-500">Materiais liberados</p>
               </Link>
-              <Link href="/cronograma" className="group relative overflow-hidden rounded-2xl border border-violet-100 bg-gradient-to-br from-[#F5F3FF] to-white p-3 transition hover:-translate-y-0.5 hover:shadow-md">
-                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition group-hover:scale-105 group-hover:opacity-35">
+              <Link href="/cronograma" data-accent="purple" className="theme-quick-action group relative overflow-hidden rounded-2xl border border-violet-100    p-3 transition hover:-translate-y-0.5 hover:shadow-md professional-neutral">
+                <span aria-hidden className="absolute -bottom-5 -right-4 rotate-[-12deg] opacity-25 transition  group-hover:opacity-35">
                   <StudyIcon name="ciencias-humanas" variant="ghost" size="lg" />
                 </span>
                 <StudyIcon name="ciencias-humanas" size="xs" />
-                <p className="mt-2 text-sm font-extrabold text-[#0F172A]">Plano</p>
+                <p className="mt-2 text-sm font-bold text-[#0F172A]">Plano</p>
                 <p className="text-[11px] font-semibold text-slate-500">Semana de foco</p>
               </Link>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-[28px] border border-pink-200/40 bg-gradient-to-br from-[#FDF2F8] via-white to-[#FCE7F3] p-6 shadow-[0_18px_40px_-22px_rgba(251,113,133,0.30)]">
+          <div className="theme-library-panel relative overflow-hidden rounded-[18px] border border-pink-200/40     p-6 professional-neutral">
             <div
               aria-hidden
               className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#FB7185] opacity-25 blur-3xl"
             />
             <div className="relative z-10">
-              <p className="text-[11px] font-black uppercase tracking-[0.22em] text-pink-600">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-pink-600">
                 Biblioteca para você
               </p>
-              <h2 className="font-display text-lg font-extrabold text-[#0F172A]">
+              <h2 className="font-display text-lg font-bold text-[#0F172A]">
                 Materiais e PDFs liberados
               </h2>
               <div className="mt-3 space-y-2">
@@ -1175,7 +1011,7 @@ export default async function DashboardPage() {
                 >
                   <StudyIcon name="linguagens" size="xs" />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-extrabold text-[#0F172A]">Abrir biblioteca</p>
+                    <p className="truncate text-sm font-bold text-[#0F172A]">Abrir biblioteca</p>
                     <p className="line-clamp-1 text-[11px] text-slate-500">Capas, progresso e leitura salva</p>
                   </div>
                   <ArrowRight className="h-4 w-4 text-slate-400 transition group-hover:translate-x-1" />
@@ -1186,7 +1022,8 @@ export default async function DashboardPage() {
         </div>
       </section>
 
-      <FloatingWhatsApp variant="platform" />
+      <FloatingWhatsApp variant="platform" />      </details>
+
     </div>
   );
 }

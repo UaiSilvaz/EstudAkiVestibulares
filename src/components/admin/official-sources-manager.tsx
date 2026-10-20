@@ -248,17 +248,17 @@ export function OfficialSourcesManager({
 
   return (
     <div className="space-y-6">
-      <section className="rounded-[28px] border border-blue-100 bg-white p-5 shadow-[0_20px_50px_-34px_rgba(15,23,42,0.22)] md:p-6">
+      <section className="rounded-[18px] border border-blue-100 bg-white p-5 shadow-sm md:p-6">
         <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-600">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
               {editingId ? "Editar fonte" : "Cadastro controlado"}
             </p>
-            <h2 className="mt-1 text-2xl font-black text-slate-950">
+            <h2 className="mt-1 text-2xl font-semibold text-slate-950">
               {editingId ? "Alterar metadados" : "Nova URL oficial"}
             </h2>
           </div>
-          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-2 text-xs font-black text-emerald-700">
+          <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700">
             <ShieldCheck className="h-4 w-4" />
             Allowlist ativa
           </span>
@@ -340,10 +340,10 @@ export function OfficialSourcesManager({
         />
       </section>
 
-      <section className="rounded-[28px] border border-slate-100 bg-white p-5 shadow-[0_20px_50px_-34px_rgba(15,23,42,0.22)]">
+      <section className="rounded-[18px] border border-slate-100 bg-white p-5 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-xl font-black text-slate-950">Fontes cadastradas</h2>
+            <h2 className="text-xl font-semibold text-slate-950">Fontes cadastradas</h2>
             <p className="text-sm font-semibold text-slate-500">{initialSources.length} fonte(s), sem download automático.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -369,9 +369,9 @@ export function OfficialSourcesManager({
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-black text-slate-950">{source.vestibular} {source.year ?? "· índice"}</h3>
-                    <span className={`rounded-full px-2 py-1 text-[10px] font-black ${source.status === "APPROVED" || source.status === "DOWNLOADED" ? "bg-emerald-50 text-emerald-700" : source.status === "ERROR" ? "bg-rose-50 text-rose-700" : "bg-amber-50 text-amber-700"}`}>{sourceStatus(source.status)}</span>
-                    <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-black text-slate-600">{source.sourceKind === "SEED_PAGE" ? "Página-semente" : source.fileType === "EXAM" ? "Prova" : "Gabarito"}</span>
+                    <h3 className="font-semibold text-slate-950">{source.vestibular} {source.year ?? "· índice"}</h3>
+                    <span className={`rounded-full px-2 py-1 text-[10px] font-semibold ${source.status === "APPROVED" || source.status === "DOWNLOADED" ? "bg-emerald-50 text-emerald-700" : source.status === "ERROR" ? "bg-rose-50 text-rose-700" : "bg-amber-50 text-amber-700"}`}>{sourceStatus(source.status)}</span>
+                    <span className="rounded-full bg-slate-100 px-2 py-1 text-[10px] font-semibold text-slate-600">{source.sourceKind === "SEED_PAGE" ? "Página-semente" : source.fileType === "EXAM" ? "Prova" : "Gabarito"}</span>
                   </div>
                   <a href={source.sourceUrl} target="_blank" rel="noreferrer" className="mt-1 flex items-center gap-1 truncate text-xs font-semibold text-blue-600">
                     {source.sourceUrl}<ExternalLink className="h-3 w-3 shrink-0" />
@@ -393,15 +393,15 @@ export function OfficialSourcesManager({
       </section>
 
       <section className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[28px] border border-slate-100 bg-white p-5">
-          <h2 className="text-xl font-black text-slate-950">Arquivos oficiais</h2>
+        <div className="rounded-[18px] border border-slate-100 bg-white p-5">
+          <h2 className="text-xl font-semibold text-slate-950">Arquivos oficiais</h2>
           <div className="mt-4 space-y-2">
             {initialFiles.length === 0 && <p className="rounded-xl bg-slate-50 p-4 text-sm font-semibold text-slate-500">Nenhum PDF baixado.</p>}
             {initialFiles.map((file) => (
               <div key={file.id} className="rounded-xl border border-slate-200 p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <div>
-                    <p className="text-sm font-black text-slate-900">{file.vestibular} {file.year} · {file.fileType === "EXAM" ? "Prova" : "Gabarito"}</p>
+                    <p className="text-sm font-semibold text-slate-900">{file.vestibular} {file.year} · {file.fileType === "EXAM" ? "Prova" : "Gabarito"}</p>
                     <p className="mt-1 text-[11px] font-semibold text-slate-500">{(file.fileSize / 1024 / 1024).toFixed(2)} MB · SHA {file.sha256Hash.slice(0, 12)}… · {file.processingStatus}</p>
                   </div>
                   <a href={file.storageUrl} target="_blank" rel="noreferrer" className="ek-button ek-button-ghost"><Download className="h-4 w-4" />Abrir</a>
@@ -427,12 +427,12 @@ export function OfficialSourcesManager({
             ))}
           </div>
         </div>
-        <div className="rounded-[28px] border border-slate-100 bg-white p-5">
-          <h2 className="text-xl font-black text-slate-950">Log recente</h2>
+        <div className="rounded-[18px] border border-slate-100 bg-white p-5">
+          <h2 className="text-xl font-semibold text-slate-950">Log recente</h2>
           <div className="mt-4 max-h-[420px] space-y-2 overflow-auto">
             {initialLogs.map((log) => (
               <div key={log.id} className="rounded-xl bg-slate-50 p-3">
-                <p className="text-[10px] font-black uppercase tracking-wider text-slate-400">{log.action} · {log.status} · {new Date(log.createdAt).toLocaleString("pt-BR")}</p>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">{log.action} · {log.status} · {new Date(log.createdAt).toLocaleString("pt-BR")}</p>
                 <p className="mt-1 text-xs font-semibold leading-5 text-slate-600">{log.message}</p>
               </div>
             ))}
@@ -444,7 +444,7 @@ export function OfficialSourcesManager({
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return <label className="block"><span className="mb-1.5 block text-xs font-black text-slate-600">{label}</span>{children}</label>;
+  return <label className="block"><span className="mb-1.5 block text-xs font-semibold text-slate-600">{label}</span>{children}</label>;
 }
 
 function JsonPanel({
@@ -467,8 +467,8 @@ function JsonPanel({
   select?: React.ReactNode;
 }) {
   return (
-    <section className="rounded-[28px] border border-slate-100 bg-white p-5">
-      <div className="mb-3 flex items-center gap-2"><FileJson className="h-5 w-5 text-blue-600" /><h2 className="text-lg font-black text-slate-950">{title}</h2></div>
+    <section className="rounded-[18px] border border-slate-100 bg-white p-5">
+      <div className="mb-3 flex items-center gap-2"><FileJson className="h-5 w-5 text-blue-600" /><h2 className="text-lg font-semibold text-slate-950">{title}</h2></div>
       <p className="mb-3 text-xs font-semibold leading-5 text-slate-500">{description}</p>
       {select}
       <textarea className="ek-input min-h-56 font-mono text-xs" value={value} onChange={(event) => onChange(event.target.value)} />

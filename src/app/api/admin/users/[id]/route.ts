@@ -2,6 +2,7 @@ import { Role } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { requireAdminApi } from "@/lib/admin-api-auth";
 import { db } from "@/lib/db";
+import { manageAdminAccount } from "@/lib/admin-account-management";
 
 function validRole(value: unknown): value is Role {
   return typeof value === "string" && Object.values(Role).includes(value as Role);
@@ -18,11 +19,18 @@ export async function PATCH(request: Request, context: RouteContext<"/api/admin/
     targetExam?: unknown;
     productId?: unknown;
     licenseAction?: unknown;
+    banned?: unknown;
+    banReason?: unknown;
   };
+  if (!body || typeof body !== "object") return NextResponse.json({ error: "Pedido inválido." }, { status: 400 });
+  if (body.role !== undefined || body.banned !== undefined) {
+    const result = await manageAdminAccount(authorization.user.id, id, body);
+    return NextResponse.json("error" in result ? { error: result.error } : { user: result.user }, { status: result.status });
+  }
 
   const target = await db.user.findUnique({ where: { id }, select: { id: true, email: true } });
   if (!target) {
-    return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Usuário não encontrado." }, { status: 404 });
   }
 
   const data: {
@@ -33,7 +41,7 @@ export async function PATCH(request: Request, context: RouteContext<"/api/admin/
 
   if (body.role !== undefined) {
     if (!validRole(body.role)) {
-      return NextResponse.json({ error: "Papel invalido." }, { status: 400 });
+      return NextResponse.json({ error: "Papel inválido." }, { status: 400 });
     }
     data.role = body.role;
   }
@@ -52,7 +60,7 @@ export async function PATCH(request: Request, context: RouteContext<"/api/admin/
       select: { id: true, name: true, materialId: true },
     });
     if (!product?.materialId) {
-      return NextResponse.json({ error: "Material nao encontrado." }, { status: 404 });
+      return NextResponse.json({ error: "Material não encontrado." }, { status: 404 });
     }
 
     if (body.licenseAction === "grant") {
@@ -64,7 +72,7 @@ export async function PATCH(request: Request, context: RouteContext<"/api/admin/
     } else if (body.licenseAction === "revoke") {
       await db.userProduct.deleteMany({ where: { userId: id, productId: product.id } });
     } else {
-      return NextResponse.json({ error: "Acao de material invalida." }, { status: 400 });
+      return NextResponse.json({ error: "Ação de material invalida." }, { status: 400 });
     }
 
     await db.activity.create({
@@ -103,7 +111,7 @@ export async function PATCH(request: Request, context: RouteContext<"/api/admin/
     data: {
       userId: authorization.user.id,
       type: "CONTENT",
-      message: `${authorization.user.name} atualizou o usuario ${updated.email}.`,
+      message: `${authorization.user.name} atualizou o usuário ${updated.email}.`,
     },
   });
 
@@ -117,7 +125,7 @@ export async function DELETE(_request: Request, context: RouteContext<"/api/admi
   const { id } = await context.params;
   if (id === authorization.user.id) {
     return NextResponse.json(
-      { error: "Voce nao pode excluir a propria conta administrativa." },
+      { error: "Você não pode excluir a própria conta administrativa." },
       { status: 400 },
     );
   }
@@ -127,7 +135,7 @@ export async function DELETE(_request: Request, context: RouteContext<"/api/admi
     select: { id: true, email: true, role: true },
   });
   if (!target) {
-    return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Usuário não encontrado." }, { status: 404 });
   }
 
   const adminCount = await db.user.count({ where: { role: Role.ADMIN } });
@@ -144,7 +152,7 @@ export async function DELETE(_request: Request, context: RouteContext<"/api/admi
       data: {
         userId: authorization.user.id,
         type: "CONTENT",
-        message: `${authorization.user.name} excluiu o usuario ${target.email}.`,
+        message: `${authorization.user.name} excluiu o usuário ${target.email}.`,
       },
     }),
   ]);

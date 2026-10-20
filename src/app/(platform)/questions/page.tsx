@@ -4,6 +4,7 @@ import { QuestionPractice } from "@/components/question-practice";
 import { VestibularPicker } from "@/components/vestibular-picker";
 import { getPersistedUserId, requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { availableQuestionWhere } from "@/lib/freemium-access";
 import { localVestibulares } from "@/lib/local-exams";
 import {
   buildPublishedQuestionWhere,
@@ -30,6 +31,7 @@ export default async function QuestionsPage({
   const user = await requireUser();
   const persistedUserId = await getPersistedUserId(user);
   const params = await searchParams;
+  const availableWhere = persistedUserId ? await availableQuestionWhere(persistedUserId, user.role) : { id: { in: [] } };
   const filters = parseQuestionFilters(params);
   const { vestibular, subject, mode, scope } = filters;
   const requestedCount = typeof params.count === "string" ? Number(params.count) : 10;
@@ -61,6 +63,7 @@ export default async function QuestionsPage({
 
   if (!selectedVestibular) {
     const publishedWhere = {
+      AND: [availableWhere],
       status: "PUBLISHED" as const,
       reviewState: "APPROVED" as const,
     };
@@ -123,6 +126,7 @@ export default async function QuestionsPage({
     : null;
   const effectiveFilters = selectedSubject ? { ...filters, subject: selectedSubject.id } : filters;
   const where = buildPublishedQuestionWhere(effectiveFilters, selectedVestibular?.id, selectedSubject);
+  where.AND = [...(Array.isArray(where.AND) ? where.AND : where.AND ? [where.AND] : []), availableWhere];
 
   if (mode === "errors" || scope === "errors") {
     const wrongAttempts = persistedUserId

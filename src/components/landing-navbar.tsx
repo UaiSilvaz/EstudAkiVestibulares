@@ -1,15 +1,7 @@
 "use client";
 
-import {
-  BookOpen,
-  CreditCard,
-  GraduationCap,
-  Home,
-  Library,
-  LifeBuoy,
-  ListChecks,
-  Timer,
-} from "lucide-react";
+import { BookOpen, Home } from "@/components/visual/aicon-icons";
+import { CreditCard, GraduationCap, Library, LifeBuoy, ListChecks, Timer } from "lucide-react";
 import PillNav from "./reactbits/PillNav";
 
 const NAV_ITEMS = [
@@ -28,11 +20,11 @@ export function LandingNavbar() {
   return (
     <PillNav
       items={NAV_ITEMS}
-      logo="/brand/estudaki-logo.png"
-      logoAlt="EstudAki"
+      logo="/assets/norte-design/01_Logos_SVG/logo_horizontal_laranja.svg"
+      logoAlt="Norte Preparatórios"
       baseColor="#FFFFFF"
-      pillColor="#2563EB"
-      hoveredPillTextColor="#06245C"
+      pillColor="#C94D00"
+      hoveredPillTextColor="#101216"
       pillTextColor="#FFFFFF"
       ctaLabel="Entrar grátis"
       ctaHref="/login"

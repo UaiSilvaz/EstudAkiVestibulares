@@ -1,6 +1,5 @@
-import { JornadaHomeClient } from "@/components/jornada/jornada-client";
-import { jornadaCourses, jornadaWorlds } from "@/lib/jornada-curriculum";
+import { redirect } from "next/navigation";
 
-export default function TrilhasPage() {
-  return <JornadaHomeClient worlds={jornadaWorlds} courses={jornadaCourses} />;
+export default function RetiredJourneyPage() {
+  redirect("/cursos");
 }

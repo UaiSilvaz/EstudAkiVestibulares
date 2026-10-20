@@ -11,9 +11,9 @@ export default async function AdminUsersPage() {
   return (
     <div>
       <PageHeader
-        eyebrow="Usuarios e acessos"
-        title="Administracao de contas"
-        description="Promova usuarios, remova contas, confira compras, licencas, carrinho, progresso e dados essenciais do aluno."
+        eyebrow="Usuários e acessos"
+        title="Administração de contas"
+        description="Promova usuários, remova contas, confira compras, licenças, carrinho, progresso e dados essenciais do aluno."
       />
       <UserManager />
     </div>

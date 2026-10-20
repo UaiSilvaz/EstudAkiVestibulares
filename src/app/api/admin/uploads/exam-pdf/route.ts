@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   const user = await getCurrentUser();
 
   if (!user || !canManageContent(user.role)) {
-    return NextResponse.json({ error: "Sem permissao." }, { status: 403 });
+    return NextResponse.json({ error: "Sem permissão." }, { status: 403 });
   }
 
   const formData = await request.formData();
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
   const bytes = Buffer.from(await file.arrayBuffer());
   if (!looksLikePdf(bytes)) {
-    return NextResponse.json({ error: "O arquivo enviado nao parece ser um PDF valido." }, { status: 400 });
+    return NextResponse.json({ error: "O arquivo enviado não parece ser um PDF válido." }, { status: 400 });
   }
 
   const fileName = safeFileName(file.name, kind);

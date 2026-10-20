@@ -39,13 +39,13 @@ async function main() {
   const admin = await prisma.user.upsert({
     where: { email: adminEmail },
     update: {
-      name: "Administrador EstudAki",
+      name: "Administrador Norte",
       passwordHash: adminHash,
       role: Role.ADMIN,
       targetExam: "ENEM",
     },
     create: {
-      name: "Administrador EstudAki",
+      name: "Administrador Norte",
       email: adminEmail,
       passwordHash: adminHash,
       role: Role.ADMIN,
@@ -101,7 +101,7 @@ async function main() {
       ["UNICAMP", "unicamp", "#7C3AED", "Prova contextualizada com forte leitura interdisciplinar."],
       ["UNESP", "unesp", "#00A878", "Vestibular paulista com questões objetivas e dissertativas."],
       ["FATEC", "fatec", "#EF4444", "Vestibular das Faculdades de Tecnologia do Centro Paula Souza."],
-      ["ETEC", "etec", "#F59E0B", "Processo seletivo das Escolas Tecnicas Estaduais."],
+      ["ETEC", "etec", "#F59E0B", "Processo seletivo das Escolas Técnicas Estaduais."],
       ["Provão Paulista", "provao-paulista", "#7C3AED", "Avaliação seriada paulista alinhada ao currículo da rede pública estadual."],
     ].map(([name, slug, color, description]) =>
       prisma.vestibular.upsert({
@@ -140,7 +140,7 @@ async function main() {
       verticalSlug: "vestibular",
       examSlug: "enem",
       isFree: true,
-      description: "Trilha completa para o ENEM com plano, questoes, redacao e simulados.",
+      description: "Trilha completa para o ENEM com plano, questões, redação e simulados.",
     },
     {
       slug: "fuvest-2027",
@@ -148,7 +148,7 @@ async function main() {
       verticalSlug: "vestibular",
       examSlug: "fuvest",
       isFree: false,
-      description: "Preparacao para primeira e segunda fase da FUVEST.",
+      description: "Preparação para primeira e segunda fase da FUVEST.",
     },
     {
       slug: "medicina-enem",
@@ -156,7 +156,7 @@ async function main() {
       verticalSlug: "medicina",
       examSlug: "medicina-enem",
       isFree: false,
-      description: "Rota de alta concorrencia com dados, revisoes e simulados.",
+      description: "Rota de alta concorrência com dados, revisões e simulados.",
     },
     {
       slug: "oab-1-fase",
@@ -164,7 +164,7 @@ async function main() {
       verticalSlug: "oab",
       examSlug: "oab-1-fase",
       isFree: true,
-      description: "Disciplinas juridicas, questoes e revisao objetiva para a OAB.",
+      description: "Disciplinas jurídicas, questões e revisão objetiva para a OAB.",
     },
     {
       slug: "tj-sp-escrevente",
@@ -172,20 +172,20 @@ async function main() {
       verticalSlug: "concursos",
       examSlug: "concursos-publicos",
       isFree: false,
-      description: "Plano por edital para portugues, direito, informatica e raciocinio logico.",
+      description: "Plano por edital para português, direito, informática e raciocínio lógico.",
     },
     {
       slug: "policia-civil-sp",
       name: "Policia Civil SP",
-      verticalSlug: "policial",
+      verticalSlug: "policia-civil",
       examSlug: "policia-civil",
       isFree: false,
-      description: "Preparacao por cargo com foco em edital, questoes e evolucao.",
+      description: "Preparação por cargo com foco em edital, questões e evolução.",
     },
     {
       slug: "esa-2027",
       name: "ESA 2027",
-      verticalSlug: "militar",
+      verticalSlug: "militares",
       examSlug: "esa",
       isFree: false,
       description: "Base e aprofundamento para carreiras militares.",
@@ -194,7 +194,7 @@ async function main() {
   const preparations = await Promise.all(
     preparationSeed.map((item) => {
       const vertical = verticalBySlug[item.verticalSlug];
-      if (!vertical) throw new Error(`Vertical nao encontrada: ${item.verticalSlug}`);
+      if (!vertical) throw new Error(`Vertical não encontrada: ${item.verticalSlug}`);
       return prisma.preparation.upsert({
         where: { slug: item.slug },
         update: {
@@ -333,7 +333,7 @@ async function main() {
       pedagogyComment:
         "Se você marcou área, o erro foi trocar perímetro por superfície. Essa confusão aparece com frequência em questões fáceis.",
       tags: tags("perimetro", "base", "erro_conceitual"),
-      source: "Questão modelo EstudAki",
+      source: "Questão modelo Norte Preparatórios",
       status: ContentStatus.REVIEW,
     },
     {
@@ -357,7 +357,7 @@ async function main() {
       pedagogyComment:
         "Treine transformar porcentagem em multiplicador: aumento de 15% equivale a multiplicar por 1,15.",
       tags: tags("porcentagem", "multiplicador", "enem"),
-      source: "Questão modelo EstudAki",
+      source: "Questão modelo Norte Preparatórios",
       status: ContentStatus.REVIEW,
     },
     {
@@ -367,7 +367,7 @@ async function main() {
       year: 2022,
       difficulty: Difficulty.HARD,
       statement:
-        "Considere f(x) = 2x + 3. Se f(a) = 17, o valor de a e:",
+        "Considere f(x) = 2x + 3. Se f(a) = 17, o valor de a é:",
       alternatives: alternatives([
         ["A", "5"],
         ["B", "6"],
@@ -381,7 +381,7 @@ async function main() {
       pedagogyComment:
         "A questão cobra a leitura de função como uma máquina: entrada a, saída 17.",
       tags: tags("funcao-afim", "algebra"),
-      source: "Questão modelo EstudAki",
+      source: "Questão modelo Norte Preparatórios",
       status: ContentStatus.REVIEW,
     },
     {
@@ -405,7 +405,7 @@ async function main() {
       pedagogyComment:
         "Em Linguagens, procure a função do recurso no texto, não apenas o nome gramatical.",
       tags: tags("interpretacao", "conectivos", "linguagens"),
-      source: "Questão modelo EstudAki",
+      source: "Questão modelo Norte Preparatórios",
       status: ContentStatus.REVIEW,
     },
     {
@@ -415,12 +415,12 @@ async function main() {
       year: 2021,
       difficulty: Difficulty.EASY,
       statement:
-        "Em uma cadeia alimentar, organismos produtores sao aqueles que:",
+        "Em uma cadeia alimentar, organismos produtores são aqueles que:",
       alternatives: alternatives([
         ["A", "Decompõem matéria orgânica em sais minerais"],
-        ["B", "Obtêm energia apenas consumindo herbivoros"],
+        ["B", "Obtêm energia apenas consumindo herbívoros"],
         ["C", "Produzem matéria orgânica a partir de uma fonte de energia"],
-        ["D", "Ocupam sempre o ultimo nivel trofico"],
+        ["D", "Ocupam sempre o último nível trófico"],
         ["E", "Não participam do fluxo de energia"],
       ]),
       correctAlternative: "C",
@@ -429,7 +429,7 @@ async function main() {
       pedagogyComment:
         "A base da ecologia é separar o fluxo de energia do ciclo da matéria.",
       tags: tags("ecologia", "cadeia-alimentar"),
-      source: "Questão modelo EstudAki",
+      source: "Questão modelo Norte Preparatórios",
       status: ContentStatus.REVIEW,
     },
     {
@@ -443,7 +443,7 @@ async function main() {
       alternatives: alternatives([
         ["A", "Ampliar a participacao direta dos trabalhadores urbanos"],
         ["B", "Garantir estabilidade política por acordos entre oligarquias estaduais e o governo federal"],
-        ["C", "Extinguir o coronelismo nas regioes rurais"],
+        ["C", "Extinguir o coronelismo nas regiões rurais"],
         ["D", "Centralizar completamente o poder no Exército"],
         ["E", "Criar voto secreto universal"],
       ]),
@@ -453,7 +453,7 @@ async function main() {
       pedagogyComment:
         "Cuidado com alternativas que usam palavras absolutas como 'extinguir' e 'completamente'.",
       tags: tags("primeira-republica", "oligarquias", "politica"),
-      source: "Questão modelo EstudAki",
+      source: "Questão modelo Norte Preparatórios",
       status: ContentStatus.REVIEW,
     },
   ];
@@ -575,7 +575,7 @@ async function main() {
       },
       {
         slug: "ritmo-de-aprovacao",
-        title: "Ritmo de aprovacao",
+        title: "Ritmo de aprovação",
         description: "Mantenha uma sequencia de 7 dias.",
         icon: "flame",
         color: "#FACC15",
@@ -1145,7 +1145,7 @@ async function main() {
       {
         userId: admin.id,
         type: ActivityType.CHALLENGE,
-        message: "Novo desafio Semana da Geometria esta disponivel.",
+        message: "Novo desafio Semana da Geometria está disponível.",
         xp: 500,
       },
     ],

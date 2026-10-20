@@ -1,17 +1,8 @@
 "use client";
 
+import { BookOpen, FileText, ShoppingCart } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import {
-  BookOpen,
-  ArrowRight,
-  FileText,
-  Sparkles,
-  ShoppingCart,
-  Layers,
-  Brain,
-  FileQuestion,
-  Lock,
-} from "lucide-react";
+import { ArrowRight, Sparkles, Layers, Brain, FileQuestion, Lock } from "lucide-react";
 import Link from "next/link";
 
 type MaterialType = "PDF" | "Simulado" | "Caderno" | "Resumo Visual";
@@ -31,12 +22,12 @@ type Material = {
 };
 
 const COVER_ENEM_EXATAS =
-  "/cadernos/CADERNO%201000%20QUESTOES%20ENEM%20ESTUDAKI%20EXATAS.jpg";
+  "/assets/norte-design/06_Capas_Digitais/enem-exatas-natureza.svg";
 const COVER_ENEM_LING =
-  "/cadernos/CADERNO%201000%20QUESTOES%20ENEM%20ESTUDAKI%20LINGUAGENS%20HUMANAS.jpg";
+  "/assets/norte-design/06_Capas_Digitais/enem-humanas-linguagens.svg";
 const COVER_ETEC =
-  "/cadernos/F%C3%93RMULA%20DA%20APROVA%C3%87%C3%83O%20-%20VESTIBULINHO%20ETEC%202026%20%23ESTUDAKI.jpg";
-const COVER_PACK_ETEC = "/cadernos/SUPER%20PACK%20250%20QUEST%C3%95ES%20ETEC%20.png";
+  "/assets/norte-design/06_Capas_Digitais/formula-aprovacao-etec.svg";
+const COVER_PACK_ETEC = "/assets/norte-design/06_Capas_Digitais/super-pack-etec.svg";
 
 const MATERIALS: Material[] = [
   {
@@ -158,10 +149,10 @@ export function MaterialsSection() {
         <div className="mb-12 sm:mb-16">
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div className="max-w-2xl">
-              <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-blue-50/80 px-3 py-1 text-[11px] font-extrabold uppercase tracking-[0.25em] text-blue-700">
+              <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-blue-200/70 bg-blue-50/80 px-3 py-1 text-[11px] font-bold uppercase tracking-wide text-blue-700">
                 <Sparkles className="h-3 w-3" /> Biblioteca digital
               </p>
-              <h2 className="font-display text-4xl font-extrabold leading-tight text-[#0F172A] sm:text-5xl">
+              <h2 className="font-display text-4xl font-bold leading-tight text-[#0F172A] sm:text-5xl">
                 Material{" "}
                 <span
                   className="bg-clip-text text-transparent"
@@ -182,7 +173,7 @@ export function MaterialsSection() {
             <div className="flex flex-col items-stretch gap-3 sm:items-end">
               <Link
                 href="/materials"
-                className="group inline-flex items-center justify-center gap-2 self-start rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-extrabold text-[#0F172A] shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md sm:self-auto"
+                className="group inline-flex items-center justify-center gap-2 self-start rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-[#0F172A] shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md sm:self-auto"
               >
                 <Layers className="h-4 w-4" /> Ver biblioteca completa
                 <ArrowRight className="h-4 w-4 transition group-hover:translate-x-0.5" />
@@ -208,7 +199,7 @@ export function MaterialsSection() {
                   delay: index * 0.06,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-[0_8px_30px_-12px_rgba(15,23,42,0.12)] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2 hover:border-blue-200 hover:shadow-[0_24px_60px_-20px_rgba(20,92,255,0.35)]"
+                className="group relative flex flex-col overflow-hidden rounded-3xl border border-slate-200/80 bg-white shadow-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]  hover:border-blue-200 shadow-sm"
               >
                 <div
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
@@ -218,7 +209,7 @@ export function MaterialsSection() {
                   }}
                 />
 
-                <div className="relative isolate aspect-[3/4] w-full overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100">
+                <div className="relative isolate aspect-[3/4] w-full overflow-hidden     professional-neutral">
                   <div
                     className="pointer-events-none absolute inset-0 opacity-60"
                     style={{
@@ -230,20 +221,20 @@ export function MaterialsSection() {
                   <img
                     src={material.cover}
                     alt={material.title}
-                    className="relative h-full w-full object-contain p-5 drop-shadow-[0_18px_28px_rgba(15,23,42,0.18)] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                    className="relative h-full w-full object-contain p-5 drop-shadow-sm transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] "
                     loading="lazy"
                     draggable={false}
                   />
                   <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
                     {material.highlight ? (
-                      <span className="inline-flex items-center gap-1 rounded-full border border-amber-200/80 bg-gradient-to-r from-amber-400 to-orange-400 px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider text-white shadow-sm">
+                      <span className="inline-flex items-center gap-1 rounded-full border border-amber-200/80    px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm professional-action">
                         <Sparkles className="h-2.5 w-2.5" /> {material.highlight}
                       </span>
                     ) : null}
                   </div>
                   <div className="absolute right-3 top-3">
                     <span
-                      className="inline-flex items-center gap-1 rounded-full border bg-white/90 px-2.5 py-1 text-[9px] font-extrabold uppercase tracking-wider shadow-sm backdrop-blur"
+                      className="inline-flex items-center gap-1 rounded-full border bg-white/90 px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider shadow-sm backdrop-blur"
                       style={{ color: v.text, borderColor: v.border, background: v.bg }}
                     >
                       {material.vestibular}
@@ -254,7 +245,7 @@ export function MaterialsSection() {
                 <div className="relative flex flex-1 flex-col gap-3 p-5">
                   <div className="flex items-center gap-2">
                     <span
-                      className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-600"
+                      className="inline-flex items-center gap-1 rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-600"
                     >
                       {typeIcon(material.type)} {material.type}
                     </span>
@@ -270,7 +261,7 @@ export function MaterialsSection() {
                     ) : null}
                   </div>
 
-                  <h3 className="font-display text-lg font-extrabold leading-snug text-[#0F172A]">
+                  <h3 className="font-display text-lg font-bold leading-snug text-[#0F172A]">
                     {material.title}
                   </h3>
                   <p className="text-[13px] font-medium leading-relaxed text-slate-600">
@@ -280,7 +271,7 @@ export function MaterialsSection() {
                   <div className="mt-auto pt-3">
                     <Link
                       href="/login?redirect=/materials"
-                      className="group/btn relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full px-5 py-3 text-[12px] font-extrabold uppercase tracking-wider text-white shadow-md transition-all duration-500 hover:shadow-xl"
+                      className="group/btn relative inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-full px-5 py-3 text-[12px] font-bold uppercase tracking-wider text-white shadow-md transition-all duration-500 hover:shadow-xl"
                       style={{
                         background:
                           "linear-gradient(135deg, #145CFF 0%, #28D7FF 100%)",

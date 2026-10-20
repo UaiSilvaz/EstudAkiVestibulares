@@ -1,19 +1,19 @@
-# EstudAki
+# Norte Preparatórios
 
-EstudAki e uma plataforma educacional inteligente para ajudar estudantes a organizar estudos, praticar questoes, acessar provas antigas, acompanhar desempenho e receber um plano claro do que estudar agora.
+Norte Preparatórios é uma plataforma para organizar estudos, praticar questões, acessar provas antigas, acompanhar desempenho e receber um plano claro do que estudar agora.
 
 ## Funcionalidades
 
-- Dashboard inteligente com foco do dia, metas, XP, streak e recomendacoes.
-- Banco de questoes com filtros, alternativas, explicacao e registro de tentativas.
-- Caderno de erros via filtro de questoes erradas.
-- Provas antigas com workspace de anotacoes, marca-texto, caneta, notas, zoom e modo escuro.
+- Dashboard inteligente com foco do dia, metas, XP, streak e recomendações.
+- Banco de questões com filtros, alternativas, explicação e registro de tentativas.
+- Caderno de erros via filtro de questões erradas.
+- Provas antigas com workspace de anotações, marca-texto, caneta, notas, zoom e modo escuro.
 - CMS para admins, coordenadores, professores e monitores.
-- Editor de questoes com alternativas A-E, tags, status, comentario pedagogico e preview.
-- Cadastro de provas antigas, materiais com upload de PDF, preco e link Hotmart.
+- Editor de questões com alternativas A-E, tags, status, comentário pedagógico e preview.
+- Cadastro de provas antigas, materiais com upload de PDF, preço e link Hotmart.
 - Express em formato de feed vertical, com curtir, comentar e salvar por usuario.
-- Flashcards, simulados, ranking, desafios e feed de evolucao.
-- Backend com Prisma, PostgreSQL/Supabase, dashboards, metricas, conquistas, usuarios e sessoes de estudo.
+- Flashcards, simulados, ranking, desafios e feed de evolução.
+- Backend com Prisma, PostgreSQL/Supabase, dashboards, métricas, conquistas, usuários e sessões de estudo.
 
 ## Logins de demonstracao
 
@@ -34,7 +34,7 @@ O app roda em `http://localhost:3000`.
 
 ## Backend e banco
 
-O projeto esta preparado para PostgreSQL com Supabase via Prisma.
+O projeto está preparado para PostgreSQL com Supabase via Prisma.
 
 1. Copie `.env.example` para `.env`.
 2. No Supabase, pegue a URL pooled para `DATABASE_URL`.
@@ -58,14 +58,14 @@ Scripts úteis:
 
 ## APIs principais
 
-- `GET /api/dashboard`: dados completos do aluno, metricas, recomendacoes, atividades, videos, conquistas e sessoes.
-- `GET /api/metrics`: resumo de metricas e insights.
+- `GET /api/dashboard`: dados completos do aluno, métricas, recomendações, atividades, vídeos, conquistas e sessões.
+- `GET /api/metrics`: resumo de métricas e insights.
 - `GET /api/achievements`: conquistas sincronizadas por usuario.
-- `GET /api/study-sessions`: lista sessoes de estudo.
+- `GET /api/study-sessions`: lista sessões de estudo.
 - `POST /api/study-sessions`: registra sessao de estudo.
 - `GET /api/users/me`: perfil do usuario logado.
 - `PATCH /api/users/me`: atualiza perfil, horas semanais e vestibular alvo.
-- `GET /api/admin/users`: lista usuarios para gestores.
+- `GET /api/admin/users`: lista usuários para gestores.
 - `POST /api/admin/users`: cria usuario para gestores.
 
 ## Dados necessarios para Supabase
@@ -75,4 +75,4 @@ Para conectar o banco real, informe:
 - `DATABASE_URL` pooled do Supabase.
 - `DIRECT_URL` direta do Supabase.
 - Senha do banco ou string completa ja com senha.
-- Regiao/host do projeto se a URL pooled nao vier pronta.
+- Regiao/host do projeto se a URL pooled não vier pronta.

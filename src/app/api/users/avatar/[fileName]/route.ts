@@ -11,7 +11,7 @@ export async function GET(
 ) {
   const { fileName } = await params;
   if (!SAFE_AVATAR_FILE.test(fileName)) {
-    return NextResponse.json({ error: "Avatar invalido." }, { status: 400 });
+    return NextResponse.json({ error: "Avatar inválido." }, { status: 400 });
   }
 
   try {
@@ -24,6 +24,6 @@ export async function GET(
       },
     });
   } catch {
-    return NextResponse.json({ error: "Avatar nao encontrado." }, { status: 404 });
+    return NextResponse.json({ error: "Avatar não encontrado." }, { status: 404 });
   }
 }

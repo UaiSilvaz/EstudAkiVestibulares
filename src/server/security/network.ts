@@ -47,7 +47,7 @@ export function isBlockedHostname(hostname: string) {
 
 export async function assertPublicHttpsUrl(url: URL) {
   if (url.protocol !== "https:") {
-    throw new Error("Apenas HTTPS publico e permitido.");
+    throw new Error("Apenas HTTPS público é permitido.");
   }
 
   if (isBlockedHostname(url.hostname) || isPrivateAddress(url.hostname)) {

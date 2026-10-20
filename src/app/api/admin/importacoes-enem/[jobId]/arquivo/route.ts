@@ -27,7 +27,7 @@ export async function GET(request: Request, context: RouteParameters) {
   const allowedDirectory = process.env.ENEM_CONSOLIDATED_ROOT
     ? path.resolve(process.env.ENEM_CONSOLIDATED_ROOT)
     : localRoot("data", "QUESTÕES");
-  const filePath = path.resolve(allowedDirectory, "Banco_Provas_ENEM_2009_2025_EstudAki.pdf");
+  const filePath = path.resolve(allowedDirectory, "Banco_Provas_ENEM_2009_2025_Norte.pdf");
   if (!filePath.startsWith(`${allowedDirectory}${path.sep}`)) {
     return NextResponse.json({ error: "Caminho de arquivo recusado." }, { status: 400 });
   }
@@ -66,7 +66,7 @@ export async function GET(request: Request, context: RouteParameters) {
   const headers = new Headers({
     "Accept-Ranges": "bytes",
     "Content-Type": "application/pdf",
-    "Content-Disposition": 'inline; filename="Banco_Provas_ENEM_2009_2025_EstudAki.pdf"',
+    "Content-Disposition": 'inline; filename="Banco_Provas_ENEM_2009_2025_Norte.pdf"',
     "Content-Length": String(end - start + 1),
     "Cache-Control": "private, no-store",
   });

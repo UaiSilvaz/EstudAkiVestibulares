@@ -48,6 +48,7 @@ function signaturesMatch(expected: Buffer, received: string) {
   }
 
   return (
+    receivedBuffer.toString("base64url") === received &&
     expected.length === receivedBuffer.length && timingSafeEqual(expected, receivedBuffer)
   );
 }

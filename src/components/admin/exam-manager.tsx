@@ -39,7 +39,7 @@ export function ExamManager({
     title: "",
     year: new Date().getFullYear(),
     phase: "Primeira fase",
-    day: "Unico",
+    day: "Único",
     pdfUrl: "",
     answerKeyUrl: "",
     sourceUrl: "",
@@ -123,8 +123,8 @@ export function ExamManager({
 
   return (
     <div className="grid gap-5 xl:grid-cols-[0.86fr_1fr]">
-      <section className="estudaki-card rounded-[30px] p-6">
-        <h2 className="mb-5 text-2xl font-black text-slate-950">Novo PDF de prova</h2>
+      <section className="estudaki-card rounded-[18px] p-6">
+        <h2 className="mb-5 text-2xl font-semibold text-slate-950">Novo PDF de prova</h2>
         <div className="grid gap-4">
           <label className="flex items-center gap-3 rounded-2xl border border-orange-200 bg-orange-50 p-4">
             <input
@@ -139,7 +139,7 @@ export function ExamManager({
             </span>
           </label>
           <label>
-            <span className="mb-2 block text-sm font-black text-slate-700">Vestibular</span>
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Vestibular</span>
             <select
               className="estudaki-input"
               value={form.vestibularId}
@@ -162,7 +162,7 @@ export function ExamManager({
           </label>
 
           <label>
-            <span className="mb-2 block text-sm font-black text-slate-700">Titulo</span>
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Título</span>
             <input
               className="estudaki-input"
               value={form.title}
@@ -173,7 +173,7 @@ export function ExamManager({
 
           <div className="grid gap-4 md:grid-cols-3">
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">Ano</span>
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Ano</span>
               <input
                 className="estudaki-input"
                 type="number"
@@ -182,7 +182,7 @@ export function ExamManager({
               />
             </label>
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">Fase</span>
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Fase</span>
               <input
                 className="estudaki-input"
                 value={form.phase}
@@ -190,7 +190,7 @@ export function ExamManager({
               />
             </label>
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">Dia/Caderno</span>
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Dia/Caderno</span>
               <input
                 className="estudaki-input"
                 value={form.day}
@@ -201,7 +201,7 @@ export function ExamManager({
 
           <div className="grid gap-4 md:grid-cols-2">
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">Questões</span>
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Questões</span>
               <input
                 className="estudaki-input"
                 type="number"
@@ -210,7 +210,7 @@ export function ExamManager({
               />
             </label>
             <label>
-              <span className="mb-2 block text-sm font-black text-slate-700">Duracao (min)</span>
+              <span className="mb-2 block text-sm font-semibold text-slate-700">Duração (min)</span>
               <input
                 className="estudaki-input"
                 type="number"
@@ -221,7 +221,7 @@ export function ExamManager({
           </div>
 
           <label>
-            <span className="mb-2 block text-sm font-black text-slate-700">URL do PDF</span>
+            <span className="mb-2 block text-sm font-semibold text-slate-700">URL do PDF</span>
             <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
               <input
                 className="estudaki-input"
@@ -250,7 +250,7 @@ export function ExamManager({
           {form.isSimulado && (
             <>
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">Descricao para o aluno</span>
+                <span className="mb-2 block text-sm font-semibold text-slate-700">Descrição para o aluno</span>
                 <textarea className="estudaki-input min-h-24" value={form.description} onChange={(event) => setForm({ ...form, description: event.target.value })} />
               </label>
               <div className="grid gap-4 md:grid-cols-3">
@@ -259,7 +259,7 @@ export function ExamManager({
                 <DateTimeField label="Libera resultado" value={form.resultsAt} onChange={(resultsAt) => setForm({ ...form, resultsAt })} />
               </div>
               <label>
-                <span className="mb-2 block text-sm font-black text-slate-700">Gabarito objetivo</span>
+                <span className="mb-2 block text-sm font-semibold text-slate-700">Gabarito objetivo</span>
                 <textarea
                   className="estudaki-input min-h-28 font-mono"
                   value={form.answerKey}
@@ -272,7 +272,7 @@ export function ExamManager({
           )}
 
           <label>
-            <span className="mb-2 block text-sm font-black text-slate-700">URL do gabarito / respostas</span>
+            <span className="mb-2 block text-sm font-semibold text-slate-700">URL do gabarito / respostas</span>
             <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
               <input
                 className="estudaki-input"
@@ -299,7 +299,7 @@ export function ExamManager({
           </label>
 
           <label>
-            <span className="mb-2 block text-sm font-black text-slate-700">Fonte oficial / acervo</span>
+            <span className="mb-2 block text-sm font-semibold text-slate-700">Fonte oficial / acervo</span>
             <input
               className="estudaki-input"
               value={form.sourceUrl}
@@ -321,17 +321,17 @@ export function ExamManager({
         </div>
       </section>
 
-      <section className="estudaki-card rounded-[30px] p-6">
-        <h2 className="mb-5 text-2xl font-black text-slate-950">Acervo cadastrado</h2>
+      <section className="estudaki-card rounded-[18px] p-6">
+        <h2 className="mb-5 text-2xl font-semibold text-slate-950">Acervo cadastrado</h2>
         <div className="max-h-[760px] space-y-3 overflow-y-auto pr-2 thin-scrollbar">
           {exams.map((exam) => (
             <div key={exam.id} className="rounded-2xl border border-slate-100 bg-white p-4">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-blue-600">
+              <p className="text-xs font-semibold uppercase tracking-wide text-blue-600">
                 {exam.vestibular.name} - {exam.year}
               </p>
-              <p className="mt-2 font-black text-slate-950">{exam.title}</p>
+              <p className="mt-2 font-semibold text-slate-950">{exam.title}</p>
               <p className="mt-1 text-sm font-semibold text-slate-500">
-                {exam.isSimulado ? "Simulado" : "Acervo"} - {exam.phase} - {exam.day ?? "Caderno unico"} - {exam.pdfUrl ? "PDF" : "sem PDF"} -{" "}
+                {exam.isSimulado ? "Simulado" : "Acervo"} - {exam.phase} - {exam.day ?? "Caderno único"} - {exam.pdfUrl ? "PDF" : "sem PDF"} -{" "}
                 {exam.answerKeyUrl ? "gabarito" : "sem gabarito"}
               </p>
               <div className="mt-3 flex flex-wrap gap-2 text-xs font-bold text-slate-500">
@@ -365,7 +365,7 @@ export function ExamManager({
 function DateTimeField({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
   return (
     <label>
-      <span className="mb-2 block text-sm font-black text-slate-700">{label}</span>
+      <span className="mb-2 block text-sm font-semibold text-slate-700">{label}</span>
       <input className="estudaki-input" type="datetime-local" value={value} onChange={(event) => onChange(event.target.value)} />
     </label>
   );

@@ -1,0 +1,3561 @@
+{
+  "version": 1,
+  "exportedAt": "2026-10-03T19:15:59.929Z",
+  "courseSlugs": [
+    "portugues-redacao",
+    "matematica-enem-do-zero-a-aprovacao"
+  ],
+  "rows": [
+    {
+      "model": "Course",
+      "data": {
+        "id": "cmupyml9j001es9z4mxedzt05",
+        "slug": "portugues-redacao",
+        "title": "Português Redação",
+        "description": "CURSO TESTE",
+        "shortDescription": "CURSO TESTE",
+        "thumbnail": null,
+        "coverImage": null,
+        "category": "ENEM",
+        "level": "Intermediário",
+        "priceCents": 0,
+        "isFree": true,
+        "published": true,
+        "featured": false,
+        "teacherId": null,
+        "subjectId": "cmuez70ct002ws9p8uzbq7oh8",
+        "status": "PUBLISHED",
+        "coverUrl": null,
+        "totalDurationSeconds": 480,
+        "navigationMode": "FREE_NAVIGATION",
+        "visualTheme": {
+          "catalogTeacherName": "Administrador EstudAki"
+        },
+        "benefits": [],
+        "rating": 4.8,
+        "studentsCount": 0,
+        "createdAt": "2026-10-01T20:01:35.527Z",
+        "updatedAt": "2026-10-01T21:11:24.591Z"
+      }
+    },
+    {
+      "model": "Subject",
+      "data": {
+        "id": "cmuez70ct002ws9p8uzbq7oh8",
+        "name": "Português e Redação",
+        "slug": "portugues",
+        "color": "#F59E0B",
+        "description": null,
+        "createdAt": "2026-09-24T03:32:00.269Z",
+        "updatedAt": "2026-09-24T03:32:00.269Z"
+      }
+    },
+    {
+      "model": "Module",
+      "data": {
+        "id": "cmupyn0qw0022s9z43i07y66v",
+        "slug": "inicio",
+        "title": "INICIO",
+        "description": "MODULO INICIAL",
+        "eyebrow": "",
+        "color": "#00ff1e",
+        "createdAt": "2026-10-01T20:01:55.593Z",
+        "updatedAt": "2026-10-01T20:01:55.593Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1tj006es9cwgj3yppc0",
+        "slug": "fundamentos-matematica-enem-1",
+        "title": "Boas-vindas",
+        "description": "Como usar a trilha para estudar sem se perder.",
+        "content": "Nesta atividade voce vai estudar como usar a trilha para estudar sem se perder. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": "https://www.youtube.com/watch?v=ApXoWvfEYVU&list=RDp_jL8zTvM1U&index=3",
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 480,
+        "xpReward": 50,
+        "isFreePreview": true,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": true,
+        "createdAt": "2026-09-24T03:06:22.519Z",
+        "updatedAt": "2026-10-01T20:02:32.391Z"
+      }
+    },
+    {
+      "model": "Subject",
+      "data": {
+        "id": "cmueya0x90013s9cwjf7tr4ht",
+        "name": "Matemática",
+        "slug": "matematica",
+        "color": "#2563EB",
+        "description": "Números, álgebra, geometria, estatística e raciocínio lógico.",
+        "createdAt": "2026-09-24T03:06:21.357Z",
+        "updatedAt": "2026-09-24T03:32:00.230Z"
+      }
+    },
+    {
+      "model": "Topic",
+      "data": {
+        "id": "cmueya0xg001as9cwgm930j9h",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "name": "Funções",
+        "slug": "funcoes",
+        "createdAt": "2026-09-24T03:06:21.364Z",
+        "updatedAt": "2026-09-24T03:06:21.364Z"
+      }
+    },
+    {
+      "model": "Module",
+      "data": {
+        "id": "cmupzmx0z00ars9z4k2h6b3vz",
+        "slug": "fundamentos-da-gramatica",
+        "title": "Fundamentos da Gramática",
+        "description": "TESTE",
+        "eyebrow": "",
+        "color": "#eb2424",
+        "createdAt": "2026-10-01T20:29:50.386Z",
+        "updatedAt": "2026-10-01T20:29:50.386Z"
+      }
+    },
+    {
+      "model": "Course",
+      "data": {
+        "id": "cmueya1sy0067s9cwbfgdd277",
+        "slug": "matematica-enem-do-zero-a-aprovacao",
+        "title": "Matematica ENEM - Do Zero a Aprovacao",
+        "description": "Um curso completo para construir base, ganhar velocidade e evoluir por videoaulas, questoes, checkpoints e simulados.",
+        "shortDescription": "Matematica ENEM com trilha gamificada, feedback e desbloqueio progressivo.",
+        "thumbnail": "/cadernos/CADERNO 1000 QUESTOES ENEM ESTUDAKI EXATAS.jpg",
+        "coverImage": "/cadernos/CADERNO 1000 QUESTOES ENEM ESTUDAKI EXATAS.jpg",
+        "category": "ENEM",
+        "level": "Base",
+        "priceCents": 14990,
+        "isFree": false,
+        "published": true,
+        "featured": true,
+        "teacherId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "status": "PUBLISHED",
+        "coverUrl": "/cadernos/CADERNO 1000 QUESTOES ENEM ESTUDAKI EXATAS.jpg",
+        "totalDurationSeconds": 33000,
+        "navigationMode": "SEQUENTIAL",
+        "visualTheme": {
+          "accent": "#FACC15",
+          "primary": "#1E73FF",
+          "secondary": "#F97316",
+          "catalogTeacherName": "Prof. Pedro"
+        },
+        "benefits": [
+          "Videoaulas com player EstudAki",
+          "5 unidades em trilha visual",
+          "Questoes com feedback",
+          "Checkpoints e mini simulados",
+          "Certificado simulado"
+        ],
+        "rating": 4.9,
+        "studentsCount": 1284,
+        "createdAt": "2026-09-24T03:06:22.498Z",
+        "updatedAt": "2026-10-01T21:11:24.595Z"
+      }
+    },
+    {
+      "model": "Product",
+      "data": {
+        "id": "cmueya1t6006bs9cwt6ktzxso",
+        "materialId": "cmueya1t50069s9cwb4q8b4vh",
+        "name": "Matematica ENEM - Do Zero a Aprovacao",
+        "slug": "curso-matematica-enem-do-zero-a-aprovacao",
+        "description": "Matematica ENEM com trilha gamificada, feedback e desbloqueio progressivo.",
+        "priceCents": 14990,
+        "coverUrl": "/cadernos/CADERNO 1000 QUESTOES ENEM ESTUDAKI EXATAS.jpg",
+        "checkoutUrl": null,
+        "hotmartProductId": null,
+        "abacateProductId": null,
+        "status": "ARCHIVED",
+        "createdAt": "2026-09-24T03:06:22.507Z",
+        "updatedAt": "2026-09-24T03:07:37.182Z"
+      }
+    },
+    {
+      "model": "Material",
+      "data": {
+        "id": "cmueya1t50069s9cwb4q8b4vh",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "title": "Curso - Matematica ENEM - Do Zero a Aprovacao",
+        "type": "PDF",
+        "category": "Cursos",
+        "premium": true,
+        "fileUrl": "/referencias/cartilha-redacao-enem-2025.pdf",
+        "priceCents": 14990,
+        "purchaseUrl": null,
+        "description": "Matematica ENEM com trilha gamificada, feedback e desbloqueio progressivo.",
+        "status": "ARCHIVED",
+        "createdAt": "2026-09-24T03:06:22.505Z",
+        "updatedAt": "2026-09-24T03:07:37.184Z"
+      }
+    },
+    {
+      "model": "Module",
+      "data": {
+        "id": "cmueya1te006cs9cwzxlu2fis",
+        "slug": "fundamentos-matematica-enem",
+        "title": "Fundamentos",
+        "description": "Operacoes, fracoes, porcentagem, razao e proporcao.",
+        "eyebrow": "UNIDADE 01",
+        "color": "#1E73FF",
+        "createdAt": "2026-09-24T03:06:22.514Z",
+        "updatedAt": "2026-09-24T03:06:22.514Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1tv006gs9cwv2c8rp7l",
+        "slug": "fundamentos-matematica-enem-2",
+        "title": "Operacoes basicas",
+        "description": "Prioridade das operacoes e calculo mental seguro.",
+        "content": "Nesta atividade voce vai estudar prioridade das operacoes e calculo mental seguro. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1080,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.531Z",
+        "updatedAt": "2026-09-24T03:06:22.531Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1u0006is9cw6slejval",
+        "slug": "fundamentos-matematica-enem-3",
+        "title": "Pratique operacoes",
+        "description": "Cinco questoes rapidas para aquecer.",
+        "content": "Nesta atividade voce vai estudar cinco questoes rapidas para aquecer. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 720,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.536Z",
+        "updatedAt": "2026-09-24T03:06:22.536Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1u4006ks9cw3ketcxnz",
+        "lessonId": "cmueya1u0006is9cw6slejval",
+        "questionId": "cmueya1s0005ds9cwc8a3p2hw",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.541Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1s0005ds9cwc8a3p2hw",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Qual e o resultado de 18 + 24 x 2?",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"66\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "A",
+        "explanation": "A multiplicacao vem antes da soma: 24 x 2 = 48; 48 + 18 = 66.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Qual e o resultado de 18 + 24 x 2?",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.464Z",
+        "updatedAt": "2026-09-24T03:06:22.464Z"
+      }
+    },
+    {
+      "model": "Vestibular",
+      "data": {
+        "id": "cmuey9fgo0009s99so5zm4m7z",
+        "name": "ENEM",
+        "slug": "enem",
+        "logo": null,
+        "color": "#1E73FF",
+        "description": "Exame Nacional do Ensino Médio com foco em competências, interpretação e TRI.",
+        "weightMap": "{}",
+        "createdAt": "2026-09-24T03:05:53.454Z",
+        "updatedAt": "2026-09-24T03:06:21.136Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1u8006ms9cwfy3nao9v",
+        "lessonId": "cmueya1u0006is9cw6slejval",
+        "questionId": "cmueya1s4005fs9cwd5nitqbu",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.545Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1s4005fs9cwd5nitqbu",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Uma fracao equivalente a 3/4 e:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"6/8\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "C",
+        "explanation": "Multiplicar numerador e denominador por 2 mantem o mesmo valor.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Uma fracao equivalente a 3/4 e:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.468Z",
+        "updatedAt": "2026-09-24T03:06:22.468Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1ua006os9cw45voocvm",
+        "lessonId": "cmueya1u0006is9cw6slejval",
+        "questionId": "cmueya1s6005hs9cwru0kbi0g",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.546Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1s6005hs9cwru0kbi0g",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Se 20% de um valor e 36, qual e o valor total?",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "D",
+        "explanation": "36 representa 0,2 do total. Entao total = 36 / 0,2 = 180.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Se 20% de um valor e 36, qual e o valor total?",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.470Z",
+        "updatedAt": "2026-09-24T03:06:22.470Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1ub006qs9cwe97rccco",
+        "lessonId": "cmueya1u0006is9cw6slejval",
+        "questionId": "cmueya1s8005js9cwz7kgsecx",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.548Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1s8005js9cwz7kgsecx",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "A razao entre 12 e 18 simplificada e:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"2/3\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "B",
+        "explanation": "Divida ambos os termos por 6: 12/18 = 2/3.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:A razao entre 12 e 18 simplificada e:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.472Z",
+        "updatedAt": "2026-09-24T03:06:22.472Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1uc006ss9cwemvy6xjo",
+        "lessonId": "cmueya1u0006is9cw6slejval",
+        "questionId": "cmueya1sb005ls9cwq54sl56i",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.549Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1sb005ls9cwq54sl56i",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Em uma proporcao, se 4 cadernos custam R$ 28, 7 cadernos custam:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "E",
+        "explanation": "Cada caderno custa R$ 7; 7 cadernos custam R$ 49.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Em uma proporcao, se 4 cadernos custam R$ 28, 7 cadernos custam:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.475Z",
+        "updatedAt": "2026-09-24T03:06:22.475Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1ue006us9cwc0vzos2m",
+        "slug": "fundamentos-matematica-enem-4",
+        "title": "Fracoes sem medo",
+        "description": "Equivalencia, simplificacao e comparacao.",
+        "content": "Nesta atividade voce vai estudar equivalencia, simplificacao e comparacao. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1320,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.550Z",
+        "updatedAt": "2026-09-24T03:06:22.550Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1uj006ws9cwh0vetqwm",
+        "slug": "fundamentos-matematica-enem-5",
+        "title": "Treinando fracoes",
+        "description": "Aplicacoes diretas de fracoes.",
+        "content": "Nesta atividade voce vai estudar aplicacoes diretas de fracoes. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 840,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.556Z",
+        "updatedAt": "2026-09-24T03:06:22.556Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1uo006ys9cwu4440cj6",
+        "lessonId": "cmueya1uj006ws9cwh0vetqwm",
+        "questionId": "cmueya1se005ns9cwhgkfed92",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.560Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1se005ns9cwhgkfed92",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Na funcao f(x)=2x+5, o valor de f(3) e:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"11\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "A",
+        "explanation": "Substitua x por 3: 2 x 3 + 5 = 11.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Na funcao f(x)=2x+5, o valor de f(3) e:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.478Z",
+        "updatedAt": "2026-09-24T03:06:22.478Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1up0070s9cwditnvj6v",
+        "lessonId": "cmueya1uj006ws9cwh0vetqwm",
+        "questionId": "cmueya1sg005ps9cwb7yqyyqe",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.562Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1sg005ps9cwb7yqyyqe",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "A equacao 3x - 9 = 0 tem solucao:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"3\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "C",
+        "explanation": "Somando 9 dos dois lados, 3x = 9, logo x = 3.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:A equacao 3x - 9 = 0 tem solucao:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.480Z",
+        "updatedAt": "2026-09-24T03:06:22.480Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1uq0072s9cw0auw5y5f",
+        "lessonId": "cmueya1uj006ws9cwh0vetqwm",
+        "questionId": "cmueya1si005rs9cw0dcv49y3",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.562Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1si005rs9cw0dcv49y3",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "O grafico de uma funcao afim e uma:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"reta\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "B",
+        "explanation": "Toda funcao do tipo ax+b possui grafico linear.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:O grafico de uma funcao afim e uma:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.482Z",
+        "updatedAt": "2026-09-24T03:06:22.482Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1ur0074s9cwmepav98f",
+        "lessonId": "cmueya1uj006ws9cwh0vetqwm",
+        "questionId": "cmueya1sj005ts9cw8grstyqo",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.563Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1sj005ts9cw8grstyqo",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "A area de um retangulo 9 cm por 5 cm e:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"45 cm2\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "D",
+        "explanation": "Area do retangulo e base vezes altura: 9 x 5 = 45.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:A area de um retangulo 9 cm por 5 cm e:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.484Z",
+        "updatedAt": "2026-09-24T03:06:22.484Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1ur0076s9cwhidvp3k8",
+        "lessonId": "cmueya1uj006ws9cwh0vetqwm",
+        "questionId": "cmueya1sl005vs9cwuhv3s84t",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.564Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1sl005vs9cwuhv3s84t",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "A soma dos angulos internos de um triangulo e:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"180 graus\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "A",
+        "explanation": "Esse e um resultado basico da geometria plana.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:A soma dos angulos internos de um triangulo e:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.486Z",
+        "updatedAt": "2026-09-24T03:06:22.486Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1us0078s9cwjyysihct",
+        "slug": "fundamentos-matematica-enem-6",
+        "title": "Revisao rapida",
+        "description": "Resumo ativo dos erros mais comuns.",
+        "content": "Nesta atividade voce vai estudar resumo ativo dos erros mais comuns. com foco em aplicacao real no ENEM.",
+        "type": "REVIEW",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 600,
+        "xpReward": 40,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.564Z",
+        "updatedAt": "2026-09-24T03:06:22.564Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1uw007as9cwj2q211dg",
+        "lessonId": "cmueya1us0078s9cwjyysihct",
+        "questionId": "cmueya1so005xs9cw95227bsa",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.568Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1so005xs9cw95227bsa",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "A media de 6, 8, 10 e 12 e:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "C",
+        "explanation": "Some 36 e divida por 4.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:A media de 6, 8, 10 e 12 e:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.488Z",
+        "updatedAt": "2026-09-24T03:06:22.488Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1ux007cs9cw6i2lyys3",
+        "lessonId": "cmueya1us0078s9cwjyysihct",
+        "questionId": "cmueya1sp005zs9cwoqbp12ha",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.569Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1sp005zs9cwoqbp12ha",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Em um conjunto de dados, a moda e:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"o valor que mais se repete\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "E",
+        "explanation": "Moda mede frequencia, nao posicao central.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Em um conjunto de dados, a moda e:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.490Z",
+        "updatedAt": "2026-09-24T03:06:22.490Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1uy007es9cwoegstmgv",
+        "lessonId": "cmueya1us0078s9cwjyysihct",
+        "questionId": "cmueya1sr0061s9cwlppa6eoy",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.570Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1sr0061s9cwlppa6eoy",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Se uma probabilidade e 1/4, em porcentagem ela vale:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "B",
+        "explanation": "1 dividido por 4 e 0,25, ou 25%.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Se uma probabilidade e 1/4, em porcentagem ela vale:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.491Z",
+        "updatedAt": "2026-09-24T03:06:22.491Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1uy007gs9cw23d6me1v",
+        "lessonId": "cmueya1us0078s9cwjyysihct",
+        "questionId": "cmueya1st0063s9cwyasxejyq",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.571Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1st0063s9cwyasxejyq",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Um desconto de 10% em R$ 80 resulta em:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"12\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"R$ 72\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "D",
+        "explanation": "10% de 80 e 8; 80 - 8 = 72.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Um desconto de 10% em R$ 80 resulta em:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.493Z",
+        "updatedAt": "2026-09-24T03:06:22.493Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1uz007is9cw83f56wb8",
+        "lessonId": "cmueya1us0078s9cwjyysihct",
+        "questionId": "cmueya1su0065s9cwsgnek976",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.571Z"
+      }
+    },
+    {
+      "model": "Question",
+      "data": {
+        "id": "cmueya1su0065s9cwsgnek976",
+        "vestibularId": "cmuey9fgo0009s99so5zm4m7z",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "authorId": null,
+        "year": 2026,
+        "exam": null,
+        "phase": null,
+        "day": null,
+        "questionNumber": null,
+        "difficulty": "MEDIUM",
+        "statement": "Um checkpoint serve principalmente para:",
+        "supportText": null,
+        "alternatives": "[{\"key\":\"A\",\"text\":\"verificar se a base esta pronta para avancar\",\"correct\":false},{\"key\":\"B\",\"text\":\"25%\",\"correct\":false},{\"key\":\"C\",\"text\":\"9\",\"correct\":false},{\"key\":\"D\",\"text\":\"180\",\"correct\":false},{\"key\":\"E\",\"text\":\"R$ 49\",\"correct\":false}]",
+        "alternativeExplanations": "{}",
+        "correctAlternative": "A",
+        "explanation": "A ideia e checar prerequisitos antes da proxima unidade.",
+        "pedagogyComment": "Questao demonstrativa criada para a trilha EstudAki.",
+        "skill": null,
+        "videoUrl": null,
+        "imageUrl": null,
+        "images": "[]",
+        "tags": "[\"curso\",\"matematica\",\"enem\"]",
+        "source": "EstudAki demo",
+        "sourceName": null,
+        "sourceUrl": null,
+        "sourceCitation": null,
+        "sourceAccessedAt": null,
+        "sourceType": "AUTHORIAL",
+        "answerSituation": "CONFIRMED",
+        "officialLanguage": "NOT_APPLICABLE",
+        "officialGroup": null,
+        "officialVariant": null,
+        "reviewState": "APPROVED",
+        "reviewNotes": null,
+        "contentHash": "learning-demo:Um checkpoint serve principalmente para:",
+        "pilotTestPublishedAt": null,
+        "pilotTestPublishedBy": null,
+        "status": "PUBLISHED",
+        "createdAt": "2026-09-24T03:06:22.494Z",
+        "updatedAt": "2026-09-24T03:06:22.494Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1v0007ks9cwxn9nmouu",
+        "slug": "fundamentos-matematica-enem-7",
+        "title": "Razao e proporcao",
+        "description": "Regra de tres com interpretacao.",
+        "content": "Nesta atividade voce vai estudar regra de tres com interpretacao. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1200,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.572Z",
+        "updatedAt": "2026-09-24T03:06:22.572Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1v4007ms9cwzs9gh0oj",
+        "slug": "fundamentos-matematica-enem-8",
+        "title": "Checkpoint fundamentos",
+        "description": "Valide a base antes de seguir.",
+        "content": "Nesta atividade voce vai estudar valide a base antes de seguir. com foco em aplicacao real no ENEM.",
+        "type": "CHECKPOINT",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 900,
+        "xpReward": 100,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.576Z",
+        "updatedAt": "2026-09-24T03:06:22.576Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1v7007os9cwp3qloyn8",
+        "lessonId": "cmueya1v4007ms9cwzs9gh0oj",
+        "questionId": "cmueya1s0005ds9cwc8a3p2hw",
+        "order": 0,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.580Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1v8007qs9cwk74iagfw",
+        "lessonId": "cmueya1v4007ms9cwzs9gh0oj",
+        "questionId": "cmueya1s4005fs9cwd5nitqbu",
+        "order": 1,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.581Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1v9007ss9cwh6d6log0",
+        "lessonId": "cmueya1v4007ms9cwzs9gh0oj",
+        "questionId": "cmueya1s6005hs9cwru0kbi0g",
+        "order": 2,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.581Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1va007us9cw67tiy89v",
+        "lessonId": "cmueya1v4007ms9cwzs9gh0oj",
+        "questionId": "cmueya1s8005js9cwz7kgsecx",
+        "order": 3,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.582Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1va007ws9cw0wfvcl7z",
+        "lessonId": "cmueya1v4007ms9cwzs9gh0oj",
+        "questionId": "cmueya1sb005ls9cwq54sl56i",
+        "order": 4,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.583Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1vb007ys9cwzpvdnboh",
+        "slug": "fundamentos-matematica-enem-9",
+        "title": "Bau de conclusao",
+        "description": "Recompensa do primeiro modulo.",
+        "content": "Nesta atividade voce vai estudar recompensa do primeiro modulo. com foco em aplicacao real no ENEM.",
+        "type": "REWARD",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 180,
+        "xpReward": 100,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.584Z",
+        "updatedAt": "2026-09-24T03:06:22.584Z"
+      }
+    },
+    {
+      "model": "Reward",
+      "data": {
+        "id": "cmueya1vf0080s9cw7atevqh1",
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1vb007ys9cwzpvdnboh",
+        "slug": "reward-fundamentos-matematica-enem-9",
+        "title": "Bau de conclusao",
+        "description": "Recompensa do primeiro modulo.",
+        "xpReward": 100,
+        "badge": "Primeiro modulo",
+        "metadata": {},
+        "createdAt": "2026-09-24T03:06:22.587Z",
+        "updatedAt": "2026-09-24T03:06:22.587Z"
+      }
+    },
+    {
+      "model": "Module",
+      "data": {
+        "id": "cmueya1vk0081s9cwi9t4hxg9",
+        "slug": "algebra-enem",
+        "title": "Algebra",
+        "description": "Equacoes, expressoes e leitura algebrica de problemas.",
+        "eyebrow": "UNIDADE 02",
+        "color": "#F97316",
+        "createdAt": "2026-09-24T03:06:22.593Z",
+        "updatedAt": "2026-09-24T03:06:22.593Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1vn0083s9cwlo8t7sot",
+        "slug": "algebra-enem-1",
+        "title": "Linguagem algebrica",
+        "description": "Transforme texto em expressao.",
+        "content": "Nesta atividade voce vai estudar transforme texto em expressao. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1140,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.595Z",
+        "updatedAt": "2026-09-24T03:06:22.595Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1vr0085s9cwjiuaup56",
+        "slug": "algebra-enem-2",
+        "title": "Equacoes do primeiro grau",
+        "description": "Isole a incognita com seguranca.",
+        "content": "Nesta atividade voce vai estudar isole a incognita com seguranca. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1260,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.599Z",
+        "updatedAt": "2026-09-24T03:06:22.599Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1vv0087s9cwhx71489e",
+        "slug": "algebra-enem-3",
+        "title": "Lista de equacoes",
+        "description": "Treino curto com feedback imediato.",
+        "content": "Nesta atividade voce vai estudar treino curto com feedback imediato. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 720,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.603Z",
+        "updatedAt": "2026-09-24T03:06:22.603Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1vz0089s9cw6s1xlt7h",
+        "lessonId": "cmueya1vv0087s9cwhx71489e",
+        "questionId": "cmueya1se005ns9cwhgkfed92",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.607Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1w0008bs9cwqlryo8kv",
+        "lessonId": "cmueya1vv0087s9cwhx71489e",
+        "questionId": "cmueya1sg005ps9cwb7yqyyqe",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.608Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1w0008ds9cw7z72kr7d",
+        "lessonId": "cmueya1vv0087s9cwhx71489e",
+        "questionId": "cmueya1si005rs9cw0dcv49y3",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.609Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1w1008fs9cwwq4thlrs",
+        "lessonId": "cmueya1vv0087s9cwhx71489e",
+        "questionId": "cmueya1sj005ts9cw8grstyqo",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.610Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1w2008hs9cwctcnfk11",
+        "lessonId": "cmueya1vv0087s9cwhx71489e",
+        "questionId": "cmueya1sl005vs9cwuhv3s84t",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.610Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1w3008js9cwznjqrf0q",
+        "slug": "algebra-enem-4",
+        "title": "Produtos notaveis",
+        "description": "Reconheca padroes antes de expandir.",
+        "content": "Nesta atividade voce vai estudar reconheca padroes antes de expandir. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1440,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.611Z",
+        "updatedAt": "2026-09-24T03:06:22.611Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1w9008ls9cwc51igz1v",
+        "slug": "algebra-enem-5",
+        "title": "Algebra aplicada",
+        "description": "Problemas de contexto ENEM.",
+        "content": "Nesta atividade voce vai estudar problemas de contexto enem. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 960,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.618Z",
+        "updatedAt": "2026-09-24T03:06:22.618Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wd008ns9cwe0qoz542",
+        "lessonId": "cmueya1w9008ls9cwc51igz1v",
+        "questionId": "cmueya1so005xs9cw95227bsa",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.621Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wd008ps9cww0ea20g8",
+        "lessonId": "cmueya1w9008ls9cwc51igz1v",
+        "questionId": "cmueya1sp005zs9cwoqbp12ha",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.622Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1we008rs9cw304ize9j",
+        "lessonId": "cmueya1w9008ls9cwc51igz1v",
+        "questionId": "cmueya1sr0061s9cwlppa6eoy",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.623Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wf008ts9cwj731alnx",
+        "lessonId": "cmueya1w9008ls9cwc51igz1v",
+        "questionId": "cmueya1st0063s9cwyasxejyq",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.623Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wg008vs9cw1lj3klo8",
+        "lessonId": "cmueya1w9008ls9cwc51igz1v",
+        "questionId": "cmueya1su0065s9cwsgnek976",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.624Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1wh008xs9cwaxc5czi2",
+        "slug": "algebra-enem-6",
+        "title": "Revisao de algebra",
+        "description": "Erros comuns e atalhos validos.",
+        "content": "Nesta atividade voce vai estudar erros comuns e atalhos validos. com foco em aplicacao real no ENEM.",
+        "type": "REVIEW",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 600,
+        "xpReward": 40,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.625Z",
+        "updatedAt": "2026-09-24T03:06:22.625Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wk008zs9cw9yyvyk5p",
+        "lessonId": "cmueya1wh008xs9cwaxc5czi2",
+        "questionId": "cmueya1s0005ds9cwc8a3p2hw",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.628Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wk0091s9cw67sg63pa",
+        "lessonId": "cmueya1wh008xs9cwaxc5czi2",
+        "questionId": "cmueya1s4005fs9cwd5nitqbu",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.629Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wl0093s9cwmygevebi",
+        "lessonId": "cmueya1wh008xs9cwaxc5czi2",
+        "questionId": "cmueya1s6005hs9cwru0kbi0g",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.630Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wm0095s9cw33mk25o5",
+        "lessonId": "cmueya1wh008xs9cwaxc5czi2",
+        "questionId": "cmueya1s8005js9cwz7kgsecx",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.631Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wn0097s9cw9krub94y",
+        "lessonId": "cmueya1wh008xs9cwaxc5czi2",
+        "questionId": "cmueya1sb005ls9cwq54sl56i",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.631Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1wo0099s9cwxm3i4se4",
+        "slug": "algebra-enem-7",
+        "title": "Inequacoes",
+        "description": "Intervalos e interpretacao na reta.",
+        "content": "Nesta atividade voce vai estudar intervalos e interpretacao na reta. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1140,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.632Z",
+        "updatedAt": "2026-09-24T03:06:22.632Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1ws009bs9cwwwajnmg2",
+        "slug": "algebra-enem-8",
+        "title": "Checkpoint algebra",
+        "description": "70% para liberar funcoes.",
+        "content": "Nesta atividade voce vai estudar 70% para liberar funcoes. com foco em aplicacao real no ENEM.",
+        "type": "CHECKPOINT",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 900,
+        "xpReward": 100,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.636Z",
+        "updatedAt": "2026-09-24T03:06:22.636Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wv009ds9cwa9vgchzc",
+        "lessonId": "cmueya1ws009bs9cwwwajnmg2",
+        "questionId": "cmueya1se005ns9cwhgkfed92",
+        "order": 0,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.639Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1ww009fs9cw6j17veeb",
+        "lessonId": "cmueya1ws009bs9cwwwajnmg2",
+        "questionId": "cmueya1sg005ps9cwb7yqyyqe",
+        "order": 1,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.640Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1ww009hs9cwgx05kx0i",
+        "lessonId": "cmueya1ws009bs9cwwwajnmg2",
+        "questionId": "cmueya1si005rs9cw0dcv49y3",
+        "order": 2,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.641Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wx009js9cwbimmh1i7",
+        "lessonId": "cmueya1ws009bs9cwwwajnmg2",
+        "questionId": "cmueya1sj005ts9cw8grstyqo",
+        "order": 3,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.642Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1wy009ls9cw8jazwm8z",
+        "lessonId": "cmueya1ws009bs9cwwwajnmg2",
+        "questionId": "cmueya1sl005vs9cwuhv3s84t",
+        "order": 4,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.642Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1wz009ns9cwrov1hvfs",
+        "slug": "algebra-enem-9",
+        "title": "Simulado de algebra",
+        "description": "Mini simulado com tempo.",
+        "content": "Nesta atividade voce vai estudar mini simulado com tempo. com foco em aplicacao real no ENEM.",
+        "type": "SIMULATION",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 900,
+        "xpReward": 150,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.643Z",
+        "updatedAt": "2026-09-24T03:06:22.643Z"
+      }
+    },
+    {
+      "model": "Simulation",
+      "data": {
+        "id": "sim-algebra-enem-9",
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1wz009ns9cwrov1hvfs",
+        "title": "Simulado de algebra",
+        "description": "Mini simulado com tempo.",
+        "questionIds": [
+          "cmueya1s0005ds9cwc8a3p2hw",
+          "cmueya1s4005fs9cwd5nitqbu",
+          "cmueya1s6005hs9cwru0kbi0g",
+          "cmueya1s8005js9cwz7kgsecx",
+          "cmueya1sb005ls9cwq54sl56i",
+          "cmueya1se005ns9cwhgkfed92",
+          "cmueya1sg005ps9cwb7yqyyqe",
+          "cmueya1si005rs9cw0dcv49y3",
+          "cmueya1sj005ts9cw8grstyqo",
+          "cmueya1sl005vs9cwuhv3s84t"
+        ],
+        "durationMinutes": 15,
+        "passingScore": 70,
+        "xpReward": 150,
+        "createdAt": "2026-09-24T03:06:22.647Z",
+        "updatedAt": "2026-09-24T03:06:22.647Z"
+      }
+    },
+    {
+      "model": "Module",
+      "data": {
+        "id": "cmueya1x6009os9cwtx76npld",
+        "slug": "funcoes-enem",
+        "title": "Dominando funcoes",
+        "description": "Funcao afim, quadratica, graficos e modelagem.",
+        "eyebrow": "UNIDADE 03",
+        "color": "#22C55E",
+        "createdAt": "2026-09-24T03:06:22.651Z",
+        "updatedAt": "2026-09-24T03:06:22.651Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1x8009qs9cwib39scxb",
+        "slug": "funcoes-enem-1",
+        "title": "Ideia de funcao",
+        "description": "Entrada, saida, dominio e imagem.",
+        "content": "Nesta atividade voce vai estudar entrada, saida, dominio e imagem. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1080,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.653Z",
+        "updatedAt": "2026-09-24T03:06:22.653Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1xc009ss9cwdbl0qi0q",
+        "slug": "funcoes-enem-2",
+        "title": "Funcao afim",
+        "description": "Coeficientes e leitura do grafico.",
+        "content": "Nesta atividade voce vai estudar coeficientes e leitura do grafico. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1440,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.656Z",
+        "updatedAt": "2026-09-24T03:06:22.656Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1xf009us9cws7blo2oy",
+        "slug": "funcoes-enem-3",
+        "title": "Graficos de retas",
+        "description": "Interprete inclinacao e intercepto.",
+        "content": "Nesta atividade voce vai estudar interprete inclinacao e intercepto. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 900,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.660Z",
+        "updatedAt": "2026-09-24T03:06:22.660Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xj009ws9cw050p2ckc",
+        "lessonId": "cmueya1xf009us9cws7blo2oy",
+        "questionId": "cmueya1so005xs9cw95227bsa",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.663Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xj009ys9cw109aycj3",
+        "lessonId": "cmueya1xf009us9cws7blo2oy",
+        "questionId": "cmueya1sp005zs9cwoqbp12ha",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.664Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xk00a0s9cwmdg34gzb",
+        "lessonId": "cmueya1xf009us9cws7blo2oy",
+        "questionId": "cmueya1sr0061s9cwlppa6eoy",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.665Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xl00a2s9cw0qdhtfkb",
+        "lessonId": "cmueya1xf009us9cws7blo2oy",
+        "questionId": "cmueya1st0063s9cwyasxejyq",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.665Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xm00a4s9cwaqi1skek",
+        "lessonId": "cmueya1xf009us9cws7blo2oy",
+        "questionId": "cmueya1su0065s9cwsgnek976",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.666Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1xn00a6s9cwmemke5vo",
+        "slug": "funcoes-enem-4",
+        "title": "Funcao quadratica",
+        "description": "Vertice, raizes e concavidade.",
+        "content": "Nesta atividade voce vai estudar vertice, raizes e concavidade. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1560,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.667Z",
+        "updatedAt": "2026-09-24T03:06:22.667Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1xr00a8s9cwp7d4gzjj",
+        "slug": "funcoes-enem-5",
+        "title": "Modelagem por funcoes",
+        "description": "Situacoes-problema de prova.",
+        "content": "Nesta atividade voce vai estudar situacoes-problema de prova. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1080,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.672Z",
+        "updatedAt": "2026-09-24T03:06:22.672Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xv00aas9cwwmov36ou",
+        "lessonId": "cmueya1xr00a8s9cwp7d4gzjj",
+        "questionId": "cmueya1s0005ds9cwc8a3p2hw",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.676Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xw00acs9cwcr9etepr",
+        "lessonId": "cmueya1xr00a8s9cwp7d4gzjj",
+        "questionId": "cmueya1s4005fs9cwd5nitqbu",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.676Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xx00aes9cwjfwle9ue",
+        "lessonId": "cmueya1xr00a8s9cwp7d4gzjj",
+        "questionId": "cmueya1s6005hs9cwru0kbi0g",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.677Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xy00ags9cwa53ebxsm",
+        "lessonId": "cmueya1xr00a8s9cwp7d4gzjj",
+        "questionId": "cmueya1s8005js9cwz7kgsecx",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.678Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1xy00ais9cwrxrzrmw4",
+        "lessonId": "cmueya1xr00a8s9cwp7d4gzjj",
+        "questionId": "cmueya1sb005ls9cwq54sl56i",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.679Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1xz00aks9cwfn9kw5cg",
+        "slug": "funcoes-enem-6",
+        "title": "Checkpoint funcoes",
+        "description": "Confirme a leitura grafica.",
+        "content": "Nesta atividade voce vai estudar confirme a leitura grafica. com foco em aplicacao real no ENEM.",
+        "type": "CHECKPOINT",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 900,
+        "xpReward": 100,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.680Z",
+        "updatedAt": "2026-09-24T03:06:22.680Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1y300ams9cwu389as9y",
+        "lessonId": "cmueya1xz00aks9cwfn9kw5cg",
+        "questionId": "cmueya1se005ns9cwhgkfed92",
+        "order": 0,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.683Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1y300aos9cwtvwyk0nc",
+        "lessonId": "cmueya1xz00aks9cwfn9kw5cg",
+        "questionId": "cmueya1sg005ps9cwb7yqyyqe",
+        "order": 1,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.684Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1y400aqs9cwyhhs7hyt",
+        "lessonId": "cmueya1xz00aks9cwfn9kw5cg",
+        "questionId": "cmueya1si005rs9cw0dcv49y3",
+        "order": 2,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.685Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1y500ass9cw5bpfohei",
+        "lessonId": "cmueya1xz00aks9cwfn9kw5cg",
+        "questionId": "cmueya1sj005ts9cw8grstyqo",
+        "order": 3,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.686Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya1y600aus9cw8nnq60z7",
+        "lessonId": "cmueya1xz00aks9cwfn9kw5cg",
+        "questionId": "cmueya1sl005vs9cwuhv3s84t",
+        "order": 4,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.687Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya1y700aws9cwaw64zmub",
+        "slug": "funcoes-enem-7",
+        "title": "Badge graficos",
+        "description": "Premio por completar funcoes.",
+        "content": "Nesta atividade voce vai estudar premio por completar funcoes. com foco em aplicacao real no ENEM.",
+        "type": "REWARD",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 180,
+        "xpReward": 120,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.687Z",
+        "updatedAt": "2026-09-24T03:06:22.687Z"
+      }
+    },
+    {
+      "model": "Reward",
+      "data": {
+        "id": "cmueya20a00ays9cwji1xuf25",
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1y700aws9cwaw64zmub",
+        "slug": "reward-funcoes-enem-7",
+        "title": "Badge graficos",
+        "description": "Premio por completar funcoes.",
+        "xpReward": 120,
+        "badge": "Modulo concluido",
+        "metadata": {},
+        "createdAt": "2026-09-24T03:06:22.762Z",
+        "updatedAt": "2026-09-24T03:06:22.762Z"
+      }
+    },
+    {
+      "model": "Module",
+      "data": {
+        "id": "cmueya20b00azs9cwyej6tzf9",
+        "slug": "geometria-enem",
+        "title": "Geometria",
+        "description": "Area, perimetro, semelhanca, triangulos e escala.",
+        "eyebrow": "UNIDADE 04",
+        "color": "#A855F7",
+        "createdAt": "2026-09-24T03:06:22.764Z",
+        "updatedAt": "2026-09-24T03:06:22.764Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya20d00b1s9cw0f0tyl01",
+        "slug": "geometria-enem-1",
+        "title": "Area e perimetro",
+        "description": "Separe grandezas antes de calcular.",
+        "content": "Nesta atividade voce vai estudar separe grandezas antes de calcular. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1080,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.765Z",
+        "updatedAt": "2026-09-24T03:06:22.765Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya20g00b3s9cws1y4za0h",
+        "slug": "geometria-enem-2",
+        "title": "Figuras planas",
+        "description": "Calculo e interpretacao geometrica.",
+        "content": "Nesta atividade voce vai estudar calculo e interpretacao geometrica. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 840,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.769Z",
+        "updatedAt": "2026-09-24T03:06:22.769Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya20k00b5s9cwzkju6vly",
+        "lessonId": "cmueya20g00b3s9cws1y4za0h",
+        "questionId": "cmueya1so005xs9cw95227bsa",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.772Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya20k00b7s9cwkoemyk2x",
+        "lessonId": "cmueya20g00b3s9cws1y4za0h",
+        "questionId": "cmueya1sp005zs9cwoqbp12ha",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.773Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya20l00b9s9cwvsiz0tjw",
+        "lessonId": "cmueya20g00b3s9cws1y4za0h",
+        "questionId": "cmueya1sr0061s9cwlppa6eoy",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.773Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya20m00bbs9cwf4tbxd3b",
+        "lessonId": "cmueya20g00b3s9cws1y4za0h",
+        "questionId": "cmueya1st0063s9cwyasxejyq",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.774Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya20m00bds9cwrqv6vi02",
+        "lessonId": "cmueya20g00b3s9cws1y4za0h",
+        "questionId": "cmueya1su0065s9cwsgnek976",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.775Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya20o00bfs9cwhymdd6a4",
+        "slug": "geometria-enem-3",
+        "title": "Triangulos",
+        "description": "Angulos, semelhanca e Pitagoras.",
+        "content": "Nesta atividade voce vai estudar angulos, semelhanca e pitagoras. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1500,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.776Z",
+        "updatedAt": "2026-09-24T03:06:22.776Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya20t00bjs9cwuzwg2abm",
+        "slug": "geometria-enem-4",
+        "title": "Resumo de formulas",
+        "description": "PDF com formulas essenciais.",
+        "content": "Nesta atividade voce vai estudar pdf com formulas essenciais. com foco em aplicacao real no ENEM.",
+        "type": "MATERIAL",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": "cmueya20s00bhs9cwkrphw1ps",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 300,
+        "xpReward": 30,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.781Z",
+        "updatedAt": "2026-09-24T03:06:22.781Z"
+      }
+    },
+    {
+      "model": "Material",
+      "data": {
+        "id": "cmueya20s00bhs9cwkrphw1ps",
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "title": "Material - Resumo de formulas",
+        "type": "PDF",
+        "category": "Cursos",
+        "premium": false,
+        "fileUrl": "/referencias/cartilha-redacao-enem-2025.pdf",
+        "priceCents": 0,
+        "purchaseUrl": null,
+        "description": "PDF com formulas essenciais.",
+        "status": "ARCHIVED",
+        "createdAt": "2026-09-24T03:06:22.780Z",
+        "updatedAt": "2026-09-24T03:07:37.184Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya20w00bls9cw2amr4lex",
+        "slug": "geometria-enem-5",
+        "title": "Checkpoint geometria",
+        "description": "Teste rapido da unidade.",
+        "content": "Nesta atividade voce vai estudar teste rapido da unidade. com foco em aplicacao real no ENEM.",
+        "type": "CHECKPOINT",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 900,
+        "xpReward": 100,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.785Z",
+        "updatedAt": "2026-09-24T03:06:22.785Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya20z00bns9cwy19qep8b",
+        "lessonId": "cmueya20w00bls9cw2amr4lex",
+        "questionId": "cmueya1s0005ds9cwc8a3p2hw",
+        "order": 0,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.788Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21000bps9cwxhdv85mb",
+        "lessonId": "cmueya20w00bls9cw2amr4lex",
+        "questionId": "cmueya1s4005fs9cwd5nitqbu",
+        "order": 1,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.788Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21100brs9cwswsevjz7",
+        "lessonId": "cmueya20w00bls9cw2amr4lex",
+        "questionId": "cmueya1s6005hs9cwru0kbi0g",
+        "order": 2,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.789Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21100bts9cw18t4s4i2",
+        "lessonId": "cmueya20w00bls9cw2amr4lex",
+        "questionId": "cmueya1s8005js9cwz7kgsecx",
+        "order": 3,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.790Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21200bvs9cwub7yc8vl",
+        "lessonId": "cmueya20w00bls9cw2amr4lex",
+        "questionId": "cmueya1sb005ls9cwq54sl56i",
+        "order": 4,
+        "xpReward": 20,
+        "createdAt": "2026-09-24T03:06:22.790Z"
+      }
+    },
+    {
+      "model": "Module",
+      "data": {
+        "id": "cmueya21300bws9cwx271yd10",
+        "slug": "estatistica-enem",
+        "title": "Estatistica",
+        "description": "Media, mediana, moda, graficos e probabilidade.",
+        "eyebrow": "UNIDADE 05",
+        "color": "#FACC15",
+        "createdAt": "2026-09-24T03:06:22.791Z",
+        "updatedAt": "2026-09-24T03:06:22.791Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya21400bys9cwioo9ncdq",
+        "slug": "estatistica-enem-1",
+        "title": "Medidas de tendencia",
+        "description": "Media, mediana e moda na pratica.",
+        "content": "Nesta atividade voce vai estudar media, mediana e moda na pratica. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1200,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.792Z",
+        "updatedAt": "2026-09-24T03:06:22.792Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya21800c0s9cwc5dmz8xn",
+        "slug": "estatistica-enem-2",
+        "title": "Leitura de graficos",
+        "description": "Tabelas, barras e setores.",
+        "content": "Nesta atividade voce vai estudar tabelas, barras e setores. com foco em aplicacao real no ENEM.",
+        "type": "QUESTIONS",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 900,
+        "xpReward": 60,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.797Z",
+        "updatedAt": "2026-09-24T03:06:22.797Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21c00c2s9cwhc8fzpek",
+        "lessonId": "cmueya21800c0s9cwc5dmz8xn",
+        "questionId": "cmueya1se005ns9cwhgkfed92",
+        "order": 0,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.800Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21d00c4s9cw6ybv87hs",
+        "lessonId": "cmueya21800c0s9cwc5dmz8xn",
+        "questionId": "cmueya1sg005ps9cwb7yqyyqe",
+        "order": 1,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.802Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21e00c6s9cwsq6oj4aa",
+        "lessonId": "cmueya21800c0s9cwc5dmz8xn",
+        "questionId": "cmueya1si005rs9cw0dcv49y3",
+        "order": 2,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.802Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21f00c8s9cwl7tmu757",
+        "lessonId": "cmueya21800c0s9cwc5dmz8xn",
+        "questionId": "cmueya1sj005ts9cw8grstyqo",
+        "order": 3,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.803Z"
+      }
+    },
+    {
+      "model": "LessonQuestion",
+      "data": {
+        "id": "cmueya21f00cas9cwpuww57d7",
+        "lessonId": "cmueya21800c0s9cwc5dmz8xn",
+        "questionId": "cmueya1sl005vs9cwuhv3s84t",
+        "order": 4,
+        "xpReward": 10,
+        "createdAt": "2026-09-24T03:06:22.804Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya21g00ccs9cwi0qpqem3",
+        "slug": "estatistica-enem-3",
+        "title": "Probabilidade essencial",
+        "description": "Eventos simples e porcentagens.",
+        "content": "Nesta atividade voce vai estudar eventos simples e porcentagens. com foco em aplicacao real no ENEM.",
+        "type": "VIDEO",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1320,
+        "xpReward": 50,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.805Z",
+        "updatedAt": "2026-09-24T03:06:22.805Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya21j00ces9cwtgi54f9n",
+        "slug": "estatistica-enem-4",
+        "title": "Simulado final",
+        "description": "Fechamento do curso com desempenho.",
+        "content": "Nesta atividade voce vai estudar fechamento do curso com desempenho. com foco em aplicacao real no ENEM.",
+        "type": "SIMULATION",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 1200,
+        "xpReward": 200,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.808Z",
+        "updatedAt": "2026-09-24T03:06:22.808Z"
+      }
+    },
+    {
+      "model": "Simulation",
+      "data": {
+        "id": "sim-estatistica-enem-4",
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya21300bws9cwx271yd10",
+        "lessonId": "cmueya21j00ces9cwtgi54f9n",
+        "title": "Simulado final",
+        "description": "Fechamento do curso com desempenho.",
+        "questionIds": [
+          "cmueya1s0005ds9cwc8a3p2hw",
+          "cmueya1s4005fs9cwd5nitqbu",
+          "cmueya1s6005hs9cwru0kbi0g",
+          "cmueya1s8005js9cwz7kgsecx",
+          "cmueya1sb005ls9cwq54sl56i",
+          "cmueya1se005ns9cwhgkfed92",
+          "cmueya1sg005ps9cwb7yqyyqe",
+          "cmueya1si005rs9cw0dcv49y3",
+          "cmueya1sj005ts9cw8grstyqo",
+          "cmueya1sl005vs9cwuhv3s84t"
+        ],
+        "durationMinutes": 20,
+        "passingScore": 70,
+        "xpReward": 200,
+        "createdAt": "2026-09-24T03:06:22.811Z",
+        "updatedAt": "2026-09-24T03:06:22.811Z"
+      }
+    },
+    {
+      "model": "Lesson",
+      "data": {
+        "id": "cmueya21o00cgs9cw5i7c4m8k",
+        "slug": "estatistica-enem-5",
+        "title": "Conclusao do curso",
+        "description": "Certificado simulado e estatisticas.",
+        "content": "Nesta atividade voce vai estudar certificado simulado e estatisticas. com foco em aplicacao real no ENEM.",
+        "type": "FINAL",
+        "videoId": null,
+        "videoUrl": null,
+        "thumbnailUrl": null,
+        "videoProvider": "LOCAL",
+        "materialId": null,
+        "subjectId": "cmueya0x90013s9cwjf7tr4ht",
+        "topicId": "cmueya0xg001as9cwgm930j9h",
+        "durationSeconds": 240,
+        "xpReward": 1000,
+        "isFreePreview": false,
+        "allowManualCompletion": true,
+        "resources": [
+          {
+            "href": "/referencias/cartilha-redacao-enem-2025.pdf",
+            "type": "PDF",
+            "title": "Resumo da aula"
+          },
+          {
+            "href": "/questions?vestibular=enem",
+            "type": "SHEET",
+            "title": "Lista de exercicios"
+          }
+        ],
+        "outcomes": [
+          "Reconhecer o conceito central",
+          "Aplicar em questoes contextualizadas",
+          "Evitar erros comuns de prova"
+        ],
+        "status": "PUBLISHED",
+        "isFree": false,
+        "createdAt": "2026-09-24T03:06:22.812Z",
+        "updatedAt": "2026-09-24T03:06:22.812Z"
+      }
+    }
+  ],
+  "joins": {
+    "courseModule": [
+      {
+        "courseId": "cmupyml9j001es9z4mxedzt05",
+        "moduleId": "cmupyn0qw0022s9z43i07y66v",
+        "position": 0
+      },
+      {
+        "courseId": "cmupyml9j001es9z4mxedzt05",
+        "moduleId": "cmupzmx0z00ars9z4k2h6b3vz",
+        "position": 1
+      },
+      {
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "position": 0
+      },
+      {
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "position": 1
+      },
+      {
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "position": 2
+      },
+      {
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya20b00azs9cwyej6tzf9",
+        "position": 3
+      },
+      {
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "moduleId": "cmueya21300bws9cwx271yd10",
+        "position": 4
+      }
+    ],
+    "moduleLesson": [
+      {
+        "moduleId": "cmupyn0qw0022s9z43i07y66v",
+        "lessonId": "cmueya1tj006es9cwgj3yppc0",
+        "position": 0
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1tj006es9cwgj3yppc0",
+        "position": 0
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1tv006gs9cwv2c8rp7l",
+        "position": 1
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1u0006is9cw6slejval",
+        "position": 2
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1ue006us9cwc0vzos2m",
+        "position": 3
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1uj006ws9cwh0vetqwm",
+        "position": 4
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1us0078s9cwjyysihct",
+        "position": 5
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1v0007ks9cwxn9nmouu",
+        "position": 6
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1v4007ms9cwzs9gh0oj",
+        "position": 7
+      },
+      {
+        "moduleId": "cmueya1te006cs9cwzxlu2fis",
+        "lessonId": "cmueya1vb007ys9cwzpvdnboh",
+        "position": 8
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1vn0083s9cwlo8t7sot",
+        "position": 0
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1vr0085s9cwjiuaup56",
+        "position": 1
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1vv0087s9cwhx71489e",
+        "position": 2
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1w3008js9cwznjqrf0q",
+        "position": 3
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1w9008ls9cwc51igz1v",
+        "position": 4
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1wh008xs9cwaxc5czi2",
+        "position": 5
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1wo0099s9cwxm3i4se4",
+        "position": 6
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1ws009bs9cwwwajnmg2",
+        "position": 7
+      },
+      {
+        "moduleId": "cmueya1vk0081s9cwi9t4hxg9",
+        "lessonId": "cmueya1wz009ns9cwrov1hvfs",
+        "position": 8
+      },
+      {
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1x8009qs9cwib39scxb",
+        "position": 0
+      },
+      {
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1xc009ss9cwdbl0qi0q",
+        "position": 1
+      },
+      {
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1xf009us9cws7blo2oy",
+        "position": 2
+      },
+      {
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1xn00a6s9cwmemke5vo",
+        "position": 3
+      },
+      {
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1xr00a8s9cwp7d4gzjj",
+        "position": 4
+      },
+      {
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1xz00aks9cwfn9kw5cg",
+        "position": 5
+      },
+      {
+        "moduleId": "cmueya1x6009os9cwtx76npld",
+        "lessonId": "cmueya1y700aws9cwaw64zmub",
+        "position": 6
+      },
+      {
+        "moduleId": "cmueya20b00azs9cwyej6tzf9",
+        "lessonId": "cmueya20d00b1s9cw0f0tyl01",
+        "position": 0
+      },
+      {
+        "moduleId": "cmueya20b00azs9cwyej6tzf9",
+        "lessonId": "cmueya20g00b3s9cws1y4za0h",
+        "position": 1
+      },
+      {
+        "moduleId": "cmueya20b00azs9cwyej6tzf9",
+        "lessonId": "cmueya20o00bfs9cwhymdd6a4",
+        "position": 2
+      },
+      {
+        "moduleId": "cmueya20b00azs9cwyej6tzf9",
+        "lessonId": "cmueya20t00bjs9cwuzwg2abm",
+        "position": 3
+      },
+      {
+        "moduleId": "cmueya20b00azs9cwyej6tzf9",
+        "lessonId": "cmueya20w00bls9cw2amr4lex",
+        "position": 4
+      },
+      {
+        "moduleId": "cmueya21300bws9cwx271yd10",
+        "lessonId": "cmueya21400bys9cwioo9ncdq",
+        "position": 0
+      },
+      {
+        "moduleId": "cmueya21300bws9cwx271yd10",
+        "lessonId": "cmueya21800c0s9cwc5dmz8xn",
+        "position": 1
+      },
+      {
+        "moduleId": "cmueya21300bws9cwx271yd10",
+        "lessonId": "cmueya21g00ccs9cwi0qpqem3",
+        "position": 2
+      },
+      {
+        "moduleId": "cmueya21300bws9cwx271yd10",
+        "lessonId": "cmueya21j00ces9cwtgi54f9n",
+        "position": 3
+      },
+      {
+        "moduleId": "cmueya21300bws9cwx271yd10",
+        "lessonId": "cmueya21o00cgs9cw5i7c4m8k",
+        "position": 4
+      }
+    ],
+    "courseProduct": [
+      {
+        "courseId": "cmueya1sy0067s9cwbfgdd277",
+        "productId": "cmueya1t6006bs9cwt6ktzxso"
+      }
+    ]
+  }
+}

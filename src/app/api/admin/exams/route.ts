@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   };
 
   if (!body.vestibularId || !body.title || !body.year || !body.phase) {
-    return NextResponse.json({ error: "Campos obrigatorios ausentes." }, { status: 400 });
+    return NextResponse.json({ error: "Campos obrigatórios ausentes." }, { status: 400 });
   }
 
   const startsAt = body.startsAt ? new Date(body.startsAt) : null;
@@ -27,10 +27,10 @@ export async function POST(request: Request) {
 
   if (body.isSimulado) {
     if (!body.pdfUrl || !body.questionCount || !body.durationMinutes || !startsAt || !endsAt) {
-      return NextResponse.json({ error: "Simulado exige PDF, quantidade, duracao, abertura e encerramento." }, { status: 400 });
+      return NextResponse.json({ error: "Simulado exige PDF, quantidade, duração, abertura e encerramento." }, { status: 400 });
     }
     if (startsAt >= endsAt || (resultsAt && resultsAt < endsAt)) {
-      return NextResponse.json({ error: "Confira as datas do evento e da liberacao do resultado." }, { status: 400 });
+      return NextResponse.json({ error: "Confira as datas do evento e da liberação do resultado." }, { status: 400 });
     }
     if (Object.keys(answerKey).length !== body.questionCount) {
       return NextResponse.json({ error: `O gabarito deve ter ${body.questionCount} respostas.` }, { status: 400 });

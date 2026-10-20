@@ -18,7 +18,7 @@ const publicRoot = path.resolve(process.cwd(), "public");
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const user = await getCurrentUser();
-  if (!user) return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+  if (!user) return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
 
   const { id } = await params;
   const url = new URL(request.url);
@@ -26,7 +26,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const download = url.searchParams.get("download") === "1";
   const exam = await getOldExam(id);
 
-  if (!exam) return NextResponse.json({ error: "Documento nao encontrado." }, { status: 404 });
+  if (!exam) return NextResponse.json({ error: "Documento não encontrado." }, { status: 404 });
 
   for (const publicPath of getOldExamPublicPdfCandidates(exam, kind)) {
     const absolutePath = resolvePublicPdfPath(publicPath);
@@ -82,7 +82,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     }
   }
 
-  return NextResponse.json({ error: "Documento nao encontrado." }, { status: 404 });
+  return NextResponse.json({ error: "Documento não encontrado." }, { status: 404 });
 }
 
 function basePdfHeaders(fileName: string, download: boolean) {
@@ -96,7 +96,7 @@ function basePdfHeaders(fileName: string, download: boolean) {
 
 async function filePdfResponse(absolutePath: string, fileName: string, request: Request, download: boolean) {
   const stat = await fs.stat(absolutePath);
-  if (!stat.isFile()) throw new Error("Arquivo invalido.");
+  if (!stat.isFile()) throw new Error("Arquivo inválido.");
 
   const range = parseRange(request.headers.get("range"), stat.size);
   const headers = basePdfHeaders(fileName, download);
@@ -126,7 +126,7 @@ async function remotePdfResponse(remoteUrl: string, fileName: string, request: R
   const remote = await fetchRemotePdfStreamWithRetries(new URL(remoteUrl), request.headers.get("range"));
   if (!pdfHeadersLookValid(remote.headers, remoteUrl)) {
     await remote.body.cancel().catch(() => undefined);
-    throw new Error("Fonte retornou conteudo que nao e PDF.");
+    throw new Error("Fonte retornou conteúdo que não é PDF.");
   }
 
   const headers = basePdfHeaders(fileName, download);
@@ -144,12 +144,12 @@ async function assertRemotePdf(remoteUrl: string) {
   const probe = await fetchRemotePdfStreamWithRetries(new URL(remoteUrl), PDF_PROBE_RANGE);
   if (!pdfHeadersLookValid(probe.headers, remoteUrl)) {
     await probe.body.cancel().catch(() => undefined);
-    throw new Error("Fonte retornou conteudo que nao e PDF.");
+    throw new Error("Fonte retornou conteúdo que não é PDF.");
   }
 
   const signature = await readStreamSignature(probe.body);
   if (signature !== PDF_SIGNATURE) {
-    throw new Error("Fonte retornou conteudo que nao e PDF.");
+    throw new Error("Fonte retornou conteúdo que não é PDF.");
   }
 }
 

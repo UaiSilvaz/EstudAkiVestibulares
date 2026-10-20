@@ -51,8 +51,8 @@ export function normalizeAvailableMinutes(
   return nearestAllowedMinutes(clamp(Math.round(value), 15, 120));
 }
 
-function lessonHref(priority: LearningPriority | null) {
-  return priority?.subjectSlug ? `/trilhas/${priority.subjectSlug}` : "/trilhas";
+function lessonHref() {
+  return "/cursos";
 }
 
 function flashcardHref(priority: LearningPriority | null) {
@@ -62,7 +62,7 @@ function flashcardHref(priority: LearningPriority | null) {
 }
 
 function topicLabel(priority: LearningPriority | null) {
-  if (!priority) return "diagnostico inicial";
+  if (!priority) return "diagnóstico inicial";
   return priority.topicName ?? priority.subjectName;
 }
 
@@ -113,7 +113,7 @@ export function buildStudyNowSession(input: {
     blocks.push({
       type: "REVIEW",
       title: `Revisar erros de ${label}`,
-      description: "Comece limpando pendencias que ainda atrapalham esse assunto.",
+      description: "Comece limpando pendências que ainda atrapalham esse assunto.",
       durationMinutes: durations.review,
       href: questionPracticeHref({
         mode: "errors",
@@ -131,7 +131,7 @@ export function buildStudyNowSession(input: {
       title: `Aquecimento em ${label}`,
       description: "Revise a base antes de praticar para evitar tentativa no escuro.",
       durationMinutes: durations.theory,
-      href: lessonHref(priority),
+      href: lessonHref(),
       xpEstimate: 0,
     });
   }
@@ -139,7 +139,7 @@ export function buildStudyNowSession(input: {
   blocks.push({
     type: "QUESTIONS",
     title: `Praticar ${label}`,
-    description: "Resolva uma lista focada e deixe o sistema recalcular seu dominio depois.",
+    description: "Resolva uma lista focada e deixe o sistema recalcular seu domínio depois.",
     durationMinutes: durations.questions,
     href: questionPracticeHref({
       subjectId: priority?.subjectId,
@@ -155,7 +155,7 @@ export function buildStudyNowSession(input: {
     blocks.push({
       type: "FLASHCARDS",
       title: `Fixar ${priority?.subjectName ?? "pontos-chave"}`,
-      description: "Feche a sessao com revisao ativa para segurar melhor o conteudo.",
+      description: "Feche a sessão com revisão ativa para segurar melhor o conteúdo.",
       durationMinutes: durations.flashcards,
       href: flashcardHref(priority),
       xpEstimate: 0,
@@ -166,8 +166,8 @@ export function buildStudyNowSession(input: {
   const score = priority?.priorityScore ?? 0;
   const confidenceLabel = score >= 72 ? "alta prioridade" : score >= 52 ? "boa prioridade" : "ponto de partida";
   const fallbackRationale = [
-    "Ainda faltam dados suficientes, entao a sessao comeca com pratica diagnostica.",
-    "Depois das primeiras respostas, o plano passa a priorizar pontos fracos com mais seguranca.",
+    "Ainda faltam dados suficientes, então a sessão comeca com prática diagnóstica.",
+    "Depois das primeiras respostas, o plano passa a priorizar pontos fracos com mais segurança.",
   ];
 
   return {
@@ -175,7 +175,7 @@ export function buildStudyNowSession(input: {
     totalMinutes,
     summary: priority
       ? `Prioridade agora: ${label}.`
-      : "Prioridade agora: iniciar uma lista diagnostica.",
+      : "Prioridade agora: iniciar uma lista diagnóstica.",
     confidenceLabel,
     startHref: blocks[0]?.href ?? "/questions?vestibular=enem",
     priority,

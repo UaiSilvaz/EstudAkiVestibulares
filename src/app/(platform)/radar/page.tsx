@@ -1,4 +1,5 @@
-import { BarChart3, Gauge, Radar, Trophy } from "lucide-react";
+import { BarChart3, Trophy } from "@/components/visual/aicon-icons";
+import { Gauge, Radar } from "lucide-react";
 import { ChecklistPanel, PlatformHubPage } from "@/components/platform-hub-page";
 import { db } from "@/lib/db";
 import { getPlatformPageContext } from "@/lib/platform-page-context";
@@ -15,7 +16,7 @@ export default async function RadarPage() {
   return (
     <PlatformHubPage
       eyebrow="Radar da prova"
-      title={`Mapa rapido de ${activePreparation?.displayName ?? "desempenho"}`}
+      title={`Mapa rápido de ${activePreparation?.displayName ?? "desempenho"}`}
       description="Use esta tela como central para desempenho, simulados e provas antigas."
       stats={[
         { label: "Tentativas", value: String(attempts), tone: "blue" },
@@ -26,14 +27,14 @@ export default async function RadarPage() {
       actions={[
         {
           title: "Desempenho",
-          description: "Veja acertos, materias fracas e evolucao recente.",
+          description: "Veja acertos, matérias fracas e evolução recente.",
           href: "/performance",
           icon: BarChart3,
           tone: "blue",
         },
         {
           title: "Simulados",
-          description: "Treine tempo de prova e diagnostico por area.",
+          description: "Treine tempo de prova e diagnóstico por Área.",
           href: "/simulados",
           icon: Gauge,
           tone: "orange",
@@ -47,7 +48,7 @@ export default async function RadarPage() {
         },
         {
           title: "Ranking",
-          description: "Acompanhe XP, liga e constancia de estudo.",
+          description: "Acompanhe XP, liga e constância de estudo.",
           href: "/ranking",
           icon: Trophy,
           tone: "amber",
@@ -57,10 +58,10 @@ export default async function RadarPage() {
       <ChecklistPanel
         title="Sinais para observar"
         items={[
-          "Materias com muitos erros recentes devem virar prioridade no cronograma.",
-          "Simulados completos ajudam a calibrar tempo antes de estudar conteudo novo.",
-          "Provas antigas mostram padroes de banca que questoes isoladas escondem.",
-          "O ranking serve como motivacao, mas a precisao decide o proximo passo.",
+          "Matérias com muitos erros recentes devem virar prioridade no cronograma.",
+          "Simulados completos ajudam a calibrar tempo antes de estudar conteúdo novo.",
+          "Provas antigas mostram padrões de banca que questões isoladas escondem.",
+          "O ranking serve como motivacao, mas a precisão decide o próximo passo.",
         ]}
       />
     </PlatformHubPage>

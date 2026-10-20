@@ -31,11 +31,12 @@ export default async function RankingPage() {
   let users: RankingUser[] = [];
   let totalUsers = 0;
   let myRank: number | null = null;
-  let nextUser: RankingUser | null = null;
+  let nextUser: Pick<RankingUser, "id" | "name" | "xp"> | null = null;
 
   try {
     const [leaderboardUsers, total, usersAhead, nearestAhead] = await Promise.all([
       db.user.findMany({
+        where: { role: "STUDENT" },
         orderBy: { xp: "desc" },
         take: 20,
         select: {
@@ -48,10 +49,10 @@ export default async function RankingPage() {
           targetExam: true,
         },
       }),
-      db.user.count(),
-      db.user.count({ where: { xp: { gt: currentUser.xp } } }),
+      db.user.count({ where: { role: "STUDENT" } }),
+      db.user.count({ where: { role: "STUDENT", xp: { gt: currentUser.xp } } }),
       db.user.findFirst({
-        where: { xp: { gt: currentUser.xp } },
+        where: { role: "STUDENT", xp: { gt: currentUser.xp } },
         orderBy: { xp: "asc" },
         select: {
           id: true,
@@ -67,79 +68,24 @@ export default async function RankingPage() {
 
     users = leaderboardUsers;
     totalUsers = total;
-    myRank = usersAhead + 1;
+    myRank = currentUser.role === "STUDENT" ? usersAhead + 1 : null;
     nextUser = nearestAhead;
 
-    if (!users.some((user) => user.id === currentUser.id)) {
+    if (currentUser.role === "STUDENT" && !users.some((user) => user.id === currentUser.id)) {
       users = [...users, currentUserAsRankingUser(currentUser)].sort((a, b) => b.xp - a.xp);
     }
   } catch {
-    users = [
-      currentUserAsRankingUser(currentUser),
-      {
-        id: "local-ranking-1",
-        name: "Ana ENEM",
-        email: "ana@example.local",
-        xp: 9600,
-        league: "Diamante",
-        avatarUrl: null,
-        targetExam: "ENEM",
-      },
-      {
-        id: "local-ranking-2",
-        name: "Lucas FUVEST",
-        email: "lucas@example.local",
-        xp: 7850,
-        league: "Platina",
-        avatarUrl: null,
-        targetExam: "FUVEST",
-      },
-      {
-        id: "local-ranking-3",
-        name: "Marina UNICAMP",
-        email: "marina@example.local",
-        xp: 6420,
-        league: "Ouro",
-        avatarUrl: null,
-        targetExam: "UNICAMP",
-      },
-      {
-        id: "local-ranking-4",
-        name: "Rafael ETEC",
-        email: "rafael@example.local",
-        xp: 4380,
-        league: "Platina",
-        avatarUrl: null,
-        targetExam: "ETEC",
-      },
-      {
-        id: "local-ranking-5",
-        name: "Beatriz Medicina",
-        email: "beatriz@example.local",
-        xp: 3220,
-        league: "Ouro",
-        avatarUrl: null,
-        targetExam: "ENEM",
-      },
-      {
-        id: "local-ranking-6",
-        name: "Joao Simulados",
-        email: "joao@example.local",
-        xp: 2100,
-        league: "Prata",
-        avatarUrl: null,
-        targetExam: "UNESP",
-      },
-    ].sort((a, b) => b.xp - a.xp);
-    totalUsers = users.length;
+    users = [];
+    totalUsers = 0;
+    myRank = null;
   }
 
-  const players: RankingPlayer[] = users.map((user, index) => ({
-    ...user,
-    league: leagueForXp(user.xp),
+  const players: RankingPlayer[] = users.map((user) => ({
+    id: user.id, name: user.name, xp: user.xp,
+    league: leagueForXp(user.xp, user.targetExam),
     avatarUrl: user.avatarUrl ?? null,
     targetExam: user.targetExam ?? "ENEM",
-    rank: user.id === currentUser.id && myRank ? myRank : index + 1,
+    rank: user.id === currentUser.id && myRank ? myRank : users.filter(other => other.xp > user.xp).length + 1,
   }));
 
   if (!myRank) {
@@ -154,15 +100,15 @@ export default async function RankingPage() {
         .sort((first, second) => first.xp - second.xp)[0] ?? null;
   }
 
-  const currentLeague = leagueForXp(currentUser.xp);
+  const currentLeague = leagueForXp(currentUser.xp, currentUser.targetExam);
   const xpToOvertake = nextUser ? Math.max(0, nextUser.xp - currentUser.xp + 1) : 0;
 
   return (
     <div className="space-y-6">
       <PageHeader
         eyebrow="Ranking"
-        title="Leaderboard EstudAki"
-        description="Podio, foto de perfil, liga atual e XP com microanimacoes no hover para deixar a disputa com cara de jogo."
+        title="Leaderboard Norte Preparatórios"
+        description="Pódio, foto de perfil, liga atual e XP com microanimações no hover para deixar a disputa com cara de jogo."
       />
 
       <RankingLeaderboard

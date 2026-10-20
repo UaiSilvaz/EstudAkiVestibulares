@@ -149,7 +149,7 @@ function completedPercentage(passed: number, total: number) {
 }
 
 function enemEssayDay(year: number): 1 | 2 {
-  // AtÃ© 2016, a redaÃ§Ã£o integrava o segundo dia. Desde 2017, integra o primeiro.
+  // Até 2016, a redação integrava o segundo dia. Desde 2017, integra o primeiro.
   return year >= 2017 ? 1 : 2;
 }
 

@@ -26,7 +26,7 @@ function duplicated(values: string[]) {
   return Array.from(duplicates);
 }
 
-test("catalogo possui exatamente 500 conquistas completas e unicas", () => {
+test("catálogo possui exatamente 500 conquistas completas e únicas", () => {
   assert.equal(achievementCatalog.length, 500);
   assert.deepEqual(duplicated(achievementCatalog.map((item) => item.slug)), []);
   assert.deepEqual(duplicated(achievementCatalog.map((item) => item.name)), []);
@@ -47,7 +47,7 @@ test("catalogo possui exatamente 500 conquistas completas e unicas", () => {
   }
 });
 
-test("categorias batem com a distribuicao obrigatoria", () => {
+test("categorias batem com a distribuição obrigatória", () => {
   const summary = achievementCategorySummary();
   assert.deepEqual(summary, achievementCategoryCounts);
   assert.equal(Object.values(summary).reduce((sum, count) => sum + count, 0), 500);

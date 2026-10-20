@@ -164,13 +164,13 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
   }
 
   return (
-    <section id="foto" className="relative overflow-hidden rounded-[32px] border border-[color:var(--theme-border)] bg-[color:var(--theme-surface)] p-6 shadow-[var(--theme-shadow)] md:p-7">
+    <section id="foto" className="relative overflow-hidden rounded-[18px] border border-[color:var(--theme-border)] bg-[color:var(--theme-surface)] p-6 shadow-sm md:p-7">
       <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-[color:var(--theme-primary)]/14 blur-3xl" />
       <div className="relative z-10 grid gap-6 lg:grid-cols-[auto_1fr] lg:items-center">
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="group relative mx-auto flex h-36 w-36 items-center justify-center overflow-hidden rounded-full text-4xl font-black text-white shadow-[0_24px_42px_-26px_var(--theme-primary)] ring-4 ring-white lg:mx-0"
+          className="group relative mx-auto flex h-36 w-36 items-center justify-center overflow-hidden rounded-full text-4xl font-semibold text-white shadow-sm ring-4 ring-white lg:mx-0"
           style={{ background: "var(--theme-gradient-sidebar)" }}
           aria-label="Alterar foto de perfil"
         >
@@ -189,14 +189,14 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
         </button>
 
         <div className="min-w-0 text-center lg:text-left">
-          <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[color:var(--theme-primary)]">
+          <p className="text-[11px] font-semibold uppercase tracking-wide text-[color:var(--theme-primary)]">
             Foto de perfil
           </p>
-          <h2 className="mt-1 font-display text-3xl font-black text-[color:var(--theme-text)]">
+          <h2 className="mt-1 font-display text-3xl font-semibold text-[color:var(--theme-text)]">
             Personalize seu avatar
           </h2>
           <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-[color:var(--theme-muted)]">
-            Use uma imagem quadrada para melhor resultado. Aceitamos JPG, PNG e WEBP de ate 3 MB.
+            Use uma imagem quadrada para melhor resultado. Aceitamos JPG, PNG e WEBP de até 3 MB.
           </p>
 
           <input
@@ -211,7 +211,7 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
-              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--theme-button-radius)] border border-[color:var(--theme-border)] bg-[color:color-mix(in_srgb,var(--theme-primary)_9%,var(--theme-surface))] px-5 text-sm font-black text-[color:var(--theme-primary)] transition hover:-translate-y-0.5"
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-[var(--theme-button-radius)] border border-[color:var(--theme-border)] bg-[color:color-mix(in_srgb,var(--theme-primary)_9%,var(--theme-surface))] px-5 text-sm font-semibold text-[color:var(--theme-primary)] transition hover:-translate-y-0.5"
             >
               <ImagePlus className="h-4 w-4" />
               Alterar foto
@@ -220,7 +220,7 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
               type="button"
               onClick={savePhoto}
               disabled={!file || saving}
-              className="theme-primary-cta inline-flex min-h-11 items-center justify-center gap-2 px-5 text-sm font-black shadow-md transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+              className="theme-primary-cta inline-flex min-h-11 items-center justify-center gap-2 px-5 text-sm font-semibold shadow-md transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <UploadCloud className="h-4 w-4" />
               {saving ? "Salvando..." : "Salvar foto"}
@@ -230,7 +230,7 @@ export function ProfilePhotoManager({ user }: { user: AppUser }) {
                 type="button"
                 onClick={removePhoto}
                 disabled={saving}
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-rose-100 bg-rose-50 px-5 text-sm font-black text-rose-600 transition hover:-translate-y-0.5 hover:bg-rose-100"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-rose-100 bg-rose-50 px-5 text-sm font-semibold text-rose-600 transition hover:-translate-y-0.5 hover:bg-rose-100"
               >
                 <Trash2 className="h-4 w-4" />
                 Remover foto

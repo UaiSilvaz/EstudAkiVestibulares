@@ -6,23 +6,23 @@ import { getActivePreparationContext } from "@/lib/preparations";
 export async function PATCH(request: Request) {
   const user = await getCurrentUser();
   if (!user) {
-    return NextResponse.json({ error: "Nao autenticado." }, { status: 401 });
+    return NextResponse.json({ error: "Não autenticado." }, { status: 401 });
   }
 
   const userId = await getPersistedUserId(user);
   if (!userId) {
-    return NextResponse.json({ error: "Usuario nao encontrado." }, { status: 409 });
+    return NextResponse.json({ error: "Usuário não encontrado." }, { status: 409 });
   }
 
   let body: { preparationId?: unknown };
   try {
     body = (await request.json()) as typeof body;
   } catch {
-    return NextResponse.json({ error: "Dados invalidos." }, { status: 400 });
+    return NextResponse.json({ error: "Dados inválidos." }, { status: 400 });
   }
 
   if (typeof body.preparationId !== "string") {
-    return NextResponse.json({ error: "Preparacao nao informada." }, { status: 400 });
+    return NextResponse.json({ error: "Preparação não informada." }, { status: 400 });
   }
 
   const membership = await db.userPreparation.findFirst({
@@ -35,7 +35,7 @@ export async function PATCH(request: Request) {
   });
 
   if (!membership) {
-    return NextResponse.json({ error: "Preparacao nao encontrada para este usuario." }, { status: 404 });
+    return NextResponse.json({ error: "Preparação não encontrada para este usuário." }, { status: 404 });
   }
 
   await db.user.update({

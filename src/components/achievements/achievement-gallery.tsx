@@ -46,17 +46,17 @@ const rarityLabels: Record<string, string> = {
 
 const categoryLabels: Record<string, string> = {
   FIRST_STEPS: "Primeiros passos",
-  QUESTIONS_TOTAL: "Questoes",
+  QUESTIONS_TOTAL: "Questões",
   CORRECT_TOTAL: "Acertos",
   SUBJECT: "Disciplinas",
-  STREAK: "Sequencia",
+  STREAK: "Sequência",
   STUDY_TIME: "Tempo",
   PERFORMANCE: "Desempenho",
   SIMULATION: "Simulados",
   EXAM: "Vestibulares",
   ERROR_NOTEBOOK: "Caderno de erros",
-  ESSAY: "Redacao",
-  CONTENT_MASTERY: "Conteudos",
+  ESSAY: "Redação",
+  CONTENT_MASTERY: "Conteúdos",
   COMMUNITY: "Comunidade",
   MATERIALS: "Materiais e aulas",
   SECRET: "Secretas",
@@ -160,22 +160,22 @@ export function AchievementGallery({
   return (
     <div className="space-y-5">
       <section className="grid gap-4 xl:grid-cols-[minmax(0,1.4fr)_minmax(320px,0.8fr)]">
-        <article className="relative min-h-[220px] overflow-hidden rounded-[28px] bg-gradient-to-br from-[#FF8A18] via-[#FFA51F] to-[#FFE01B] p-6 text-white shadow-[0_28px_58px_-30px_rgba(249,115,22,0.48)]">
-          <div className="absolute -right-12 bottom-2 flex h-44 w-44 rotate-[-10deg] items-center justify-center rounded-[38px] bg-white/16 text-white/38">
+        <article className="relative min-h-[220px] overflow-hidden rounded-[18px]     p-6 text-[color:var(--theme-text)] shadow-sm professional-neutral">
+          <div className="absolute -right-12 bottom-2 flex h-44 w-44 rotate-[-10deg] items-center justify-center rounded-[18px] bg-white/16 text-white/38">
             <Sparkles className="h-28 w-28" strokeWidth={2.1} />
           </div>
           <div className="relative z-10 max-w-2xl">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/80">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-white/80">
               Beta de conquistas
             </p>
             <div className="mt-2 h-0.5 w-8 rounded-full bg-white/45" />
-            <h2 className="mt-5 font-display text-4xl font-black leading-tight">
+            <h2 className="mt-5 font-display text-4xl font-semibold leading-tight">
               {unlocked.length}/{achievements.length} emblemas ativos
             </h2>
             <p className="mt-3 max-w-xl text-sm font-bold leading-6 text-white/88">
               {next
-                ? `Proximo marco: ${next.achievement.title} (${next.percentage}%).`
-                : "Todos os emblemas beta foram concluidos."}
+                ? `Próximo marco: ${next.achievement.title} (${next.percentage}%).`
+                : "Todos os emblemas beta foram concluídos."}
             </p>
           </div>
           <div className="relative z-10 mt-6 h-2 max-w-xl overflow-hidden rounded-full bg-white/28">
@@ -188,14 +188,14 @@ export function AchievementGallery({
           </div>
         </article>
 
-        <article className="relative min-h-[220px] overflow-hidden rounded-[28px] bg-gradient-to-br from-[#6B2CF5] via-[#8A42FF] to-[#A569FF] p-6 text-white shadow-[0_28px_58px_-30px_rgba(124,58,237,0.44)]">
+        <article className="relative min-h-[220px] overflow-hidden rounded-[18px]     p-6 text-[color:var(--theme-text)] shadow-sm professional-neutral">
           <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-white/18 blur-2xl" />
           <div className="relative z-10">
-            <p className="text-[11px] font-black uppercase tracking-[0.22em] text-white/78">
+            <p className="text-[11px] font-semibold uppercase tracking-wide text-white/78">
               Progresso
             </p>
             <div className="mt-2 h-0.5 w-8 rounded-full bg-white/35" />
-            <p className="mt-6 font-display text-5xl font-black leading-none">
+            <p className="mt-6 font-display text-5xl font-semibold leading-none">
               {completion}%
             </p>
             <p className="mt-3 text-sm font-bold text-white/84">
@@ -205,7 +205,7 @@ export function AchievementGallery({
         </article>
       </section>
 
-      <section className="rounded-[24px] border border-slate-100 bg-white p-3 shadow-[0_18px_42px_-30px_rgba(15,23,42,0.24)]">
+      <section className="rounded-[18px] border border-slate-100 bg-white p-3 shadow-sm">
         <div className="grid gap-2 lg:grid-cols-[minmax(240px,1fr)_180px_220px]">
           <label className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -262,7 +262,7 @@ export function AchievementGallery({
               whileHover={{ y: -4, scale: 1.006 }}
               whileTap={{ scale: 0.99 }}
               className={cn(
-                "group relative min-h-[244px] overflow-hidden rounded-[28px] p-5 text-left shadow-[0_24px_48px_-28px_rgba(15,23,42,0.38)] outline-none transition focus-visible:ring-4 focus-visible:ring-blue-200",
+                "group relative min-h-[244px] overflow-hidden rounded-[18px] p-5 text-left shadow-sm outline-none transition focus-visible:ring-4 focus-visible:ring-blue-200",
                 locked ? "border border-slate-200 text-slate-950" : "border border-white/30 text-white",
               )}
               style={{
@@ -279,17 +279,17 @@ export function AchievementGallery({
                   aria-hidden
                   className="pointer-events-none absolute inset-y-0 -left-24 w-20 rotate-12 bg-white/18 blur-sm"
                   animate={{ x: ["0%", "760%"] }}
-                  transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 4.8, ease: "easeInOut" }}
+                  transition={{ duration: 2.4, repeat: 0, repeatDelay: 4.8, ease: "easeInOut" }}
                 />
               )}
               <div
                 aria-hidden
-                className="pointer-events-none absolute -inset-px rounded-[28px] bg-[radial-gradient(circle_at_20%_16%,rgba(255,255,255,0.30),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_48%)]"
+                className="pointer-events-none absolute -inset-px rounded-[18px]  professional-neutral"
               />
               <div
                 aria-hidden
                 className={cn(
-                  "pointer-events-none absolute -right-10 bottom-0 flex h-36 w-36 rotate-[-10deg] items-center justify-center rounded-[34px]",
+                  "pointer-events-none absolute -right-10 bottom-0 flex h-36 w-36 rotate-[-10deg] items-center justify-center rounded-[18px]",
                   locked ? "bg-slate-100 text-slate-300" : "bg-white/18 text-white/42",
                 )}
               >
@@ -324,7 +324,7 @@ export function AchievementGallery({
                 />
                 <span
                   className={cn(
-                    "rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider",
+                    "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider",
                     locked ? "bg-slate-100 text-slate-500" : "bg-white/22 text-white",
                   )}
                 >
@@ -333,11 +333,11 @@ export function AchievementGallery({
               </div>
 
               <div className="relative z-10 mt-6">
-                <p className={cn("text-[10px] font-black uppercase tracking-[0.22em]", locked ? "text-blue-600" : "text-white/78")}>
+                <p className={cn("text-[10px] font-semibold uppercase tracking-wide", locked ? "text-blue-600" : "text-white/78")}>
                   {categoryLabels[record.achievement.category] ?? "Conquista"}
                 </p>
                 <div className={cn("mt-2 h-0.5 w-8 rounded-full", locked ? "bg-blue-200" : "bg-white/35")} />
-                <h3 className={cn("mt-4 font-display text-2xl font-black leading-tight", locked ? "text-slate-950" : "text-white")}>
+                <h3 className={cn("mt-4 font-display text-2xl font-semibold leading-tight", locked ? "text-slate-950" : "text-white")}>
                   {visibleTitle(record)}
                 </h3>
                 <p className={cn("mt-2 line-clamp-2 max-w-[86%] text-sm font-bold leading-6", locked ? "text-slate-600" : "text-white/88")}>
@@ -346,13 +346,13 @@ export function AchievementGallery({
               </div>
 
               <div className="relative z-10 mt-6">
-                <div className={cn("mb-2 flex items-center justify-between text-[10px] font-black", locked ? "text-slate-500" : "text-white/86")}>
+                <div className={cn("mb-2 flex items-center justify-between text-[10px] font-semibold", locked ? "text-slate-500" : "text-white/86")}>
                   <span>{Math.min(record.progress, record.achievement.target)}/{record.achievement.target}</span>
                   <span>{record.percentage}%</span>
                 </div>
                 <div className={cn("h-2 overflow-hidden rounded-full", locked ? "bg-slate-200" : "bg-white/24")}>
                   <motion.div
-                    className={cn("h-full rounded-full", locked ? "bg-gradient-to-r from-[#2563EB] to-[#FACC15]" : "bg-white")}
+                    className={cn("h-full rounded-full", locked ? "   professional-neutral" : "bg-white")}
                     initial={{ width: 0 }}
                     animate={{ width: `${record.percentage}%` }}
                     transition={{ type: "spring", stiffness: 120, damping: 22, delay: 0.1 }}
@@ -361,15 +361,15 @@ export function AchievementGallery({
               </div>
 
               <div className="relative z-10 mt-5 flex items-center justify-between">
-                <span className={cn("text-xs font-black", locked ? "text-slate-600" : "text-white")}>
+                <span className={cn("text-xs font-semibold", locked ? "text-slate-600" : "text-white")}>
                   +{record.achievement.xpReward} XP - {record.achievement.coinReward} moedas
                 </span>
                 {hidden ? (
                   <Lock className="h-5 w-5 text-slate-400" />
                 ) : record.completed ? (
                   <motion.span
-                    animate={{ rotate: [0, -8, 8, 0], scale: [1, 1.12, 1] }}
-                    transition={{ duration: 1.8, repeat: Infinity, repeatDelay: 3.6 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1.8, repeat: 0, repeatDelay: 3.6 }}
                     className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white ring-1 ring-white/30"
                   >
                     <Check className="h-4 w-4" />
@@ -394,7 +394,7 @@ export function AchievementGallery({
             aria-modal="true"
           >
             <motion.div
-              className="max-h-[90vh] w-full max-w-xl overflow-auto rounded-[28px] bg-white p-5 shadow-2xl"
+              className="max-h-[90vh] w-full max-w-xl overflow-auto rounded-[18px] bg-white p-5 shadow-2xl"
               initial={{ scale: 0.94, y: 18 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.96, y: 12 }}
@@ -409,7 +409,7 @@ export function AchievementGallery({
                   category={selected.achievement.category}
                   color={selected.achievement.color}
                   title={selected.achievement.title}
-                  className="h-24 w-24 bg-gradient-to-br from-[#2563EB] to-[#22D3EE]"
+                  className="h-24 w-24    professional-neutral"
                 />
                 <button
                   type="button"
@@ -419,10 +419,10 @@ export function AchievementGallery({
                   <X className="h-5 w-5" />
                 </button>
               </div>
-              <p className="mt-5 text-[11px] font-black uppercase tracking-[0.22em] text-blue-600">
+              <p className="mt-5 text-[11px] font-semibold uppercase tracking-wide text-blue-600">
                 {categoryLabels[selected.achievement.category]} - {rarityLabels[selected.achievement.rarity]}
               </p>
-              <h2 className="mt-2 font-display text-3xl font-black text-slate-950">
+              <h2 className="mt-2 font-display text-3xl font-semibold text-slate-950">
                 {visibleTitle(selected)}
               </h2>
               <p className="mt-3 text-sm font-bold leading-6 text-slate-600">
@@ -444,8 +444,8 @@ export function AchievementGallery({
 function Detail({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-      <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">{label}</p>
-      <p className="mt-1 text-lg font-black text-slate-950">{value}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">{label}</p>
+      <p className="mt-1 text-lg font-semibold text-slate-950">{value}</p>
     </div>
   );
 }

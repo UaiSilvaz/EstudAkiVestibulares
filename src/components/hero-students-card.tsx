@@ -1,8 +1,9 @@
 "use client";
 
+import { BookOpen, Trophy } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, BookOpen, GraduationCap, Sparkles, Star, Trophy, Zap, Flame, CheckCircle2, Brain } from "lucide-react";
+import { ArrowRight, GraduationCap, Sparkles, Star, Zap, Flame, CheckCircle2, Brain } from "lucide-react";
 
 export function HeroStudentsCard() {
   return (
@@ -10,7 +11,7 @@ export function HeroStudentsCard() {
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative min-h-[480px] overflow-hidden rounded-[32px] border border-blue-100/60 p-7 shadow-[0_18px_45px_-22px_rgba(15,23,42,0.12)] md:p-10"
+      className="group relative min-h-[480px] overflow-hidden rounded-[18px] border border-blue-100/60 p-7 shadow-sm md:p-10"
       style={{
         background:
           "linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 40%, #BAE6FD 70%, #A5F3FC 100%)",
@@ -41,11 +42,11 @@ export function HeroStudentsCard() {
 
       <div className="relative z-10 grid h-full grid-cols-1 gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div>
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-[11px] font-black uppercase tracking-[0.22em] text-blue-700 backdrop-blur">
+          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-wide text-blue-700 backdrop-blur">
             <Sparkles className="h-3.5 w-3.5 text-[#22D3EE]" />
             Criado para estudar com direção
           </div>
-          <h2 className="max-w-lg font-display text-4xl font-extrabold leading-[1.03] tracking-tight text-[#0F172A] md:text-5xl lg:text-[3.4rem]">
+          <h2 className="max-w-lg font-display text-4xl font-bold leading-[1.03] tracking-tight text-[#0F172A] md:text-5xl lg:text-[3.4rem]">
             Sua aprovação
             <br />
             <span className="ek-text-gradient-mix">começa aqui.</span>
@@ -63,7 +64,7 @@ export function HeroStudentsCard() {
             </Link>
           </div>
 
-          <div className="mt-7 flex flex-wrap items-center gap-3 text-xs font-extrabold text-slate-700">
+          <div className="mt-7 flex flex-wrap items-center gap-3 text-xs font-bold text-slate-700">
             <span className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5">
               <Trophy className="h-3.5 w-3.5 text-amber-500" /> +120 XP por acerto
             </span>
@@ -78,19 +79,19 @@ export function HeroStudentsCard() {
 
         <div className="relative hidden h-full min-h-[360px] lg:block">
           <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute right-2 top-2 w-full max-w-[280px] rounded-3xl border border-white/80 bg-white p-4 shadow-[0_18px_40px_-18px_rgba(37,99,235,0.30)]"
+            animate={{ opacity: 1 }}
+            transition={{ duration: 5, repeat: 0, ease: "easeInOut" }}
+            className="absolute right-2 top-2 w-full max-w-[280px] rounded-3xl border border-white/80 bg-white p-4 shadow-sm"
           >
             <div className="mb-3 flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-[#2563EB] to-[#22D3EE] text-white shadow-md">
+              <div className="flex h-9 w-9 items-center justify-center rounded-2xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
                 <Brain className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                   Questão ENEM · 2023
                 </p>
-                <p className="text-xs font-black text-[#0F172A]">Matemática</p>
+                <p className="text-xs font-semibold text-[#0F172A]">Matemática</p>
               </div>
             </div>
             <p className="text-[12px] font-semibold leading-relaxed text-slate-700">
@@ -107,7 +108,7 @@ export function HeroStudentsCard() {
                       : "border-slate-100 bg-white text-slate-600"
                   }`}
                 >
-                  <span className={`flex h-5 w-5 items-center justify-center rounded-md text-[9px] font-black ${
+                  <span className={`flex h-5 w-5 items-center justify-center rounded-md text-[9px] font-semibold ${
                     i === 1 ? "bg-emerald-500 text-white" : "bg-slate-100 text-slate-500"
                   }`}>
                     {String.fromCharCode(65 + i)}
@@ -124,18 +125,18 @@ export function HeroStudentsCard() {
             animate={{ opacity: 1, y: [0, -4, 0] }}
             transition={{
               opacity: { duration: 0.6, delay: 0.4 },
-              y: { duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 },
+              y: { duration: 4.5, repeat: 0, ease: "easeInOut", delay: 0.5 },
             }}
-            className="absolute -bottom-2 left-0 flex items-center gap-3 rounded-2xl border border-white/80 bg-white px-4 py-3 shadow-[0_18px_40px_-18px_rgba(34,197,94,0.30)]"
+            className="absolute -bottom-2 left-0 flex items-center gap-3 rounded-2xl border border-white/80 bg-white px-4 py-3 shadow-sm"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#22C55E] to-[#86EFAC] text-white shadow-md">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
               <Trophy className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-wider text-slate-500">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                 Ranking
               </p>
-              <p className="text-sm font-black text-[#0F172A]">Top 10% da liga Prata</p>
+              <p className="text-sm font-semibold text-[#0F172A]">Top 10% da liga Prata</p>
             </div>
             <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
           </motion.div>
@@ -145,18 +146,18 @@ export function HeroStudentsCard() {
             animate={{ opacity: 1, y: [0, -5, 0] }}
             transition={{
               opacity: { duration: 0.6, delay: 0.55 },
-              y: { duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 },
+              y: { duration: 5.5, repeat: 0, ease: "easeInOut", delay: 0.8 },
             }}
-            className="absolute -right-4 top-44 flex items-center gap-2 rounded-2xl border border-white/80 bg-gradient-to-br from-[#FEF3C7] to-[#FDE68A] px-3 py-2 shadow-[0_18px_40px_-18px_rgba(250,204,21,0.40)]"
+            className="absolute -right-4 top-44 flex items-center gap-2 rounded-2xl border border-white/80    px-3 py-2 shadow-sm professional-neutral"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#FACC15] to-[#F97316] text-white shadow-md">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
               <Zap className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-[9px] font-black uppercase tracking-wider text-amber-700">
+              <p className="text-[9px] font-semibold uppercase tracking-wider text-amber-700">
                 +12% semana
               </p>
-              <p className="text-[11px] font-black text-[#0F172A]">Evoluindo rápido</p>
+              <p className="text-[11px] font-semibold text-[#0F172A]">Evoluindo rápido</p>
             </div>
           </motion.div>
 
@@ -165,18 +166,18 @@ export function HeroStudentsCard() {
             animate={{ opacity: 1, y: [0, -3, 0] }}
             transition={{
               opacity: { duration: 0.6, delay: 0.7 },
-              y: { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 },
+              y: { duration: 6, repeat: 0, ease: "easeInOut", delay: 1 },
             }}
-            className="absolute bottom-12 right-12 flex items-center gap-2 rounded-2xl border border-white/80 bg-gradient-to-br from-[#FDF2F8] to-[#FBCFE8] px-3 py-2 shadow-[0_18px_40px_-18px_rgba(251,113,133,0.30)]"
+            className="absolute bottom-12 right-12 flex items-center gap-2 rounded-2xl border border-white/80    px-3 py-2 shadow-sm professional-neutral"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#FB7185] to-[#FDA4AF] text-white shadow-md">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl    text-[color:var(--theme-text)] shadow-md professional-neutral">
               <Flame className="h-4 w-4" />
             </div>
             <div>
-              <p className="text-[9px] font-black uppercase tracking-wider text-pink-700">
+              <p className="text-[9px] font-semibold uppercase tracking-wider text-pink-700">
                 Streak
               </p>
-              <p className="text-[11px] font-black text-[#0F172A]">9 dias seguidos</p>
+              <p className="text-[11px] font-semibold text-[#0F172A]">9 dias seguidos</p>
             </div>
           </motion.div>
         </div>

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getCurrentUser, getPersistedUserId } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { syncUserAchievements } from "@/lib/backend-metrics";
-import { leagueForXp } from "@/lib/utils";
+import { awardStudyXp, lockStudentProgress } from "@/lib/study-xp";
 
 export async function POST(
   _request: Request,
@@ -19,46 +19,12 @@ export async function POST(
   }
 
   const { id } = await params;
-  const result = await db.questionAttempt.updateMany({
-    where: {
-      userId: persistedUserId,
-      questionId: id,
-      correct: false,
-      annulled: false,
-      reviewed: false,
-    },
-    data: {
-      reviewed: true,
-      reviewedAt: new Date(),
-    },
+  const result = await db.$transaction(async tx => {
+    await lockStudentProgress(tx, persistedUserId);
+    const rows = await tx.questionAttempt.updateMany({ where: { userId: persistedUserId, questionId: id, correct: false, annulled: false, reviewed: false }, data: { reviewed: true, reviewedAt: new Date() } });
+    if (rows.count) await awardStudyXp(tx, persistedUserId, "review:" + id, 3, "Revisão de questão concluída");
+    return rows;
   });
-
-  if (result.count > 0) {
-    const userBeforeReward = await db.user.findUnique({
-      where: { id: persistedUserId },
-      select: { xp: true, league: true, targetExam: true },
-    });
-    const nextLeague = userBeforeReward
-      ? leagueForXp(userBeforeReward.xp + 3, userBeforeReward.targetExam)
-      : null;
-    await db.$transaction([
-      db.user.update({
-        where: { id: persistedUserId },
-        data: {
-          xp: { increment: 3 },
-          ...(nextLeague && nextLeague !== userBeforeReward?.league ? { league: nextLeague } : {}),
-        },
-      }),
-      db.activity.create({
-        data: {
-          userId: persistedUserId,
-          type: "CONTENT",
-          message: `${user.name} revisou uma questão do caderno de erros.`,
-          xp: 3,
-        },
-      }),
-    ]);
-  }
 
   const persistedUser = await db.user.findUnique({ where: { id: persistedUserId } });
   const achievements =

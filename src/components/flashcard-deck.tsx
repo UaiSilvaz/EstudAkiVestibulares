@@ -1,15 +1,8 @@
 "use client";
 
+import { BookOpen, Users } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import {
-  BookOpen,
-  Plus,
-  RotateCcw,
-  Search,
-  Share2,
-  Star,
-  Users,
-} from "lucide-react";
+import { Plus, RotateCcw, Search, Share2, Star } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
 import { EstudakiLoadingState } from "@/components/loading-states";
@@ -129,21 +122,21 @@ export function FlashcardDeck({
 
   return (
     <div className="space-y-5">
-      <section className="rounded-[26px] border border-slate-100 bg-white p-4 shadow-sm">
+      <section className="rounded-[18px] border border-slate-100 bg-white p-4 shadow-sm">
         <div className="grid gap-2 md:grid-cols-[1fr_180px_220px_auto]">
           <label className="relative"><Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Buscar frente ou resposta" className="ek-input ek-input-with-icon w-full !pl-11" /></label>
           <select value={subject} onChange={(event) => { setSubject(event.target.value); setDeck(""); }} className="ek-input"><option value="">Todas as matérias</option>{subjects.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
           <select value={deck} onChange={(event) => setDeck(event.target.value)} className="ek-input"><option value="">Todos os baralhos</option>{availableDecks.map((item) => <option key={`${item.subjectId}-${item.name}`} value={item.name}>{item.name}</option>)}</select>
-          <button onClick={() => setCreating((value) => !value)} className="flex min-h-11 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 text-xs font-black text-white shadow-md"><Plus className="h-4 w-4" /> Criar</button>
+          <button onClick={() => setCreating((value) => !value)} className="flex min-h-11 items-center justify-center gap-2 rounded-2xl    px-4 text-xs font-semibold text-white shadow-md professional-action"><Plus className="h-4 w-4" /> Criar</button>
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
-          {[{ value: "", label: "Todos" }, { value: "favorites", label: "Favoritos" }, { value: "mine", label: "Meus cards" }].map((item) => <button key={item.value} onClick={() => setScope(item.value)} className={`rounded-full px-3 py-1.5 text-xs font-black ${scope === item.value ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-600"}`}>{item.label}</button>)}
+          {[{ value: "", label: "Todos" }, { value: "favorites", label: "Favoritos" }, { value: "mine", label: "Meus cards" }].map((item) => <button key={item.value} onClick={() => setScope(item.value)} className={`rounded-full px-3 py-1.5 text-xs font-semibold ${scope === item.value ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-600"}`}>{item.label}</button>)}
           <span className="ml-auto text-xs font-bold text-slate-400">{cards.length} exibidos</span>
         </div>
       </section>
 
       {creating && (
-        <section className="rounded-[26px] border border-blue-100 bg-gradient-to-br from-blue-50 to-white p-5">
+        <section className="rounded-[18px] border border-blue-100    p-5 professional-neutral">
           <div className="grid gap-3 md:grid-cols-2">
             <select value={form.subjectId} onChange={(event) => setForm({ ...form, subjectId: event.target.value })} className="ek-input">{subjects.map((item) => <option key={item.id} value={item.id}>{item.name}</option>)}</select>
             <input value={form.deck} onChange={(event) => setForm({ ...form, deck: event.target.value })} className="ek-input" placeholder="Nome do baralho" />
@@ -152,7 +145,7 @@ export function FlashcardDeck({
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
             <label className="flex items-center gap-2 text-sm font-bold text-slate-600"><input type="checkbox" checked={form.shared} onChange={(event) => setForm({ ...form, shared: event.target.checked })} className="h-4 w-4 accent-blue-600" /> Compartilhar com colegas</label>
-            <button onClick={() => void createCard()} className="rounded-2xl bg-blue-600 px-5 py-2.5 text-sm font-black text-white">Salvar flashcard</button>
+            <button onClick={() => void createCard()} className="rounded-2xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white">Salvar flashcard</button>
           </div>
         </section>
       )}
@@ -160,7 +153,7 @@ export function FlashcardDeck({
       {loading ? (
         <EstudakiLoadingState label="Carregando flashcards" />
       ) : loadError ? (
-        <div role="alert" className="rounded-[24px] border border-amber-200 bg-amber-50 p-6 text-center">
+        <div role="alert" className="rounded-[18px] border border-amber-200 bg-amber-50 p-6 text-center">
           <p className="text-sm font-bold text-amber-800">{loadError}</p>
           <button type="button" onClick={() => setRetryCount((current) => current + 1)} className="ek-button ek-button-primary mt-4">
             Tentar novamente
@@ -177,16 +170,16 @@ export function FlashcardDeck({
                 {card.ownerId === currentUserId && <button onClick={() => void toggleShare(card)} aria-label="Compartilhar flashcard" className="absolute right-14 top-3 z-20 flex h-9 w-9 items-center justify-center rounded-xl bg-white/90 text-blue-600 shadow-md">{card.shared ? <Users className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}</button>}
                 <button type="button" onClick={() => setFlipped((current) => ({ ...current, [card.id]: !isFlipped }))} className="ek-flip-card h-full w-full text-left" data-flipped={isFlipped ? "true" : "false"}>
                   <div className="ek-flip-inner h-full w-full">
-                    <div className="ek-flip-face flex h-full w-full flex-col rounded-[26px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.22)]">
-                      <span className="w-fit rounded-full px-3 py-1 text-[10px] font-black text-white" style={{ background: `linear-gradient(135deg, ${color}, #22D3EE)` }}>{card.subject?.name ?? "Geral"}</span>
-                      <p className="mt-5 text-[10px] font-black uppercase tracking-wider text-slate-400">{card.deck ?? "Flashcard"}</p>
-                      <p className="mt-3 line-clamp-5 text-lg font-black leading-7 text-slate-950">{card.front}</p>
+                    <div className="ek-flip-face flex h-full w-full flex-col rounded-[18px] border border-slate-100 bg-white p-6 shadow-sm">
+                      <span className="w-fit rounded-full px-3 py-1 text-[10px] font-semibold text-white" style={{ background: "var(--theme-surface)" }}>{card.subject?.name ?? "Geral"}</span>
+                      <p className="mt-5 text-[10px] font-semibold uppercase tracking-wider text-slate-400">{card.deck ?? "Flashcard"}</p>
+                      <p className="mt-3 line-clamp-5 text-lg font-semibold leading-7 text-slate-950">{card.front}</p>
                       <span className="mt-auto flex items-center gap-2 text-xs font-bold text-slate-400"><RotateCcw className="h-4 w-4" /> Clique para virar</span>
                     </div>
-                    <div className="ek-flip-face ek-flip-back flex h-full w-full flex-col rounded-[26px] border p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.22)]" style={{ background: `linear-gradient(135deg, ${color}18, #DBEAFE)`, borderColor: `${color}40` }}>
-                      <span className="w-fit rounded-full bg-slate-950 px-3 py-1 text-[10px] font-black text-white">Resposta</span>
+                    <div className="ek-flip-face ek-flip-back flex h-full w-full flex-col rounded-[18px] border p-6 shadow-sm" style={{ background: "var(--theme-surface)", borderColor: `${color}40` }}>
+                      <span className="w-fit rounded-full bg-slate-950 px-3 py-1 text-[10px] font-semibold text-white">Resposta</span>
                       <p className="mt-5 line-clamp-7 text-base font-bold leading-7 text-slate-800">{card.back}</p>
-                      <span className="mt-auto flex items-center gap-2 text-xs font-bold text-slate-500"><BookOpen className="h-4 w-4" /> {card.owner?.name ?? "Acervo EstudAki"}</span>
+                      <span className="mt-auto flex items-center gap-2 text-xs font-bold text-slate-500"><BookOpen className="h-4 w-4" /> {card.owner?.name ?? "Acervo Norte Preparatórios"}</span>
                     </div>
                   </div>
                 </button>
@@ -195,7 +188,7 @@ export function FlashcardDeck({
           })}
         </div>
       )}
-      {!loading && !loadError && !cards.length && <p className="rounded-[24px] border border-dashed border-slate-200 bg-white p-10 text-center text-sm font-semibold text-slate-500">Nenhum flashcard encontrado para estes filtros.</p>}
+      {!loading && !loadError && !cards.length && <p className="rounded-[18px] border border-dashed border-slate-200 bg-white p-10 text-center text-sm font-semibold text-slate-500">Nenhum flashcard encontrado para estes filtros.</p>}
     </div>
   );
 }

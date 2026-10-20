@@ -37,9 +37,9 @@ export type MasteryRow = {
   id: string;
   subject: string;
   topic: string;
-  incidence: "Muito alta" | "Alta" | "Media" | "Baixa";
+  incidence: "Muito alta" | "Alta" | "Média" | "Baixa";
   mastery: number;
-  priority: "Alta" | "Media" | "Baixa";
+  priority: "Alta" | "Média" | "Baixa";
   nextAction: string;
   href: string;
 };
@@ -63,7 +63,7 @@ export type LawArticle = {
   article: string;
   title: string;
   relatedQuestions: number;
-  incidence: "Alta" | "Media" | "Baixa";
+  incidence: "Alta" | "Média" | "Baixa";
   mastery: number;
   lastReview: string;
 };
@@ -73,7 +73,7 @@ export type EdictTopic = {
   coverage: number;
   mastery: number;
   questions: number;
-  children: Array<{ title: string; status: "Nao iniciado" | "Estudando" | "Revisando" | "Dominado" }>;
+  children: Array<{ title: string; status: "Não iniciado" | "Estudando" | "Revisando" | "Dominado" }>;
 };
 
 export type IntelligenceSnapshot = {
@@ -108,7 +108,7 @@ export type IntelligenceSnapshot = {
 const incidenceByIndex: MasteryRow["incidence"][] = [
   "Muito alta",
   "Alta",
-  "Media",
+  "Média",
   "Baixa",
 ];
 
@@ -124,7 +124,7 @@ function verticalFocus(objective: ObjectiveOption) {
       mainSubject: "Direito Constitucional",
       weakTopic: "Controle de constitucionalidade",
       supportTopic: "Etica profissional",
-      practiceLabel: "20 questoes FGV",
+      practiceLabel: "20 questões FGV",
       essayLabel: "Peca e estrutura argumentativa",
     };
   }
@@ -132,9 +132,9 @@ function verticalFocus(objective: ObjectiveOption) {
   if (objective.vertical === "Policial") {
     return {
       mainSubject: "Direito Penal",
-      weakTopic: "Crimes contra a administracao",
-      supportTopic: "Portuguese e interpretacao",
-      practiceLabel: "20 questoes por banca",
+      weakTopic: "Crimes contra a administração",
+      supportTopic: "Portuguese e interpretação",
+      practiceLabel: "20 questões por banca",
       essayLabel: "Atualidades e discursiva",
     };
   }
@@ -142,29 +142,29 @@ function verticalFocus(objective: ObjectiveOption) {
   if (objective.vertical === "Concursos") {
     return {
       mainSubject: "Português",
-      weakTopic: "Sintaxe e interpretacao",
+      weakTopic: "Sintaxe e interpretação",
       supportTopic: "Direito Administrativo",
-      practiceLabel: "20 questoes Vunesp",
+      practiceLabel: "20 questões Vunesp",
       essayLabel: "Discursiva objetiva",
     };
   }
 
   if (objective.vertical === "Militares") {
     return {
-      mainSubject: "Matematica",
-      weakTopic: "Funcoes e geometria",
-      supportTopic: "Portugues",
-      practiceLabel: "18 questoes de prova",
-      essayLabel: "Revisao de fundamentos",
+      mainSubject: "Matemática",
+      weakTopic: "Funções e geometria",
+      supportTopic: "Português",
+      practiceLabel: "18 questões de prova",
+      essayLabel: "Revisão de fundamentos",
     };
   }
 
   return {
-    mainSubject: "Matematica",
-    weakTopic: "Funcoes exponenciais",
-    supportTopic: "Fisica - Eletrodinamica",
-    practiceLabel: "20 questoes ENEM",
-    essayLabel: "Redacao - repertorio e tese",
+    mainSubject: "Matemática",
+    weakTopic: "Funções exponenciais",
+    supportTopic: "Física - Eletrodinamica",
+    practiceLabel: "20 questões ENEM",
+    essayLabel: "Redação - repertório e tese",
   };
 }
 
@@ -176,10 +176,10 @@ function buildBlocks(objective: ObjectiveOption): StudyBlock[] {
     {
       id: "warmup-review",
       kind: "review",
-      title: `Revisao - ${focus.supportTopic}`,
-      detail: "Retomar os erros recentes antes de abrir conteudo novo.",
+      title: `Revisão - ${focus.supportTopic}`,
+      detail: "Retomar os erros recentes antes de abrir conteúdo novo.",
       durationMinutes: 20,
-      href: "/revisoes",
+      href: "/caderno-de-erros",
       status: "done",
       driver: "Erros recentes",
       impact: "+retencao",
@@ -188,14 +188,14 @@ function buildBlocks(objective: ObjectiveOption): StudyBlock[] {
       id: "core-lesson",
       kind: "lesson",
       title: `${focus.mainSubject} - ${focus.weakTopic}`,
-      detail: "Aula curta com resumo, transcricao e exemplos guiados.",
+      detail: "Aula curta com resumo, transcrição e exemplos guiados.",
       durationMinutes: 35,
-      href: "/trilhas",
+      href: "/cursos",
       status: "active",
-      driver: "Baixo dominio + alta incidencia",
+      driver: "Baixo domínio + alta incidencia",
       impact: "+cobertura",
       video: {
-        title: "Video principal",
+        title: "Vídeo principal",
         duration: "35:00",
         currentTime: "12:40",
         chapters: [
@@ -221,18 +221,18 @@ function buildBlocks(objective: ObjectiveOption): StudyBlock[] {
       id: "flashcards",
       kind: "flashcards",
       title: "Flashcards programados",
-      detail: "Cartoes que vencem hoje entram antes de novos assuntos.",
+      detail: "Cartões que vencem hoje entram antes de novos assuntos.",
       durationMinutes: 15,
       href: "/flashcards",
       status: "next",
-      driver: "Memoria espacada",
+      driver: "Memória espacada",
       impact: "+retencao",
     },
     {
       id: "final-output",
       kind: objective.vertical === "Vestibulares" ? "essay" : "simulation",
       title: focus.essayLabel,
-      detail: "Fechamento do bloco com tarefa curta e mensuravel.",
+      detail: "Fechamento do bloco com tarefa curta e mensurável.",
       durationMinutes: 40,
       href: objective.vertical === "Vestibulares" ? "/redacao" : "/simulados",
       status: "next",
@@ -244,7 +244,7 @@ function buildBlocks(objective: ObjectiveOption): StudyBlock[] {
 
 function priorityFromMastery(mastery: number): MasteryRow["priority"] {
   if (mastery < 50) return "Alta";
-  if (mastery < 72) return "Media";
+  if (mastery < 72) return "Média";
   return "Baixa";
 }
 
@@ -261,34 +261,34 @@ function buildRadarRows(objective: ObjectiveOption): MasteryRow[] {
         ]
       : objective.vertical === "Policial"
         ? [
-            ["Penal", "Crimes contra a administracao"],
+            ["Penal", "Crimes contra a administração"],
             ["Processo Penal", "Inquerito policial"],
-            ["Portugues", "Interpretacao de textos"],
+            ["Português", "Interpretação de textos"],
             ["Administrativo", "Atos administrativos"],
-            ["Atualidades", "Seguranca publica"],
+            ["Atualidades", "Segurança pública"],
           ]
         : objective.vertical === "Concursos"
           ? [
-              ["Portugues", "Sintaxe"],
+              ["Português", "Sintaxe"],
               ["Administrativo", "Atos administrativos"],
               ["Constitucional", "Direitos fundamentais"],
-              ["Raciocinio Logico", "Proposicoes"],
-              ["Informatica", "Seguranca da informacao"],
+              ["Raciocínio Lógico", "Proposicoes"],
+              ["Informática", "Segurança da informação"],
             ]
           : objective.vertical === "Militares"
             ? [
-                ["Matematica", "Funcoes"],
-                ["Portugues", "Interpretacao"],
-                ["Historia", "Brasil Republica"],
+                ["Matemática", "Funções"],
+                ["Português", "Interpretação"],
+                ["História", "Brasil Republica"],
                 ["Geografia", "Cartografia"],
-                ["Fisica", "Cinematica"],
+                ["Física", "Cinematica"],
               ]
             : [
-                ["Matematica", focus.weakTopic],
-                ["Fisica", "Eletrodinamica"],
-                ["Linguagens", "Interpretacao"],
-                ["Quimica", "Estequiometria"],
-                ["Redacao", "Proposta de intervencao"],
+                ["Matemática", focus.weakTopic],
+                ["Física", "Eletrodinamica"],
+                ["Linguagens", "Interpretação"],
+                ["Química", "Estequiometria"],
+                ["Redação", "Proposta de intervenção"],
               ];
 
   return topicSeed.map(([subject, topic], index) => {
@@ -302,7 +302,7 @@ function buildRadarRows(objective: ObjectiveOption): MasteryRow[] {
       priority: priorityFromMastery(mastery),
       nextAction:
         mastery < 50
-          ? "Aula curta + 12 questoes"
+          ? "Aula curta + 12 questões"
           : mastery < 72
             ? "Lista guiada"
             : "Manutencao leve",
@@ -333,7 +333,7 @@ function buildEdict(objective: ObjectiveOption): EdictTopic[] {
         children: [
           { title: "Direitos fundamentais", status: "Revisando" },
           { title: "Controle constitucional", status: "Estudando" },
-          { title: "Organizacao do Estado", status: "Nao iniciado" },
+          { title: "Organização do Estado", status: "Não iniciado" },
         ],
       },
     ];
@@ -349,7 +349,7 @@ function buildEdict(objective: ObjectiveOption): EdictTopic[] {
         children: [
           { title: "Teoria do crime", status: "Revisando" },
           { title: "Crimes contra a pessoa", status: "Estudando" },
-          { title: "Administracao publica", status: "Nao iniciado" },
+          { title: "Administração pública", status: "Não iniciado" },
         ],
       },
       {
@@ -359,8 +359,8 @@ function buildEdict(objective: ObjectiveOption): EdictTopic[] {
         questions: 0,
         children: [
           { title: "Corrida", status: "Estudando" },
-          { title: "Barra/flexao", status: "Nao iniciado" },
-          { title: "Documental", status: "Nao iniciado" },
+          { title: "Barra/flexao", status: "Não iniciado" },
+          { title: "Documental", status: "Não iniciado" },
         ],
       },
     ];
@@ -389,7 +389,7 @@ function edictStatusFromPreparationStatus(
   if (normalized.includes("concluido")) return "Dominado";
   if (normalized.includes("estudando")) return "Estudando";
   if (normalized.includes("revisao")) return "Revisando";
-  return "Nao iniciado";
+  return "Não iniciado";
 }
 
 function buildReviews(objective: ObjectiveOption): ReviewItem[] {
@@ -397,19 +397,19 @@ function buildReviews(objective: ObjectiveOption): ReviewItem[] {
   return [
     {
       title: focus.weakTopic,
-      reason: "Errou duas vezes e levou mais tempo que a media.",
+      reason: "Errou duas vezes e levou mais tempo que a média.",
       due: "Amanha",
-      href: "/revisoes",
+      href: "/caderno-de-erros",
     },
     {
       title: focus.supportTopic,
-      reason: "Acertou com dificuldade. Revisao curta segura o ganho.",
+      reason: "Acertou com dificuldade. Revisão curta segura o ganho.",
       due: "7 dias",
-      href: "/revisoes",
+      href: "/caderno-de-erros",
     },
     {
       title: "Caderno de erros",
-      reason: "Padrao de confusao conceitual detectado.",
+      reason: "Padrão de confusao conceitual detectado.",
       due: "Hoje",
       href: "/questions?mode=errors",
     },
@@ -420,7 +420,7 @@ function buildLaws(objective: ObjectiveOption): LawArticle[] {
   const police = objective.vertical === "Policial";
   return [
     {
-      code: police ? "Codigo Penal" : "Constituicao Federal",
+      code: police ? "Código Penal" : "Constituicao Federal",
       article: police ? "Art. 312" : "Art. 5",
       title: police ? "Peculato" : "Direitos e garantias fundamentais",
       relatedQuestions: police ? 64 : 183,
@@ -442,7 +442,7 @@ function buildLaws(objective: ObjectiveOption): LawArticle[] {
       article: "Art. 116",
       title: "Deveres do servidor",
       relatedQuestions: 47,
-      incidence: "Media",
+      incidence: "Média",
       mastery: 69,
       lastReview: "21 dias",
     },
@@ -480,8 +480,8 @@ export function buildIntelligenceSnapshot(user: AppUser): IntelligenceSnapshot {
     nextRank: rank.next?.name ?? null,
     rankProgress: Math.round(rank.value),
     today: {
-      title: "EstudAki Hoje",
-      subtitle: "O menor caminho util entre seu ponto atual e a aprovacao.",
+      title: "Norte Preparatórios Hoje",
+      subtitle: "O menor caminho util entre seu ponto atual e a aprovação.",
       plannedMinutes,
       completedMinutes,
       focusScore: Math.round((objective.progress + rank.value) / 2),

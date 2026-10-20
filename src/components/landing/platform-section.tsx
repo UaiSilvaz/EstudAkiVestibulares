@@ -1,17 +1,8 @@
 "use client";
 
+import { BookOpenCheck, PenLine, Target, Trophy, Users } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import {
-  BookOpenCheck,
-  GraduationCap,
-  Library,
-  type LucideIcon,
-  PenLine,
-  Target,
-  Timer,
-  Trophy,
-  Users,
-} from "lucide-react";
+import { GraduationCap, Library, type LucideIcon, Timer } from "lucide-react";
 import { EKButton } from "../visual/ek-button";
 import { FadeUp, SectionTitle } from "../visual/motion-primitives";
 
@@ -30,17 +21,17 @@ const items: Item[] = [
   { icon: Trophy, title: "Liga de estudo", text: "XP, conquistas, ranking e evolução.", color: "#FFC400", color2: "#FF6B00" },
   { icon: Library, title: "Cadernos digitais", text: "Apostilas e cadernos com compra direta.", color: "#3DBB6A", color2: "#00C896" },
   { icon: PenLine, title: "Redação com IA", text: "Treine, receba feedback e evolua.", color: "#FF4D00", color2: "#FF6B00" },
-  { icon: Library, title: "Biblioteca privada", text: "Capas, compra e PDFs protegidos por licenca.", color: "#8B5CF6", color2: "#C4B5FD" },
+  { icon: Library, title: "Biblioteca privada", text: "Capas, compra e PDFs protegidos por licença.", color: "#8B5CF6", color2: "#C4B5FD" },
   { icon: Users, title: "Comunidade", text: "Ranking, feed e desafios com outros alunos.", color: "#38BDF8", color2: "#005CFF" },
 ];
 
 export function PlatformSection() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-white to-[#F7FAFF] py-24">
+    <section className="relative overflow-hidden    py-24 professional-neutral">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           align="center"
-          eyebrow="Por dentro do EstudAki"
+          eyebrow="Por dentro do Norte Preparatórios"
           title={
             <>
               Uma plataforma{" "}
@@ -58,20 +49,20 @@ export function PlatformSection() {
                 <motion.div
                   whileHover={{ y: -7, scale: 1.015 }}
                   transition={{ type: "spring", stiffness: 220, damping: 18 }}
-                  className="group relative min-h-[188px] overflow-hidden rounded-[26px] p-6 text-white shadow-[0_24px_46px_-28px_rgba(15,23,42,0.38)] transition-shadow hover:shadow-[0_34px_70px_-30px_rgba(30,115,255,0.44)]"
+                  className="group relative min-h-[188px] overflow-hidden rounded-[18px] p-6 text-white shadow-sm transition-shadow shadow-sm"
                   style={{
-                    background: `linear-gradient(135deg, ${item.color} 0%, ${item.color2} 100%)`,
+                    background: "var(--theme-surface)",
                   }}
                 >
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute -inset-px rounded-[26px] bg-[radial-gradient(circle_at_20%_18%,rgba(255,255,255,0.28),transparent_32%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_44%)]"
+                    className="pointer-events-none absolute -inset-px rounded-[18px]  professional-neutral"
                   />
                   <div
                     aria-hidden
                     className="absolute -right-16 -top-14 h-44 w-44 rounded-full bg-white/20 blur-3xl transition-opacity duration-300 group-hover:opacity-90"
                   />
-                  <div className="pointer-events-none absolute -right-9 bottom-2 flex h-32 w-32 rotate-[-10deg] items-center justify-center rounded-[30px] bg-white/16 text-white/34 opacity-80 transition duration-300 group-hover:scale-105">
+                  <div className="pointer-events-none absolute -right-9 bottom-2 flex h-32 w-32 rotate-[-10deg] items-center justify-center rounded-[18px] bg-white/16 text-white/34 opacity-80 transition duration-300 ">
                     <Icon className="h-20 w-20" strokeWidth={2.15} />
                   </div>
                   <div
@@ -79,7 +70,7 @@ export function PlatformSection() {
                   >
                     <Icon className="h-6 w-6" strokeWidth={2.2} />
                   </div>
-                  <h3 className="relative z-10 font-display text-xl font-black text-white">
+                  <h3 className="relative z-10 font-display text-xl font-semibold text-white">
                     {item.title}
                   </h3>
                   <div className="relative z-10 mt-2 h-0.5 w-6 rounded-full bg-white/35" />

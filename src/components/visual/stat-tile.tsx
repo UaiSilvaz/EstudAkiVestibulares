@@ -1,170 +1,30 @@
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type StatTileProps = {
-  label: string;
-  value: React.ReactNode;
-  hint?: React.ReactNode;
-  icon: React.ReactNode;
+  label: string; value: React.ReactNode; hint?: React.ReactNode; icon: React.ReactNode;
   ghostIcon?: React.ReactNode;
   accent: "blue" | "orange" | "green" | "pink" | "yellow" | "purple" | "red" | "cyan";
   delta?: { value: string; positive?: boolean; suffix?: string };
-  progress?: number;
-  className?: string;
-  onClick?: () => void;
+  progress?: number; className?: string; onClick?: () => void;
 };
 
-const accentMap: Record<StatTileProps["accent"], { bg: string; shine: string; icon: string; glow: string }> = {
-  blue: {
-    bg: "from-[#1D9BF0] via-[#18B7F7] to-[#1DD7D0]",
-    shine: "bg-[#7DD3FC]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(14, 165, 233, 0.42)",
-  },
-  orange: {
-    bg: "from-[#FF8A18] via-[#FFA51F] to-[#FFE01B]",
-    shine: "bg-[#FFF176]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(251, 146, 60, 0.45)",
-  },
-  green: {
-    bg: "from-[#36D66E] via-[#42DF85] to-[#5CE6BD]",
-    shine: "bg-[#A7F3D0]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(34, 197, 94, 0.36)",
-  },
-  pink: {
-    bg: "from-[#F51BA2] via-[#FF35C7] to-[#FF67D8]",
-    shine: "bg-[#FBCFE8]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(236, 72, 153, 0.40)",
-  },
-  yellow: {
-    bg: "from-[#FF9518] via-[#FFB21E] to-[#FFE01B]",
-    shine: "bg-[#FDE68A]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(250, 204, 21, 0.42)",
-  },
-  purple: {
-    bg: "from-[#6B2CF5] via-[#8A42FF] to-[#A569FF]",
-    shine: "bg-[#DDD6FE]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(124, 58, 237, 0.40)",
-  },
-  red: {
-    bg: "from-[#F43F5E] via-[#FF4D86] to-[#FB7185]",
-    shine: "bg-[#FECDD3]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(244, 63, 94, 0.38)",
-  },
-  cyan: {
-    bg: "from-[#168CC8] via-[#13A8D8] to-[#22C7DF]",
-    shine: "bg-[#A5F3FC]",
-    icon: "from-white/30 to-white/10",
-    glow: "rgba(34, 211, 238, 0.36)",
-  },
-};
-
-export function StatTile({
-  label,
-  value,
-  hint,
-  icon,
-  ghostIcon,
-  accent,
-  delta,
-  progress,
-  className,
-  onClick,
-}: StatTileProps) {
-  const a = accentMap[accent];
-  const Comp = onClick ? "button" : "div";
-
+export function StatTile({ label, value, hint, delta, progress, className, onClick }: StatTileProps) {
+  const TrendIcon = delta?.positive ? ArrowUpRight : ArrowDownRight;
   return (
-    <div
-      data-accent={accent}
-      className={cn(
-        "theme-stat-tile group relative min-h-[176px] min-w-0 overflow-hidden rounded-[24px] bg-gradient-to-br p-5 text-left text-white shadow-[0_24px_42px_-24px_rgba(15,23,42,0.36)] transition duration-300 hover:-translate-y-1 hover:scale-[1.005] hover:shadow-[0_30px_56px_-30px_rgba(15,23,42,0.42)] sm:p-6",
-        a.bg,
-        className,
-      )}
-    >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-px rounded-[24px] bg-[radial-gradient(circle_at_22%_18%,rgba(255,255,255,0.28),transparent_30%),linear-gradient(135deg,rgba(255,255,255,0.16),transparent_44%)]"
-      />
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute -bottom-14 -left-10 h-32 w-32 rounded-full opacity-20 blur-sm",
-          a.shine,
-        )}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-14 -top-10 h-40 w-40 rounded-full opacity-60 blur-2xl transition-opacity duration-300 group-hover:opacity-80"
-        style={{ background: a.glow }}
-      />
-      <div
-        aria-hidden
-        className={cn(
-          "pointer-events-none absolute -right-9 bottom-1 flex h-36 w-36 rotate-[-10deg] items-center justify-center overflow-hidden rounded-[34px] bg-gradient-to-br text-white/40 opacity-75 transition duration-300 group-hover:scale-105 group-hover:opacity-90 [&_svg]:h-24 [&_svg]:w-24 [&_svg]:stroke-[2]",
-          a.icon,
-        )}
-      >
-        {ghostIcon ?? icon}
+    <div className={cn("professional-stat relative min-w-0 rounded-[14px] border border-[color:var(--theme-border)] bg-[color:var(--theme-surface)] p-5", className)}>
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-xs font-medium text-[color:var(--theme-muted)]">{label}</p>
+        {delta && <span className={cn("inline-flex items-center gap-1 text-xs font-medium", delta.positive ? "text-[color:var(--theme-success)]" : "text-[color:var(--theme-danger)]")}>
+          <TrendIcon className="h-3.5 w-3.5" strokeWidth={1.75} /> {delta.value} {delta.suffix}
+        </span>}
       </div>
-
-      <div className="relative z-10 flex items-start justify-between gap-3">
-        <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-2xl bg-white/22 text-white shadow-[0_12px_24px_-14px_rgba(15,23,42,0.65)] ring-1 ring-white/35 backdrop-blur [&_img]:h-full [&_img]:w-full">
-          {icon}
-        </div>
-        {delta && (
-          <span
-            className={cn(
-              "inline-flex items-center gap-1 rounded-full border border-white/30 px-2.5 py-1 text-[10px] font-black text-white shadow-sm backdrop-blur",
-              delta.positive
-                ? "bg-white/22"
-                : "bg-black/10",
-            )}
-          >
-            <ArrowUpRight className={cn("h-3 w-3", !delta.positive && "rotate-180")} />
-            {delta.value}
-            {delta.suffix && <span className="text-[9px] opacity-80">{delta.suffix}</span>}
-          </span>
-        )}
-      </div>
-
-      <div className="relative z-10 mt-4">
-        <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/82">
-          {label}
-        </p>
-        <div className="mt-2 h-0.5 w-5 rounded-full bg-white/35" />
-        <p className="mt-3 font-display text-3xl font-extrabold leading-none text-white drop-shadow-[0_2px_8px_rgba(15,23,42,0.14)]">
-          {value}
-        </p>
-        {hint && (
-          <p className="mt-2 max-w-[72%] text-xs font-semibold leading-5 text-white/88">{hint}</p>
-        )}
-      </div>
-
-      {typeof progress === "number" && (
-        <div className="relative z-10 mt-4 h-1.5 max-w-[72%] overflow-hidden rounded-full bg-white/24">
-          <div
-            style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
-            className="h-full rounded-full bg-white/88"
-          />
-        </div>
-      )}
-
-      {Comp === "button" && (
-        <button
-          type="button"
-          onClick={onClick}
-          aria-label={typeof label === "string" ? label : undefined}
-          className="absolute inset-0 z-20"
-        />
-      )}
+      <div className="mt-3 text-3xl font-semibold leading-none tracking-tight text-[color:var(--theme-text)]">{value}</div>
+      {hint && <p className="mt-2 text-xs leading-5 text-[color:var(--theme-muted)]">{hint}</p>}
+      {typeof progress === "number" && <div className="mt-4 h-1 overflow-hidden rounded-full bg-[color:var(--theme-surface-alt)]">
+        <div className="h-full rounded-full bg-[color:var(--theme-primary)] transition-[width] duration-200" style={{ width: `${Math.max(0, Math.min(100, progress))}%` }} />
+      </div>}
+      {onClick && <button type="button" onClick={onClick} aria-label={label} className="absolute inset-0 rounded-[14px]" />}
     </div>
   );
 }

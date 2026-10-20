@@ -1,99 +1,24 @@
-type Props = {
-  data: number[];
-  labels?: string[];
-  height?: number;
-  gradientFrom?: string;
-  gradientTo?: string;
-};
+"use client";
+import { useId } from "react";
 
-export function EvolutionChart({
-  data,
-  labels,
-  height = 200,
-  gradientFrom = "#1E73FF",
-  gradientTo = "#00C896",
-}: Props) {
-  const max = Math.max(...data, 100);
-  const min = Math.min(...data, 0);
-  const range = Math.max(1, max - min);
-  const width = 480;
-  const stepX = width / Math.max(1, data.length - 1);
-
-  const points = data.map((value, index) => {
-    const x = index * stepX;
-    const y = height - 12 - ((value - min) / range) * (height - 30);
-    return { x, y };
+type Props = { data: Array<number | null>; labels?: string[]; height?: number; gradientFrom?: string; gradientTo?: string };
+export function EvolutionChart({ data, labels, height = 200, gradientFrom = "var(--theme-primary, #2524EB)", gradientTo = "var(--theme-secondary, #6C76FF)" }: Props) {
+  const id = useId().replace(/:/g, "");
+  const width = 480, inset = 15, stepX = (width - inset * 2) / Math.max(1, data.length - 1);
+  const points = data.map((value, index) => value === null || !Number.isFinite(value) ? null : {
+    x: data.length === 1 ? width / 2 : inset + index * stepX,
+    y: height - inset - Math.max(0, Math.min(100, value)) / 100 * (height - inset * 2), value, index,
   });
-
-  const pathD = points
-    .map((point, index) => `${index === 0 ? "M" : "L"} ${point.x.toFixed(1)} ${point.y.toFixed(1)}`)
-    .join(" ");
-
-  const areaD = `${pathD} L ${points[points.length - 1].x.toFixed(1)} ${height} L 0 ${height} Z`;
-
-  return (
-    <div className="relative w-full">
-      <svg
-        viewBox={`0 0 ${width} ${height}`}
-        className="h-auto w-full"
-        role="img"
-        aria-label="Gráfico de evolução"
-      >
-        <defs>
-          <linearGradient id="evolution-line" x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0%" stopColor={gradientFrom} />
-            <stop offset="100%" stopColor={gradientTo} />
-          </linearGradient>
-          <linearGradient id="evolution-area" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor={gradientFrom} stopOpacity="0.45" />
-            <stop offset="100%" stopColor={gradientTo} stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        {/* Grid */}
-        {[0.2, 0.4, 0.6, 0.8].map((p) => (
-          <line
-            key={p}
-            x1={0}
-            x2={width}
-            y1={height * p}
-            y2={height * p}
-            stroke="rgba(30,115,255,0.08)"
-            strokeWidth={1}
-          />
-        ))}
-
-        {/* Area */}
-        <path
-          d={areaD}
-          fill="url(#evolution-area)"
-        />
-
-        {/* Line */}
-        <path
-          d={pathD}
-          fill="none"
-          stroke="url(#evolution-line)"
-          strokeWidth={3.5}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        {/* Dots */}
-        {points.map((point, index) => (
-          <g key={index}>
-            <circle cx={point.x} cy={point.y} r={6} fill="#ffffff" stroke={gradientFrom} strokeWidth={2.5} />
-          </g>
-        ))}
-      </svg>
-
-      {labels && (
-        <div className="mt-2 flex justify-between text-[10px] font-black uppercase tracking-wider text-slate-400">
-          {labels.map((label) => (
-            <span key={label}>{label}</span>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+  const path = points.map((point, index) => point ? (points[index - 1] ? "L" : "M") + " " + point.x + " " + point.y : "").join(" ");
+  if (!points.some(Boolean)) return <div className="flex min-h-44 flex-col items-center justify-center rounded-2xl bg-slate-50 p-5 text-center"><p className="text-sm font-semibold text-slate-600">Sua evolução começa com a primeira resposta.</p><p className="mt-2 text-xs text-slate-400">O gráfico aparecerá conforme você praticar.</p></div>;
+  return <div className="w-full">
+    <svg viewBox={"0 0 " + width + " " + height} role="img" aria-label="Precisão diária: porcentagem de acertos nas respostas registradas" className="h-auto w-full">
+      <defs><linearGradient id={id} x1="0" x2="1" y1="0" y2="0"><stop stopColor={gradientFrom} /><stop offset="100%" stopColor={gradientTo} /></linearGradient></defs>
+      {[0, 25, 50, 75, 100].map(value => <line key={value} x1={inset} x2={width - inset} y1={height - inset - value / 100 * (height - inset * 2)} y2={height - inset - value / 100 * (height - inset * 2)} stroke="var(--theme-border, #E3E6EE)" strokeDasharray="3 5" />)}
+      <path d={path} fill="none" stroke={"url(#" + id + ")"} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+      {points.map((point, index) => point ? <g key={index}><title>{(labels?.[index] ?? "Dia " + (index + 1)) + ": " + point.value + "% de acertos"}</title><circle cx={point.x} cy={point.y} r={5} fill="var(--theme-surface, #fff)" stroke={gradientFrom} strokeWidth={2} /><text x={point.x} y={Math.max(12, point.y - 13)} textAnchor="middle" fill="var(--theme-muted, #626D82)" fontSize={11}>{point.value}%</text></g> : null)}
+    </svg>
+    {labels && <div className="mt-2 flex justify-between text-[10px] font-medium text-slate-400">{labels.map((label, index) => <span key={index}>{label}</span>)}</div>}
+    <p className="mt-3 text-center text-[11px] text-slate-400">Precisão nas questões · dias sem respostas ficam sem medição.</p>
+  </div>;
 }

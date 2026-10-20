@@ -2,6 +2,7 @@ import "server-only";
 
 import { ContentStatus, QuestionAnswerSituation } from "@prisma/client";
 import { db } from "@/lib/db";
+import { availableQuestionWhere } from "@/lib/freemium-access";
 import { buildMasteryMap } from "./mastery-engine";
 import { rankLearningPriorities } from "./priority-engine";
 import { buildStudyNowSession, normalizeAvailableMinutes } from "./study-session-planner";
@@ -42,7 +43,11 @@ export async function buildStudyNowRecommendation(input: {
   availableMinutes?: number | "default" | null;
 }) {
   const now = new Date();
-  const vestibularSlug = targetExamSlug(input.profile.targetExam);
+  const learningProfile = await db.studentLearningProfile.findUnique({ where: { userId: input.userId } });
+  const user = await db.user.findUnique({ where: { id: input.userId }, select: { role: true } });
+  const availableQuestions = await availableQuestionWhere(input.userId, user?.role ?? "STUDENT");
+  const savedExams = learningProfile?.exams as string[] | undefined;
+  const vestibularSlug = targetExamSlug(savedExams?.[0] ?? input.profile.targetExam);
   const availableMinutes = normalizeAvailableMinutes(
     input.availableMinutes ?? "default",
     input.profile.weeklyHours,
@@ -52,7 +57,6 @@ export async function buildStudyNowRecommendation(input: {
     db.questionAttempt.findMany({
       where: { userId: input.userId, annulled: false },
       orderBy: { createdAt: "desc" },
-      take: 240,
       select: {
         questionId: true,
         correct: true,
@@ -72,6 +76,8 @@ export async function buildStudyNowRecommendation(input: {
     db.question.findMany({
       where: {
         status: ContentStatus.PUBLISHED,
+        reviewState: "APPROVED",
+        AND: [availableQuestions],
         answerSituation: { not: QuestionAnswerSituation.ANNULLED },
         vestibular: { slug: vestibularSlug },
       },
@@ -82,7 +88,6 @@ export async function buildStudyNowRecommendation(input: {
         topic: { select: { id: true, name: true } },
       },
       orderBy: { createdAt: "desc" },
-      take: 300,
     }),
     db.studyPlanPreference.findUnique({
       where: { userId: input.userId },
@@ -90,22 +95,7 @@ export async function buildStudyNowRecommendation(input: {
     }),
   ]);
 
-  const questions = targetQuestions.length
-    ? targetQuestions
-    : await db.question.findMany({
-        where: {
-          status: ContentStatus.PUBLISHED,
-          answerSituation: { not: QuestionAnswerSituation.ANNULLED },
-        },
-        select: {
-          id: true,
-          difficulty: true,
-          subject: { select: { id: true, name: true, color: true, slug: true } },
-          topic: { select: { id: true, name: true } },
-        },
-        orderBy: { createdAt: "desc" },
-        take: 300,
-      });
+  const questions = targetQuestions;
 
   const mastery = buildMasteryMap({
     now,
@@ -133,7 +123,7 @@ export async function buildStudyNowRecommendation(input: {
     priorities,
     weeklyHours: input.profile.weeklyHours,
     now,
-    vestibularSlug: targetQuestions.length ? vestibularSlug : "enem",
+    vestibularSlug,
   });
 }
 

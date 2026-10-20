@@ -32,7 +32,7 @@ function safeSlug(value: string) {
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   if (!user || !canManageContent(user.role)) {
-    return NextResponse.json({ error: "Sem permissao." }, { status: 403 });
+    return NextResponse.json({ error: "Sem permissão." }, { status: 403 });
   }
 
   const formData = await request.formData();
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
   const file = formData.get("file");
 
   if (!title || !category || !description) {
-    return NextResponse.json({ error: "Campos obrigatorios ausentes." }, { status: 400 });
+    return NextResponse.json({ error: "Campos obrigatórios ausentes." }, { status: 400 });
   }
 
   let fileUrl: string | null = null;

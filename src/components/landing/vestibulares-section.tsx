@@ -54,7 +54,7 @@ export function VestibularesSection() {
               <Link
                 href={`/provas?exam=${vestibular.slug}`}
                 aria-label={`Abrir provas ${vestibular.name}`}
-                className="group flex h-32 w-full items-center justify-center rounded-lg p-2 outline-none transition hover:-translate-y-1 focus-visible:ring-2 focus-visible:ring-[#145CFF] lg:h-36"
+                className="group flex h-32 w-full items-center justify-center rounded-lg p-2 outline-none transition  focus-visible:ring-2 focus-visible:ring-[#145CFF] lg:h-36"
               >
                 <Image
                   src={loopImageForVestibular(vestibular.slug)}

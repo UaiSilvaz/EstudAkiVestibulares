@@ -1,13 +1,8 @@
 "use client";
 
+import { Target } from "@/components/visual/aicon-icons";
 import { motion } from "framer-motion";
-import {
-  Timer,
-  CheckCircle2,
-  Target,
-  Sparkles,
-  Brain,
-} from "lucide-react";
+import { Timer, CheckCircle2, Sparkles, Brain } from "lucide-react";
 import ScrollReveal from "../reactbits/ScrollReveal";
 import { FloatingBlob } from "../visual/motion-primitives";
 
@@ -35,10 +30,10 @@ export function SimuladosSection() {
 
       <div className="relative mx-auto grid max-w-6xl gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16 lg:px-8">
         <div>
-          <p className="mb-3 text-[11px] font-extrabold uppercase tracking-[0.3em] text-blue-700">
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.3em] text-blue-700">
             Simulados e desempenho
           </p>
-          <h2 className="font-display text-4xl font-extrabold leading-tight text-[#0F172A] sm:text-5xl">
+          <h2 className="font-display text-4xl font-bold leading-tight text-[#0F172A] sm:text-5xl">
             Treine como se fosse{" "}
             <span className="ek-text-gradient-soft">o dia da prova</span>
           </h2>
@@ -70,10 +65,10 @@ export function SimuladosSection() {
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                   className="flex items-center gap-3 rounded-2xl border border-slate-100 bg-white p-3 shadow-sm"
                 >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#2563EB] to-[#22D3EE] text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl    text-[color:var(--theme-text)] professional-neutral">
                     <Icon className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-extrabold text-[#0F172A]">
+                  <span className="text-sm font-bold text-[#0F172A]">
                     {item.label}
                   </span>
                 </motion.div>
@@ -89,7 +84,7 @@ export function SimuladosSection() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="relative mx-auto w-full max-w-md"
         >
-          <div className="relative overflow-hidden rounded-[32px] border border-slate-100 bg-white p-6 shadow-[0_24px_60px_-22px_rgba(37,99,235,0.20)]">
+          <div className="relative overflow-hidden rounded-[18px] border border-slate-100 bg-white p-6 shadow-sm">
             <div
               aria-hidden
               className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#60A5FA] opacity-25 blur-3xl"
@@ -97,14 +92,14 @@ export function SimuladosSection() {
             <div className="relative z-10">
               <div className="mb-5 flex items-center justify-between">
                 <div>
-                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                     Simulado ENEM 2024 • 1ª fase
                   </p>
-                  <h3 className="font-display mt-1 text-lg font-black text-[#0F172A]">
+                  <h3 className="font-display mt-1 text-lg font-semibold text-[#0F172A]">
                     Painel em tempo real
                   </h3>
                 </div>
-                <span className="rounded-full bg-cyan-50 px-3 py-1 text-[10px] font-black uppercase tracking-wider text-cyan-700">
+                <span className="rounded-full bg-cyan-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-cyan-700">
                   Em andamento
                 </span>
               </div>
@@ -116,9 +111,9 @@ export function SimuladosSection() {
               </div>
 
               <div className="rounded-2xl border border-slate-100 bg-slate-50/50 p-4">
-                <div className="mb-2 flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
+                <div className="mb-2 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-500">
                   <span>Porcentagem geral</span>
-                  <span className="font-black text-[#0F172A]">75%</span>
+                  <span className="font-semibold text-[#0F172A]">75%</span>
                 </div>
                 <div className="h-2 w-full overflow-hidden rounded-full bg-white">
                   <motion.div
@@ -126,36 +121,36 @@ export function SimuladosSection() {
                     whileInView={{ width: "75%" }}
                     viewport={{ once: true }}
                     transition={{ duration: 1.4, ease: "easeOut" }}
-                    className="h-full rounded-full bg-gradient-to-r from-[#2563EB] via-[#22D3EE] to-[#22C55E]"
+                    className="h-full rounded-full     professional-neutral"
                   />
                 </div>
               </div>
 
               <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-[#ECFDF5] to-white p-3">
-                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700">
+                <div className="rounded-2xl border border-emerald-200    p-3 professional-neutral">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">
                     Matérias fortes
                   </p>
-                  <p className="mt-1 text-sm font-black text-[#0F172A]">
+                  <p className="mt-1 text-sm font-semibold text-[#0F172A]">
                     Biologia, Português
                   </p>
                 </div>
-                <div className="rounded-2xl border border-rose-200 bg-gradient-to-br from-[#FEF2F2] to-white p-3">
-                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-rose-700">
+                <div className="rounded-2xl border border-rose-200    p-3 professional-neutral">
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-rose-700">
                     Matérias fracas
                   </p>
-                  <p className="mt-1 text-sm font-black text-[#0F172A]">
+                  <p className="mt-1 text-sm font-semibold text-[#0F172A]">
                     Geografia, Física
                   </p>
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center gap-2 rounded-2xl bg-gradient-to-r from-[#FACC15] to-[#F97316] p-3 text-white">
+              <div className="mt-4 flex items-center gap-2 rounded-2xl    p-3 text-[color:var(--theme-text)] professional-neutral">
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/25">
                   <Sparkles className="h-4 w-4" />
                 </div>
                 <p className="text-xs font-semibold leading-tight">
-                  <span className="font-black">Recomendado:</span> revisar 12
+                  <span className="font-semibold">Recomendado:</span> revisar 12
                   questões de Geografia e 8 de Física.
                 </p>
               </div>
@@ -181,10 +176,10 @@ function Stat({
       <div
         className={`pointer-events-none absolute -right-6 -top-6 h-16 w-16 rounded-full bg-gradient-to-br ${color} opacity-20 blur-xl`}
       />
-      <p className="relative text-[10px] font-extrabold uppercase tracking-wider text-slate-500">
+      <p className="relative text-[10px] font-bold uppercase tracking-wider text-slate-500">
         {label}
       </p>
-      <p className="relative font-display mt-1 text-2xl font-black text-[#06245C]">
+      <p className="relative font-display mt-1 text-2xl font-semibold text-[#06245C]">
         {value}
       </p>
     </div>

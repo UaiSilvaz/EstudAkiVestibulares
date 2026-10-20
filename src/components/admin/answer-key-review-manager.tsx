@@ -83,7 +83,7 @@ export function AnswerKeyReviewManager({ initialAnswers }: { initialAnswers: Ans
 
   return (
     <div className="space-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-slate-200 bg-white p-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-[18px] border border-slate-200 bg-white p-4">
         <label className="relative min-w-64 flex-1">
           <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-slate-400" />
           <input
@@ -98,10 +98,10 @@ export function AnswerKeyReviewManager({ initialAnswers }: { initialAnswers: Ans
         </p>
       </div>
 
-      <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white">
+      <div className="overflow-hidden rounded-[18px] border border-slate-200 bg-white">
         <div className="overflow-x-auto">
           <table className="w-full min-w-[850px] text-left">
-            <thead className="bg-slate-50 text-xs font-black uppercase tracking-wider text-slate-500">
+            <thead className="bg-slate-50 text-xs font-semibold uppercase tracking-wider text-slate-500">
               <tr>
                 <th className="px-5 py-4">Prova</th>
                 <th className="px-5 py-4">Questão</th>
@@ -114,10 +114,10 @@ export function AnswerKeyReviewManager({ initialAnswers }: { initialAnswers: Ans
               {visible.map((answer) => (
                 <tr key={answer.id}>
                   <td className="px-5 py-4">
-                    <p className="font-black text-slate-950">{answer.file.vestibular} {answer.file.year}</p>
+                    <p className="font-semibold text-slate-950">{answer.file.vestibular} {answer.file.year}</p>
                     <p className="text-xs font-semibold text-slate-500">{answer.file.edition} · dia {answer.file.examDay ?? "único"}</p>
                   </td>
-                  <td className="px-5 py-4 font-black text-slate-900">{answer.questionNumber}</td>
+                  <td className="px-5 py-4 font-semibold text-slate-900">{answer.questionNumber}</td>
                   <td className="px-5 py-4">
                     <select
                       className="ek-input w-28"
@@ -128,7 +128,7 @@ export function AnswerKeyReviewManager({ initialAnswers }: { initialAnswers: Ans
                     </select>
                   </td>
                   <td className="px-5 py-4">
-                    <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-black text-slate-700">
+                    <span className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700">
                       {statusLabel[answer.answerReviewStatus]}
                     </span>
                   </td>

@@ -261,7 +261,7 @@ export default function PillNav({
         <Link
           className="pill-logo"
           href="/"
-          aria-label="Inicio"
+          aria-label="Início"
         >
           {logo ? (
             // eslint-disable-next-line @next/next/no-img-element

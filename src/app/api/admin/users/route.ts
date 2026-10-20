@@ -22,6 +22,9 @@ export async function GET() {
       name: true,
       email: true,
       role: true,
+      bannedAt: true,
+      banReason: true,
+      emailVerifiedAt: true,
       avatarUrl: true,
       xp: true,
       streak: true,
@@ -110,7 +113,7 @@ export async function POST(request: Request) {
   const password = body.password?.trim();
 
   if (!name || !email || !password) {
-    return NextResponse.json({ error: "Nome, email e senha sao obrigatorios." }, { status: 400 });
+    return NextResponse.json({ error: "Nome, e-mail e senha são obrigatórios." }, { status: 400 });
   }
 
   if (password.length < 6) {
@@ -119,7 +122,7 @@ export async function POST(request: Request) {
 
   const exists = await db.user.findUnique({ where: { email } });
   if (exists) {
-    return NextResponse.json({ error: "Email ja cadastrado." }, { status: 409 });
+    return NextResponse.json({ error: "E-mail já cadastrado." }, { status: 409 });
   }
 
   const passwordHash = await bcrypt.hash(password, 10);
@@ -156,7 +159,7 @@ export async function POST(request: Request) {
     data: {
       userId: currentUser.id,
       type: "CONTENT",
-      message: `${currentUser.name} cadastrou o usuario ${created.name}.`,
+      message: `${currentUser.name} cadastrou o usuário ${created.name}.`,
     },
   });
 

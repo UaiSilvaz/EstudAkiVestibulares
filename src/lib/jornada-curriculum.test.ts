@@ -36,7 +36,7 @@ describe("jornada curriculum", () => {
     for (const course of jornadaCourses) {
       for (const courseModule of course.modules) {
         for (const lesson of courseModule.lessons) {
-          assert.ok(activityIds.has(lesson.activityId), `${lesson.slug} sem atividade valida`);
+          assert.ok(activityIds.has(lesson.activityId), `${lesson.slug} sem atividade válida`);
           for (const sourceId of lesson.sourceIds) {
             assert.ok(sourceIds.has(sourceId), `${lesson.slug} com fonte inexistente ${sourceId}`);
           }

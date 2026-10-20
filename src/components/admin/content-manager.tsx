@@ -1,6 +1,7 @@
 "use client";
 
-import { FileText, FileUp, LinkIcon, Tag } from "lucide-react";
+import { FileText } from "@/components/visual/aicon-icons";
+import { FileUp, LinkIcon, Tag } from "lucide-react";
 import { useState } from "react";
 import { useFeedback } from "@/components/feedback/feedback-provider";
 
@@ -17,7 +18,7 @@ type Material = {
 };
 
 function formatPrice(cents: number) {
-  if (!cents) return "Gratis";
+  if (!cents) return "Grátis";
   return `R$ ${(cents / 100).toFixed(2).replace(".", ",")}`;
 }
 
@@ -96,12 +97,12 @@ export function ContentManager({
 
   return (
     <div className="grid gap-5 xl:grid-cols-[1fr_1fr]">
-      <section className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
-        <h2 className="mb-5 text-2xl font-black text-slate-950">Cadastrar material</h2>
+      <section className="rounded-[18px] border border-slate-100 bg-white p-6 shadow-sm">
+        <h2 className="mb-5 text-2xl font-semibold text-slate-950">Cadastrar material</h2>
         <div className="grid gap-4">
           <input
             className="ek-input"
-            placeholder="Titulo do material"
+            placeholder="Título do material"
             value={material.title}
             onChange={(event) => setMaterial({ ...material, title: event.target.value })}
           />
@@ -128,16 +129,16 @@ export function ContentManager({
 
           <textarea
             className="ek-input min-h-28"
-            placeholder="Descricao"
+            placeholder="Descrição"
             value={material.description}
             onChange={(event) => setMaterial({ ...material, description: event.target.value })}
           />
 
           <div className="grid gap-4 md:grid-cols-2">
             <label className="block">
-              <span className="mb-2 flex items-center gap-2 text-sm font-black text-slate-700">
+              <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
                 <Tag className="h-4 w-4 text-blue-600" />
-                Preco
+                Preço
               </span>
               <input
                 className="ek-input"
@@ -148,7 +149,7 @@ export function ContentManager({
             </label>
 
             <label className="block">
-              <span className="mb-2 flex items-center gap-2 text-sm font-black text-slate-700">
+              <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-slate-700">
                 <LinkIcon className="h-4 w-4 text-blue-600" />
                 Checkout Hotmart
               </span>
@@ -162,7 +163,7 @@ export function ContentManager({
           </div>
 
           <label className="block">
-            <span className="mb-2 block text-sm font-black text-slate-700">
+            <span className="mb-2 block text-sm font-semibold text-slate-700">
               ID do produto na Hotmart
             </span>
             <input
@@ -174,7 +175,7 @@ export function ContentManager({
           </label>
 
           <label className="block rounded-[20px] border border-dashed border-blue-200 bg-blue-50/70 p-5">
-            <span className="mb-3 flex items-center gap-2 text-sm font-black text-blue-800">
+            <span className="mb-3 flex items-center gap-2 text-sm font-semibold text-blue-800">
               <FileText className="h-4 w-4" />
               Upload do PDF
             </span>
@@ -185,7 +186,7 @@ export function ContentManager({
               onChange={(event) => setPdfFile(event.target.files?.[0] ?? null)}
             />
             <p className="mt-3 text-xs font-semibold text-blue-700">
-              {pdfFile ? `Selecionado: ${pdfFile.name}` : "O arquivo sera salvo em storage privado."}
+              {pdfFile ? `Selecionado: ${pdfFile.name}` : "O arquivo será salvo em storage privado."}
             </p>
           </label>
 
@@ -209,12 +210,12 @@ export function ContentManager({
         </div>
       </section>
 
-      <section className="rounded-[24px] border border-slate-100 bg-white p-6 shadow-[0_18px_40px_-22px_rgba(15,23,42,0.10)]">
-        <h2 className="mb-4 text-xl font-black text-slate-950">Materiais recentes</h2>
+      <section className="rounded-[18px] border border-slate-100 bg-white p-6 shadow-sm">
+        <h2 className="mb-4 text-xl font-semibold text-slate-950">Materiais recentes</h2>
         <div className="space-y-3">
           {materials.map((item) => (
             <div key={item.id} className="rounded-2xl bg-slate-50 p-4">
-              <p className="font-black text-slate-950">{item.title}</p>
+              <p className="font-semibold text-slate-950">{item.title}</p>
               <p className="mt-1 text-sm font-semibold text-slate-500">
                 {item.subject?.name ?? "Geral"} · {item.category} · {formatPrice(item.priceCents)}
                 {item.fileUrl ? " · PDF protegido" : ""}

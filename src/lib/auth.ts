@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Role } from "@prisma/client";
 import { cache } from "react";
 import { db } from "./db";
+import { reconcileStudyXp, syncStudyStreak } from "./study-xp";
+import { emailVerificationRequired } from "./email-verification";
 import type { AppUser } from "./roles";
 import {
   hashAuthSessionToken,
@@ -10,7 +12,7 @@ import {
   readSessionCookieValue,
 } from "./session-cookie";
 
-export { canManageContent, canPublishDirectly, type AppUser } from "./roles";
+export { canManageContent, canPublishDirectly, canUseTeacherTools, type AppUser } from "./roles";
 export {
   createAuthSessionToken,
   createSessionCookieValue,
@@ -58,7 +60,17 @@ const appUserSelect = {
   league: true,
   weeklyHours: true,
   targetExam: true,
+  emailVerifiedAt: true,
+  bannedAt: true,
 } as const;
+
+async function refreshPersistedProgress(user: AppUser) {
+  return db.$transaction(async tx => {
+    await reconcileStudyXp(tx, user.id);
+    await syncStudyStreak(tx, user.id);
+    return tx.user.findUniqueOrThrow({ where: { id: user.id }, select: appUserSelect });
+  }, { timeout: 30_000 });
+}
 
 function localUserFromSession(value: string): AppUser | null {
   if (!isLocalAuthEnabled()) return null;
@@ -66,13 +78,13 @@ function localUserFromSession(value: string): AppUser | null {
   if (value === "local-admin") {
     return {
       id: "local-admin",
-      name: "Administrador EstudAki",
+      name: "Administrador Norte Preparatórios",
       email: process.env.LOCAL_ADMIN_EMAIL?.trim().toLowerCase() || "local-admin@estudaki.invalid",
       role: Role.ADMIN,
       avatarUrl: null,
-      xp: 12800,
-      streak: 42,
-      league: "Diamante",
+      xp: 0,
+      streak: 0,
+      league: "Aluno",
       weeklyHours: 20,
       targetExam: "ENEM",
     };
@@ -86,9 +98,9 @@ function localUserFromSession(value: string): AppUser | null {
       email,
       role: Role.STUDENT,
       avatarUrl: null,
-      xp: 2240,
-      streak: 7,
-      league: "Prata",
+      xp: 0,
+      streak: 0,
+      league: "Aluno",
       weeklyHours: 10,
       targetExam: "ENEM",
     };
@@ -124,19 +136,27 @@ export const getCurrentUser = cache(async (): Promise<AppUser | null> => {
         select: { user: { select: appUserSelect } },
       });
 
-      if (session?.user) return session.user;
+      if (session?.user) {
+        if (session.user.bannedAt) return null;
+        if (emailVerificationRequired() && !session.user.emailVerifiedAt) return null;
+        return refreshPersistedProgress(session.user);
+      }
     } catch (error) {
       if (isMissingAuthSessionSchema(error)) authSessionTableAvailable = false;
       // Allow already-issued signed user-id cookies to keep working before migrations run.
     }
   }
 
+  if (process.env.NODE_ENV === "production") return null;
+
   try {
     // Backward compatibility for signed cookies issued before database sessions.
-    return await db.user.findUnique({
+    const persisted = await db.user.findUnique({
       where: { id: userId },
       select: appUserSelect,
     });
+    if (persisted?.bannedAt || (persisted && emailVerificationRequired() && !persisted.emailVerifiedAt)) return null;
+    return persisted ? refreshPersistedProgress(persisted) : null;
   } catch {
     return null;
   }
@@ -192,5 +212,12 @@ export async function requireManager(): Promise<AppUser> {
     redirect("/dashboard");
   }
 
+  return user;
+}
+
+export async function requireTeacher(): Promise<AppUser> {
+  const user = await requireUser();
+  const { canUseTeacherTools } = await import("./roles");
+  if (!canUseTeacherTools(user.role)) redirect("/dashboard");
   return user;
 }

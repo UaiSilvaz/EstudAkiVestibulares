@@ -1,29 +1,14 @@
 "use client";
 
+import { BookOpen, Home } from "@/components/visual/aicon-icons";
 import Image from "next/image";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
-import {
-  ArrowUpRight,
-  BookOpen,
-  Check,
-  CreditCard,
-  Flame,
-  GraduationCap,
-  Home,
-  Library,
-  LifeBuoy,
-  ListChecks,
-  LogIn,
-  Menu,
-  Minus,
-  Play,
-  Plus,
-  Timer,
-  X,
-} from "lucide-react";
+import { FreemiumSummary } from "@/components/freemium-summary";
+import { StudyIcon, studyIconNameForSubject } from "@/components/visual/study-icon";
+import { Aicon } from "@/components/visual/aicon";
+import { ArrowUpRight, Check, CreditCard, Flame, GraduationCap, Library, LifeBuoy, ListChecks, LogIn, Menu, Minus, Play, Plus, Timer, X } from "lucide-react";
 
-const asset = (name: string) => `/landing-cloud/assets/${name}`;
 
 type NavItem = {
   label: string;
@@ -115,10 +100,12 @@ const resources = [
 ];
 
 const faqs = [
+  { question: "Preciso pagar para entrar?", answer: "Não. Criar conta e usar plano básico, progresso e conteúdo demonstrativo é grátis. Cursos e preparatórios completos são compras individuais e ficam liberados na sua conta após confirmação do pagamento." },
+  { question: "O Norte Preparatórios é um marketplace?", answer: "Não. Os cursos são produtos oficiais Norte Preparatórios, produzidos pela equipe e por professores convidados. O Norte Preparatórios+ é um plano futuro e não é necessário para acessar um curso comprado." },
   {
     question: "A plataforma serve apenas para o ENEM?",
     answer:
-      "Não. O EstudAki também organiza conteúdos e questões para ETEC, FATEC, FUVEST, UNESP, UNICAMP e Provão Paulista.",
+      "Não. O Norte Preparatórios também organiza conteúdos e questões para ETEC, FATEC, FUVEST, UNESP, UNICAMP e Provão Paulista.",
   },
   {
     question: "Consigo montar uma rotina personalizada?",
@@ -205,10 +192,10 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
     <div className={`cloud-landing ${className}`}>
       <header className="cloud-pill-header" id="top">
         <nav className="cloud-pill-nav" aria-label="Navegação principal">
-          <a className="cloud-pill-brand" href="#inicio" aria-label="EstudAki - voltar ao início">
+          <a className="cloud-pill-brand" href="#inicio" aria-label="Norte Preparatórios - voltar ao início">
             <Image
-              src="/brand/estudaki-logo.png"
-              alt="EstudAki Vestibulares"
+              src="/assets/norte-design/01_Logos_SVG/logo_horizontal_laranja.svg"
+              alt="Norte Preparatórios"
               width={180}
               height={56}
               priority
@@ -216,7 +203,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           </a>
 
           <div className="cloud-pill-links">
-            {navItems.map((item) => renderNavItem(item, "cloud-pill-link"))}
+            {navItems.filter(item => ["Início", "Matérias", "Vestibulares", "Planos", "Ajuda"].includes(item.label)).map((item) => renderNavItem(item, "cloud-pill-link"))}
           </div>
 
           <Link className="cloud-pill-cta" href="/login?signup=true">
@@ -276,7 +263,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
               <Link className="btn btn-lime btn-large" href="/login?signup=true">
                 Quero começar <CtaArrow />
               </Link>
-              <a className="btn btn-video" href="#demonstracao">
+              <a className="btn btn-vídeo" href="#demonstracao">
                 <span className="play" aria-hidden="true">
                   <Play fill="currentColor" />
                 </span>
@@ -319,7 +306,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
               </div>
             </article>
 
-            <article className="float-card card-redacao" data-depth="0.8">
+            <article className="float-card card-redação" data-depth="0.8">
               <span className="mini-label">Última redação</span>
               <div className="score-row">
                 <strong>920</strong>
@@ -409,7 +396,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
                 <em>Tudo organizado em um só lugar.</em>
               </h2>
               <p>
-                O EstudAki reúne as matérias mais importantes com trilhas, questões, revisões e
+                O Norte Preparatórios reúne as matérias mais importantes com trilhas, questões, revisões e
                 acompanhamento de desempenho.
               </p>
             </div>
@@ -418,12 +405,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
               {subjects.map((subject) => (
                 <article key={subject.title} className="subject-card reveal">
                   <div className="subject-icon-wrap">
-                    <Image
-                      src={asset(subject.icon)}
-                      alt={`Ícone de ${subject.title}`}
-                      width={104}
-                      height={104}
-                    />
+                    <StudyIcon name={studyIconNameForSubject(subject.title)} variant="plain" size="lg" />
                   </div>
                   <h3>{subject.title}</h3>
                   <p>{subject.copy}</p>
@@ -437,7 +419,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           <div className="container">
             <div className="section-heading centered reveal">
               <div className="eyebrow dark">
-                <span /> O método EstudAki
+                <span /> O método Norte Preparatórios
               </div>
               <h2>
                 Menos dúvida sobre o que estudar.
@@ -449,23 +431,10 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
 
             <div className="method-grid">
               <article className="feature-card feature-photo reveal">
-                <div className="abstract-student" aria-hidden="true">
-                  <div className="student-head" />
-                  <div className="student-body" />
-                  <div className="student-book" />
-                  <span className="orbit-dot dot-a" />
-                  <span className="orbit-dot dot-b" />
-                  <span className="orbit-line" />
-                </div>
-                <div className="glass-stat">
-                  <strong>
-                    <span className="count" data-target="2000">
-                      2.000
-                    </span>
-                    +
-                  </strong>
-                  <small>questões organizadas por conteúdo</small>
-                </div>
+                <Aicon name="target" size={40} />
+                <span className="feature-kicker">Prática orientada</span>
+                <h3>Estude com um objetivo claro.</h3>
+                <p>Questões organizadas por matéria e conteúdo para direcionar sua prática.</p>
               </article>
 
               <article className="feature-card feature-light reveal">
@@ -475,37 +444,18 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
                   Receba uma trilha prática com metas diárias, revisões e prioridades para não
                   estudar no escuro.
                 </p>
-                <div className="mini-avatars">
-                  <span>1</span>
-                  <span>2</span>
-                  <span>3</span>
-                  <span>
-                    <Check aria-hidden="true" />
-                  </span>
-                </div>
               </article>
 
               <article className="feature-card feature-lime reveal">
                 <span className="feature-kicker">Aprendizado mensurável</span>
-                <strong className="big-stat">
-                  <span className="count" data-target="87">
-                    87
-                  </span>
-                  %
-                </strong>
-                <p>de acertos nas listas do plano semanal</p>
-                <div className="trend-pill">+14% nesta semana</div>
+                <h3>Resultados do seu próprio estudo.</h3>
+                <p>Acompanhe seus acertos e identifique os conteúdos que precisam de revisão.</p>
               </article>
 
               <article className="feature-card feature-dark reveal">
                 <span className="feature-kicker">Tudo conectado</span>
-                <strong className="big-stat">
-                  <span className="count" data-target="7">
-                    7
-                  </span>{" "}
-                  em 1
-                </strong>
-                <p>cronograma, questões, simulados, redação, PDFs, aulas e desempenho</p>
+                <h3>Sua preparação em um só lugar.</h3>
+                <p>Plano, questões, simulados, redação, materiais e aulas conectados à sua rotina.</p>
               </article>
             </div>
           </div>
@@ -549,7 +499,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
                     <i />
                     <i />
                     <i />
-                    <span>Visão geral</span>
+                    <span>Exemplo de painel</span>
                   </div>
                   <div className="demo-layout">
                     <aside>
@@ -701,7 +651,8 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           </div>
         </section>
 
-        <section className="final-cta" id="planos">
+        <section id="planos" className="container py-16"><h2 className="mb-6 text-center text-3xl font-semibold">Comece grátis. Compre só o curso que quiser.</h2><FreemiumSummary /></section>
+        <section className="final-cta" id="comecar">
           <div className="final-clouds" aria-hidden="true">
             <i />
             <i />
@@ -710,8 +661,8 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           </div>
           <div className="container final-content reveal">
             <Image
-              src={asset("logo-estudaki-white.png")}
-              alt="EstudAki Vestibulares"
+              src="/assets/norte-design/01_Logos_SVG/logo_horizontal_laranja.svg"
+              alt="Norte Preparatórios"
               width={260}
               height={84}
             />
@@ -724,7 +675,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
               em <em>aprovação.</em>
             </h2>
             <p>
-              Crie sua conta e comece com um plano claro para estudar melhor todos os dias.
+              Crie sua conta grátis. Use os recursos básicos e compre individualmente os preparatórios oficiais Norte Preparatórios quando desejar.
             </p>
             <div className="final-actions">
               <Link href="/login?signup=true" className="btn btn-lime btn-large">
@@ -742,8 +693,8 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
         <div className="container footer-grid">
           <div>
             <Image
-              src={asset("logo-estudaki-white.png")}
-              alt="EstudAki Vestibulares"
+              src="/assets/norte-design/01_Logos_SVG/logo_horizontal_laranja.svg"
+              alt="Norte Preparatórios"
               width={220}
               height={72}
             />
@@ -769,7 +720,7 @@ export function CloudLandingPage({ className = "" }: { className?: string }) {
           </div>
         </div>
         <div className="container footer-bottom">
-          <span>© 2026 EstudAki Vestibulares.</span>
+          <span>© 2026 Norte Preparatórios.</span>
           <span>Feito para quem acredita no próximo passo.</span>
         </div>
       </footer>

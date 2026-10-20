@@ -1,4 +1,6 @@
 import bcrypt from "bcryptjs";
+import { syncPurchaseAccess } from "@/lib/payments/access";
+import { extractPayload } from "@/lib/payments/hotmart-payload";
 import { PurchaseStatus, Role } from "@prisma/client";
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
@@ -10,143 +12,10 @@ import {
   timingSafeStringEqual,
 } from "@/server/security/request";
 
-type AnyRecord = Record<string, unknown>;
-
-function asRecord(value: unknown): AnyRecord {
-  return value && typeof value === "object" ? (value as AnyRecord) : {};
-}
-
-function firstString(...values: unknown[]) {
-  for (const value of values) {
-    if (typeof value === "string" && value.trim()) return value.trim();
-    if (typeof value === "number" && Number.isFinite(value)) return String(value);
-  }
-  return null;
-}
-
-function nestedString(source: AnyRecord, paths: string[][]) {
-  for (const path of paths) {
-    let current: unknown = source;
-    for (const key of path) {
-      current = asRecord(current)[key];
-      if (current === undefined || current === null) break;
-    }
-    const value = firstString(current);
-    if (value) return value;
-  }
-  return null;
-}
-
-function normalizeEventType(raw: unknown) {
-  const value = firstString(raw)?.toUpperCase().replace(/[^A-Z_]/g, "");
-  if (!value) return "UNKNOWN";
-  if (value.includes("APPROV")) return "PURCHASE_APPROVED";
-  if (value.includes("REFUND")) return "PURCHASE_REFUNDED";
-  if (value.includes("CANCEL")) return "PURCHASE_CANCELED";
-  if (value.includes("CHARGEBACK")) return "CHARGEBACK";
-  return value;
-}
-
-function purchaseStatusForEvent(eventType: string) {
-  if (eventType === "PURCHASE_APPROVED") return PurchaseStatus.APPROVED;
-  if (eventType === "PURCHASE_REFUNDED") return PurchaseStatus.REFUNDED;
-  if (eventType === "PURCHASE_CANCELED") return PurchaseStatus.CANCELED;
-  if (eventType === "CHARGEBACK") return PurchaseStatus.CHARGEBACK;
-  return PurchaseStatus.PENDING;
-}
-
-function extractPayload(body: unknown) {
-  const root = asRecord(body);
-  const nested = asRecord(root.data ?? root.eventData ?? root.purchase ?? root.subscription ?? root.order);
-  const source = Object.keys(nested).length > 0 ? nested : root;
-
-  const eventType = normalizeEventType(
-    root.event ?? root.eventType ?? root.event_type ?? source.event ?? source.eventType ?? source.event_type ?? source.status,
-  );
-  const transactionId =
-    nestedString(source, [
-      ["transaction"],
-      ["transactionCode"],
-      ["transaction_code"],
-      ["transaction_id"],
-      ["transactionId"],
-      ["id"],
-    ]) ??
-    nestedString(root, [["transaction"], ["transactionCode"], ["transaction_id"], ["transactionId"]]);
-  const purchaseId =
-    nestedString(source, [
-      ["purchaseId"],
-      ["purchase_id"],
-      ["hotmartPurchaseId"],
-      ["sale_id"],
-      ["saleId"],
-    ]) ??
-    nestedString(root, [["purchaseId"], ["purchase_id"], ["sale_id"], ["saleId"]]);
-  const buyerEmail =
-    nestedString(source, [
-      ["buyer", "email"],
-      ["customer", "email"],
-      ["email"],
-      ["buyerEmail"],
-      ["purchase", "buyer", "email"],
-    ]) ?? nestedString(root, [["buyer", "email"], ["customer", "email"], ["email"]]);
-  const buyerName =
-    nestedString(source, [
-      ["buyer", "name"],
-      ["customer", "name"],
-      ["name"],
-      ["buyerName"],
-    ]) ?? nestedString(root, [["buyer", "name"], ["customer", "name"], ["name"]]);
-  const productId =
-    nestedString(source, [
-      ["product", "id"],
-      ["product", "code"],
-      ["productId"],
-      ["product_id"],
-      ["prod"],
-      ["product", "sku"],
-      ["offer", "id"],
-    ]) ?? nestedString(root, [["product", "id"], ["productId"], ["product_id"], ["offer", "id"]]);
-  const productName =
-    nestedString(source, [
-      ["product", "name"],
-      ["productName"],
-      ["product_name"],
-      ["item", "name"],
-    ]) ?? nestedString(root, [["product", "name"], ["productName"], ["product_name"]]);
-
-  const eventKey = firstString(
-    root.eventId,
-    root.event_id,
-    source.eventId,
-    source.event_id,
-    transactionId && `${eventType}:${transactionId}`,
-    purchaseId && `${eventType}:${purchaseId}`,
-    productId && `${eventType}:${productId}`,
-    `${eventType}:${randomUUID()}`,
-  )!;
-
-  return {
-    eventType,
-    status: purchaseStatusForEvent(eventType),
-    transactionId,
-    purchaseId,
-    buyerEmail,
-    buyerName,
-    productId,
-    productName,
-    eventKey,
-    payload: JSON.stringify(body ?? {}),
-  };
-}
-
-async function ensureUser(email: string, name: string | null) {
-  return db.user.upsert({
+async function ensureUser(tx: import("@prisma/client").Prisma.TransactionClient, email: string, name: string | null) {
+  return tx.user.upsert({
     where: { email },
-    update: {
-      name: name?.trim() || email.split("@")[0] || "Estudante",
-      role: Role.STUDENT,
-    },
+    update: {},
     create: {
       email,
       name: name?.trim() || email.split("@")[0] || "Estudante",
@@ -203,156 +72,72 @@ export async function POST(request: Request) {
     if (!parsedBody.ok) return parsedBody.response;
     body = parsedBody.data;
   } catch {
-    return NextResponse.json({ error: "JSON invalido." }, { status: 400 });
+    return NextResponse.json({ error: "JSON inválido." }, { status: 400 });
   }
 
   const normalized = extractPayload(body);
 
+  if (!normalized.transactionId && !normalized.purchaseId) {
+    return NextResponse.json({ error: "Identificador da compra ausente." }, { status: 400 });
+  }
+  const email = normalized.buyerEmail?.trim().toLowerCase();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json({ error: "E-mail do comprador inv?lido." }, { status: 400 });
+  }
+
   try {
-    const existing = await db.hotmartWebhookLog.findUnique({
-      where: { eventKey: normalized.eventKey },
-      select: { id: true, status: true },
-    });
-    if (existing) {
-      return NextResponse.json({ received: true, duplicate: true });
-    }
-
     const product = await resolveProduct(normalized.productId, normalized.productName);
-    const rawPayload = normalized.payload;
+    if (!product) return NextResponse.json({ error: "Produto n?o encontrado." }, { status: 404 });
 
-    await db.hotmartWebhookLog.create({
-      data: {
-        eventKey: normalized.eventKey,
-        eventType: normalized.eventType,
-        transactionId: normalized.transactionId,
-        purchaseId: normalized.purchaseId,
-        productId: product?.id ?? null,
-        status: "PENDING",
-        payload: rawPayload,
-      },
-    });
+    const result = await db.$transaction(async (tx) => {
+      // Serialize events for the same transaction, including concurrent deliveries.
+      const purchaseKey = normalized.transactionId ?? normalized.purchaseId!;
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${purchaseKey}))`;
+      const existing = await tx.hotmartWebhookLog.findUnique({ where: { eventKey: normalized.eventKey } });
+      if (existing?.status === "PROCESSED") return { duplicate: true };
 
-    if (!product) {
-      await db.hotmartWebhookLog.update({
+      await tx.hotmartWebhookLog.upsert({
         where: { eventKey: normalized.eventKey },
-        data: {
-          status: "ERROR",
-          error: "Produto não encontrado.",
-          processedAt: new Date(),
-        },
-      });
-      return NextResponse.json({ error: "Produto não encontrado." }, { status: 404 });
-    }
-
-    const email = normalized.buyerEmail;
-    if (!email) {
-      await db.hotmartWebhookLog.update({
-        where: { eventKey: normalized.eventKey },
-        data: {
-          status: "ERROR",
-          error: "Email do comprador ausente.",
-          processedAt: new Date(),
-        },
-      });
-      return NextResponse.json({ error: "Email do comprador ausente." }, { status: 400 });
-    }
-
-    const user = await ensureUser(email, normalized.buyerName);
-    const purchaseKey = normalized.transactionId ?? normalized.purchaseId ?? normalized.eventKey;
-    const purchaseIdentifier = normalized.purchaseId ?? normalized.transactionId ?? null;
-
-    const purchase = await db.purchase.upsert({
-      where: { hotmartTransaction: purchaseKey },
-      update: {
-        hotmartPurchaseId: purchaseIdentifier,
-        userId: user.id,
-        productId: product.id,
-        buyerName: normalized.buyerName,
-        buyerEmail: email,
-        status: normalized.status,
-        rawPayload,
-      },
-      create: {
-        hotmartTransaction: purchaseKey,
-        hotmartPurchaseId: purchaseIdentifier,
-        userId: user.id,
-        productId: product.id,
-        buyerName: normalized.buyerName,
-        buyerEmail: email,
-        status: normalized.status,
-        rawPayload,
-      },
-    });
-
-    if (normalized.status === PurchaseStatus.APPROVED) {
-      await db.userProduct.upsert({
-        where: {
-          userId_productId: {
-            userId: user.id,
-            productId: product.id,
-          },
-        },
-        update: {
-          unlockedAt: new Date(),
-        },
+        update: { status: "PENDING", error: null },
         create: {
-          userId: user.id,
-          productId: product.id,
+          eventKey: normalized.eventKey, eventType: normalized.eventType,
+          transactionId: normalized.transactionId, purchaseId: normalized.purchaseId,
+          productId: product.id, status: "PENDING", payload: normalized.payload,
         },
       });
-    }
-
-    if (
-      normalized.status === PurchaseStatus.REFUNDED ||
-      normalized.status === PurchaseStatus.CANCELED ||
-      normalized.status === PurchaseStatus.CHARGEBACK
-    ) {
-      await db.userProduct.deleteMany({
-        where: {
-          userId: user.id,
-          productId: product.id,
+      const user = await ensureUser(tx, email, normalized.buyerName);
+      const previous = await tx.purchase.findUnique({ where: { hotmartTransaction: purchaseKey } });
+      if (previous && (previous.userId !== user.id || previous.productId !== product.id)) {
+        throw new Error("Identidade da compra divergente.");
+      }
+      const terminal = [PurchaseStatus.REFUNDED, PurchaseStatus.CANCELED, PurchaseStatus.CHARGEBACK];
+      // Late approval/pending deliveries must never resurrect a refunded transaction.
+      const status = previous && terminal.includes(previous.status as typeof terminal[number])
+        ? previous.status
+        : normalized.status === PurchaseStatus.PENDING && previous
+          ? previous.status : normalized.status;
+      const purchase = await tx.purchase.upsert({
+        where: { hotmartTransaction: purchaseKey },
+        update: { status, rawPayload: normalized.payload },
+        create: {
+          hotmartTransaction: purchaseKey, hotmartPurchaseId: normalized.purchaseId,
+          userId: user.id, productId: product.id, buyerName: normalized.buyerName,
+          buyerEmail: email, status, rawPayload: normalized.payload,
         },
       });
-    }
-
-    await db.hotmartWebhookLog.update({
-      where: { eventKey: normalized.eventKey },
-      data: {
-        status: "PROCESSED",
-        processedAt: new Date(),
-      },
-    });
-
-    await db.activity.create({
-      data: {
-        userId: user.id,
-        type: "CONTENT",
-        message: `Webhook Hotmart processado para ${product.name} (${normalized.eventType}).`,
-        xp: 0,
-      },
-    });
-
-    return NextResponse.json({
-      received: true,
-      eventType: normalized.eventType,
-      purchaseStatus: purchase.status,
-      product: product.name,
-      user: user.email,
-    });
+      await syncPurchaseAccess(tx, purchase, `hotmart:${purchase.id}`);
+      await tx.hotmartWebhookLog.update({
+        where: { eventKey: normalized.eventKey }, data: { status: "PROCESSED", error: null, processedAt: new Date() },
+      });
+      await tx.activity.create({ data: {
+        userId: user.id, type: "CONTENT", message: `Pagamento processado: ${product.name} (${normalized.eventType}).`, xp: 0,
+      } });
+      return { duplicate: false, purchaseStatus: purchase.status };
+    }, { timeout: 15000 });
+    return NextResponse.json({ received: true, ...result });
   } catch (error) {
     console.error("Falha ao processar webhook Hotmart", error);
-
-    await db.hotmartWebhookLog
-      .update({
-        where: { eventKey: normalized.eventKey },
-        data: {
-          status: "ERROR",
-          error: error instanceof Error ? error.message : "Erro desconhecido.",
-          processedAt: new Date(),
-        },
-      })
-      .catch(() => null);
-
+    // All purchase/access writes roll back together. Failed deliveries can retry.
     return NextResponse.json({ error: "Erro interno ao processar webhook." }, { status: 500 });
   }
 }

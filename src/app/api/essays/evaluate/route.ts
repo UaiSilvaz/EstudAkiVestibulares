@@ -1,16 +1,22 @@
 import { randomUUID } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
+import sharp from "sharp";
 import { NextResponse } from "next/server";
 import { getCurrentUser, getPersistedUserId } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { evaluateEssay } from "@/lib/essay-evaluator";
+import { essayImage } from "@/lib/essay-image-storage";
+import { detectImageContentType } from "@/server/security/uploads";
 
 export async function POST(request: Request) {
   const user = await getCurrentUser();
   const userId = user ? await getPersistedUserId(user) : null;
   if (!userId) return NextResponse.json({ error: "Usuário não encontrado." }, { status: 401 });
-  const form = await request.formData();
+  if (Number(request.headers.get("content-length")) > 11 * 1024 * 1024) {
+    return NextResponse.json({ error: "Envio muito grande." }, { status: 413 });
+  }
+  let form: FormData;
+  try { form = await request.formData(); }
+  catch { return NextResponse.json({ error: "Envio inválido." }, { status: 400 }); }
   const theme = String(form.get("theme") ?? "").trim();
   const text = String(form.get("text") ?? "").trim();
   const ocrText = String(form.get("ocrText") ?? "").trim() || null;
@@ -27,12 +33,17 @@ export async function POST(request: Request) {
     if (!image.type.startsWith("image/") || image.size > 10 * 1024 * 1024) {
       return NextResponse.json({ error: "Envie uma imagem de até 10 MB." }, { status: 400 });
     }
-    const extension = path.extname(image.name).toLowerCase() || ".jpg";
-    const fileName = `${randomUUID()}${[".png", ".jpg", ".jpeg", ".webp"].includes(extension) ? extension : ".jpg"}`;
-    const directory = path.join(process.cwd(), "public", "uploads", "essays");
-    await mkdir(directory, { recursive: true });
-    await writeFile(path.join(directory, fileName), Buffer.from(await image.arrayBuffer()));
-    imageUrl = `/uploads/essays/${fileName}`;
+    const bytes = Buffer.from(await image.arrayBuffer());
+    if (!detectImageContentType(bytes)) {
+      return NextResponse.json({ error: "Use uma imagem JPG, PNG ou WEBP válida." }, { status: 400 });
+    }
+    const fileName = `${randomUUID()}.webp`;
+    let normalized: Buffer;
+    try { normalized = await sharp(bytes, { limitInputPixels: 25_000_000 }).rotate().webp({ quality: 85 }).toBuffer(); }
+    catch { return NextResponse.json({ error: "Imagem inválida." }, { status: 400 }); }
+    try { await essayImage(fileName, normalized); }
+    catch { return NextResponse.json({ error: "Não foi possível armazenar a imagem. Tente novamente." }, { status: 503 }); }
+    imageUrl = `/api/essays/images/${fileName}`;
   }
 
   const evaluation = evaluateEssay(text, theme);

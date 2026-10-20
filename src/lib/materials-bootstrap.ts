@@ -20,15 +20,15 @@ type MaterialSeed = {
 export const estudakiMaterialSeeds: MaterialSeed[] = [
   {
     slug: "kit-enem-estudaki",
-    title: "Kit ENEM EstudAki",
+    title: "Kit ENEM Norte Preparatórios",
     description: "Preparação completa com cadernos ENEM, cobrindo Exatas, Natureza, Linguagens e Humanas.",
     category: "ENEM",
     subjectSlug: "enem",
     subjectName: "ENEM",
-    subjectColor: "#2563EB",
+    subjectColor: "#FF6201",
     priceCents: 2990,
     oldPriceCents: 4000,
-    coverUrl: "/materials/covers/enem-exatas-natureza.jpg",
+    coverUrl: "/assets/norte-design/06_Capas_Digitais/kit-enem.svg",
     fileName: "kit-enem-estudaki.pdf",
   },
   {
@@ -41,7 +41,7 @@ export const estudakiMaterialSeeds: MaterialSeed[] = [
     subjectColor: "#22C55E",
     priceCents: 1990,
     oldPriceCents: 2900,
-    coverUrl: "/materials/covers/enem-exatas-natureza.jpg",
+    coverUrl: "/assets/norte-design/06_Capas_Digitais/enem-exatas-natureza.svg",
     fileName: "enem-exatas-natureza.pdf",
   },
   {
@@ -54,7 +54,7 @@ export const estudakiMaterialSeeds: MaterialSeed[] = [
     subjectColor: "#F97316",
     priceCents: 1990,
     oldPriceCents: 2900,
-    coverUrl: "/materials/covers/enem-humanas-linguagens.jpg",
+    coverUrl: "/assets/norte-design/06_Capas_Digitais/enem-humanas-linguagens.svg",
     fileName: "enem-humanas-linguagens.pdf",
   },
   {
@@ -67,7 +67,7 @@ export const estudakiMaterialSeeds: MaterialSeed[] = [
     subjectColor: "#06B6D4",
     priceCents: 1990,
     oldPriceCents: 2900,
-    coverUrl: "/materials/covers/formula-aprovacao-etec.jpg",
+    coverUrl: "/assets/norte-design/06_Capas_Digitais/formula-aprovacao-etec.svg",
     fileName: "formula-aprovacao-etec.pdf",
   },
   {
@@ -80,13 +80,13 @@ export const estudakiMaterialSeeds: MaterialSeed[] = [
     subjectColor: "#06B6D4",
     priceCents: 1990,
     oldPriceCents: 2900,
-    coverUrl: "/materials/covers/super-pack-etec.png",
+    coverUrl: "/assets/norte-design/06_Capas_Digitais/super-pack-etec.svg",
     fileName: "super-pack-etec.pdf",
   },
 ];
 
 function purchaseUrl(seed: MaterialSeed) {
-  const text = `Olá, quero comprar ${seed.title} no EstudAki.`;
+  const text = `Olá, quero comprar ${seed.title} no Norte Preparatórios.`;
   return `${WHATSAPP_URL}?text=${encodeURIComponent(text)}`;
 }
 
@@ -95,11 +95,8 @@ const globalForMaterials = globalThis as unknown as {
 };
 
 async function seedMaterials() {
-  const activeProductSlugs: string[] = [];
-  const activeMaterialIds: string[] = [];
 
   for (const seed of estudakiMaterialSeeds) {
-    activeProductSlugs.push(seed.slug);
     const subject = await db.subject.upsert({
       where: { slug: seed.subjectSlug },
       update: { name: seed.subjectName, color: seed.subjectColor },
@@ -168,23 +165,14 @@ async function seedMaterials() {
         status: ContentStatus.PUBLISHED,
       },
     });
-    activeMaterialIds.push(material.id);
   }
 
-  await db.product.updateMany({
-    where: { slug: { notIn: activeProductSlugs }, status: ContentStatus.PUBLISHED },
-    data: { status: ContentStatus.ARCHIVED },
-  });
-  await db.material.updateMany({
-    where: { id: { notIn: activeMaterialIds }, status: ContentStatus.PUBLISHED },
-    data: { status: ContentStatus.ARCHIVED },
-  });
 }
 
 export async function ensureEstudakiMaterials() {
   globalForMaterials.estudakiMaterialsSeed ??= seedMaterials().catch((error) => {
     globalForMaterials.estudakiMaterialsSeed = undefined;
-    console.error("Falha ao garantir materiais EstudAki", error);
+    console.error("Falha ao garantir materiais Norte Preparatórios", error);
   });
   await globalForMaterials.estudakiMaterialsSeed;
 }
